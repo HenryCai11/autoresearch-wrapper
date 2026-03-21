@@ -21,11 +21,13 @@ Treat these names as the skill's command surface:
 - `/autoresearch-wrapper`
 - `/autoresearch-wrapper:status`
 - `/autoresearch-wrapper:run`
+- `/autoresearch-wrapper:flow`
 
 These map to CLI subcommands:
 - `/autoresearch-wrapper` -> `scan`, or `wrap <script-path>` when the user passes a repo-local script path
 - `/autoresearch-wrapper:status` -> `status`
 - `/autoresearch-wrapper:run` -> `run`
+- `/autoresearch-wrapper:flow` -> `flow`
 
 ## Core rules
 
@@ -93,6 +95,7 @@ Report:
 - readiness of the selected part
 - active run id
 - candidate worktrees and their lifecycle
+- compact recorded metric-flow summaries
 
 ### `/autoresearch-wrapper:run`
 
@@ -112,6 +115,20 @@ The generated run program will point back to the helper CLI for:
 - `allocate`
 - `evaluate`
 - `record`
+
+### `/autoresearch-wrapper:flow`
+
+Run:
+
+```bash
+python3 scripts/autoresearch_wrapper.py flow
+```
+
+Report:
+- recorded metric sequence for the selected run
+- best-so-far sequence
+- tabular step history
+- ASCII plot of metric values
 
 ## Helper commands
 

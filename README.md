@@ -1,5 +1,7 @@
 ![Autoresearch Wrapper Banner](./assets/banner.svg)
 
+Language: [English](./README.md) | [简体中文](./README.zh-CN.md)
+
 # Autoresearch Wrapper
 
 `autoresearch-wrapper` is a Codex skill plus helper CLI for running an `autoresearch`-style optimization workflow on an arbitrary repo.
@@ -13,7 +15,85 @@ The core idea is:
 
 It is inspired by Karpathy's [`autoresearch`](https://github.com/karpathy/autoresearch), but adds repo scanning, dependency graphing, persisted state, planning artifacts, and worktree-backed candidate management.
 
-## Features
+## Quick Start
+
+1. Install this repo as a local Codex skill:
+
+```bash
+mkdir -p ~/.codex/skills
+ln -s /path/to/autoresearch-wrapper ~/.codex/skills/autoresearch-wrapper
+```
+
+If you installed from GitHub instead of a local checkout, use Codex's installer helper:
+
+```bash
+python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+  --repo <owner>/<repo> \
+  --path . \
+  --name autoresearch-wrapper
+```
+
+You can also ask Codex to use the preinstalled `skill-installer` skill to install this repo from GitHub for you.
+
+2. Restart Codex so it discovers the new skill.
+
+3. In a repo you want to optimize, use the skill from Codex to scan and inspect candidates:
+
+```text
+/autoresearch-wrapper scan this repo, summarize the dependency-aware optimization candidates, and wait for my choice
+/autoresearch-wrapper:status
+/autoresearch-wrapper:flow
+```
+
+4. Ask Codex to lock the optimization target and run settings, then start the run:
+
+```text
+/autoresearch-wrapper optimize src/your_module.py with metric latency_ms, sequential mode, and 5 rounds
+/autoresearch-wrapper:run
+```
+
+5. If you want to target a repo-local script directly, use the script-wrapper shortcut:
+
+```text
+/autoresearch-wrapper wrap scripts/bench.py and use the suggested metric preset
+```
+
+Or the raw helper CLI:
+
+```bash
+python3 scripts/autoresearch_wrapper.py path/to/script.py
+```
+
+That wraps the script into the normal dependency-aware flow, suggests a metric preset, and lets you confirm the metric command before starting the worktree-backed run.
+
+6. If you want the raw helper CLI outside Codex, use:
+
+```bash
+python3 scripts/autoresearch_wrapper.py scan
+python3 scripts/autoresearch_wrapper.py status
+python3 scripts/autoresearch_wrapper.py run
+```
+
+## Detailed Feature List
+
+- Dependency-aware repo scanning at module or file granularity.
+- Direct dependency graph construction with unresolved-edge tracking.
+- Part classification into `surely optimizable` and `probably optimizable`.
+- Dependency-aware readiness gating before any optimization run starts.
+- Persisted canonical state in `.autoresearch-wrapper/state.json`.
+- Human-readable status output in `.autoresearch-wrapper/STATUS.md`.
+- Planning workspace generation under `.autoresearch-wrapper/plans/`.
+- Per-part planning files: `metadata.json`, `dependencies.md`, and `notes.md`.
+- Git worktree-first candidate allocation and experiment isolation.
+- Run resume support with persisted active-run and candidate metadata.
+- Karpathy-style per-run `program.md` generation.
+- Recorded metric-flow summaries and ASCII metric plots for each run.
+- Script-wrapper shortcut for repo-local entrypoints.
+- Metric preset scaffolding for common script measurements.
+- Preset metric helper command for script-based evaluation.
+- Upstream Karpathy `autoresearch` reference clone support.
+
+## Feature Details
 
 ### Dependency-aware scanning
 
@@ -66,6 +146,23 @@ This includes:
 - dependency table
 - run summary
 - candidate worktree lifecycle
+- compact recorded metric-flow summaries
+
+### Metric flow plotting
+
+Recorded results can be rendered as a metric flow with:
+- chronological metric sequence
+- best-so-far sequence
+- per-step table
+- simple ASCII plot for quick terminal inspection
+
+Use:
+
+```bash
+python3 scripts/autoresearch_wrapper.py flow
+python3 scripts/autoresearch_wrapper.py flow --run-id <run-id>
+python3 scripts/autoresearch_wrapper.py flow --json
+```
 
 ### Planning workspace
 
@@ -124,10 +221,11 @@ python3 scripts/autoresearch_wrapper.py reference --refresh
 
 ## Command Surface
 
-The skill exposes three main commands:
+The skill exposes four main commands:
 - `/autoresearch-wrapper`
 - `/autoresearch-wrapper:status`
 - `/autoresearch-wrapper:run`
+- `/autoresearch-wrapper:flow`
 
 The main command also supports a shorthand script-wrapper form:
 
@@ -153,6 +251,7 @@ CLI subcommands:
 - `allocate`
 - `evaluate`
 - `record`
+- `flow`
 - `reference`
 - `preset-metric`
 
@@ -220,7 +319,14 @@ python3 scripts/autoresearch_wrapper.py evaluate --run-id <run-id> --candidate s
 python3 scripts/autoresearch_wrapper.py record --run-id <run-id> --candidate seed --status auto --description "baseline"
 ```
 
-### 6. Use preset-backed script metrics
+### 6. Inspect the metric flow
+
+```bash
+python3 scripts/autoresearch_wrapper.py flow
+python3 scripts/autoresearch_wrapper.py flow --run-id <run-id>
+```
+
+### 7. Use preset-backed script metrics
 
 Available preset helpers:
 - `runtime_seconds`

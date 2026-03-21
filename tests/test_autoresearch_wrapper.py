@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import contextlib
+import io
 import subprocess
 import sys
 import tempfile
@@ -189,6 +191,84 @@ class AutoresearchWrapperTests(unittest.TestCase):
         self.assertEqual(run["rounds_completed"], 1)
         results = Path(run["results_path"]).read_text()
         self.assertIn("candidate-001", results)
+
+    def test_flow_shows_metric_history_and_plot(self) -> None:
+        repo = self.make_repo()
+        (repo / "helper.py").write_text("VALUE = 1\n")
+        (repo / "module.py").write_text("import helper\n\ndef main():\n    return helper.VALUE\n")
+        self.commit_all(repo)
+
+        main(["scan", "--repo", str(repo)])
+        main(
+            [
+                "configure",
+                "--repo",
+                str(repo),
+                "--part",
+                "module.py",
+                "--metric",
+                "runtime_seconds",
+                "--metric-command",
+                "python -c \"print('METRIC=1.0')\"",
+                "--metric-goal",
+                "minimize",
+                "--mode",
+                "sequential",
+                "--rounds",
+                "2",
+            ]
+        )
+
+        main(["run", "--repo", str(repo), "--part", "module.py"])
+        state = load_state(repo)
+        run_id = state["selection"]["active_run_id"]
+
+        main(
+            [
+                "record",
+                "--repo",
+                str(repo),
+                "--run-id",
+                run_id,
+                "--candidate",
+                "seed",
+                "--metric-value",
+                "1.0",
+                "--description",
+                "baseline",
+            ]
+        )
+        main(["allocate", "--repo", str(repo), "--run-id", run_id])
+        main(
+            [
+                "record",
+                "--repo",
+                str(repo),
+                "--run-id",
+                run_id,
+                "--candidate",
+                "candidate-001",
+                "--metric-value",
+                "0.75",
+                "--description",
+                "improved candidate",
+            ]
+        )
+
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            main(["flow", "--repo", str(repo), "--run-id", run_id, "--width", "12"])
+        rendered = output.getvalue()
+
+        self.assertIn("Metric Flow", rendered)
+        self.assertIn("seed=1.000000 -> candidate-001=0.750000", rendered)
+        self.assertIn("candidate-001", rendered)
+        self.assertIn("############", rendered)
+
+        state = load_state(repo)
+        status = status_markdown(state)
+        self.assertIn("Metric flow: seed=1.000000 -> candidate-001=0.750000", status)
+        self.assertIn("Best-so-far: seed=1.000000 -> candidate-001=0.750000", status)
 
     def test_run_blocks_when_dependency_boundary_is_unclear(self) -> None:
         repo = self.make_repo()

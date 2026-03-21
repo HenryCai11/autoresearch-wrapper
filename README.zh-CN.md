@@ -1,5 +1,7 @@
 ![Autoresearch Wrapper Banner](./assets/banner.svg)
 
+语言: [English](./README.md) | [简体中文](./README.zh-CN.md)
+
 # Autoresearch Wrapper
 
 `autoresearch-wrapper` 是一个 Codex skill，加上一组辅助 CLI，用于在任意仓库上运行一种 `autoresearch` 风格的优化工作流。
@@ -13,7 +15,85 @@
 
 它受 Karpathy 的 [`autoresearch`](https://github.com/karpathy/autoresearch) 启发，但额外增加了仓库扫描、依赖图构建、状态持久化、规划产物以及基于 worktree 的候选管理。
 
-## 功能
+## 快速开始
+
+1. 先把这个仓库安装成一个本地 Codex skill：
+
+```bash
+mkdir -p ~/.codex/skills
+ln -s /path/to/autoresearch-wrapper ~/.codex/skills/autoresearch-wrapper
+```
+
+如果你是从 GitHub 安装，而不是本地开发目录，也可以使用 Codex 自带的安装脚本：
+
+```bash
+python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+  --repo <owner>/<repo> \
+  --path . \
+  --name autoresearch-wrapper
+```
+
+你也可以直接让 Codex 使用预装的 `skill-installer` skill，帮你从 GitHub 安装这个仓库。
+
+2. 重启 Codex，让它重新发现这个 skill。
+
+3. 在你想优化的仓库里，通过 Codex 先扫描并查看候选：
+
+```text
+/autoresearch-wrapper scan this repo, summarize the dependency-aware optimization candidates, and wait for my choice
+/autoresearch-wrapper:status
+/autoresearch-wrapper:flow
+```
+
+4. 然后让 Codex 锁定优化目标和运行配置，并启动运行：
+
+```text
+/autoresearch-wrapper optimize src/your_module.py with metric latency_ms, sequential mode, and 5 rounds
+/autoresearch-wrapper:run
+```
+
+5. 如果你想直接针对仓库内脚本，可以使用 script-wrapper 快捷方式：
+
+```text
+/autoresearch-wrapper wrap scripts/bench.py and use the suggested metric preset
+```
+
+或者直接使用底层 CLI：
+
+```bash
+python3 scripts/autoresearch_wrapper.py path/to/script.py
+```
+
+这会把脚本包装进常规的 dependency-aware 流程，自动建议一个 metric preset，并在启动基于 worktree 的运行之前让你确认指标命令。
+
+6. 如果你想在 Codex 外直接使用底层辅助 CLI，可以运行：
+
+```bash
+python3 scripts/autoresearch_wrapper.py scan
+python3 scripts/autoresearch_wrapper.py status
+python3 scripts/autoresearch_wrapper.py run
+```
+
+## 详细功能列表
+
+- 以模块或文件粒度进行 dependency-aware 仓库扫描。
+- 构建直接依赖图，并记录未解析边。
+- 将 part 分类为 `surely optimizable` 或 `probably optimizable`。
+- 在运行前执行 dependency-aware readiness gating。
+- 将规范状态持久化到 `.autoresearch-wrapper/state.json`。
+- 将人类可读状态输出到 `.autoresearch-wrapper/STATUS.md`。
+- 在 `.autoresearch-wrapper/plans/` 下生成 planning workspace。
+- 为每个 part 初始化 `metadata.json`、`dependencies.md` 和 `notes.md`。
+- 以 Git worktree 为优先机制分配 candidate 并隔离实验。
+- 持久化 active run 与 candidate 元数据，支持恢复运行。
+- 生成 Karpathy 风格的每次运行 `program.md`。
+- 为每次运行提供已记录 metric flow 摘要和 ASCII 指标图。
+- 为仓库内脚本提供 script-wrapper 快捷入口。
+- 为常见脚本测量场景提供 metric preset 脚手架。
+- 提供 preset metric helper 命令来执行脚本指标评估。
+- 支持克隆 Karpathy 上游 `autoresearch` 作为参考仓库。
+
+## 功能细节
 
 ### Dependency-aware 扫描
 
@@ -66,6 +146,23 @@ wrapper 会写入：
 - dependency 表格
 - 运行摘要
 - candidate worktree 生命周期
+- 紧凑的已记录 metric flow 摘要
+
+### Metric flow 绘制
+
+对于已经记录的结果，可以渲染 metric flow，包括：
+- 按时间顺序的指标序列
+- best-so-far 序列
+- 每一步的表格
+- 便于终端快速查看的 ASCII 图
+
+使用方式：
+
+```bash
+python3 scripts/autoresearch_wrapper.py flow
+python3 scripts/autoresearch_wrapper.py flow --run-id <run-id>
+python3 scripts/autoresearch_wrapper.py flow --json
+```
 
 ### Planning workspace
 
@@ -124,10 +221,11 @@ python3 scripts/autoresearch_wrapper.py reference --refresh
 
 ## 命令接口
 
-这个 skill 暴露了三个主要命令：
+这个 skill 暴露了四个主要命令：
 - `/autoresearch-wrapper`
 - `/autoresearch-wrapper:status`
 - `/autoresearch-wrapper:run`
+- `/autoresearch-wrapper:flow`
 
 主命令还支持一种简写的 script-wrapper 形式：
 
@@ -153,6 +251,7 @@ CLI 子命令：
 - `allocate`
 - `evaluate`
 - `record`
+- `flow`
 - `reference`
 - `preset-metric`
 
@@ -220,7 +319,14 @@ python3 scripts/autoresearch_wrapper.py evaluate --run-id <run-id> --candidate s
 python3 scripts/autoresearch_wrapper.py record --run-id <run-id> --candidate seed --status auto --description "baseline"
 ```
 
-### 6. 使用基于 preset 的脚本指标
+### 6. 查看 metric flow
+
+```bash
+python3 scripts/autoresearch_wrapper.py flow
+python3 scripts/autoresearch_wrapper.py flow --run-id <run-id>
+```
+
+### 7. 使用基于 preset 的脚本指标
 
 可用的 preset 辅助项：
 - `runtime_seconds`

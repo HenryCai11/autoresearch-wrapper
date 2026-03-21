@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import csv
 import datetime as dt
 import json
 import os
@@ -65,6 +66,7 @@ CLI_COMMANDS = {
     "record",
     "reference",
     "preset-metric",
+    "flow",
 }
 
 IGNORED_DIRS = {
@@ -275,6 +277,18 @@ def build_parser() -> argparse.ArgumentParser:
     record.add_argument("--description", default="", help="Short rationale for the result.")
     record.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
     record.set_defaults(func=command_record)
+
+    flow = subparsers.add_parser("flow", help="Show recorded metric flow for a run.")
+    add_repo_arg(flow)
+    flow.add_argument("--run-id", help="Run id. Defaults to the active run.")
+    flow.add_argument(
+        "--width",
+        type=int,
+        default=28,
+        help="Plot width for the ASCII metric chart.",
+    )
+    flow.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
+    flow.set_defaults(func=command_flow)
 
     reference = subparsers.add_parser("reference", help="Clone or refresh the upstream reference.")
     add_repo_arg(reference)
@@ -627,6 +641,18 @@ def command_reference(args: argparse.Namespace) -> int:
     }
     write_state(repo_root, state)
     print(f"{action} reference at {reference_dir}")
+    return 0
+
+
+def command_flow(args: argparse.Namespace) -> int:
+    repo_root = detect_repo_root(Path(args.repo))
+    state = ensure_scanned(repo_root)
+    run = resolve_run(state, args.run_id)
+    payload = metric_flow_snapshot(run)
+    if args.json:
+        print(json.dumps(payload, indent=2, sort_keys=True))
+    else:
+        print(metric_flow_markdown(payload, width=args.width))
     return 0
 
 
@@ -1904,6 +1930,7 @@ def status_markdown(state: dict[str, Any]) -> str:
         return "\n".join(lines) + "\n"
 
     for run_id, run in sorted(state["runs"].items()):
+        flow = metric_flow_snapshot(run)
         lines.append(
             "- `{run_id}`: `{status}`, part `{part}`, rounds `{done}/{target}`, best `{best}`".format(
                 run_id=run_id,
@@ -1923,7 +1950,188 @@ def status_markdown(state: dict[str, Any]) -> str:
                     path=candidate["worktree_path"],
                 )
             )
+        if flow["points"]:
+            lines.append(f"  - Metric flow: {flow['sequence']}")
+            lines.append(f"  - Best-so-far: {flow['best_sequence']}")
     return "\n".join(lines) + "\n"
+
+
+def metric_flow_snapshot(run: dict[str, Any]) -> dict[str, Any]:
+    points = load_metric_flow_points(run)
+    metric = run.get("metric", {})
+    numeric_points = [point for point in points if point["metric_value"] is not None]
+    best_point = None
+    if numeric_points:
+        best_value = min(
+            point["metric_value"] for point in numeric_points
+        ) if metric.get("goal") != "maximize" else max(
+            point["metric_value"] for point in numeric_points
+        )
+        best_point = next(
+            point for point in numeric_points if point["metric_value"] == best_value
+        )
+
+    return {
+        "run_id": run.get("run_id"),
+        "part_id": run.get("part_id"),
+        "metric_name": metric.get("name"),
+        "goal": metric.get("goal"),
+        "results_path": run.get("results_path"),
+        "points": points,
+        "best_metric": best_point["metric_value"] if best_point else None,
+        "best_candidate_id": best_point["candidate_id"] if best_point else None,
+        "latest_metric": points[-1]["metric_value"] if points else None,
+        "latest_candidate_id": points[-1]["candidate_id"] if points else None,
+        "sequence": format_metric_flow_sequence(points, "metric_value"),
+        "best_sequence": format_metric_flow_sequence(points, "best_so_far"),
+    }
+
+
+def load_metric_flow_points(run: dict[str, Any]) -> list[dict[str, Any]]:
+    results_path = Path(run["results_path"])
+    if not results_path.exists():
+        return []
+    points: list[dict[str, Any]] = []
+    with results_path.open(newline="") as handle:
+        reader = csv.DictReader(handle, delimiter="\t")
+        for index, row in enumerate(reader, start=1):
+            metric_value = parse_optional_float(row.get("metric_value"))
+            point = {
+                "step": index,
+                "timestamp": row.get("timestamp"),
+                "candidate_id": row.get("candidate_id"),
+                "status": row.get("status"),
+                "metric_name": row.get("metric_name"),
+                "metric_value": metric_value,
+                "goal": row.get("goal"),
+                "description": row.get("description") or "",
+                "best_so_far": None,
+                "delta_from_previous": None,
+            }
+            if points and metric_value is not None and points[-1]["metric_value"] is not None:
+                point["delta_from_previous"] = metric_value - points[-1]["metric_value"]
+            points.append(point)
+
+    best_so_far: float | None = None
+    goal = run.get("metric", {}).get("goal") or (points[0]["goal"] if points else "minimize")
+    for point in points:
+        value = point["metric_value"]
+        if value is not None and is_better_metric(value, best_so_far, goal):
+            best_so_far = value
+        point["best_so_far"] = best_so_far
+    return points
+
+
+def parse_optional_float(value: str | None) -> float | None:
+    if value in (None, "", "None"):
+        return None
+    return float(value)
+
+
+def is_better_metric(value: float, current_best: float | None, goal: str | None) -> bool:
+    if current_best is None:
+        return True
+    if goal == "maximize":
+        return value > current_best
+    return value < current_best
+
+
+def format_metric_value(value: float | None) -> str:
+    if value is None:
+        return "-"
+    return f"{value:.6f}"
+
+
+def format_metric_delta(value: float | None) -> str:
+    if value is None:
+        return "-"
+    return f"{value:+.6f}"
+
+
+def format_metric_flow_sequence(points: list[dict[str, Any]], key: str, limit: int = 8) -> str:
+    if not points:
+        return "none recorded"
+    sequence = [
+        f"{point['candidate_id']}={format_metric_value(point.get(key))}" for point in points[:limit]
+    ]
+    if len(points) > limit:
+        sequence.append("...")
+    return " -> ".join(sequence)
+
+
+def metric_flow_markdown(snapshot: dict[str, Any], width: int = 28) -> str:
+    lines = [
+        f"# Metric Flow: {snapshot['run_id']}",
+        "",
+        f"- Part: `{snapshot['part_id']}`",
+        f"- Metric: `{snapshot['metric_name']}`",
+        f"- Goal: `{snapshot['goal']}`",
+        f"- Results path: `{snapshot['results_path']}`",
+    ]
+
+    if not snapshot["points"]:
+        lines.append("- No recorded metric values yet.")
+        return "\n".join(lines) + "\n"
+
+    lines.extend(
+        [
+            f"- Best: `{format_metric_value(snapshot['best_metric'])}` (`{snapshot['best_candidate_id']}`)",
+            f"- Latest: `{format_metric_value(snapshot['latest_metric'])}` (`{snapshot['latest_candidate_id']}`)",
+            "",
+            "## Flow",
+            "",
+            f"- Sequence: {snapshot['sequence']}",
+            f"- Best so far: {snapshot['best_sequence']}",
+            "",
+            "## Sequence Table",
+            "",
+            "| Step | Candidate | Status | Metric | Delta | Best So Far | Description |",
+            "| --- | --- | --- | --- | --- | --- | --- |",
+        ]
+    )
+
+    for point in snapshot["points"]:
+        lines.append(
+            "| {step} | {candidate} | {status} | {metric} | {delta} | {best} | {description} |".format(
+                step=point["step"],
+                candidate=point["candidate_id"],
+                status=point["status"],
+                metric=format_metric_value(point["metric_value"]),
+                delta=format_metric_delta(point["delta_from_previous"]),
+                best=format_metric_value(point["best_so_far"]),
+                description=point["description"].replace("|", "/"),
+            )
+        )
+
+    lines.extend(["", "## Plot", "", "```text"])
+    lines.extend(metric_plot_lines(snapshot["points"], width=width))
+    lines.extend(["```", ""])
+    return "\n".join(lines)
+
+
+def metric_plot_lines(points: list[dict[str, Any]], width: int = 28) -> list[str]:
+    width = max(width, 8)
+    numeric_values = [point["metric_value"] for point in points if point["metric_value"] is not None]
+    if not numeric_values:
+        return ["(no numeric metric values recorded)"]
+
+    minimum = min(numeric_values)
+    maximum = max(numeric_values)
+    span = maximum - minimum
+    lines: list[str] = []
+    for point in points:
+        value = point["metric_value"]
+        marker = "*" if value is not None and value == point["best_so_far"] else " "
+        if value is None:
+            bar = "?" * max(1, width // 4)
+            lines.append(f"{marker} {point['candidate_id']:<14} | {bar:<{width}} -")
+            continue
+        bar_length = width if span == 0 else max(1, int(round(((value - minimum) / span) * (width - 1))) + 1)
+        bar = "#" * bar_length
+        lines.append(
+            f"{marker} {point['candidate_id']:<14} | {bar:<{width}} {format_metric_value(value)}"
+        )
+    return lines
 
 
 def git_metadata(repo_root: Path) -> dict[str, Any]:
