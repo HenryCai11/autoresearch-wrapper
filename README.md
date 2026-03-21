@@ -2,6 +2,8 @@
 
 Language: [English](./README.md) | [简体中文](./README.zh-CN.md)
 
+Contributing: [CONTRIBUTING.md](./CONTRIBUTING.md)
+
 # Autoresearch Wrapper
 
 `autoresearch-wrapper` is a Codex skill plus helper CLI for running an `autoresearch`-style optimization workflow on an arbitrary repo.

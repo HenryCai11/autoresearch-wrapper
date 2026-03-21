@@ -2,6 +2,8 @@
 
 语言: [English](./README.md) | [简体中文](./README.zh-CN.md)
 
+贡献说明: [CONTRIBUTING.md](./CONTRIBUTING.md)
+
 # Autoresearch Wrapper
 
 `autoresearch-wrapper` 是一个 Codex skill，加上一组辅助 CLI，用于在任意仓库上运行一种 `autoresearch` 风格的优化工作流。
