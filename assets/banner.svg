@@ -1,0 +1,82 @@
+<svg width="1600" height="560" viewBox="0 0 1600 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="40" x2="1540" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1F33"/>
+      <stop offset="0.45" stop-color="#123B4A"/>
+      <stop offset="1" stop-color="#F0B94B"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#123B4A" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#0B1F33" stop-opacity="0.88"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#62E0D9"/>
+      <stop offset="1" stop-color="#F0B94B"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="560" rx="36" fill="url(#bg)"/>
+  <circle cx="1390" cy="92" r="160" fill="#62E0D9" opacity="0.08"/>
+  <circle cx="1430" cy="420" r="210" fill="#0B1F33" opacity="0.22"/>
+  <circle cx="210" cy="470" r="170" fill="#F0B94B" opacity="0.08"/>
+
+  <g opacity="0.5">
+    <path d="M970 140C1080 140 1110 210 1205 210C1290 210 1328 162 1412 162" stroke="#8CEAE1" stroke-width="4"/>
+    <path d="M970 270C1060 270 1098 324 1185 324C1260 324 1308 278 1412 278" stroke="#F7D88A" stroke-width="4"/>
+    <path d="M970 400C1084 400 1112 448 1200 448C1282 448 1326 402 1412 402" stroke="#8CEAE1" stroke-width="4"/>
+  </g>
+
+  <g filter="url(#glow)">
+    <circle cx="968" cy="140" r="16" fill="#62E0D9"/>
+    <circle cx="1205" cy="210" r="16" fill="#F0B94B"/>
+    <circle cx="1412" cy="162" r="16" fill="#62E0D9"/>
+    <circle cx="968" cy="270" r="16" fill="#F0B94B"/>
+    <circle cx="1185" cy="324" r="16" fill="#62E0D9"/>
+    <circle cx="1412" cy="278" r="16" fill="#F0B94B"/>
+    <circle cx="968" cy="400" r="16" fill="#62E0D9"/>
+    <circle cx="1200" cy="448" r="16" fill="#F0B94B"/>
+    <circle cx="1412" cy="402" r="16" fill="#62E0D9"/>
+  </g>
+
+  <rect x="60" y="60" width="860" height="440" rx="28" fill="url(#panel)" stroke="#8CEAE1" stroke-opacity="0.2"/>
+
+  <g transform="translate(108 112)">
+    <rect x="0" y="0" width="110" height="110" rx="28" fill="#0B1F33" stroke="#62E0D9" stroke-opacity="0.45" stroke-width="3"/>
+    <path d="M32 76L55 50L74 64L86 34" stroke="url(#accent)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="32" cy="76" r="8" fill="#62E0D9"/>
+    <circle cx="55" cy="50" r="8" fill="#F0B94B"/>
+    <circle cx="74" cy="64" r="8" fill="#62E0D9"/>
+    <circle cx="86" cy="34" r="8" fill="#F0B94B"/>
+    <path d="M24 92H88" stroke="#D4EEF1" stroke-opacity="0.4" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <text x="236" y="154" fill="#DFF8FB" font-family="Verdana, DejaVu Sans, sans-serif" font-size="36" font-weight="700" letter-spacing="0.3">
+    AUTORESEARCH-WRAPPER
+  </text>
+  <text x="252" y="198" fill="#8CEAE1" font-family="Verdana, DejaVu Sans, sans-serif" font-size="15" font-weight="700" letter-spacing="2.1">
+    DEPENDENCY-AWARE AUTORESEARCH
+  </text>
+
+  <text x="108" y="278" fill="#F5FBFC" font-family="Verdana, DejaVu Sans, sans-serif" font-size="18">
+    Scan repo parts. Build dependency graphs. Gate runs with clear metrics.
+  </text>
+  <text x="108" y="310" fill="#F5FBFC" font-family="Verdana, DejaVu Sans, sans-serif" font-size="18">
+    Generate planning artifacts. Run candidates in isolated Git worktrees.
+  </text>
+
+  <g transform="translate(108 394)">
+    <rect x="0" y="0" width="196" height="54" rx="16" fill="#102D37" stroke="#62E0D9" stroke-opacity="0.4"/>
+    <rect x="216" y="0" width="196" height="54" rx="16" fill="#102D37" stroke="#F0B94B" stroke-opacity="0.45"/>
+    <rect x="432" y="0" width="196" height="54" rx="16" fill="#102D37" stroke="#62E0D9" stroke-opacity="0.4"/>
+    <text x="20" y="33" fill="#DFF8FB" font-family="Verdana, DejaVu Sans, sans-serif" font-size="13" font-weight="700">DEPENDENCY GRAPH</text>
+    <text x="224" y="33" fill="#FFF3D1" font-family="Verdana, DejaVu Sans, sans-serif" font-size="13" font-weight="700">PLANNING WORKSPACE</text>
+    <text x="468" y="33" fill="#DFF8FB" font-family="Verdana, DejaVu Sans, sans-serif" font-size="13" font-weight="700">GIT WORKTREES</text>
+  </g>
+</svg>

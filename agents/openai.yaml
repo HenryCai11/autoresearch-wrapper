@@ -1,0 +1,10 @@
+interface:
+  display_name: "Autoresearch Wrapper"
+  short_description: "Dependency-aware repo scan and worktree optimization"
+  icon_small: "./assets/icon-small.svg"
+  icon_large: "./assets/icon-large.svg"
+  brand_color: "#123B4A"
+  default_prompt: "Use $autoresearch-wrapper to run a dependency-aware scan of this repo, configure a metric, and initialize a worktree-backed autoresearch run."
+
+policy:
+  allow_implicit_invocation: true

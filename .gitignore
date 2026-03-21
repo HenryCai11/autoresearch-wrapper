@@ -1,0 +1,5 @@
+.autoresearch-wrapper/
+.reference-autoresearch/
+__pycache__/
+.pytest_cache/
+
