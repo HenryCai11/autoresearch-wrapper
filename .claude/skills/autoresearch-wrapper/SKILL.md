@@ -13,18 +13,21 @@ python3 scripts/autoresearch_wrapper.py
 
 When this skill is invoked:
 
-1. Treat the user text after `/autoresearch-wrapper` as the high-level instruction.
-2. If the user did not specify a target yet, run:
+1. If invoked with no arguments or just `/autoresearch-wrapper`, run a full scan and guide the user through setup:
 
 ```bash
-python3 scripts/autoresearch_wrapper.py scan
+python3 scripts/autoresearch_wrapper.py scan --no-interactive
 ```
 
-Then summarize:
-- discovered parts
-- each part's status
-- dependency-aware blockers
-- likely optimization targets
+Then:
+- Summarize discovered parts, their statuses, and dependency neighborhoods
+- Ask the user which part to optimize
+- Ask for the metric name, metric command, metric goal
+- Ask for execution mode (sequential / parallel / wild) and rounds
+- Persist the configuration with `configure`
+- Ask if the user wants to start the run immediately
+
+2. If the user provides extra text after `/autoresearch-wrapper`, treat it as the high-level instruction and act accordingly.
 
 3. If the user names a repo-local script path, wrap it with:
 
