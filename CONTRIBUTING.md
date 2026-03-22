@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for contributing to `autoresearch-wrapper`.
+Thanks for contributing to `autoresearch-wrapper`. Bug reports and feature requests are welcome. Although I have limited bandwidth, I will take a look at the issues/PRs and find a way to resolve/merge them!
 
 ## Scope
 
