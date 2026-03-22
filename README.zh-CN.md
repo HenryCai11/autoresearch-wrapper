@@ -7,7 +7,7 @@
 
 # Autoresearch Wrapper
 
-`autoresearch-wrapper` 是一个 Codex skill，加上一组辅助 CLI，用于在任意仓库上运行一种 `autoresearch` 风格的优化工作流。
+`autoresearch-wrapper` 是一个 skill 加辅助 CLI，用于在任意仓库上运行 `autoresearch` 风格的优化工作流。同时支持 **Codex** 和 **Claude Code**。
 
 核心思路是：
 - 扫描仓库中的优化候选部分
@@ -20,14 +20,58 @@
 
 ## 快速开始
 
-1. 先把这个仓库安装成一个本地 Codex skill：
+<details>
+<summary><b>Claude Code</b></summary>
+
+1. 克隆或拷贝此仓库到你的项目中（或磁盘任意位置）：
+
+```bash
+git clone https://github.com/<owner>/autoresearch-wrapper.git
+```
+
+2. Claude Code 会自动从项目根目录的 `.claude/skills/` 发现 skill。如果你把本仓库克隆到了目标项目内部，skill 已经可用。如果在别的位置，用符号链接：
+
+```bash
+mkdir -p /path/to/your-project/.claude/skills
+ln -s /path/to/autoresearch-wrapper/.claude/skills/* /path/to/your-project/.claude/skills/
+```
+
+3. 在想要优化的仓库中，通过 Claude Code 使用 skill：
+
+```text
+/autoresearch-wrapper scan this repo, summarize the dependency-aware optimization candidates, and wait for my choice
+/autoresearch-wrapper-status
+/autoresearch-wrapper-flow
+```
+
+4. 锁定优化目标和运行配置，启动运行：
+
+```text
+/autoresearch-wrapper optimize src/your_module.py with metric latency_ms, sequential mode, and 5 rounds
+/autoresearch-wrapper-run
+```
+
+5. 使用新功能命令：
+
+```text
+/autoresearch-wrapper-create --part src/api.py --feature "add response caching" --candidates 3
+/autoresearch-wrapper-delete --part src/legacy.py
+/autoresearch-wrapper-monitor --interval 30
+```
+
+</details>
+
+<details>
+<summary><b>Codex</b></summary>
+
+1. 把这个仓库安装成一个本地 Codex skill：
 
 ```bash
 mkdir -p ~/.codex/skills
 ln -s /path/to/autoresearch-wrapper ~/.codex/skills/autoresearch-wrapper
 ```
 
-如果你是从 GitHub 安装，而不是本地开发目录，也可以使用 Codex 自带的安装脚本：
+如果你是从 GitHub 安装，可以使用 Codex 自带的安装脚本：
 
 ```bash
 python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
@@ -40,7 +84,7 @@ python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-githu
 
 2. 重启 Codex，让它重新发现这个 skill。
 
-3. 在你想优化的仓库里，通过 Codex 先扫描并查看候选：
+3. 在想要优化的仓库中，通过 Codex 扫描并查看候选：
 
 ```text
 /autoresearch-wrapper scan this repo, summarize the dependency-aware optimization candidates, and wait for my choice
@@ -48,20 +92,19 @@ python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-githu
 /autoresearch-wrapper:flow
 ```
 
-4. 然后让 Codex 锁定优化目标和运行配置，并启动运行：
+4. 锁定优化目标和运行配置，启动运行：
 
 ```text
 /autoresearch-wrapper optimize src/your_module.py with metric latency_ms, sequential mode, and 5 rounds
 /autoresearch-wrapper:run
 ```
 
-5. 如果你想直接针对仓库内脚本，可以使用 script-wrapper 快捷方式：
+</details>
 
-```text
-/autoresearch-wrapper wrap scripts/bench.py and use the suggested metric preset
-```
+<details>
+<summary><b>直接使用 CLI（不依赖 Codex 或 Claude Code）</b></summary>
 
-或者直接使用底层 CLI：
+如果你想直接针对仓库内脚本，可以使用 script-wrapper 快捷方式：
 
 ```bash
 python3 scripts/autoresearch_wrapper.py path/to/script.py
@@ -69,13 +112,19 @@ python3 scripts/autoresearch_wrapper.py path/to/script.py
 
 这会把脚本包装进常规的 dependency-aware 流程，自动建议一个 metric preset，并在启动基于 worktree 的运行之前让你确认指标命令。
 
-6. 如果你想在 Codex 外直接使用底层辅助 CLI，可以运行：
+底层辅助 CLI 全部命令：
 
 ```bash
 python3 scripts/autoresearch_wrapper.py scan
 python3 scripts/autoresearch_wrapper.py status
 python3 scripts/autoresearch_wrapper.py run
+python3 scripts/autoresearch_wrapper.py resources
+python3 scripts/autoresearch_wrapper.py monitor --interval 60
+python3 scripts/autoresearch_wrapper.py create --part <part> --feature "<描述>"
+python3 scripts/autoresearch_wrapper.py delete --part <part>
 ```
+
+</details>
 
 ## 详细功能列表
 
@@ -95,6 +144,13 @@ python3 scripts/autoresearch_wrapper.py run
 - 为常见脚本测量场景提供 metric preset 脚手架。
 - 提供 preset metric helper 命令来执行脚本指标评估。
 - 支持克隆 Karpathy 上游 `autoresearch` 作为参考仓库。
+- 功能创建运行：多候选对比，寻找最优能力上限（`create`）。
+- 功能删除运行：删除后自动优化依赖参数（`delete`）。
+- 系统资源检测（CPU、GPU、内存、调度器：slurm/pbs），通过 `resources` 命令。
+- 可配置间隔的进度监控（`monitor`）。
+- 早退机制：优化停滞时自动终止运行（`--early-exit-patience`、`--early-exit-threshold`）。
+- 狂野模式：搜索空间较大时同步修改多个参数（`--mode wild`）。
+- 所有命令在 TTY 环境下支持交互式 wizard 提示。
 
 ## 功能细节
 
@@ -224,11 +280,17 @@ python3 scripts/autoresearch_wrapper.py reference --refresh
 
 ## 命令接口
 
-这个 skill 暴露了四个主要命令：
-- `/autoresearch-wrapper`
-- `/autoresearch-wrapper:status`
-- `/autoresearch-wrapper:run`
-- `/autoresearch-wrapper:flow`
+这个 skill 暴露了七个主要命令。两个平台的命名略有不同：
+
+| Codex | Claude Code | CLI 子命令 |
+| --- | --- | --- |
+| `/autoresearch-wrapper` | `/autoresearch-wrapper` | `scan` / `wrap` |
+| `/autoresearch-wrapper:status` | `/autoresearch-wrapper-status` | `status` |
+| `/autoresearch-wrapper:run` | `/autoresearch-wrapper-run` | `run` |
+| `/autoresearch-wrapper:flow` | `/autoresearch-wrapper-flow` | `flow` |
+| `/autoresearch-wrapper:create` | `/autoresearch-wrapper-create` | `create` |
+| `/autoresearch-wrapper:delete` | `/autoresearch-wrapper-delete` | `delete` |
+| `/autoresearch-wrapper:monitor` | `/autoresearch-wrapper-monitor` | `monitor` |
 
 主命令还支持一种简写的 script-wrapper 形式：
 
@@ -257,6 +319,10 @@ CLI 子命令：
 - `flow`
 - `reference`
 - `preset-metric`
+- `resources`
+- `monitor`
+- `create`
+- `delete`
 
 ## 典型工作流
 
@@ -392,6 +458,12 @@ python3 scripts/autoresearch_wrapper.py preset-metric --preset runtime_seconds -
 - configure 持久化
 - 基于 worktree 的运行流程
 - dependency-aware 运行阻塞
+- schema 迁移（v1→v2）
+- 系统资源检测
+- 早退机制
+- 狂野模式默认值
+- create 和 delete 运行类型
+- wizard 系统（非交互模式）
 
 运行方式：
 
@@ -403,6 +475,8 @@ python3 -m unittest -q
 
 - `SKILL.md`
   - Codex 的 skill 行为和命令映射
+- `.claude/skills/`
+  - Claude Code 的 skill 定义（每个命令一个目录）
 - `scripts/autoresearch_wrapper.py`
   - CLI 入口
 - `autoresearch_wrapper/core.py`

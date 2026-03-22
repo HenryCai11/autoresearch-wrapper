@@ -20,7 +20,8 @@ It is inspired by Karpathy's [`autoresearch`](https://github.com/karpathy/autore
 
 ## Quick Start
 
-### Claude Code
+<details>
+<summary><b>Claude Code</b></summary>
 
 1. Clone or copy this repo into your project (or anywhere on disk):
 
@@ -58,7 +59,10 @@ ln -s /path/to/autoresearch-wrapper/.claude/skills/* /path/to/your-project/.clau
 /autoresearch-wrapper-monitor --interval 30
 ```
 
-### Codex
+</details>
+
+<details>
+<summary><b>Codex</b></summary>
 
 1. Install this repo as a local Codex skill:
 
@@ -95,15 +99,12 @@ You can also ask Codex to use the preinstalled `skill-installer` skill to instal
 /autoresearch-wrapper:run
 ```
 
-### Raw CLI (without Codex or Claude Code)
+</details>
 
-5. If you want to target a repo-local script directly, use the script-wrapper shortcut:
+<details>
+<summary><b>Raw CLI (without Codex or Claude Code)</b></summary>
 
-```text
-/autoresearch-wrapper wrap scripts/bench.py and use the suggested metric preset
-```
-
-Or the raw helper CLI:
+If you want to target a repo-local script directly, use the script-wrapper shortcut:
 
 ```bash
 python3 scripts/autoresearch_wrapper.py path/to/script.py
@@ -111,13 +112,19 @@ python3 scripts/autoresearch_wrapper.py path/to/script.py
 
 That wraps the script into the normal dependency-aware flow, suggests a metric preset, and lets you confirm the metric command before starting the worktree-backed run.
 
-6. If you want the raw helper CLI outside Codex, use:
+All CLI commands:
 
 ```bash
 python3 scripts/autoresearch_wrapper.py scan
 python3 scripts/autoresearch_wrapper.py status
 python3 scripts/autoresearch_wrapper.py run
+python3 scripts/autoresearch_wrapper.py resources
+python3 scripts/autoresearch_wrapper.py monitor --interval 60
+python3 scripts/autoresearch_wrapper.py create --part <part> --feature "<description>"
+python3 scripts/autoresearch_wrapper.py delete --part <part>
 ```
+
+</details>
 
 ## Detailed Feature List
 
