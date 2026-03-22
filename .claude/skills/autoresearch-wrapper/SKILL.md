@@ -37,21 +37,25 @@ python3 scripts/autoresearch_wrapper.py wrap <script-path>
 - metric name
 - metric goal
 - metric command
-- sequential or parallel mode
+- sequential, parallel, or wild mode
 - rounds or stop rule
+- early exit patience (optional)
 
 Persist them with:
 
 ```bash
-python3 scripts/autoresearch_wrapper.py configure --part <part> --metric <metric> --metric-command "<cmd>" --metric-goal <minimize|maximize> --mode <sequential|parallel> --rounds <n>
+python3 scripts/autoresearch_wrapper.py configure --part <part> --metric <metric> --metric-command "<cmd>" --metric-goal <minimize|maximize> --mode <sequential|parallel|wild> --rounds <n>
 ```
 
 5. Prefer Git worktrees. Do not optimize in the primary checkout if the helper can create a worktree-backed run.
 
-6. When the user wants to inspect state, start a run, or inspect metrics, prefer these companion Claude skills:
+6. When the user wants to inspect state, start a run, inspect metrics, create features, delete parts, or monitor progress, prefer these companion Claude skills:
 - `/autoresearch-wrapper-status`
 - `/autoresearch-wrapper-run`
 - `/autoresearch-wrapper-flow`
+- `/autoresearch-wrapper-create`
+- `/autoresearch-wrapper-delete`
+- `/autoresearch-wrapper-monitor`
 
 ## Examples
 

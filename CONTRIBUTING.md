@@ -40,6 +40,9 @@ The current Claude-facing commands are:
 - `/autoresearch-wrapper-status`
 - `/autoresearch-wrapper-run`
 - `/autoresearch-wrapper-flow`
+- `/autoresearch-wrapper-create`
+- `/autoresearch-wrapper-delete`
+- `/autoresearch-wrapper-monitor`
 
 If you change Claude-specific skill behavior, update the corresponding `SKILL.md` files under `.claude/skills/`.
 
@@ -68,6 +71,9 @@ The Codex-facing command surface is:
 - `/autoresearch-wrapper:status`
 - `/autoresearch-wrapper:run`
 - `/autoresearch-wrapper:flow`
+- `/autoresearch-wrapper:create`
+- `/autoresearch-wrapper:delete`
+- `/autoresearch-wrapper:monitor`
 
 ### Claude Code
 
@@ -76,6 +82,9 @@ Claude Code uses:
 - `.claude/skills/autoresearch-wrapper-status/SKILL.md`
 - `.claude/skills/autoresearch-wrapper-run/SKILL.md`
 - `.claude/skills/autoresearch-wrapper-flow/SKILL.md`
+- `.claude/skills/autoresearch-wrapper-create/SKILL.md`
+- `.claude/skills/autoresearch-wrapper-delete/SKILL.md`
+- `.claude/skills/autoresearch-wrapper-monitor/SKILL.md`
 
 Claude does not use `agents/openai.yaml`, so do not treat the Codex metadata file as shared packaging.
 

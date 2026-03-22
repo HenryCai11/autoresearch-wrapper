@@ -22,12 +22,18 @@ Treat these names as the skill's command surface:
 - `/autoresearch-wrapper:status`
 - `/autoresearch-wrapper:run`
 - `/autoresearch-wrapper:flow`
+- `/autoresearch-wrapper:create`
+- `/autoresearch-wrapper:delete`
+- `/autoresearch-wrapper:monitor`
 
 These map to CLI subcommands:
 - `/autoresearch-wrapper` -> `scan`, or `wrap <script-path>` when the user passes a repo-local script path
 - `/autoresearch-wrapper:status` -> `status`
 - `/autoresearch-wrapper:run` -> `run`
 - `/autoresearch-wrapper:flow` -> `flow`
+- `/autoresearch-wrapper:create` -> `create`
+- `/autoresearch-wrapper:delete` -> `delete`
+- `/autoresearch-wrapper:monitor` -> `monitor`
 
 ## Core rules
 
@@ -58,12 +64,13 @@ python3 scripts/autoresearch_wrapper.py scan
    - metric name
    - metric command
    - metric goal
-   - sequential or parallel mode
+   - sequential, parallel, or wild mode
    - rounds or stop rule
+   - early exit patience (optional)
 5. Persist them with:
 
 ```bash
-python3 scripts/autoresearch_wrapper.py configure --part <part> --metric <metric> --metric-command "<cmd>" --metric-goal <minimize|maximize> --mode <sequential|parallel> --rounds <n>
+python3 scripts/autoresearch_wrapper.py configure --part <part> --metric <metric> --metric-command "<cmd>" --metric-goal <minimize|maximize> --mode <sequential|parallel|wild> --rounds <n>
 ```
 
 Use `--interactive` if gathering the values from stdin is easier.
@@ -109,7 +116,7 @@ Behavior:
 - refuse to run if any required config field is missing
 - create or resume the active run
 - generate a Karpathy-style per-run `program.md`
-- initialize a seed worktree and additional candidate worktrees for parallel mode
+- initialize a seed worktree and additional candidate worktrees for parallel or wild mode
 
 The generated run program will point back to the helper CLI for:
 - `allocate`
@@ -129,6 +136,47 @@ Report:
 - best-so-far sequence
 - tabular step history
 - ASCII plot of metric values
+
+### `/autoresearch-wrapper:create`
+
+Run:
+
+```bash
+python3 scripts/autoresearch_wrapper.py create --part <part> --feature "<description>" --candidates <n> --metric <metric> --metric-command "<cmd>" --metric-goal <minimize|maximize>
+```
+
+Behavior:
+- identify affected parts via the dependency graph
+- create N candidate worktrees, each for a different implementation approach
+- generate a per-run `program.md` with comparison instructions
+- use `evaluate` and `record` against each approach to find the best capability ceiling
+
+### `/autoresearch-wrapper:delete`
+
+Run:
+
+```bash
+python3 scripts/autoresearch_wrapper.py delete --part <part> --metric <metric> --metric-command "<cmd>" --metric-goal <minimize|maximize>
+```
+
+Behavior:
+- identify transitive dependents of the deleted part
+- create a seed worktree with the target file removed
+- optimize dependent parameters in subsequent candidate worktrees
+- generate a per-run `program.md` with post-deletion optimization instructions
+
+### `/autoresearch-wrapper:monitor`
+
+Run:
+
+```bash
+python3 scripts/autoresearch_wrapper.py monitor --interval <seconds>
+```
+
+Behavior:
+- poll the active run at the configured interval
+- report rounds completed, best metric, early exit status
+- exit when the run completes or Ctrl-C is pressed
 
 ## Helper commands
 
@@ -152,6 +200,24 @@ Use `reference` to clone or refresh the upstream repo locally:
 ```bash
 python3 scripts/autoresearch_wrapper.py reference
 python3 scripts/autoresearch_wrapper.py reference --refresh
+```
+
+Use `resources` to detect system resources and set concurrency defaults:
+
+```bash
+python3 scripts/autoresearch_wrapper.py resources
+```
+
+Use early exit to stop runs that stall:
+
+```bash
+python3 scripts/autoresearch_wrapper.py configure --part <part> --early-exit-patience 3 --early-exit-threshold 0.01
+```
+
+Use wild mode for multi-parameter search when the search space is large:
+
+```bash
+python3 scripts/autoresearch_wrapper.py configure --part <part> --mode wild --wild-max-simultaneous 3
 ```
 
 ## Expected agent behavior inside a run
