@@ -14,7 +14,7 @@
 [![Codex Skill](https://img.shields.io/badge/Codex-Skill-green?logo=openai&logoColor=white)](https://platform.openai.com/docs/codex)
 [![Version](https://img.shields.io/badge/version-0.0.2-blue.svg)](https://github.com/HenryCai11/autoresearch-wrapper/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Based on](https://img.shields.io/badge/Based_on-Karpathy's_Autoresearch-orange)](https://github.com/karpathy/autoresearch)
+[![Inspired by](https://img.shields.io/badge/Based_on-Karpathy's_Autoresearch-orange)](https://github.com/karpathy/autoresearch)
 
 <br>
 
@@ -27,6 +27,13 @@
 </div>
 
 ---
+
+最近我在用Codex的时候，会让它去针对某些模块写一些相对应的autoresearch脚本。 有一次我想要往系统里面新加一个功能，其中有几个备选项，这时候想要评估每个备选项真正的表现就得同时优化那些和它相关的参数/模块(`autoresearch-wrapper-create`). 就在这个瞬间，我想是时候写一个SKILL来做这件事了（看了一圈好像确实没人实现这个功能，于是我就开始了）。随之而来的一个想法是，或许在优化一个系统之前，搞清楚各个模块之间相互的依赖关系是有用的，所以这成了这个项目的核心————依赖感知的自动科研（优化）引擎。
+
+## 进展
+
+- 2026/03/23 北京时间凌晨2:31: 虽然只开发测试到v0.0.2，我决定还是直接开源了！大半夜开始试用之后很激动，想快点和社区分享。虽然时间有限同时也还在确保每一个我想要的功能都已经正确实现，但我觉得它已经做好准备开始干活了（狗头）。
+
 
 ## 安装
 
@@ -77,43 +84,17 @@ python3 scripts/autoresearch_wrapper.py scan
 
 ## 使用
 
-### 1. 扫描
-
-```bash
-python3 scripts/autoresearch_wrapper.py scan
+直接跑
 ```
-
-或通过 skill：`/autoresearch-wrapper scan this repo`
-
-### 2. 配置
-
-```bash
-python3 scripts/autoresearch_wrapper.py configure \
-  --part src/api.py \
-  --metric latency_ms \
-  --metric-command "python bench.py" \
-  --metric-goal minimize \
-  --mode sequential \
-  --rounds 5
+/autoresearch-wrapper
 ```
+然后你会进入一个引导界面（类似plan mode），一步步选择最后开始优化你想优化的模块。
 
-或使用交互式 wizard：`--interactive`
+## Examples
 
-### 3. 运行
+这是我想要优化[Recursive Language Models](https://github.com/alexzhang13/rlm)时候，引导界面的样子（Claude Code）
 
-```bash
-python3 scripts/autoresearch_wrapper.py run
-```
-
-Wrapper 会创建 seed worktree，生成 `program.md`，启动优化循环。
-
-### 4. 监控
-
-```bash
-python3 scripts/autoresearch_wrapper.py flow          # 指标历史 + ASCII 图
-python3 scripts/autoresearch_wrapper.py monitor        # 实时进度轮询
-python3 scripts/autoresearch_wrapper.py status         # 完整状态摘要
-```
+![example_rlm](assets/example_rlm.png)
 
 ## 命令
 
@@ -143,3 +124,8 @@ python3 -m unittest -q
 | [CORE_FEATURES.md](./CORE_FEATURES.md) | 功能清单 |
 | [CONTRIBUTING.md](./CONTRIBUTING.md) | 开发工作流、分支布局、验证 |
 | [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) | 上游归属声明 |
+
+
+## 致谢
+
+这个项目受到了其他一些autoresearch项目的启发，分别是[Karpathy's autoresearch](https://github.com/karpathy/autoresearch)和[uditgoenka's autoresearch](https://github.com/uditgoenka/autoresearch). 万般感谢！

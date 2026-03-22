@@ -28,6 +28,12 @@ Based on [Karpathy's autoresearch](https://github.com/karpathy/autoresearch) —
 
 ---
 
+Recently, I've been asking Codex to write autoresearch wrappers for the modules that I want to optimize. There's a concrete use case where I want to add a feature or module, and I have several candidates. But each time you add one, you need to optimize all the other related parts to get a sense of how helpful the module is (`autoresearch-wrapper-create`). That's when I wanted to implement a SKILL for this, and I thought that at the very beginning, before optimizing a system, we should understand the dependencies. So here it comes: a Dependency-aware Autoresearch Engine that wraps your modules, scripts, and more.
+
+## News
+
+- 2026/03/23 2:31 AM, Beijing Time: I've decided to release it at v0.0.2! Just feel excited to share it with the community. Although I'm still going through all the features to make sure they are everything I want, I think it is ready to play with.
+
 ## Install
 
 <details open>
@@ -77,43 +83,17 @@ python3 scripts/autoresearch_wrapper.py scan
 
 ## Usage
 
-### 1. Scan
-
-```bash
-python3 scripts/autoresearch_wrapper.py scan
+Just run
 ```
-
-Or via skill: `/autoresearch-wrapper scan this repo`
-
-### 2. Configure
-
-```bash
-python3 scripts/autoresearch_wrapper.py configure \
-  --part src/api.py \
-  --metric latency_ms \
-  --metric-command "python bench.py" \
-  --metric-goal minimize \
-  --mode sequential \
-  --rounds 5
+/autoresearch-wrapper
 ```
+This will start a wizard guiding you to start your optimization step-by-step.
 
-Or use the interactive wizard: `--interactive`
+## Examples
 
-### 3. Run
+An example of the wizard for optimizing [Recursive Language Models](https://github.com/alexzhang13/rlm)
 
-```bash
-python3 scripts/autoresearch_wrapper.py run
-```
-
-The wrapper creates a seed worktree, generates a `program.md`, and starts the optimization loop.
-
-### 4. Monitor
-
-```bash
-python3 scripts/autoresearch_wrapper.py flow          # metric history + ASCII plot
-python3 scripts/autoresearch_wrapper.py monitor        # live progress polling
-python3 scripts/autoresearch_wrapper.py status         # full state summary
-```
+![example_rlm](assets/example_rlm.png)
 
 ## Commands
 
@@ -143,3 +123,8 @@ python3 -m unittest -q
 | [CORE_FEATURES.md](./CORE_FEATURES.md) | Feature checklist (Chinese) |
 | [CONTRIBUTING.md](./CONTRIBUTING.md) | Development workflow, branch layout, verification |
 | [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) | Upstream attribution |
+
+
+## Acknowledgment
+
+I'm inspired by several autoresearch projects. They are [Karpathy's autoresearch](https://github.com/karpathy/autoresearch), and [uditgoenka's autoresearch](https://github.com/uditgoenka/autoresearch). Thanks!
