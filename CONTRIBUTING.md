@@ -6,6 +6,7 @@ Thanks for contributing to `autoresearch-wrapper`.
 
 This repo contains:
 - the Codex skill definition in `SKILL.md`
+- the Claude Code skill definitions under `.claude/skills/`
 - the helper CLI in `scripts/autoresearch_wrapper.py`
 - the main implementation in `autoresearch_wrapper/core.py`
 - tests in `tests/`
@@ -14,6 +15,8 @@ This repo contains:
 ## Local Setup
 
 Clone the repo and run from the repo root.
+
+### Codex
 
 To test the skill locally inside Codex, install it as a local skill:
 
@@ -24,6 +27,22 @@ ln -s /path/to/autoresearch-wrapper ~/.codex/skills/autoresearch-wrapper
 
 Restart Codex after installing or updating the skill.
 
+### Claude Code
+
+Claude Code can load the project-local skills from this repo directly through:
+
+```text
+.claude/skills/
+```
+
+The current Claude-facing commands are:
+- `/autoresearch-wrapper`
+- `/autoresearch-wrapper-status`
+- `/autoresearch-wrapper-run`
+- `/autoresearch-wrapper-flow`
+
+If you change Claude-specific skill behavior, update the corresponding `SKILL.md` files under `.claude/skills/`.
+
 ## Development Workflow
 
 1. Make the smallest coherent change you can.
@@ -31,9 +50,34 @@ Restart Codex after installing or updating the skill.
    - `README.md`
    - `README.zh-CN.md`
    - `SKILL.md`
+   - relevant `.claude/skills/*/SKILL.md` files when the Claude command surface is affected
 3. If behavior changes, add or update tests in `tests/test_autoresearch_wrapper.py`.
 4. Keep the worktree-first design intact. New optimization features should prefer Git worktrees over mutating the primary checkout.
 5. Keep dependency-aware behavior explicit. If a new feature affects part discovery, readiness, or run gating, update the persisted state and status surfaces accordingly.
+
+## Skill Surfaces
+
+### Codex
+
+Codex uses:
+- `SKILL.md`
+- `agents/openai.yaml`
+
+The Codex-facing command surface is:
+- `/autoresearch-wrapper`
+- `/autoresearch-wrapper:status`
+- `/autoresearch-wrapper:run`
+- `/autoresearch-wrapper:flow`
+
+### Claude Code
+
+Claude Code uses:
+- `.claude/skills/autoresearch-wrapper/SKILL.md`
+- `.claude/skills/autoresearch-wrapper-status/SKILL.md`
+- `.claude/skills/autoresearch-wrapper-run/SKILL.md`
+- `.claude/skills/autoresearch-wrapper-flow/SKILL.md`
+
+Claude does not use `agents/openai.yaml`, so do not treat the Codex metadata file as shared packaging.
 
 ## Verification
 
@@ -49,12 +93,14 @@ python3 -m unittest -q
 - Keep the English and Chinese READMEs aligned.
 - Keep examples consistent with the actual CLI behavior.
 - If you add a new command, status view, or generated artifact, document it in both READMEs and in `SKILL.md`.
+- If the change also affects Claude Code usage, update the matching `.claude/skills/` files.
 
 ## Commit Guidance
 
 - Use clear commit messages that describe the feature or fix.
 - Avoid committing runtime state such as `.autoresearch-wrapper/`.
 - Do not commit local Codex home changes from `~/.codex/`.
+- Keep Codex-specific and Claude-specific packaging changes scoped and explicit. Shared behavior belongs in the Python CLI; packaging differences belong in the skill files.
 
 ## Good First Contributions
 
@@ -62,3 +108,4 @@ python3 -m unittest -q
 - Add new metric presets or metric-flow views.
 - Improve status rendering and planning artifacts.
 - Expand tests around run resume, plotting, and script-wrapper flows.
+- Improve parity between Codex and Claude Code skill instructions without forking the shared CLI behavior.
