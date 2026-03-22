@@ -43,6 +43,18 @@ Recently, I've been asking Codex to write autoresearch wrappers for the modules 
 /plugin add HenryCai11/autoresearch-wrapper
 ```
 
+To update to the latest version:
+
+```bash
+/plugin update autoresearch-wrapper
+```
+
+To uninstall:
+
+```bash
+/plugin remove autoresearch-wrapper
+```
+
 Or install manually:
 
 ```bash

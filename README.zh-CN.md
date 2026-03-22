@@ -44,6 +44,18 @@
 /plugin add HenryCai11/autoresearch-wrapper
 ```
 
+更新到最新版本：
+
+```bash
+/plugin update autoresearch-wrapper
+```
+
+卸载：
+
+```bash
+/plugin remove autoresearch-wrapper
+```
+
 或手动安装：
 
 ```bash
