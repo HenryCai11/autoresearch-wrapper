@@ -41,7 +41,7 @@
 <summary><b>Claude Code（推荐）</b></summary>
 
 ```bash
-/plugin add HenryCai11/autoresearch-wrapper
+/plugin marketplace add HenryCai11/autoresearch-wrapper
 ```
 
 更新到最新版本：

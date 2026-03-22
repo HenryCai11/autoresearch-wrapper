@@ -40,7 +40,7 @@ Recently, I've been asking Codex to write autoresearch wrappers for the modules 
 <summary><b>Claude Code (recommended)</b></summary>
 
 ```bash
-/plugin add HenryCai11/autoresearch-wrapper
+/plugin marketplace add HenryCai11/autoresearch-wrapper
 ```
 
 To update to the latest version:
