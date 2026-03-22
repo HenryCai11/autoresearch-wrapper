@@ -3,6 +3,7 @@
 Language: [English](./README.md) | [简体中文](./README.zh-CN.md)
 
 Contributing: [CONTRIBUTING.md](./CONTRIBUTING.md)
+Third-Party Notices: [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)
 
 # Autoresearch Wrapper
 
