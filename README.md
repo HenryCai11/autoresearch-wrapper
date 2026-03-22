@@ -1,13 +1,36 @@
+<div align="center">
+
 ![Autoresearch Wrapper Banner](./assets/banner.svg)
-
-Language: [English](./README.md) | [简体中文](./README.zh-CN.md)
-
-Contributing: [CONTRIBUTING.md](./CONTRIBUTING.md)
-Third-Party Notices: [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)
 
 # Autoresearch Wrapper
 
-`autoresearch-wrapper` is a skill plus helper CLI for running an `autoresearch`-style optimization workflow on an arbitrary repo. It works with both **Codex** and **Claude Code**.
+**Dependency-aware optimization engine for any codebase.**
+
+Scan, plan, isolate, measure, repeat — all in Git worktrees, hands-free.
+
+Based on [Karpathy's autoresearch](https://github.com/karpathy/autoresearch) — constraint + mechanical metric + autonomous iteration = compounding gains.
+
+[![Claude Code Skill](https://img.shields.io/badge/Claude_Code-Skill-blue?logo=anthropic&logoColor=white)](https://docs.anthropic.com/en/docs/claude-code)
+[![Codex Skill](https://img.shields.io/badge/Codex-Skill-green?logo=openai&logoColor=white)](https://platform.openai.com/docs/codex)
+[![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://github.com/HenryCai11/autoresearch-wrapper/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Based on](https://img.shields.io/badge/Based_on-Karpathy's_Autoresearch-orange)](https://github.com/karpathy/autoresearch)
+
+<br>
+
+*"Scan the repo → Pick a target → Lock the metric → Claude/Codex runs the loop → You wake up to results"*
+
+<br>
+
+[How It Works](#quick-start) · [Commands](#command-surface) · [Features](#detailed-feature-list) · [Testing](#testing)
+
+Language: [English](./README.md) | [简体中文](./README.zh-CN.md)
+
+</div>
+
+---
+
+Contributing: [CONTRIBUTING.md](./CONTRIBUTING.md) · Third-Party Notices: [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)
 
 The core idea is:
 - scan a repo for optimization candidates

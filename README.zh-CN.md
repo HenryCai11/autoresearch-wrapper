@@ -1,13 +1,36 @@
+<div align="center">
+
 ![Autoresearch Wrapper Banner](./assets/banner.svg)
-
-语言: [English](./README.md) | [简体中文](./README.zh-CN.md)
-
-贡献说明: [CONTRIBUTING.md](./CONTRIBUTING.md)
-第三方声明: [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)
 
 # Autoresearch Wrapper
 
-`autoresearch-wrapper` 是一个 skill 加辅助 CLI，用于在任意仓库上运行 `autoresearch` 风格的优化工作流。同时支持 **Codex** 和 **Claude Code**。
+**面向任意代码仓库的 dependency-aware 优化引擎。**
+
+扫描、规划、隔离、测量、迭代 —— 全部在 Git worktree 中自动完成。
+
+基于 [Karpathy 的 autoresearch](https://github.com/karpathy/autoresearch) —— 约束 + 机械化指标 + 自主迭代 = 持续增益。
+
+[![Claude Code Skill](https://img.shields.io/badge/Claude_Code-Skill-blue?logo=anthropic&logoColor=white)](https://docs.anthropic.com/en/docs/claude-code)
+[![Codex Skill](https://img.shields.io/badge/Codex-Skill-green?logo=openai&logoColor=white)](https://platform.openai.com/docs/codex)
+[![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://github.com/HenryCai11/autoresearch-wrapper/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Based on](https://img.shields.io/badge/Based_on-Karpathy's_Autoresearch-orange)](https://github.com/karpathy/autoresearch)
+
+<br>
+
+*"扫描仓库 → 选择目标 → 锁定指标 → Claude/Codex 跑循环 → 你醒来看结果"*
+
+<br>
+
+[快速开始](#快速开始) · [命令接口](#命令接口) · [功能列表](#详细功能列表) · [测试](#测试)
+
+语言: [English](./README.md) | [简体中文](./README.zh-CN.md)
+
+</div>
+
+---
+
+贡献说明: [CONTRIBUTING.md](./CONTRIBUTING.md) · 第三方声明: [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)
 
 核心思路是：
 - 扫描仓库中的优化候选部分
