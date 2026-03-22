@@ -5,10 +5,16 @@ description: Start or resume a dependency-aware autoresearch-wrapper run in Git 
 
 # Autoresearch Wrapper Run
 
+Resolve the CLI path (handles symlinked skills):
+
+```bash
+AUTORESEARCH_ROOT="$(cd "$(dirname "$(readlink -f .claude/skills/autoresearch-wrapper-run/SKILL.md)")"/.." && pwd)"
+```
+
 Use:
 
 ```bash
-python3 scripts/autoresearch_wrapper.py run
+python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" run
 ```
 
 When this skill is invoked:

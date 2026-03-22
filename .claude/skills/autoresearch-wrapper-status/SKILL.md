@@ -5,10 +5,16 @@ description: Show dependency-aware autoresearch-wrapper state for the current re
 
 # Autoresearch Wrapper Status
 
+Resolve the CLI path (handles symlinked skills):
+
+```bash
+AUTORESEARCH_ROOT="$(cd "$(dirname "$(readlink -f .claude/skills/autoresearch-wrapper-status/SKILL.md)")"/.." && pwd)"
+```
+
 Use:
 
 ```bash
-python3 scripts/autoresearch_wrapper.py status
+python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" status
 ```
 
 When this skill is invoked:
@@ -25,7 +31,7 @@ When this skill is invoked:
 3. If the user asks for raw machine-readable output, use:
 
 ```bash
-python3 scripts/autoresearch_wrapper.py status --json
+python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" status --json
 ```
 
 ## Example

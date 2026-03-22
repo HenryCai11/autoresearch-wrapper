@@ -5,10 +5,16 @@ description: Create a feature-addition run with multiple candidate implementatio
 
 # Autoresearch Wrapper Create
 
+Resolve the CLI path (handles symlinked skills):
+
+```bash
+AUTORESEARCH_ROOT="$(cd "$(dirname "$(readlink -f .claude/skills/autoresearch-wrapper-create/SKILL.md)")"/.." && pwd)"
+```
+
 Use:
 
 ```bash
-python3 scripts/autoresearch_wrapper.py create --part <part> --feature "<description>" --candidates <n> --metric <metric> --metric-command "<cmd>" --metric-goal <minimize|maximize>
+python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" create --part <part> --feature "<description>" --candidates <n> --metric <metric> --metric-command "<cmd>" --metric-goal <minimize|maximize>
 ```
 
 When this skill is invoked:

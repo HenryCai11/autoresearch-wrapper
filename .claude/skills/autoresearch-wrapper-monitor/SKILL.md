@@ -5,10 +5,16 @@ description: Poll the active autoresearch-wrapper run at a configurable interval
 
 # Autoresearch Wrapper Monitor
 
+Resolve the CLI path (handles symlinked skills):
+
+```bash
+AUTORESEARCH_ROOT="$(cd "$(dirname "$(readlink -f .claude/skills/autoresearch-wrapper-monitor/SKILL.md)")"/.." && pwd)"
+```
+
 Use:
 
 ```bash
-python3 scripts/autoresearch_wrapper.py monitor --interval <seconds>
+python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" monitor --interval <seconds>
 ```
 
 When this skill is invoked:

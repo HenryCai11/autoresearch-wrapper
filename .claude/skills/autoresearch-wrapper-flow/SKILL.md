@@ -5,10 +5,16 @@ description: Show or plot recorded metric flow for an autoresearch-wrapper run. 
 
 # Autoresearch Wrapper Flow
 
+Resolve the CLI path (handles symlinked skills):
+
+```bash
+AUTORESEARCH_ROOT="$(cd "$(dirname "$(readlink -f .claude/skills/autoresearch-wrapper-flow/SKILL.md)")"/.." && pwd)"
+```
+
 Use:
 
 ```bash
-python3 scripts/autoresearch_wrapper.py flow
+python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" flow
 ```
 
 When this skill is invoked:
@@ -27,7 +33,7 @@ When this skill is invoked:
 4. If the user asks for raw structured data, use:
 
 ```bash
-python3 scripts/autoresearch_wrapper.py flow --json
+python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" flow --json
 ```
 
 ## Example

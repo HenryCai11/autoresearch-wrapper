@@ -5,18 +5,22 @@ description: Dependency-aware repo optimization workflow. Use when scanning a re
 
 # Autoresearch Wrapper
 
-Use the repo-local helper CLI:
+## Locating the CLI
+
+The helper CLI may live outside the current repo (e.g. when this skill is symlinked). Resolve the path first:
 
 ```bash
-python3 scripts/autoresearch_wrapper.py
+AUTORESEARCH_ROOT="$(cd "$(dirname "$(readlink -f .claude/skills/autoresearch-wrapper/SKILL.md)")"/.." && pwd)"
 ```
+
+Then use `python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py"` for all commands below. If the skill lives inside the current repo, `python3 scripts/autoresearch_wrapper.py` also works.
 
 When this skill is invoked:
 
 1. If invoked with no arguments or just `/autoresearch-wrapper`, run a full scan and guide the user through setup:
 
 ```bash
-python3 scripts/autoresearch_wrapper.py scan --no-interactive
+python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" scan --no-interactive
 ```
 
 Then:
@@ -32,7 +36,7 @@ Then:
 3. If the user names a repo-local script path, wrap it with:
 
 ```bash
-python3 scripts/autoresearch_wrapper.py wrap <script-path>
+python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" wrap <script-path>
 ```
 
 4. Before starting any run, make sure these are explicit:
@@ -47,7 +51,7 @@ python3 scripts/autoresearch_wrapper.py wrap <script-path>
 Persist them with:
 
 ```bash
-python3 scripts/autoresearch_wrapper.py configure --part <part> --metric <metric> --metric-command "<cmd>" --metric-goal <minimize|maximize> --mode <sequential|parallel|wild> --rounds <n>
+python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" configure --part <part> --metric <metric> --metric-command "<cmd>" --metric-goal <minimize|maximize> --mode <sequential|parallel|wild> --rounds <n>
 ```
 
 5. Prefer Git worktrees. Do not optimize in the primary checkout if the helper can create a worktree-backed run.
