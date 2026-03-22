@@ -31,6 +31,12 @@ PLAN_METADATA_FILENAME = "metadata.json"
 PLAN_DEPENDENCIES_FILENAME = "dependencies.md"
 PLAN_NOTES_FILENAME = "notes.md"
 WRAP_DEFAULT_ROUNDS = 3
+SCHEMA_VERSION = 2
+
+SCHEDULER_COMMANDS = {
+    "slurm": ["squeue", "sbatch"],
+    "pbs": ["qsub", "qstat"],
+}
 
 METRIC_PRESETS = {
     "runtime_seconds": {
@@ -67,6 +73,10 @@ CLI_COMMANDS = {
     "reference",
     "preset-metric",
     "flow",
+    "resources",
+    "monitor",
+    "create",
+    "delete",
 }
 
 IGNORED_DIRS = {
@@ -160,6 +170,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     scan = subparsers.add_parser("scan", help="Analyze the repo and persist part status.")
     add_repo_arg(scan)
+    add_interactive_arg(scan)
     scan.set_defaults(func=command_scan)
 
     wrap = subparsers.add_parser(
@@ -184,7 +195,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     wrap.add_argument(
         "--mode",
-        choices=("sequential", "parallel"),
+        choices=("sequential", "parallel", "wild"),
         default="sequential",
         help="Execution mode for the initial run stub.",
     )
@@ -197,6 +208,7 @@ def build_parser() -> argparse.ArgumentParser:
     wrap.add_argument("--stop-rule", help="Optional textual stop rule.")
     wrap.add_argument("--parallelism", type=int, help="Worker count for parallel mode.")
     wrap.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
+    add_interactive_arg(wrap)
     wrap.set_defaults(func=command_wrap)
 
     configure = subparsers.add_parser("configure", help="Persist config for a selected part.")
@@ -221,22 +233,34 @@ def build_parser() -> argparse.ArgumentParser:
     )
     configure.add_argument(
         "--mode",
-        choices=("sequential", "parallel"),
+        choices=("sequential", "parallel", "wild"),
         help="Execution mode for the optimization loop.",
     )
     configure.add_argument("--rounds", type=int, help="Number of optimization rounds.")
     configure.add_argument("--stop-rule", help="Optional textual stop rule.")
     configure.add_argument("--parallelism", type=int, help="Worker count for parallel mode.")
     configure.add_argument(
-        "--interactive",
-        action="store_true",
-        help="Prompt for any missing values on stdin.",
-    )
-    configure.add_argument(
         "--use-suggested-command",
         action="store_true",
         help="Confirm and store the suggested metric command if one exists.",
     )
+    configure.add_argument(
+        "--early-exit-patience",
+        type=int,
+        help="Stop after N rounds without metric improvement.",
+    )
+    configure.add_argument(
+        "--early-exit-threshold",
+        type=float,
+        help="Minimum improvement to count as progress.",
+    )
+    configure.add_argument(
+        "--wild-max-simultaneous",
+        type=int,
+        default=None,
+        help="Max parameters to change at once in wild mode.",
+    )
+    add_interactive_arg(configure)
     configure.set_defaults(func=command_configure)
 
     status = subparsers.add_parser("status", help="Show persisted wrapper status.")
@@ -248,6 +272,7 @@ def build_parser() -> argparse.ArgumentParser:
     add_repo_arg(run)
     run.add_argument("--part", help="Part id to run. Defaults to the selected part.")
     run.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
+    add_interactive_arg(run)
     run.set_defaults(func=command_run)
 
     allocate = subparsers.add_parser("allocate", help="Create a candidate worktree.")
@@ -310,11 +335,97 @@ def build_parser() -> argparse.ArgumentParser:
     preset_metric.add_argument("--script", required=True, help="Repo-local script path.")
     preset_metric.set_defaults(func=command_preset_metric)
 
+    resources = subparsers.add_parser("resources", help="Detect system resources and set concurrency defaults.")
+    add_repo_arg(resources)
+    resources.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
+    add_interactive_arg(resources)
+    resources.set_defaults(func=command_resources)
+
+    monitor = subparsers.add_parser("monitor", help="Poll and report run progress at intervals.")
+    add_repo_arg(monitor)
+    monitor.add_argument("--run-id", help="Run id. Defaults to the active run.")
+    monitor.add_argument("--interval", type=int, default=60, help="Check interval in seconds.")
+    monitor.add_argument(
+        "--output",
+        choices=("terminal", "file"),
+        default="terminal",
+        help="Output destination.",
+    )
+    monitor.add_argument("--status-file", help="Path for file output mode.")
+    add_interactive_arg(monitor)
+    monitor.set_defaults(func=command_monitor)
+
+    create = subparsers.add_parser(
+        "create",
+        help="Propose and compare candidate implementations for a new feature.",
+    )
+    add_repo_arg(create)
+    create.add_argument("--part", help="Part id that the new feature relates to.")
+    create.add_argument("--feature", help="Description of the feature to create.")
+    create.add_argument(
+        "--candidates", type=int, default=3, help="Number of candidate approaches."
+    )
+    create.add_argument("--metric-command", help="Metric command to evaluate each approach.")
+    create.add_argument("--metric", help="Metric name.")
+    create.add_argument(
+        "--metric-goal",
+        choices=("minimize", "maximize"),
+        help="Metric direction.",
+    )
+    create.add_argument("--rounds", type=int, default=3, help="Optimization rounds per candidate.")
+    create.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
+    add_interactive_arg(create)
+    create.set_defaults(func=command_create)
+
+    delete = subparsers.add_parser(
+        "delete",
+        help="Delete a module and optimize dependent parameters.",
+    )
+    add_repo_arg(delete)
+    delete.add_argument("--part", help="Part id to delete.")
+    delete.add_argument("--metric-command", help="Metric command to evaluate post-deletion quality.")
+    delete.add_argument("--metric", help="Metric name.")
+    delete.add_argument(
+        "--metric-goal",
+        choices=("minimize", "maximize"),
+        help="Metric direction.",
+    )
+    delete.add_argument("--rounds", type=int, default=3, help="Optimization rounds after deletion.")
+    delete.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
+    add_interactive_arg(delete)
+    delete.set_defaults(func=command_delete)
+
     return parser
 
 
 def add_repo_arg(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--repo", default=".", help="Repo root or any path inside the repo.")
+
+
+def add_interactive_arg(parser: argparse.ArgumentParser) -> None:
+    """Add --interactive / --no-interactive flags with TTY-based default."""
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        "--interactive",
+        action="store_true",
+        default=None,
+        help="Enable interactive wizard prompts.",
+    )
+    group.add_argument(
+        "--no-interactive",
+        action="store_true",
+        default=False,
+        help="Disable interactive prompts.",
+    )
+
+
+def resolve_interactive(args: argparse.Namespace) -> bool:
+    """Resolve the interactive flag from args, defaulting to TTY detection."""
+    if args.no_interactive:
+        return False
+    if args.interactive:
+        return True
+    return is_interactive_default()
 
 
 def normalize_entry_argv(argv: list[str] | None) -> list[str] | None:
@@ -333,6 +444,13 @@ def command_scan(args: argparse.Namespace) -> int:
     state = refresh_repo_state(repo_root)
     write_state(repo_root, state)
     print(f"scanned {len(state['parts'])} parts into {state_file(repo_root)}")
+    interactive = resolve_interactive(args)
+    if interactive and len(state["parts"]) > 1:
+        part_ids = [p["id"] for p in state["parts"]]
+        chosen = wizard_select("Select a part to optimize", part_ids)
+        state.setdefault("selection", {})["part_id"] = chosen
+        write_state(repo_root, state)
+        print(f"selected: {chosen}")
     return 0
 
 
@@ -437,16 +555,32 @@ def command_configure(args: argparse.Namespace) -> int:
         metric_goal = prompt_if_missing(metric_goal, "Metric goal [minimize|maximize]")
         metric_command = prompt_if_missing(metric_command, "Metric command")
         metric_regex = prompt_if_missing(metric_regex, "Metric regex")
-        mode = prompt_if_missing(mode, "Mode [sequential|parallel]")
+        mode = prompt_if_missing(mode, "Mode [sequential|parallel|wild]")
         rounds = prompt_int_if_missing(rounds, "Rounds")
         stop_rule = stop_rule or input("Stop rule (optional): ").strip()
-        if mode == "parallel":
+        if mode == "parallel" or mode == "wild":
             parallelism = prompt_int_if_missing(parallelism, "Parallelism")
 
     if mode == "parallel" and not parallelism:
         parallelism = 2
-    if mode != "parallel":
+    if mode not in ("parallel", "wild"):
         parallelism = 1
+
+    early_exit_patience = (
+        args.early_exit_patience
+        if args.early_exit_patience is not None
+        else execution.get("early_exit_patience")
+    )
+    early_exit_threshold = (
+        args.early_exit_threshold
+        if args.early_exit_threshold is not None
+        else execution.get("early_exit_threshold")
+    )
+    wild_max_simultaneous = (
+        args.wild_max_simultaneous
+        if args.wild_max_simultaneous is not None
+        else execution.get("wild_max_simultaneous")
+    )
 
     config = merge_config(
         part=part,
@@ -463,6 +597,9 @@ def command_configure(args: argparse.Namespace) -> int:
         entrypoint_path=existing.get("entrypoint", {}).get("path") or part["id"],
         metric_preset=preset_name,
         command_suggestion=command_suggestion,
+        early_exit_patience=early_exit_patience,
+        early_exit_threshold=early_exit_threshold,
+        wild_max_simultaneous=wild_max_simultaneous,
     )
     normalize_execution_defaults(config["execution"])
     state.setdefault("part_configs", {})[part["id"]] = config
@@ -598,6 +735,8 @@ def command_record(args: argparse.Namespace) -> int:
     candidate["lifecycle"] = chosen_status
     candidate["recorded"] = True
 
+    previous_best_metric = run.get("best_metric")
+
     if chosen_status == "keep" and metric_value is not None:
         run["best_metric"] = metric_value
         run["best_candidate_id"] = candidate["candidate_id"]
@@ -611,6 +750,16 @@ def command_record(args: argparse.Namespace) -> int:
         run["status"] = "completed"
     else:
         run["status"] = "running"
+
+    # Early exit check
+    early_exit = run.get("early_exit", {})
+    if early_exit.get("patience") and run["status"] == "running":
+        update_early_exit_state(run, metric_value, previous_best_metric)
+        exit_check = check_early_exit(run)
+        if exit_check["should_exit"]:
+            run["status"] = "early_exit"
+            run["early_exit"]["triggered"] = True
+            run["early_exit"]["trigger_reason"] = exit_check["reason"]
 
     append_result_row(run, candidate, metric_name, goal)
     write_state(repo_root, state)
@@ -729,7 +878,41 @@ def load_state(repo_root: Path) -> dict[str, Any]:
     path = state_file(repo_root)
     if not path.exists():
         return default_state(repo_root)
-    return json.loads(path.read_text())
+    state = json.loads(path.read_text())
+    return migrate_state(state, repo_root)
+
+
+def migrate_state(state: dict[str, Any], repo_root: Path) -> dict[str, Any]:
+    """Migrate state from older schema versions to the current one."""
+    version = state.get("schema_version", 1)
+    if version < 2:
+        state.setdefault("resources", {
+            "detected_at": None,
+            "cpus": None,
+            "memory_gb": None,
+            "gpus": [],
+            "gpu_memory_gb": None,
+            "scheduler": None,
+            "recommended_parallelism": 1,
+        })
+        for run in state.get("runs", {}).values():
+            run.setdefault("run_type", "optimize")
+            run.setdefault("early_exit", {
+                "patience": None,
+                "threshold": None,
+                "rounds_without_improvement": 0,
+                "triggered": False,
+                "trigger_reason": None,
+            })
+            run.setdefault("create_info", None)
+            run.setdefault("delete_info", None)
+        for config in state.get("part_configs", {}).values():
+            execution = config.get("execution", {})
+            execution.setdefault("early_exit_patience", None)
+            execution.setdefault("early_exit_threshold", None)
+            execution.setdefault("wild_max_simultaneous", None)
+        state["schema_version"] = 2
+    return state
 
 
 def write_state(repo_root: Path, state: dict[str, Any]) -> None:
@@ -742,7 +925,7 @@ def write_state(repo_root: Path, state: dict[str, Any]) -> None:
 
 def default_state(repo_root: Path) -> dict[str, Any]:
     return {
-        "schema_version": 1,
+        "schema_version": SCHEMA_VERSION,
         "repo_root": str(repo_root),
         "updated_at": now_iso(),
         "git": git_metadata(repo_root),
@@ -753,6 +936,15 @@ def default_state(repo_root: Path) -> dict[str, Any]:
         "selection": {"part_id": None, "active_run_id": None},
         "runs": {},
         "reference": {"url": REFERENCE_REPO_URL, "path": None, "updated_at": None},
+        "resources": {
+            "detected_at": None,
+            "cpus": None,
+            "memory_gb": None,
+            "gpus": [],
+            "gpu_memory_gb": None,
+            "scheduler": None,
+            "recommended_parallelism": 1,
+        },
     }
 
 
@@ -800,6 +992,9 @@ def merge_config(
     entrypoint_path: str,
     metric_preset: str | None,
     command_suggestion: str | None,
+    early_exit_patience: int | None = None,
+    early_exit_threshold: float | None = None,
+    wild_max_simultaneous: int | None = None,
 ) -> dict[str, Any]:
     return {
         "entrypoint": {
@@ -819,6 +1014,9 @@ def merge_config(
             "rounds": rounds,
             "stop_rule": stop_rule,
             "parallelism": parallelism,
+            "early_exit_patience": early_exit_patience,
+            "early_exit_threshold": early_exit_threshold,
+            "wild_max_simultaneous": wild_max_simultaneous,
         },
         "updated_at": now_iso(),
     }
@@ -828,7 +1026,12 @@ def normalize_execution_defaults(execution: dict[str, Any]) -> None:
     mode = execution.get("mode")
     if mode == "parallel" and not execution.get("parallelism"):
         execution["parallelism"] = 2
-    if mode != "parallel":
+    if mode == "wild":
+        if not execution.get("parallelism"):
+            execution["parallelism"] = 2
+        if not execution.get("wild_max_simultaneous"):
+            execution["wild_max_simultaneous"] = 3
+    if mode not in ("parallel", "wild"):
         execution["parallelism"] = 1
 
 
@@ -1808,6 +2011,7 @@ def resolve_part(state: dict[str, Any], part_id: str | None) -> dict[str, Any] |
         for part in parts:
             if part["id"] == part_id or part["path"] == part_id:
                 return part
+        return None  # explicit part_id given but not found
     selected = state.get("selection", {}).get("part_id")
     if selected:
         for part in parts:
@@ -2192,14 +2396,17 @@ def git_run(cwd: Path, args: list[str], check: bool = False) -> subprocess.Compl
     return completed
 
 
+TERMINAL_RUN_STATUSES = {"completed", "early_exit"}
+
+
 def find_active_run(state: dict[str, Any], part_id: str) -> dict[str, Any] | None:
     active_id = state.get("selection", {}).get("active_run_id")
     if active_id:
         run = state.get("runs", {}).get(active_id)
-        if run and run.get("part_id") == part_id and run.get("status") != "completed":
+        if run and run.get("part_id") == part_id and run.get("status") not in TERMINAL_RUN_STATUSES:
             return run
     for run in state.get("runs", {}).values():
-        if run.get("part_id") == part_id and run.get("status") != "completed":
+        if run.get("part_id") == part_id and run.get("status") not in TERMINAL_RUN_STATUSES:
             return run
     return None
 
@@ -2238,6 +2445,7 @@ def create_run(
     run = {
         "run_id": run_id,
         "part_id": part["id"],
+        "run_type": "optimize",
         "status": "running",
         "created_at": now_iso(),
         "run_dir": str(run_dir),
@@ -2252,6 +2460,15 @@ def create_run(
         "metric": config["metric"],
         "rounds_completed": 0,
         "candidates": [seed],
+        "early_exit": {
+            "patience": config["execution"].get("early_exit_patience"),
+            "threshold": config["execution"].get("early_exit_threshold"),
+            "rounds_without_improvement": 0,
+            "triggered": False,
+            "trigger_reason": None,
+        },
+        "create_info": None,
+        "delete_info": None,
     }
 
     Path(run["results_path"]).write_text(
@@ -2259,7 +2476,7 @@ def create_run(
     )
     Path(run["program_path"]).write_text(render_program(repo_root, run, part, config))
 
-    if config["execution"].get("mode") == "parallel":
+    if config["execution"].get("mode") in ("parallel", "wild"):
         parallelism = max(int(config["execution"].get("parallelism", 2)), 1)
         for _ in range(parallelism):
             run["candidates"].append(allocate_candidate(repo_root, run))
@@ -2478,16 +2695,81 @@ def render_program(
     )
 
 
+def is_interactive_default() -> bool:
+    """Return True if stdin is a TTY, enabling wizard mode by default."""
+    return sys.stdin.isatty()
+
+
+def wizard_select(label: str, options: list[str], default: str | None = None) -> str:
+    """Display numbered options and return the user's choice."""
+    print(f"\n{label}:")
+    for i, option in enumerate(options, 1):
+        marker = " *" if option == default else ""
+        print(f"  {i}. {option}{marker}")
+    if default:
+        prompt = f"Choice [default: {default}]: "
+    else:
+        prompt = "Choice: "
+    while True:
+        raw = input(prompt).strip()
+        if not raw and default:
+            return default
+        try:
+            index = int(raw)
+            if 1 <= index <= len(options):
+                return options[index - 1]
+        except ValueError:
+            if raw in options:
+                return raw
+        print(f"  Please enter a number between 1 and {len(options)}.")
+
+
+def wizard_confirm(label: str, default: bool = True) -> bool:
+    """Ask a yes/no question."""
+    hint = "Y/n" if default else "y/N"
+    raw = input(f"{label} [{hint}]: ").strip().lower()
+    if not raw:
+        return default
+    return raw in ("y", "yes")
+
+
+def wizard_input(label: str, default: str | None = None) -> str:
+    """Prompt for free text input."""
+    if default:
+        raw = input(f"{label} [default: {default}]: ").strip()
+        return raw or default
+    while True:
+        raw = input(f"{label}: ").strip()
+        if raw:
+            return raw
+        print("  A value is required.")
+
+
+def wizard_int(label: str, default: int | None = None) -> int:
+    """Prompt for an integer."""
+    while True:
+        if default is not None:
+            raw = input(f"{label} [default: {default}]: ").strip()
+            if not raw:
+                return default
+        else:
+            raw = input(f"{label}: ").strip()
+        try:
+            return int(raw)
+        except ValueError:
+            print("  Please enter a valid integer.")
+
+
 def prompt_if_missing(current: Any, label: str) -> Any:
     if current:
         return current
-    return input(f"{label}: ").strip()
+    return wizard_input(label)
 
 
 def prompt_int_if_missing(current: int | None, label: str) -> int:
     if current is not None:
         return current
-    return int(input(f"{label}: ").strip())
+    return wizard_int(label)
 
 
 def emit(payload: Any, as_json: bool) -> None:
@@ -2505,3 +2787,767 @@ def refresh_run_worktrees(state: dict[str, Any]) -> None:
 def refresh_single_run_worktrees(run: dict[str, Any]) -> None:
     for candidate in run.get("candidates", []):
         candidate["missing"] = not Path(candidate["worktree_path"]).exists()
+
+
+# ---------------------------------------------------------------------------
+# Feature: Early Exit
+# ---------------------------------------------------------------------------
+
+
+def update_early_exit_state(run: dict[str, Any], metric_value: float | None, previous_best: float | None = None) -> None:
+    """Update the early exit tracking state after a new metric is recorded."""
+    early_exit = run.get("early_exit", {})
+    if not early_exit.get("patience"):
+        return
+    best_metric = previous_best if previous_best is not None else run.get("best_metric")
+    threshold = early_exit.get("threshold") or 0.0
+    goal = run.get("metric", {}).get("goal") or "minimize"
+
+    if metric_value is None or best_metric is None:
+        return
+
+    improved = False
+    if goal == "maximize":
+        improved = metric_value > best_metric + threshold
+    else:
+        improved = metric_value < best_metric - threshold
+
+    if improved:
+        early_exit["rounds_without_improvement"] = 0
+    else:
+        early_exit["rounds_without_improvement"] = early_exit.get("rounds_without_improvement", 0) + 1
+
+
+def check_early_exit(run: dict[str, Any]) -> dict[str, Any]:
+    """Check whether early exit criteria are met."""
+    early_exit = run.get("early_exit", {})
+    patience = early_exit.get("patience")
+    if not patience:
+        return {"should_exit": False, "reason": None}
+    stalled = early_exit.get("rounds_without_improvement", 0)
+    if stalled >= patience:
+        return {
+            "should_exit": True,
+            "reason": f"no improvement for {stalled} rounds (patience={patience})",
+        }
+    return {"should_exit": False, "reason": None}
+
+
+# ---------------------------------------------------------------------------
+# Feature: Resource Detection
+# ---------------------------------------------------------------------------
+
+
+def detect_system_resources() -> dict[str, Any]:
+    """Detect CPUs, memory, GPUs, and scheduler type."""
+    cpus = os.cpu_count() or 1
+    memory_gb = detect_system_memory_gb()
+    gpus = detect_gpu_info()
+    gpu_memory_gb = sum(g.get("memory_mb", 0) for g in gpus) / 1024 if gpus else None
+    scheduler = detect_scheduler()
+    recommended = recommend_parallelism(cpus, len(gpus))
+    return {
+        "detected_at": now_iso(),
+        "cpus": cpus,
+        "memory_gb": round(memory_gb, 2) if memory_gb else None,
+        "gpus": gpus,
+        "gpu_memory_gb": round(gpu_memory_gb, 2) if gpu_memory_gb else None,
+        "scheduler": scheduler,
+        "recommended_parallelism": recommended,
+    }
+
+
+def detect_system_memory_gb() -> float | None:
+    """Detect total system memory in GB."""
+    meminfo = Path("/proc/meminfo")
+    if meminfo.exists():
+        try:
+            text = meminfo.read_text()
+            for line in text.splitlines():
+                if line.startswith("MemTotal:"):
+                    kb = int(line.split()[1])
+                    return kb / (1024 * 1024)
+        except (OSError, ValueError, IndexError):
+            pass
+    if shutil.which("sysctl"):
+        try:
+            result = subprocess.run(
+                ["sysctl", "-n", "hw.memsize"],
+                capture_output=True, text=True, check=False,
+            )
+            if result.returncode == 0 and result.stdout.strip():
+                return int(result.stdout.strip()) / (1024 ** 3)
+        except (OSError, ValueError):
+            pass
+    return None
+
+
+def detect_gpu_info() -> list[dict[str, Any]]:
+    """Detect GPUs via nvidia-smi."""
+    if not shutil.which("nvidia-smi"):
+        return []
+    try:
+        result = subprocess.run(
+            ["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader,nounits"],
+            capture_output=True, text=True, check=False,
+        )
+        if result.returncode != 0:
+            return []
+        gpus = []
+        for line in result.stdout.strip().splitlines():
+            parts = [p.strip() for p in line.split(",")]
+            if len(parts) >= 2:
+                gpus.append({"name": parts[0], "memory_mb": float(parts[1])})
+        return gpus
+    except (OSError, ValueError):
+        return []
+
+
+def detect_scheduler() -> str | None:
+    """Check for cluster schedulers (slurm, pbs)."""
+    for name, commands in SCHEDULER_COMMANDS.items():
+        if all(shutil.which(cmd) for cmd in commands):
+            return name
+    return None
+
+
+def recommend_parallelism(cpus: int, gpu_count: int) -> int:
+    """Heuristic for default parallelism."""
+    candidates = [cpus // 2] if cpus > 1 else [1]
+    if gpu_count > 0:
+        candidates.append(gpu_count)
+    else:
+        candidates.append(4)
+    return max(1, min(min(candidates), 8))
+
+
+def command_resources(args: argparse.Namespace) -> int:
+    repo_root = detect_repo_root(Path(args.repo))
+    resources = detect_system_resources()
+    state = ensure_scanned(repo_root)
+    state["resources"] = resources
+    write_state(repo_root, state)
+
+    interactive = resolve_interactive(args)
+    if interactive:
+        print(f"\nDetected resources:")
+        print(f"  CPUs: {resources['cpus']}")
+        print(f"  Memory: {resources['memory_gb']} GB")
+        print(f"  GPUs: {len(resources['gpus'])}")
+        if resources["gpus"]:
+            for gpu in resources["gpus"]:
+                print(f"    - {gpu['name']} ({gpu['memory_mb']} MB)")
+        print(f"  Scheduler: {resources['scheduler'] or 'local'}")
+        print(f"  Recommended parallelism: {resources['recommended_parallelism']}")
+        if wizard_confirm("Override recommended parallelism?", default=False):
+            resources["recommended_parallelism"] = wizard_int(
+                "Parallelism", default=resources["recommended_parallelism"]
+            )
+            state["resources"] = resources
+            write_state(repo_root, state)
+
+    emit(resources, getattr(args, "json", False))
+    return 0
+
+
+# ---------------------------------------------------------------------------
+# Feature: Monitor
+# ---------------------------------------------------------------------------
+
+
+def command_monitor(args: argparse.Namespace) -> int:
+    repo_root = detect_repo_root(Path(args.repo))
+    state = ensure_scanned(repo_root)
+    run = resolve_run(state, args.run_id)
+
+    interactive = resolve_interactive(args)
+    interval = args.interval
+    if interactive and interval == 60:
+        interval = wizard_int("Check interval (seconds)", default=60)
+
+    output_mode = args.output
+    status_file_path = args.status_file
+
+    return monitor_loop(repo_root, run["run_id"], interval, output_mode, status_file_path)
+
+
+def monitor_loop(
+    repo_root: Path,
+    run_id: str,
+    interval: int,
+    output_mode: str,
+    status_file_path: str | None,
+) -> int:
+    """Blocking loop: reload state, print progress, sleep. Exits on run completion or Ctrl-C."""
+    iteration = 0
+    try:
+        while True:
+            iteration += 1
+            state = load_state(repo_root)
+            run = state.get("runs", {}).get(run_id)
+            if run is None:
+                print(f"Run {run_id} not found.")
+                return 1
+
+            update_text = format_monitor_update(run, iteration)
+            if output_mode == "terminal":
+                print(update_text)
+            elif output_mode == "file" and status_file_path:
+                write_monitor_status_file(Path(status_file_path), run)
+                print(f"[{iteration}] status written to {status_file_path}")
+
+            if run.get("status") in TERMINAL_RUN_STATUSES:
+                print(f"Run {run_id} has {run['status']}.")
+                return 0
+
+            time.sleep(interval)
+    except KeyboardInterrupt:
+        print("\nMonitor stopped.")
+        return 0
+
+
+def format_monitor_update(run: dict[str, Any], iteration: int) -> str:
+    """Format a single progress line."""
+    rounds_done = run.get("rounds_completed", 0)
+    rounds_target = run.get("execution", {}).get("rounds") or "-"
+    best = run.get("best_metric")
+    status = run.get("status", "unknown")
+    early_exit = run.get("early_exit", {})
+    stalled = early_exit.get("rounds_without_improvement", 0)
+    patience = early_exit.get("patience")
+    timestamp = now_iso()
+
+    parts = [
+        f"[{iteration}] {timestamp}",
+        f"status={status}",
+        f"rounds={rounds_done}/{rounds_target}",
+        f"best={format_metric_value(best)}",
+    ]
+    if patience:
+        parts.append(f"stalled={stalled}/{patience}")
+    return "  ".join(parts)
+
+
+def write_monitor_status_file(path: Path, run: dict[str, Any]) -> None:
+    """Write a machine-readable status snapshot."""
+    snapshot = {
+        "run_id": run.get("run_id"),
+        "status": run.get("status"),
+        "rounds_completed": run.get("rounds_completed", 0),
+        "rounds_target": run.get("execution", {}).get("rounds"),
+        "best_metric": run.get("best_metric"),
+        "best_candidate_id": run.get("best_candidate_id"),
+        "early_exit": run.get("early_exit", {}),
+        "timestamp": now_iso(),
+    }
+    path.write_text(json.dumps(snapshot, indent=2, sort_keys=True) + "\n")
+
+
+# ---------------------------------------------------------------------------
+# Feature: Wild Mode
+# ---------------------------------------------------------------------------
+
+
+def should_widen_search(run: dict[str, Any]) -> bool:
+    """Check if improvement has stalled and wild mode should widen the search scope."""
+    early_exit = run.get("early_exit", {})
+    stalled = early_exit.get("rounds_without_improvement", 0)
+    patience = early_exit.get("patience") or 3
+    return stalled >= max(patience // 2, 1)
+
+
+def plan_wild_changes(run: dict[str, Any], config: dict[str, Any]) -> dict[str, Any]:
+    """Analyze metric flow to suggest which parameters to vary together."""
+    max_simultaneous = config.get("execution", {}).get("wild_max_simultaneous") or 3
+    stalled = run.get("early_exit", {}).get("rounds_without_improvement", 0)
+
+    if stalled >= 3:
+        strategy = "aggressive"
+        reason = f"No improvement for {stalled} rounds; widening to {max_simultaneous} simultaneous changes."
+    elif stalled >= 1:
+        strategy = "moderate"
+        max_simultaneous = min(max_simultaneous, 2)
+        reason = f"Improvement slowing; trying {max_simultaneous} simultaneous changes."
+    else:
+        strategy = "conservative"
+        max_simultaneous = 1
+        reason = "Still improving; keeping single-parameter changes."
+
+    return {
+        "strategy": strategy,
+        "max_simultaneous": max_simultaneous,
+        "reason": reason,
+    }
+
+
+def format_wild_plan(plan: dict[str, Any]) -> str:
+    """Format a human-readable summary of the wild mode strategy."""
+    return (
+        f"Wild mode [{plan['strategy']}]: {plan['reason']} "
+        f"(max {plan['max_simultaneous']} simultaneous changes)"
+    )
+
+
+# ---------------------------------------------------------------------------
+# Feature: Create
+# ---------------------------------------------------------------------------
+
+
+def command_create(args: argparse.Namespace) -> int:
+    repo_root = detect_repo_root(Path(args.repo))
+    ensure_git_repo(repo_root)
+    state = ensure_scanned(repo_root)
+
+    interactive = resolve_interactive(args)
+
+    feature_description = args.feature
+    if not feature_description and interactive:
+        feature_description = wizard_input("Describe the feature to create")
+    if not feature_description:
+        raise SystemExit("--feature is required: describe the feature to create")
+
+    part = resolve_part(state, args.part)
+    if part is None and interactive:
+        part_ids = [p["id"] for p in state.get("parts", [])]
+        if part_ids:
+            chosen = wizard_select("Which part does the feature relate to?", part_ids)
+            part = resolve_part(state, chosen)
+    if part is None:
+        raise SystemExit("unable to resolve part; run scan first or pass --part")
+
+    num_candidates = args.candidates
+    affected = identify_affected_parts(state, [part["id"]])
+
+    metric_name = args.metric
+    metric_goal = args.metric_goal
+    metric_command = args.metric_command
+    if interactive:
+        metric_name = prompt_if_missing(metric_name, "Metric name")
+        metric_goal = prompt_if_missing(metric_goal, "Metric goal [minimize|maximize]")
+        metric_command = prompt_if_missing(metric_command, "Metric command")
+
+    if not metric_name or not metric_goal or not metric_command:
+        raise SystemExit("metric, metric-goal, and metric-command are required for create runs")
+
+    config = merge_config(
+        part=part,
+        existing={},
+        metric_name=metric_name,
+        metric_goal=metric_goal,
+        metric_command=metric_command,
+        metric_regex=DEFAULT_METRIC_REGEX,
+        mode="parallel",
+        rounds=args.rounds,
+        stop_rule=None,
+        parallelism=num_candidates,
+        entrypoint_type="part",
+        entrypoint_path=part["id"],
+        metric_preset=None,
+        command_suggestion=None,
+    )
+    normalize_execution_defaults(config["execution"])
+    state.setdefault("part_configs", {})[part["id"]] = config
+
+    create_info = {
+        "feature_description": feature_description,
+        "num_approaches": num_candidates,
+        "affected_parts": affected,
+        "approach_labels": [f"approach-{chr(65 + i)}" for i in range(num_candidates)],
+    }
+
+    run = create_create_run(repo_root, state, part, config, create_info)
+    state.setdefault("selection", {})["part_id"] = part["id"]
+    state.setdefault("selection", {})["active_run_id"] = run["run_id"]
+    write_state(repo_root, state)
+
+    payload = {
+        "run_id": run["run_id"],
+        "run_type": "create",
+        "part_id": part["id"],
+        "feature": feature_description,
+        "candidates": [c["candidate_id"] for c in run["candidates"]],
+        "affected_parts": affected,
+        "program_path": run["program_path"],
+    }
+    emit(payload, getattr(args, "json", False))
+    return 0
+
+
+def identify_affected_parts(state: dict[str, Any], target_part_ids: list[str]) -> list[str]:
+    """Walk the dependency graph outward from target parts to find affected modules."""
+    affected: set[str] = set()
+    queue = list(target_part_ids)
+    parts_by_id = {p["id"]: p for p in state.get("parts", [])}
+
+    while queue:
+        current = queue.pop(0)
+        if current in affected:
+            continue
+        affected.add(current)
+        part = parts_by_id.get(current)
+        if part:
+            for dep in part.get("dependents", []):
+                if dep not in affected:
+                    queue.append(dep)
+            for dep in part.get("dependencies", []):
+                if dep not in affected:
+                    queue.append(dep)
+
+    affected.discard(target_part_ids[0] if target_part_ids else "")
+    return sorted(affected)
+
+
+def create_create_run(
+    repo_root: Path, state: dict[str, Any], part: dict[str, Any],
+    config: dict[str, Any], create_info: dict[str, Any],
+) -> dict[str, Any]:
+    """Create a run with multiple candidate worktrees for comparing new feature approaches."""
+    run_id = build_run_id(part["id"])
+    run_dir = runs_dir(repo_root) / run_id
+    run_dir.mkdir(parents=True, exist_ok=True)
+    worktree_root = default_worktree_root(repo_root) / run_id
+    worktree_root.mkdir(parents=True, exist_ok=True)
+
+    base_ref = git_stdout(repo_root, ["rev-parse", "HEAD"]).strip()
+    branch_prefix = f"autoresearch/{slugify(part['id'])}/{run_id}"
+
+    seed = create_candidate_worktree(
+        repo_root=repo_root,
+        worktree_path=worktree_root / "seed",
+        branch_name=f"{branch_prefix}/seed",
+        base_ref=base_ref,
+        candidate_id="seed",
+        based_on=base_ref,
+    )
+
+    run = {
+        "run_id": run_id,
+        "part_id": part["id"],
+        "run_type": "create",
+        "status": "running",
+        "created_at": now_iso(),
+        "run_dir": str(run_dir),
+        "program_path": str(run_dir / "program.md"),
+        "results_path": str(run_dir / "results.tsv"),
+        "worktree_root": str(worktree_root),
+        "base_ref": base_ref,
+        "current_base_branch": seed["branch"],
+        "best_candidate_id": None,
+        "best_metric": None,
+        "execution": config["execution"],
+        "metric": config["metric"],
+        "rounds_completed": 0,
+        "candidates": [seed],
+        "early_exit": {
+            "patience": None, "threshold": None,
+            "rounds_without_improvement": 0, "triggered": False, "trigger_reason": None,
+        },
+        "create_info": create_info,
+        "delete_info": None,
+    }
+
+    Path(run["results_path"]).write_text(
+        "timestamp\trun_id\tcandidate_id\tstatus\tmetric_name\tmetric_value\tgoal\tcommit\tbranch\tworktree\tdescription\n"
+    )
+
+    # Create candidate worktrees for each approach
+    for label in create_info["approach_labels"]:
+        candidate = create_candidate_worktree(
+            repo_root=repo_root,
+            worktree_path=worktree_root / label,
+            branch_name=f"{branch_prefix}/{label}",
+            base_ref=base_ref,
+            candidate_id=label,
+            based_on=base_ref,
+        )
+        run["candidates"].append(candidate)
+
+    Path(run["program_path"]).write_text(render_create_program(repo_root, run, part, config, create_info))
+    state.setdefault("runs", {})[run_id] = run
+    return run
+
+
+def render_create_program(
+    repo_root: Path, run: dict[str, Any], part: dict[str, Any],
+    config: dict[str, Any], create_info: dict[str, Any],
+) -> str:
+    """Render a program.md for create runs."""
+    lines = [
+        f"# Create Run: {run['run_id']}",
+        "",
+        f"## Feature: {create_info['feature_description']}",
+        "",
+        f"Target part: `{part['id']}`",
+        f"Approaches: {create_info['num_approaches']}",
+        "",
+        "## Affected Parts",
+        "",
+    ]
+    for affected in create_info["affected_parts"]:
+        lines.append(f"- `{affected}`")
+    if not create_info["affected_parts"]:
+        lines.append("- none identified")
+
+    lines.extend([
+        "",
+        "## Metric",
+        "",
+        f"- Name: `{config['metric']['name']}`",
+        f"- Goal: `{config['metric']['goal']}`",
+        f"- Command: `{config['metric']['command']}`",
+        "",
+        "## Candidate Worktrees",
+        "",
+    ])
+    for candidate in run["candidates"]:
+        lines.append(f"- `{candidate['candidate_id']}`: `{candidate['worktree_path']}`")
+
+    script_path = str(helper_script_path())
+    lines.extend([
+        "",
+        "## Instructions",
+        "",
+        "1. Implement the feature differently in each approach worktree.",
+        "2. Evaluate each approach:",
+        "",
+        f"```bash",
+        f"python3 {script_path} evaluate --run-id {run['run_id']} --candidate <approach>",
+        f"python3 {script_path} record --run-id {run['run_id']} --candidate <approach> --status auto --description \"<summary>\"",
+        "```",
+        "",
+        "3. Compare results to find the approach with the best real capability ceiling.",
+        "",
+    ])
+    return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
+# Feature: Delete
+# ---------------------------------------------------------------------------
+
+
+def command_delete(args: argparse.Namespace) -> int:
+    repo_root = detect_repo_root(Path(args.repo))
+    ensure_git_repo(repo_root)
+    state = ensure_scanned(repo_root)
+
+    interactive = resolve_interactive(args)
+
+    part = resolve_part(state, args.part)
+    if part is None and interactive:
+        part_ids = [p["id"] for p in state.get("parts", [])]
+        if part_ids:
+            chosen = wizard_select("Which part to delete?", part_ids)
+            part = resolve_part(state, chosen)
+    if part is None:
+        raise SystemExit("unable to resolve part; run scan first or pass --part")
+
+    dependents = find_delete_dependents(state, part["id"])
+
+    if interactive:
+        print(f"\nDeleting: `{part['id']}`")
+        if dependents:
+            print(f"Affected dependents: {', '.join(dependents)}")
+        else:
+            print("No dependents found.")
+        if not wizard_confirm("Proceed with deletion run?"):
+            print("Cancelled.")
+            return 0
+
+    metric_name = args.metric
+    metric_goal = args.metric_goal
+    metric_command = args.metric_command
+    if interactive:
+        metric_name = prompt_if_missing(metric_name, "Metric name")
+        metric_goal = prompt_if_missing(metric_goal, "Metric goal [minimize|maximize]")
+        metric_command = prompt_if_missing(metric_command, "Metric command")
+
+    if not metric_name or not metric_goal or not metric_command:
+        raise SystemExit("metric, metric-goal, and metric-command are required for delete runs")
+
+    config = merge_config(
+        part=part,
+        existing={},
+        metric_name=metric_name,
+        metric_goal=metric_goal,
+        metric_command=metric_command,
+        metric_regex=DEFAULT_METRIC_REGEX,
+        mode="sequential",
+        rounds=args.rounds,
+        stop_rule=None,
+        parallelism=1,
+        entrypoint_type="part",
+        entrypoint_path=part["id"],
+        metric_preset=None,
+        command_suggestion=None,
+    )
+    normalize_execution_defaults(config["execution"])
+
+    delete_info = {
+        "deleted_part_id": part["id"],
+        "dependent_parts": dependents,
+        "pre_deletion_metrics": None,
+    }
+
+    run = create_delete_run(repo_root, state, part, config, delete_info)
+    state.setdefault("selection", {})["part_id"] = part["id"]
+    state.setdefault("selection", {})["active_run_id"] = run["run_id"]
+    write_state(repo_root, state)
+
+    payload = {
+        "run_id": run["run_id"],
+        "run_type": "delete",
+        "deleted_part": part["id"],
+        "dependent_parts": dependents,
+        "program_path": run["program_path"],
+        "candidates": [c["candidate_id"] for c in run["candidates"]],
+    }
+    emit(payload, getattr(args, "json", False))
+    return 0
+
+
+def find_delete_dependents(state: dict[str, Any], part_id: str) -> list[str]:
+    """Find all parts that depend on the given part, transitively."""
+    dependents: set[str] = set()
+    parts_by_id = {p["id"]: p for p in state.get("parts", [])}
+    queue = [part_id]
+
+    while queue:
+        current = queue.pop(0)
+        part = parts_by_id.get(current)
+        if part:
+            for dep in part.get("dependents", []):
+                if dep not in dependents:
+                    dependents.add(dep)
+                    queue.append(dep)
+
+    return sorted(dependents)
+
+
+def apply_deletion_to_worktree(worktree_path: Path, part_id: str) -> None:
+    """Remove the file identified by part_id from the worktree and commit."""
+    target = worktree_path / part_id
+    if target.exists():
+        target.unlink()
+        git_run(worktree_path, ["add", part_id], check=False)
+        git_run(
+            worktree_path,
+            ["commit", "-m", f"autoresearch: delete {part_id}"],
+            check=False,
+        )
+
+
+def create_delete_run(
+    repo_root: Path, state: dict[str, Any], part: dict[str, Any],
+    config: dict[str, Any], delete_info: dict[str, Any],
+) -> dict[str, Any]:
+    """Create a run where the seed worktree has the target part removed."""
+    run_id = build_run_id(part["id"])
+    run_dir = runs_dir(repo_root) / run_id
+    run_dir.mkdir(parents=True, exist_ok=True)
+    worktree_root = default_worktree_root(repo_root) / run_id
+    worktree_root.mkdir(parents=True, exist_ok=True)
+
+    base_ref = git_stdout(repo_root, ["rev-parse", "HEAD"]).strip()
+    branch_prefix = f"autoresearch/{slugify(part['id'])}/{run_id}"
+
+    seed = create_candidate_worktree(
+        repo_root=repo_root,
+        worktree_path=worktree_root / "seed",
+        branch_name=f"{branch_prefix}/seed",
+        base_ref=base_ref,
+        candidate_id="seed",
+        based_on=base_ref,
+    )
+
+    # Apply the deletion in the seed worktree
+    apply_deletion_to_worktree(Path(seed["worktree_path"]), part["id"])
+
+    run = {
+        "run_id": run_id,
+        "part_id": part["id"],
+        "run_type": "delete",
+        "status": "running",
+        "created_at": now_iso(),
+        "run_dir": str(run_dir),
+        "program_path": str(run_dir / "program.md"),
+        "results_path": str(run_dir / "results.tsv"),
+        "worktree_root": str(worktree_root),
+        "base_ref": base_ref,
+        "current_base_branch": seed["branch"],
+        "best_candidate_id": None,
+        "best_metric": None,
+        "execution": config["execution"],
+        "metric": config["metric"],
+        "rounds_completed": 0,
+        "candidates": [seed],
+        "early_exit": {
+            "patience": None, "threshold": None,
+            "rounds_without_improvement": 0, "triggered": False, "trigger_reason": None,
+        },
+        "create_info": None,
+        "delete_info": delete_info,
+    }
+
+    Path(run["results_path"]).write_text(
+        "timestamp\trun_id\tcandidate_id\tstatus\tmetric_name\tmetric_value\tgoal\tcommit\tbranch\tworktree\tdescription\n"
+    )
+    Path(run["program_path"]).write_text(render_delete_program(repo_root, run, part, config, delete_info))
+    state.setdefault("runs", {})[run_id] = run
+    return run
+
+
+def render_delete_program(
+    repo_root: Path, run: dict[str, Any], part: dict[str, Any],
+    config: dict[str, Any], delete_info: dict[str, Any],
+) -> str:
+    """Render a program.md for delete runs."""
+    lines = [
+        f"# Delete Run: {run['run_id']}",
+        "",
+        f"Deleted part: `{delete_info['deleted_part_id']}`",
+        "",
+        "## Affected Dependents",
+        "",
+    ]
+    for dep in delete_info["dependent_parts"]:
+        lines.append(f"- `{dep}`")
+    if not delete_info["dependent_parts"]:
+        lines.append("- none identified")
+
+    lines.extend([
+        "",
+        "## Metric",
+        "",
+        f"- Name: `{config['metric']['name']}`",
+        f"- Goal: `{config['metric']['goal']}`",
+        f"- Command: `{config['metric']['command']}`",
+        "",
+        "## Seed Worktree",
+        "",
+        f"The seed worktree at `{run['candidates'][0]['worktree_path']}` already has `{delete_info['deleted_part_id']}` removed.",
+        "",
+        "## Instructions",
+        "",
+        "1. Fix broken imports and references in dependent parts within the seed worktree.",
+        "2. Evaluate the baseline after fixing:",
+        "",
+    ])
+    script_path = str(helper_script_path())
+    lines.extend([
+        f"```bash",
+        f"python3 {script_path} evaluate --run-id {run['run_id']} --candidate seed",
+        f"python3 {script_path} record --run-id {run['run_id']} --candidate seed --status auto --description \"post-deletion baseline\"",
+        "```",
+        "",
+        "3. Allocate candidates to optimize dependent parameters:",
+        "",
+        f"```bash",
+        f"python3 {script_path} allocate --run-id {run['run_id']}",
+        "```",
+        "",
+        "4. Stop when the configured rounds or stop rule is satisfied.",
+        "",
+    ])
+    return "\n".join(lines)
+

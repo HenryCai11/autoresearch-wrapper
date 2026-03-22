@@ -12,7 +12,23 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from autoresearch_wrapper.core import load_state, main, plans_dir, state_dir, status_markdown
+from autoresearch_wrapper.core import (
+    check_early_exit,
+    detect_system_resources,
+    find_delete_dependents,
+    format_monitor_update,
+    identify_affected_parts,
+    load_state,
+    main,
+    migrate_state,
+    plan_wild_changes,
+    plans_dir,
+    recommend_parallelism,
+    should_widen_search,
+    state_dir,
+    status_markdown,
+    wizard_select,
+)
 
 
 class AutoresearchWrapperTests(unittest.TestCase):
@@ -363,6 +379,336 @@ class AutoresearchWrapperTests(unittest.TestCase):
         seed = next(item for item in run["candidates"] if item["candidate_id"] == "seed")
         self.assertEqual(seed["latest_evaluation"]["exit_code"], 0)
         self.assertIsNotNone(seed["latest_evaluation"]["metric_value"])
+
+    # -----------------------------------------------------------------------
+    # Schema migration
+    # -----------------------------------------------------------------------
+
+    def test_migrate_v1_to_v2_adds_resources(self) -> None:
+        v1_state = {
+            "schema_version": 1,
+            "repo_root": "/tmp/test",
+            "parts": [],
+            "runs": {},
+            "part_configs": {},
+        }
+        migrated = migrate_state(dict(v1_state), Path("/tmp/test"))
+        self.assertEqual(migrated["schema_version"], 2)
+        self.assertIn("resources", migrated)
+        self.assertIsNone(migrated["resources"]["detected_at"])
+        self.assertEqual(migrated["resources"]["recommended_parallelism"], 1)
+
+    def test_migrate_v1_backfills_run_fields(self) -> None:
+        v1_state = {
+            "schema_version": 1,
+            "repo_root": "/tmp/test",
+            "parts": [],
+            "runs": {
+                "test-run": {
+                    "run_id": "test-run",
+                    "status": "running",
+                }
+            },
+            "part_configs": {
+                "module.py": {
+                    "metric": {"name": "runtime_seconds"},
+                    "execution": {"mode": "sequential", "rounds": 3},
+                }
+            },
+        }
+        migrated = migrate_state(dict(v1_state), Path("/tmp/test"))
+        run = migrated["runs"]["test-run"]
+        self.assertEqual(run["run_type"], "optimize")
+        self.assertIn("early_exit", run)
+        self.assertFalse(run["early_exit"]["triggered"])
+        config = migrated["part_configs"]["module.py"]
+        self.assertIn("early_exit_patience", config["execution"])
+        self.assertIn("wild_max_simultaneous", config["execution"])
+
+    # -----------------------------------------------------------------------
+    # Resource detection
+    # -----------------------------------------------------------------------
+
+    def test_resources_detects_cpu_count(self) -> None:
+        resources = detect_system_resources()
+        self.assertIsInstance(resources["cpus"], int)
+        self.assertGreater(resources["cpus"], 0)
+        self.assertIsNotNone(resources["detected_at"])
+
+    def test_recommended_parallelism_bounds(self) -> None:
+        self.assertEqual(recommend_parallelism(1, 0), 1)
+        self.assertGreaterEqual(recommend_parallelism(16, 0), 1)
+        self.assertLessEqual(recommend_parallelism(16, 0), 8)
+        self.assertGreaterEqual(recommend_parallelism(4, 2), 1)
+        self.assertLessEqual(recommend_parallelism(4, 2), 8)
+
+    def test_resources_persists_to_state(self) -> None:
+        repo = self.make_repo()
+        (repo / "module.py").write_text("x = 1\n")
+        self.commit_all(repo)
+
+        main(["scan", "--repo", str(repo), "--no-interactive"])
+        main(["resources", "--repo", str(repo), "--no-interactive"])
+        state = load_state(repo)
+        self.assertIsNotNone(state["resources"]["detected_at"])
+        self.assertGreater(state["resources"]["cpus"], 0)
+
+    # -----------------------------------------------------------------------
+    # Early exit
+    # -----------------------------------------------------------------------
+
+    def test_early_exit_triggers_after_patience_exceeded(self) -> None:
+        repo = self.make_repo()
+        (repo / "helper.py").write_text("VALUE = 1\n")
+        (repo / "module.py").write_text("import helper\n# optimize this runtime path\n")
+        self.commit_all(repo)
+
+        main(["scan", "--repo", str(repo), "--no-interactive"])
+        main([
+            "configure", "--repo", str(repo), "--part", "module.py",
+            "--metric", "runtime_seconds",
+            "--metric-command", "python -c \"print('METRIC=1.0')\"",
+            "--metric-goal", "minimize", "--mode", "sequential",
+            "--rounds", "10", "--early-exit-patience", "2",
+        ])
+        main(["run", "--repo", str(repo), "--part", "module.py", "--no-interactive"])
+        state = load_state(repo)
+        run_id = state["selection"]["active_run_id"]
+
+        # Record seed baseline
+        main(["record", "--repo", str(repo), "--run-id", run_id,
+              "--candidate", "seed", "--metric-value", "1.0", "--description", "baseline"])
+
+        # Round 1: no improvement
+        main(["allocate", "--repo", str(repo), "--run-id", run_id])
+        main(["record", "--repo", str(repo), "--run-id", run_id,
+              "--candidate", "candidate-001", "--metric-value", "1.0", "--description", "same"])
+
+        # Round 2: no improvement
+        main(["allocate", "--repo", str(repo), "--run-id", run_id])
+        main(["record", "--repo", str(repo), "--run-id", run_id,
+              "--candidate", "candidate-002", "--metric-value", "1.1", "--description", "worse"])
+
+        state = load_state(repo)
+        run = state["runs"][run_id]
+        self.assertEqual(run["status"], "early_exit")
+        self.assertTrue(run["early_exit"]["triggered"])
+        self.assertIn("no improvement", run["early_exit"]["trigger_reason"])
+
+    def test_early_exit_does_not_trigger_when_improving(self) -> None:
+        repo = self.make_repo()
+        (repo / "helper.py").write_text("VALUE = 1\n")
+        (repo / "module.py").write_text("import helper\n# optimize this runtime path\n")
+        self.commit_all(repo)
+
+        main(["scan", "--repo", str(repo), "--no-interactive"])
+        main([
+            "configure", "--repo", str(repo), "--part", "module.py",
+            "--metric", "runtime_seconds",
+            "--metric-command", "python -c \"print('METRIC=1.0')\"",
+            "--metric-goal", "minimize", "--mode", "sequential",
+            "--rounds", "5", "--early-exit-patience", "2",
+        ])
+        main(["run", "--repo", str(repo), "--part", "module.py", "--no-interactive"])
+        state = load_state(repo)
+        run_id = state["selection"]["active_run_id"]
+
+        main(["record", "--repo", str(repo), "--run-id", run_id,
+              "--candidate", "seed", "--metric-value", "1.0", "--description", "baseline"])
+        main(["allocate", "--repo", str(repo), "--run-id", run_id])
+        main(["record", "--repo", str(repo), "--run-id", run_id,
+              "--candidate", "candidate-001", "--metric-value", "0.5", "--description", "improved"])
+
+        state = load_state(repo)
+        run = state["runs"][run_id]
+        self.assertEqual(run["status"], "running")
+        self.assertFalse(run["early_exit"]["triggered"])
+
+    def test_early_exit_disabled_by_default(self) -> None:
+        run = {
+            "early_exit": {"patience": None, "threshold": None, "rounds_without_improvement": 5},
+        }
+        result = check_early_exit(run)
+        self.assertFalse(result["should_exit"])
+
+    # -----------------------------------------------------------------------
+    # Monitor
+    # -----------------------------------------------------------------------
+
+    def test_monitor_format_includes_key_fields(self) -> None:
+        run = {
+            "run_id": "test-run",
+            "status": "running",
+            "rounds_completed": 2,
+            "execution": {"rounds": 5},
+            "best_metric": 0.75,
+            "early_exit": {"patience": 3, "rounds_without_improvement": 1},
+        }
+        output = format_monitor_update(run, 1)
+        self.assertIn("status=running", output)
+        self.assertIn("rounds=2/5", output)
+        self.assertIn("stalled=1/3", output)
+
+    # -----------------------------------------------------------------------
+    # Wild mode
+    # -----------------------------------------------------------------------
+
+    def test_wild_mode_sets_defaults(self) -> None:
+        repo = self.make_repo()
+        (repo / "helper.py").write_text("VALUE = 1\n")
+        (repo / "module.py").write_text("import helper\n# optimize this runtime path\n")
+        self.commit_all(repo)
+
+        main(["scan", "--repo", str(repo), "--no-interactive"])
+        main([
+            "configure", "--repo", str(repo), "--part", "module.py",
+            "--metric", "runtime_seconds",
+            "--metric-command", "python -c \"print('METRIC=1.0')\"",
+            "--metric-goal", "minimize", "--mode", "wild", "--rounds", "3",
+        ])
+
+        state = load_state(repo)
+        config = state["part_configs"]["module.py"]
+        self.assertEqual(config["execution"]["mode"], "wild")
+        self.assertEqual(config["execution"]["wild_max_simultaneous"], 3)
+        self.assertEqual(config["execution"]["parallelism"], 2)
+
+    def test_should_widen_search_when_stalled(self) -> None:
+        run = {
+            "early_exit": {"patience": 4, "rounds_without_improvement": 3},
+        }
+        self.assertTrue(should_widen_search(run))
+
+    def test_should_not_widen_when_improving(self) -> None:
+        run = {
+            "early_exit": {"patience": 4, "rounds_without_improvement": 0},
+        }
+        self.assertFalse(should_widen_search(run))
+
+    def test_plan_wild_changes_strategy(self) -> None:
+        run = {"early_exit": {"rounds_without_improvement": 5}}
+        config = {"execution": {"wild_max_simultaneous": 4}}
+        plan = plan_wild_changes(run, config)
+        self.assertEqual(plan["strategy"], "aggressive")
+        self.assertEqual(plan["max_simultaneous"], 4)
+
+    # -----------------------------------------------------------------------
+    # Create
+    # -----------------------------------------------------------------------
+
+    def test_create_identifies_affected_parts(self) -> None:
+        repo = self.make_repo()
+        (repo / "a.py").write_text("def a(): pass\n")
+        (repo / "b.py").write_text("import a\ndef b(): pass\n")
+        (repo / "c.py").write_text("import b\ndef c(): pass\n")
+        self.commit_all(repo)
+
+        main(["scan", "--repo", str(repo), "--no-interactive"])
+        state = load_state(repo)
+        affected = identify_affected_parts(state, ["a.py"])
+        self.assertIn("b.py", affected)
+
+    def test_create_run_creates_multiple_worktrees(self) -> None:
+        repo = self.make_repo()
+        (repo / "helper.py").write_text("VALUE = 1\n")
+        (repo / "module.py").write_text("import helper\n# optimize this runtime path\n")
+        self.commit_all(repo)
+
+        main(["scan", "--repo", str(repo), "--no-interactive"])
+        main([
+            "create", "--repo", str(repo), "--part", "module.py",
+            "--feature", "add caching", "--candidates", "2",
+            "--metric", "runtime_seconds",
+            "--metric-command", "python -c \"print('METRIC=1.0')\"",
+            "--metric-goal", "minimize", "--no-interactive",
+        ])
+
+        state = load_state(repo)
+        run_id = state["selection"]["active_run_id"]
+        run = state["runs"][run_id]
+        self.assertEqual(run["run_type"], "create")
+        self.assertIsNotNone(run["create_info"])
+        self.assertEqual(run["create_info"]["feature_description"], "add caching")
+        # seed + 2 approaches
+        self.assertEqual(len(run["candidates"]), 3)
+        candidate_ids = [c["candidate_id"] for c in run["candidates"]]
+        self.assertIn("approach-A", candidate_ids)
+        self.assertIn("approach-B", candidate_ids)
+
+    # -----------------------------------------------------------------------
+    # Delete
+    # -----------------------------------------------------------------------
+
+    def test_delete_finds_transitive_dependents(self) -> None:
+        repo = self.make_repo()
+        (repo / "a.py").write_text("def a(): pass\n")
+        (repo / "b.py").write_text("import a\ndef b(): pass\n")
+        (repo / "c.py").write_text("import b\ndef c(): pass\n")
+        self.commit_all(repo)
+
+        main(["scan", "--repo", str(repo), "--no-interactive"])
+        state = load_state(repo)
+        dependents = find_delete_dependents(state, "a.py")
+        self.assertIn("b.py", dependents)
+        self.assertIn("c.py", dependents)
+
+    def test_delete_run_removes_file_in_worktree(self) -> None:
+        repo = self.make_repo()
+        (repo / "helper.py").write_text("VALUE = 1\n")
+        (repo / "module.py").write_text("import helper\n# optimize this runtime path\n")
+        self.commit_all(repo)
+
+        main(["scan", "--repo", str(repo), "--no-interactive"])
+        main([
+            "delete", "--repo", str(repo), "--part", "helper.py",
+            "--metric", "runtime_seconds",
+            "--metric-command", "python -c \"print('METRIC=1.0')\"",
+            "--metric-goal", "minimize", "--no-interactive",
+        ])
+
+        state = load_state(repo)
+        run_id = state["selection"]["active_run_id"]
+        run = state["runs"][run_id]
+        self.assertEqual(run["run_type"], "delete")
+        self.assertIsNotNone(run["delete_info"])
+        self.assertEqual(run["delete_info"]["deleted_part_id"], "helper.py")
+        self.assertIn("module.py", run["delete_info"]["dependent_parts"])
+        # Verify file is removed in seed worktree
+        seed = run["candidates"][0]
+        seed_helper = Path(seed["worktree_path"]) / "helper.py"
+        self.assertFalse(seed_helper.exists())
+
+    def test_delete_blocks_if_part_not_found(self) -> None:
+        repo = self.make_repo()
+        (repo / "module.py").write_text("x = 1\n")
+        self.commit_all(repo)
+
+        main(["scan", "--repo", str(repo), "--no-interactive"])
+        with self.assertRaises(SystemExit) as exc:
+            main([
+                "delete", "--repo", str(repo), "--part", "nonexistent.py",
+                "--metric", "x", "--metric-command", "echo 1",
+                "--metric-goal", "minimize", "--no-interactive",
+            ])
+        self.assertIn("unable to resolve part", str(exc.exception))
+
+    # -----------------------------------------------------------------------
+    # Wizard (basic unit tests, not interactive)
+    # -----------------------------------------------------------------------
+
+    def test_wizard_skipped_when_not_interactive(self) -> None:
+        """Scan with --no-interactive should not prompt even with multiple parts."""
+        repo = self.make_repo()
+        (repo / "a.py").write_text("# optimize latency\n")
+        (repo / "b.py").write_text("# optimize throughput\n")
+        self.commit_all(repo)
+
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            main(["scan", "--repo", str(repo), "--no-interactive"])
+        rendered = output.getvalue()
+        self.assertIn("scanned 2 parts", rendered)
+        self.assertNotIn("Select a part", rendered)
 
 
 if __name__ == "__main__":

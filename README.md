@@ -95,6 +95,13 @@ python3 scripts/autoresearch_wrapper.py run
 - Metric preset scaffolding for common script measurements.
 - Preset metric helper command for script-based evaluation.
 - Upstream Karpathy `autoresearch` reference clone support.
+- Feature-creation runs with multi-candidate comparison (`create`).
+- Feature-deletion runs with post-deletion parameter optimization (`delete`).
+- System resource detection (CPU, GPU, memory, scheduler: slurm/pbs) via `resources`.
+- Progress monitoring with configurable poll intervals (`monitor`).
+- Early exit mechanism for stalled optimization runs (`--early-exit-patience`, `--early-exit-threshold`).
+- Wild mode for simultaneous multi-parameter search (`--mode wild`).
+- Interactive wizard prompts for all commands when running in a TTY.
 
 ## Feature Details
 
@@ -224,11 +231,14 @@ python3 scripts/autoresearch_wrapper.py reference --refresh
 
 ## Command Surface
 
-The skill exposes four main commands:
+The skill exposes seven main commands:
 - `/autoresearch-wrapper`
 - `/autoresearch-wrapper:status`
 - `/autoresearch-wrapper:run`
 - `/autoresearch-wrapper:flow`
+- `/autoresearch-wrapper:create`
+- `/autoresearch-wrapper:delete`
+- `/autoresearch-wrapper:monitor`
 
 The main command also supports a shorthand script-wrapper form:
 
@@ -257,6 +267,10 @@ CLI subcommands:
 - `flow`
 - `reference`
 - `preset-metric`
+- `resources`
+- `monitor`
+- `create`
+- `delete`
 
 ## Typical Workflow
 
