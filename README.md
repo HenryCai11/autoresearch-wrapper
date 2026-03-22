@@ -7,7 +7,7 @@ Third-Party Notices: [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)
 
 # Autoresearch Wrapper
 
-`autoresearch-wrapper` is a Codex skill plus helper CLI for running an `autoresearch`-style optimization workflow on an arbitrary repo.
+`autoresearch-wrapper` is a skill plus helper CLI for running an `autoresearch`-style optimization workflow on an arbitrary repo. It works with both **Codex** and **Claude Code**.
 
 The core idea is:
 - scan a repo for optimization candidates
@@ -19,6 +19,46 @@ The core idea is:
 It is inspired by Karpathy's [`autoresearch`](https://github.com/karpathy/autoresearch), but adds repo scanning, dependency graphing, persisted state, planning artifacts, and worktree-backed candidate management.
 
 ## Quick Start
+
+### Claude Code
+
+1. Clone or copy this repo into your project (or anywhere on disk):
+
+```bash
+git clone https://github.com/<owner>/autoresearch-wrapper.git
+```
+
+2. Claude Code discovers skills automatically from `.claude/skills/` in the project root. If you cloned this repo *inside* your target project, the skills are already available. If it lives elsewhere, symlink the skill directories:
+
+```bash
+mkdir -p /path/to/your-project/.claude/skills
+ln -s /path/to/autoresearch-wrapper/.claude/skills/* /path/to/your-project/.claude/skills/
+```
+
+3. In a repo you want to optimize, use the skills from Claude Code:
+
+```text
+/autoresearch-wrapper scan this repo, summarize the dependency-aware optimization candidates, and wait for my choice
+/autoresearch-wrapper-status
+/autoresearch-wrapper-flow
+```
+
+4. Lock the optimization target and run settings, then start the run:
+
+```text
+/autoresearch-wrapper optimize src/your_module.py with metric latency_ms, sequential mode, and 5 rounds
+/autoresearch-wrapper-run
+```
+
+5. Use the new feature commands:
+
+```text
+/autoresearch-wrapper-create --part src/api.py --feature "add response caching" --candidates 3
+/autoresearch-wrapper-delete --part src/legacy.py
+/autoresearch-wrapper-monitor --interval 30
+```
+
+### Codex
 
 1. Install this repo as a local Codex skill:
 
@@ -54,6 +94,8 @@ You can also ask Codex to use the preinstalled `skill-installer` skill to instal
 /autoresearch-wrapper optimize src/your_module.py with metric latency_ms, sequential mode, and 5 rounds
 /autoresearch-wrapper:run
 ```
+
+### Raw CLI (without Codex or Claude Code)
 
 5. If you want to target a repo-local script directly, use the script-wrapper shortcut:
 
@@ -231,14 +273,17 @@ python3 scripts/autoresearch_wrapper.py reference --refresh
 
 ## Command Surface
 
-The skill exposes seven main commands:
-- `/autoresearch-wrapper`
-- `/autoresearch-wrapper:status`
-- `/autoresearch-wrapper:run`
-- `/autoresearch-wrapper:flow`
-- `/autoresearch-wrapper:create`
-- `/autoresearch-wrapper:delete`
-- `/autoresearch-wrapper:monitor`
+The skill exposes seven main commands. The naming differs slightly between platforms:
+
+| Codex | Claude Code | CLI subcommand |
+| --- | --- | --- |
+| `/autoresearch-wrapper` | `/autoresearch-wrapper` | `scan` / `wrap` |
+| `/autoresearch-wrapper:status` | `/autoresearch-wrapper-status` | `status` |
+| `/autoresearch-wrapper:run` | `/autoresearch-wrapper-run` | `run` |
+| `/autoresearch-wrapper:flow` | `/autoresearch-wrapper-flow` | `flow` |
+| `/autoresearch-wrapper:create` | `/autoresearch-wrapper-create` | `create` |
+| `/autoresearch-wrapper:delete` | `/autoresearch-wrapper-delete` | `delete` |
+| `/autoresearch-wrapper:monitor` | `/autoresearch-wrapper-monitor` | `monitor` |
 
 The main command also supports a shorthand script-wrapper form:
 
@@ -406,6 +451,12 @@ The repo includes unit tests covering:
 - configure persistence
 - worktree-backed run flow
 - dependency-aware run blocking
+- schema migration (v1→v2)
+- resource detection
+- early exit mechanism
+- wild mode defaults
+- create and delete run types
+- wizard system (non-interactive mode)
 
 Run them with:
 
@@ -417,6 +468,8 @@ python3 -m unittest -q
 
 - `SKILL.md`
   - skill behavior and command mapping for Codex
+- `.claude/skills/`
+  - skill definitions for Claude Code (one directory per command)
 - `scripts/autoresearch_wrapper.py`
   - CLI entrypoint
 - `autoresearch_wrapper/core.py`
