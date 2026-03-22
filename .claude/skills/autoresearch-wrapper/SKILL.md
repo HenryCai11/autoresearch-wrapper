@@ -25,8 +25,10 @@ python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" scan --no-interacti
 ```
 
 Then:
-- Summarize discovered parts, their statuses, and dependency neighborhoods
-- Ask the user which part to optimize
+- Show the language and directory groupings printed by scan
+- Show the module-level dependency graph printed by scan
+- Ask the user which kind of files (language or directory) they want to focus on
+- Ask which specific part to optimize
 - Ask for the metric name, metric command, metric goal
 - Ask for execution mode (sequential / parallel / wild) and rounds
 - Persist the configuration with `configure`

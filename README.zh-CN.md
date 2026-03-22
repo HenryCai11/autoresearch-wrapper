@@ -12,7 +12,7 @@
 
 [![Claude Code Skill](https://img.shields.io/badge/Claude_Code-Skill-blue?logo=anthropic&logoColor=white)](https://docs.anthropic.com/en/docs/claude-code)
 [![Codex Skill](https://img.shields.io/badge/Codex-Skill-green?logo=openai&logoColor=white)](https://platform.openai.com/docs/codex)
-[![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://github.com/HenryCai11/autoresearch-wrapper/releases)
+[![Version](https://img.shields.io/badge/version-0.0.2-blue.svg)](https://github.com/HenryCai11/autoresearch-wrapper/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Based on](https://img.shields.io/badge/Based_on-Karpathy's_Autoresearch-orange)](https://github.com/karpathy/autoresearch)
 
@@ -31,7 +31,13 @@
 ## 安装
 
 <details open>
-<summary><b>Claude Code</b></summary>
+<summary><b>Claude Code（推荐）</b></summary>
+
+```bash
+/plugin add HenryCai11/autoresearch-wrapper
+```
+
+或手动安装：
 
 ```bash
 git clone https://github.com/HenryCai11/autoresearch-wrapper.git

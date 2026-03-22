@@ -57,8 +57,8 @@ These map to CLI subcommands:
 python3 scripts/autoresearch_wrapper.py scan
 ```
 
-2. Summarize discovered parts, their statuses, and their dependency neighborhoods for the user.
-3. Ask the user which part to optimize unless a single obvious target is already selected.
+2. Summarize discovered parts, their language/directory groupings, and the module-level dependency graph printed by scan.
+3. Ask the user which kind of files (language or directory) they want to focus on, then which specific part to optimize.
 4. Lock the required run-gate fields before execution:
    - target part
    - metric name

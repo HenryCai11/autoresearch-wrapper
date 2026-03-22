@@ -17,6 +17,8 @@ from autoresearch_wrapper.core import (
     detect_system_resources,
     find_delete_dependents,
     format_monitor_update,
+    group_parts_by_directory,
+    group_parts_by_language,
     identify_affected_parts,
     load_state,
     main,
@@ -24,6 +26,7 @@ from autoresearch_wrapper.core import (
     plan_wild_changes,
     plans_dir,
     recommend_parallelism,
+    render_dependency_tree,
     should_widen_search,
     state_dir,
     status_markdown,
@@ -709,6 +712,81 @@ class AutoresearchWrapperTests(unittest.TestCase):
         rendered = output.getvalue()
         self.assertIn("scanned 2 parts", rendered)
         self.assertNotIn("Select a part", rendered)
+
+    # ------------------------------------------------------------------
+    # Part grouping and dependency tree
+    # ------------------------------------------------------------------
+
+    def test_group_parts_by_language(self):
+        parts = [
+            {"id": "a.py", "language": "python"},
+            {"id": "b.py", "language": "python"},
+            {"id": "c.js", "language": "javascript"},
+        ]
+        groups = group_parts_by_language(parts)
+        self.assertEqual(list(groups.keys()), ["python", "javascript"])
+        self.assertEqual(len(groups["python"]), 2)
+        self.assertEqual(len(groups["javascript"]), 1)
+
+    def test_group_parts_by_directory(self):
+        parts = [
+            {"id": "src/a.py"},
+            {"id": "src/b.py"},
+            {"id": "lib/c.py"},
+            {"id": "root.py"},
+        ]
+        groups = group_parts_by_directory(parts)
+        self.assertIn("src", groups)
+        self.assertIn("lib", groups)
+        self.assertIn(".", groups)
+        self.assertEqual(len(groups["src"]), 2)
+        self.assertEqual(len(groups["."]), 1)
+
+    def test_render_dependency_tree_simple(self):
+        parts = [
+            {"id": "main.py", "language": "python", "dependencies": ["util.py"], "dependents": []},
+            {"id": "util.py", "language": "python", "dependencies": [], "dependents": ["main.py"]},
+        ]
+        tree = render_dependency_tree(parts)
+        self.assertIn("main.py", tree)
+        self.assertIn("util.py", tree)
+        self.assertIn("python", tree)
+
+    def test_render_dependency_tree_no_edges(self):
+        parts = [
+            {"id": "a.py", "language": "python", "dependencies": [], "dependents": []},
+            {"id": "b.py", "language": "python", "dependencies": [], "dependents": []},
+        ]
+        tree = render_dependency_tree(parts)
+        # Both show up as roots
+        self.assertIn("a.py", tree)
+        self.assertIn("b.py", tree)
+
+    def test_render_dependency_tree_circular(self):
+        parts = [
+            {"id": "a.py", "language": "python", "dependencies": ["b.py"], "dependents": ["b.py"]},
+            {"id": "b.py", "language": "python", "dependencies": ["a.py"], "dependents": ["a.py"]},
+        ]
+        tree = render_dependency_tree(parts)
+        self.assertIn("circular", tree)
+
+    def test_scan_wizard_groups_shown_interactive(self):
+        """When interactive, the wizard should show language/directory groups."""
+        repo = self.make_repo()
+        (repo / "src").mkdir()
+        (repo / "src" / "a.py").write_text("import os\nprint('hello')\n")
+        (repo / "src" / "b.py").write_text("import sys\nprint('world')\n")
+        (repo / "lib").mkdir()
+        (repo / "lib" / "c.js").write_text("console.log('hi');\n")
+        self.commit_all(repo)
+
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            # --no-interactive means the grouping wizard is skipped
+            main(["scan", "--repo", str(repo), "--no-interactive"])
+        rendered = output.getvalue()
+        self.assertIn("scanned 3 parts", rendered)
+        self.assertNotIn("Which kind", rendered)
 
 
 if __name__ == "__main__":

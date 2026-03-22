@@ -439,18 +439,134 @@ def normalize_entry_argv(argv: list[str] | None) -> list[str] | None:
     return ["wrap", first, *argv[1:]]
 
 
+def group_parts_by_language(parts: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
+    """Group scanned parts by programming language."""
+    groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for part in parts:
+        groups[part.get("language", "unknown")].append(part)
+    return dict(sorted(groups.items(), key=lambda kv: (-len(kv[1]), kv[0])))
+
+
+def group_parts_by_directory(parts: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
+    """Group scanned parts by top-level directory (or '.' for root files)."""
+    groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for part in parts:
+        path = PurePosixPath(part["id"])
+        top_dir = path.parts[0] if len(path.parts) > 1 else "."
+        groups[top_dir].append(part)
+    return dict(sorted(groups.items(), key=lambda kv: (-len(kv[1]), kv[0])))
+
+
+def render_dependency_tree(parts: list[dict[str, Any]], max_depth: int = 3) -> str:
+    """Render a text-based module-level dependency graph for a set of parts."""
+    part_ids = {p["id"] for p in parts}
+    parts_by_id = {p["id"]: p for p in parts}
+    lines: list[str] = []
+
+    # Find root nodes: parts with no in-set dependents (nothing in the set depends on them)
+    # or parts that have no in-set dependencies (top-level entry points)
+    has_in_set_dependent = set()
+    for part in parts:
+        for dep in part.get("dependencies", []):
+            if dep in part_ids:
+                has_in_set_dependent.add(dep)
+
+    roots = [p["id"] for p in parts if p["id"] not in has_in_set_dependent]
+    if not roots:
+        # Cycle — just pick all parts as roots
+        roots = [p["id"] for p in parts]
+
+    visited: set[str] = set()
+
+    def _render(part_id: str, prefix: str, is_last: bool, depth: int) -> None:
+        if depth > max_depth:
+            return
+        connector = "└── " if is_last else "├── "
+        part = parts_by_id.get(part_id)
+        dep_count = len(part.get("dependencies", [])) if part else 0
+        dependent_count = len(part.get("dependents", [])) if part else 0
+        lang = part.get("language", "?") if part else "?"
+        suffix = f"  [{lang}, deps={dep_count}, dependents={dependent_count}]"
+        if part_id in visited:
+            lines.append(f"{prefix}{connector}{part_id}{suffix} (circular)")
+            return
+        lines.append(f"{prefix}{connector}{part_id}{suffix}")
+        visited.add(part_id)
+
+        if part:
+            children = [d for d in part.get("dependencies", []) if d in part_ids]
+            child_prefix = prefix + ("    " if is_last else "│   ")
+            for i, child in enumerate(children):
+                _render(child, child_prefix, i == len(children) - 1, depth + 1)
+
+    for i, root in enumerate(roots):
+        _render(root, "", i == len(roots) - 1, 0)
+
+    return "\n".join(lines) if lines else "(no dependency edges found)"
+
+
 def command_scan(args: argparse.Namespace) -> int:
     repo_root = detect_repo_root(Path(args.repo))
     state = refresh_repo_state(repo_root)
     write_state(repo_root, state)
-    print(f"scanned {len(state['parts'])} parts into {state_file(repo_root)}")
+    parts = state["parts"]
+    print(f"scanned {len(parts)} parts into {state_file(repo_root)}")
+
+    if not parts:
+        return 0
+
+    # Always print language/directory summary and dependency graph
+    lang_groups = group_parts_by_language(parts)
+    dir_groups = group_parts_by_directory(parts)
+
+    print("\nBy language:")
+    for lang, lang_parts in lang_groups.items():
+        ids = [p["id"] for p in lang_parts]
+        print(f"  {lang} ({len(lang_parts)}): {', '.join(ids[:5])}"
+              + (f" ... +{len(ids)-5}" if len(ids) > 5 else ""))
+
+    print("\nBy directory:")
+    for directory, dir_parts in dir_groups.items():
+        ids = [p["id"] for p in dir_parts]
+        print(f"  {directory}/ ({len(dir_parts)}): {', '.join(ids[:5])}"
+              + (f" ... +{len(ids)-5}" if len(ids) > 5 else ""))
+
+    print(f"\nModule dependency graph:\n{render_dependency_tree(parts)}\n")
+
     interactive = resolve_interactive(args)
-    if interactive and len(state["parts"]) > 1:
-        part_ids = [p["id"] for p in state["parts"]]
-        chosen = wizard_select("Select a part to optimize", part_ids)
-        state.setdefault("selection", {})["part_id"] = chosen
-        write_state(repo_root, state)
-        print(f"selected: {chosen}")
+    if not interactive or len(parts) < 2:
+        return 0
+
+    # Interactive: let user filter by group
+    group_options = ["all files"]
+    group_map: dict[str, list[dict[str, Any]]] = {"all files": parts}
+    for lang, lang_parts in lang_groups.items():
+        label = f"{lang} ({len(lang_parts)} files)"
+        group_options.append(label)
+        group_map[label] = lang_parts
+    for directory, dir_parts in dir_groups.items():
+        label = f"{directory}/ ({len(dir_parts)} files)"
+        if label not in group_options:
+            group_options.append(label)
+            group_map[label] = dir_parts
+
+    chosen_group = wizard_select(
+        "Which kind of files do you want to optimize?",
+        group_options,
+        default="all files",
+    )
+    filtered_parts = group_map[chosen_group]
+
+    if chosen_group != "all files":
+        print(f"\n{len(filtered_parts)} files in scope.")
+        print(f"\n{render_dependency_tree(filtered_parts)}\n")
+
+    # Select a specific part
+    part_ids = [p["id"] for p in filtered_parts]
+    chosen = wizard_select("Select a part to optimize", part_ids)
+    state.setdefault("selection", {})["part_id"] = chosen
+    write_state(repo_root, state)
+    print(f"selected: {chosen}")
     return 0
 
 
