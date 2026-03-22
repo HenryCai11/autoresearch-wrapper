@@ -8,7 +8,8 @@ description: Create a feature-addition run with multiple candidate implementatio
 Resolve the CLI path (handles symlinked skills):
 
 ```bash
-AUTORESEARCH_ROOT="$(cd "$(dirname "$(readlink -f .claude/skills/autoresearch-wrapper-create/SKILL.md)")"/.." && pwd)"
+_SKILL_REAL=$(readlink -f .claude/skills/autoresearch-wrapper-create/SKILL.md)
+AUTORESEARCH_ROOT=${_SKILL_REAL%%/.claude/*}
 ```
 
 Use:

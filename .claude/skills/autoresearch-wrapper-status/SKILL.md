@@ -8,7 +8,8 @@ description: Show dependency-aware autoresearch-wrapper state for the current re
 Resolve the CLI path (handles symlinked skills):
 
 ```bash
-AUTORESEARCH_ROOT="$(cd "$(dirname "$(readlink -f .claude/skills/autoresearch-wrapper-status/SKILL.md)")"/.." && pwd)"
+_SKILL_REAL=$(readlink -f .claude/skills/autoresearch-wrapper-status/SKILL.md)
+AUTORESEARCH_ROOT=${_SKILL_REAL%%/.claude/*}
 ```
 
 Use:
