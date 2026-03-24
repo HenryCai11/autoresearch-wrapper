@@ -42,6 +42,7 @@
 
 ```bash
 /plugin marketplace add HenryCai11/autoresearch-wrapper
+/plugin install autoresearch-wrapper
 ```
 
 更新到最新版本：
