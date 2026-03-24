@@ -770,9 +770,10 @@ class AutoresearchWrapperTests(unittest.TestCase):
                     main(["scan", "--repo", str(repo)])
 
         first_prompt = prompts[0]
-        self.assertEqual(first_prompt[0], "Which kind of files do you want to optimize?")
+        self.assertEqual(first_prompt[0], "Which functionality area do you want to improve?")
         self.assertIsNotNone(first_prompt[2])
-        self.assertTrue(first_prompt[2].startswith("core functionality ("))
+        self.assertTrue(first_prompt[2].startswith("best-defined optimization targets ("))
+        self.assertTrue(any("latency-sensitive functionality" in option for option in first_prompt[1]))
 
     def test_no_args_defaults_to_wizard_in_interactive_mode(self) -> None:
         with mock.patch("autoresearch_wrapper.core.is_interactive_default", return_value=True):
@@ -787,7 +788,7 @@ class AutoresearchWrapperTests(unittest.TestCase):
         self.commit_all(repo)
 
         def fake_select(label: str, options: list[str], default: str | None = None) -> str:
-            if label == "Which kind of files do you want to optimize?":
+            if label == "Which functionality area do you want to improve?":
                 return default or options[0]
             if label == "Select a part to optimize":
                 return "module.py"

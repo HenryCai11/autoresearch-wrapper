@@ -36,7 +36,7 @@ If you are operating without a real interactive stdin, emulate the same flow man
 - Run `scan --no-interactive`
 - Start from the compact core-functionality summary and focused dependency graph
 - Only ask for the full language/directory listing if the user explicitly wants a broader scan
-- Ask which kind of files (language or directory) they want to focus on
+- Ask which functionality area they want to improve first
 - Ask which specific part to optimize
 - Ask for the metric name, metric command, metric goal
 - Ask for execution mode (sequential / parallel / wild) and rounds

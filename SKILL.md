@@ -59,7 +59,7 @@ python3 scripts/autoresearch_wrapper.py wizard
 
 2. Let the wizard:
    - scan the repo and print the compact core-functionality summary
-   - let the user narrow to a language, directory, or all files when needed
+   - propose functionality-oriented slices such as best-defined targets, latency-sensitive paths, or dependency hubs
    - select the target part
    - lock the metric name, command, goal, and execution mode
    - persist the config

@@ -699,6 +699,40 @@ def print_scan_summary(
         )
 
 
+def sort_parts_for_selection(parts: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return sorted(
+        parts,
+        key=lambda item: (
+            -core_focus_score(item),
+            STATUS_ORDER.get(item.get("status"), 99),
+            item["path"],
+        ),
+    )
+
+
+def dedupe_grouped_parts(parts: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    seen: set[str] = set()
+    result: list[dict[str, Any]] = []
+    for part in parts:
+        if part["id"] in seen:
+            continue
+        seen.add(part["id"])
+        result.append(part)
+    return result
+
+
+def functionality_label(metric_name: str) -> str:
+    labels = {
+        "latency_ms": "latency-sensitive functionality",
+        "runtime_seconds": "runtime-heavy functionality",
+        "throughput": "throughput-critical functionality",
+        "memory_mb": "memory-sensitive functionality",
+        "accuracy": "quality-sensitive functionality",
+        "loss": "training-loss-sensitive functionality",
+    }
+    return labels.get(metric_name, metric_name.replace("_", " "))
+
+
 def build_scan_group_selection(
     parts: list[dict[str, Any]],
     lang_groups: dict[str, list[dict[str, Any]]],
@@ -707,22 +741,65 @@ def build_scan_group_selection(
 ) -> tuple[list[str], dict[str, list[dict[str, Any]]], str]:
     group_options: list[str] = []
     group_map: dict[str, list[dict[str, Any]]] = {}
-    default_group = "all files"
-    if len(focus_parts) < len(parts):
-        default_group = f"core functionality ({len(focus_parts)} files)"
-        group_options.append(default_group)
-        group_map[default_group] = focus_parts
-    group_options.append("all files")
-    group_map["all files"] = parts
-    for lang, lang_parts in lang_groups.items():
-        label = f"{lang} ({len(lang_parts)} files)"
+    default_group = "all scanned functionality"
+    signature_keys: set[tuple[str, ...]] = set()
+    ranked_parts = sort_parts_for_selection(parts)
+    ranked_focus = sort_parts_for_selection(focus_parts)
+
+    def add_group(label: str, grouped_parts: list[dict[str, Any]], *, default: bool = False) -> None:
+        nonlocal default_group
+        if not grouped_parts:
+            return
+        ordered = dedupe_grouped_parts(sort_parts_for_selection(grouped_parts))
+        signature = tuple(part["id"] for part in ordered)
+        if not signature or signature in signature_keys:
+            return
+        signature_keys.add(signature)
         group_options.append(label)
-        group_map[label] = lang_parts
-    for directory, dir_parts in dir_groups.items():
-        label = f"{directory}/ ({len(dir_parts)} files)"
-        if label not in group_options:
-            group_options.append(label)
-            group_map[label] = dir_parts
+        group_map[label] = ordered
+        if default:
+            default_group = label
+
+    add_group(
+        f"best-defined optimization targets ({len(ranked_focus)} modules)",
+        ranked_focus,
+        default=True,
+    )
+
+    metric_groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for part in ranked_parts:
+        if part_is_non_core(part):
+            continue
+        metric_name = part.get("suggested_metric", {}).get("name")
+        if metric_name and metric_name != "unknown":
+            metric_groups[metric_name].append(part)
+
+    for metric_name in ("latency_ms", "runtime_seconds", "throughput", "memory_mb", "accuracy", "loss"):
+        grouped = metric_groups.get(metric_name, [])
+        if grouped:
+            add_group(
+                f"{functionality_label(metric_name)} ({len(grouped)} modules)",
+                grouped,
+            )
+
+    hubs = [
+        part for part in ranked_parts
+        if not part_is_non_core(part) and part.get("dependents")
+    ]
+    add_group(f"core dependency hubs ({len(hubs)} modules)", hubs)
+
+    boundary_parts = [
+        part for part in ranked_parts
+        if not part_is_non_core(part)
+        and part.get("dependencies")
+        and not part.get("dependents")
+    ]
+    add_group(f"entry and execution paths ({len(boundary_parts)} modules)", boundary_parts)
+
+    all_label = f"all scanned functionality ({len(parts)} modules)"
+    add_group(all_label, ranked_parts)
+    if default_group not in group_map:
+        default_group = all_label
     return group_options, group_map, default_group
 
 
@@ -734,18 +811,25 @@ def interactive_select_part_from_scan(
     dir_groups: dict[str, list[dict[str, Any]]],
     focus_parts: list[dict[str, Any]],
 ) -> dict[str, Any]:
+    if len(parts) == 1:
+        chosen = parts[0]["id"]
+        state.setdefault("selection", {})["part_id"] = chosen
+        write_state(repo_root, state)
+        print(f"selected: {chosen}")
+        return parts[0]
+
     group_options, group_map, default_group = build_scan_group_selection(
         parts, lang_groups, dir_groups, focus_parts
     )
     chosen_group = wizard_select(
-        "Which kind of files do you want to optimize?",
+        "Which functionality area do you want to improve?",
         group_options,
         default=default_group,
     )
     filtered_parts = group_map[chosen_group]
 
-    if chosen_group != "all files":
-        print(f"\n{len(filtered_parts)} files in scope.")
+    if chosen_group != default_group:
+        print(f"\n{len(filtered_parts)} modules in scope.")
         print(f"\n{render_dependency_tree(filtered_parts)}\n")
 
     part_ids = [p["id"] for p in filtered_parts]
