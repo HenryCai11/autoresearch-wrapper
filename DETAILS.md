@@ -34,6 +34,8 @@ Back to [README](./README.md)
 
 - Scans the repo at the module/file level.
 - Builds a best-effort direct dependency graph for each part.
+- Defaults to a compact scan view that prioritizes core functionality modules and immediate neighbors.
+- Use `scan --full-summary` when you explicitly want the full language/directory listing and full dependency graph.
 - Tracks:
   - direct dependencies
   - direct dependents

@@ -33,14 +33,21 @@ python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" scan --no-interacti
 ```
 
 Then:
-- Show the language and directory groupings printed by scan
-- Show the module-level dependency graph printed by scan
+- Start from the compact core-functionality summary printed by scan
+- Show the focused dependency graph printed by scan
+- Only ask for the full language/directory listing if the user explicitly wants a broader scan
 - Ask the user which kind of files (language or directory) they want to focus on
 - Ask which specific part to optimize
 - Ask for the metric name, metric command, metric goal
 - Ask for execution mode (sequential / parallel / wild) and rounds
 - Persist the configuration with `configure`
 - Ask if the user wants to start the run immediately
+
+If the user explicitly asks to inspect everything, rerun with:
+
+```bash
+python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" scan --no-interactive --full-summary
+```
 
 2. If the user provides extra text after `/autoresearch-wrapper`, treat it as the high-level instruction and act accordingly.
 

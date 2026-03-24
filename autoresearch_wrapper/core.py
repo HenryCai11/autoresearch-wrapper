@@ -155,6 +155,48 @@ OPTIMIZATION_KEYWORDS = (
     "memoiz",
 )
 STATUS_ORDER = {"surely optimizable": 0, "probably optimizable": 1}
+CORE_PATH_HINTS = {
+    "src",
+    "app",
+    "pkg",
+    "lib",
+    "core",
+    "engine",
+    "server",
+    "service",
+    "services",
+    "api",
+    "model",
+    "models",
+}
+NON_CORE_PATH_HINTS = {
+    "test",
+    "tests",
+    "spec",
+    "specs",
+    "example",
+    "examples",
+    "demo",
+    "demos",
+    "docs",
+    "doc",
+    "benchmark",
+    "benchmarks",
+    "bench",
+    "fixtures",
+    "samples",
+    "scripts",
+    "tools",
+    "migrations",
+}
+NON_CORE_FILE_HINTS = {
+    "__init__.py",
+    "conftest.py",
+    "setup.py",
+    "manage.py",
+}
+DEFAULT_SCAN_FOCUS_PARTS = 8
+DEFAULT_SCAN_FOCUS_SEEDS = 4
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -170,6 +212,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     scan = subparsers.add_parser("scan", help="Analyze the repo and persist part status.")
     add_repo_arg(scan)
+    scan.add_argument(
+        "--full-summary",
+        action="store_true",
+        help="Print the full language/directory listing and full dependency graph.",
+    )
     add_interactive_arg(scan)
     scan.set_defaults(func=command_scan)
 
@@ -457,6 +504,145 @@ def group_parts_by_directory(parts: list[dict[str, Any]]) -> dict[str, list[dict
     return dict(sorted(groups.items(), key=lambda kv: (-len(kv[1]), kv[0])))
 
 
+def format_group_overview(
+    groups: dict[str, list[dict[str, Any]]],
+    *,
+    directory_mode: bool = False,
+    limit: int = 5,
+) -> str:
+    items = list(groups.items())[:limit]
+    rendered = []
+    for name, grouped_parts in items:
+        label = f"{name}/" if directory_mode and name != "." else ("./" if directory_mode else name)
+        rendered.append(f"{label} ({len(grouped_parts)})")
+    if len(groups) > limit:
+        rendered.append(f"... +{len(groups) - limit} more")
+    return ", ".join(rendered)
+
+
+def part_is_non_core(part: dict[str, Any]) -> bool:
+    path = PurePosixPath(part["id"])
+    segments = [segment.lower() for segment in path.parts]
+    basename = path.name.lower()
+    if any(segment in NON_CORE_PATH_HINTS for segment in segments):
+        return True
+    if basename in NON_CORE_FILE_HINTS:
+        return True
+    if basename.startswith("test_") or basename.endswith("_test.py"):
+        return True
+    if ".test." in basename or ".spec." in basename:
+        return True
+    return False
+
+
+def core_focus_score(part: dict[str, Any]) -> int:
+    path = PurePosixPath(part["id"])
+    segments = [segment.lower() for segment in path.parts]
+    basename = path.name.lower()
+    dependencies = len(part.get("dependencies", []))
+    dependents = len(part.get("dependents", []))
+    signals = part.get("signals", [])
+
+    score = 0
+    if part.get("status") == "surely optimizable":
+        score += 30
+    else:
+        score += 16
+    if part.get("candidate_clarity"):
+        score += 10
+    if part.get("suggested_metric", {}).get("name") != "unknown":
+        score += 8
+    if part.get("dependency_clarity") == "clear":
+        score += 4
+
+    score += min(dependencies, 4) * 2
+    score += min(dependents, 4) * 3
+    score += min(len(signals), 3) * 2
+
+    if dependencies and dependents:
+        score += 4
+    elif dependencies or dependents:
+        score += 2
+    else:
+        score -= 5
+
+    if any(segment in CORE_PATH_HINTS for segment in segments):
+        score += 6
+    if part_is_non_core(part):
+        score -= 24
+
+    return score
+
+
+def select_scan_focus_parts(
+    parts: list[dict[str, Any]],
+    *,
+    max_parts: int = DEFAULT_SCAN_FOCUS_PARTS,
+    max_seeds: int = DEFAULT_SCAN_FOCUS_SEEDS,
+) -> list[dict[str, Any]]:
+    parts_by_id = {part["id"]: part for part in parts}
+    ranked = sorted(
+        parts,
+        key=lambda item: (
+            -core_focus_score(item),
+            STATUS_ORDER.get(item.get("status"), 99),
+            item["path"],
+        ),
+    )
+    core_ranked = [part for part in ranked if not part_is_non_core(part)]
+
+    seed_parts = [part for part in core_ranked if core_focus_score(part) >= 20][:max_seeds]
+    if not seed_parts:
+        seed_parts = core_ranked[:max_seeds]
+    if not seed_parts:
+        seed_parts = ranked[:max_seeds]
+
+    selected_ids: list[str] = []
+
+    def add_part(part_id: str) -> None:
+        if part_id not in parts_by_id:
+            return
+        if part_id in selected_ids or len(selected_ids) >= max_parts:
+            return
+        selected_ids.append(part_id)
+
+    for part in seed_parts:
+        add_part(part["id"])
+        for dependency in part.get("dependencies", []):
+            add_part(dependency)
+            if len(selected_ids) >= max_parts:
+                break
+        if len(selected_ids) >= max_parts:
+            break
+        for dependent in part.get("dependents", []):
+            neighbor = parts_by_id.get(dependent)
+            if neighbor and not part_is_non_core(neighbor):
+                add_part(dependent)
+            if len(selected_ids) >= max_parts:
+                break
+        if len(selected_ids) >= max_parts:
+            break
+
+    min_focus = min(max_parts, max(1, min(4, len(core_ranked) or len(ranked))))
+    fill_source = core_ranked or ranked
+    for part in fill_source:
+        add_part(part["id"])
+        if len(selected_ids) >= min_focus:
+            break
+
+    selected = [parts_by_id[part_id] for part_id in selected_ids]
+    selected.sort(key=lambda item: (STATUS_ORDER.get(item["status"], 99), item["path"]))
+    return selected
+
+
+def format_scan_focus_line(part: dict[str, Any]) -> str:
+    metric_name = part.get("suggested_metric", {}).get("name", "unknown")
+    summary_bits = [f"metric={metric_name}"]
+    summary_bits.append(f"deps={len(part.get('dependencies', []))}")
+    summary_bits.append(f"dependents={len(part.get('dependents', []))}")
+    return f"  - {part['id']} [{part['status']}; {', '.join(summary_bits)}]"
+
+
 def render_dependency_tree(parts: list[dict[str, Any]], max_depth: int = 3) -> str:
     """Render a text-based module-level dependency graph for a set of parts."""
     part_ids = {p["id"] for p in parts}
@@ -515,31 +701,54 @@ def command_scan(args: argparse.Namespace) -> int:
     if not parts:
         return 0
 
-    # Always print language/directory summary and dependency graph
     lang_groups = group_parts_by_language(parts)
     dir_groups = group_parts_by_directory(parts)
+    focus_parts = select_scan_focus_parts(parts)
 
-    print("\nBy language:")
-    for lang, lang_parts in lang_groups.items():
-        ids = [p["id"] for p in lang_parts]
-        print(f"  {lang} ({len(lang_parts)}): {', '.join(ids[:5])}"
-              + (f" ... +{len(ids)-5}" if len(ids) > 5 else ""))
+    if args.full_summary:
+        print("\nBy language:")
+        for lang, lang_parts in lang_groups.items():
+            ids = [p["id"] for p in lang_parts]
+            print(f"  {lang} ({len(lang_parts)}): {', '.join(ids[:5])}"
+                  + (f" ... +{len(ids)-5}" if len(ids) > 5 else ""))
 
-    print("\nBy directory:")
-    for directory, dir_parts in dir_groups.items():
-        ids = [p["id"] for p in dir_parts]
-        print(f"  {directory}/ ({len(dir_parts)}): {', '.join(ids[:5])}"
-              + (f" ... +{len(ids)-5}" if len(ids) > 5 else ""))
+        print("\nBy directory:")
+        for directory, dir_parts in dir_groups.items():
+            ids = [p["id"] for p in dir_parts]
+            print(f"  {directory}/ ({len(dir_parts)}): {', '.join(ids[:5])}"
+                  + (f" ... +{len(ids)-5}" if len(ids) > 5 else ""))
 
-    print(f"\nModule dependency graph:\n{render_dependency_tree(parts)}\n")
+        print(f"\nModule dependency graph:\n{render_dependency_tree(parts)}\n")
+    else:
+        print("\nRepo shape:")
+        print(f"  languages: {format_group_overview(lang_groups)}")
+        print(f"  top directories: {format_group_overview(dir_groups, directory_mode=True)}")
+
+        print("\nCore functionality focus:")
+        for part in focus_parts:
+            print(format_scan_focus_line(part))
+
+        print(f"\nFocused dependency graph:\n{render_dependency_tree(focus_parts, max_depth=2)}\n")
+        if len(focus_parts) < len(parts):
+            print(
+                f"{len(parts) - len(focus_parts)} additional parts omitted from the default scan view. "
+                "Use --full-summary to inspect all scanned parts."
+            )
 
     interactive = resolve_interactive(args)
     if not interactive or len(parts) < 2:
         return 0
 
     # Interactive: let user filter by group
-    group_options = ["all files"]
-    group_map: dict[str, list[dict[str, Any]]] = {"all files": parts}
+    group_options: list[str] = []
+    group_map: dict[str, list[dict[str, Any]]] = {}
+    default_group = "all files"
+    if len(focus_parts) < len(parts):
+        default_group = f"core functionality ({len(focus_parts)} files)"
+        group_options.append(default_group)
+        group_map[default_group] = focus_parts
+    group_options.append("all files")
+    group_map["all files"] = parts
     for lang, lang_parts in lang_groups.items():
         label = f"{lang} ({len(lang_parts)} files)"
         group_options.append(label)
@@ -553,7 +762,7 @@ def command_scan(args: argparse.Namespace) -> int:
     chosen_group = wizard_select(
         "Which kind of files do you want to optimize?",
         group_options,
-        default="all files",
+        default=default_group,
     )
     filtered_parts = group_map[chosen_group]
 
@@ -3666,4 +3875,3 @@ def render_delete_program(
         "",
     ])
     return "\n".join(lines)
-

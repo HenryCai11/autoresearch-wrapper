@@ -100,7 +100,7 @@ Just run
 ```
 /autoresearch-wrapper
 ```
-This will start a wizard guiding you to start your optimization step-by-step.
+This starts a wizard that begins with a compact core-functionality scan, then guides you step-by-step through target selection and run setup. If you want the full repo-wide listing, use `python3 scripts/autoresearch_wrapper.py scan --full-summary`.
 
 ## Examples
 

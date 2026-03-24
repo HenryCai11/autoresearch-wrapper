@@ -7,6 +7,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
@@ -694,6 +695,83 @@ class AutoresearchWrapperTests(unittest.TestCase):
                 "--metric-goal", "minimize", "--no-interactive",
             ])
         self.assertIn("unable to resolve part", str(exc.exception))
+
+    def test_scan_default_focuses_on_core_modules(self) -> None:
+        repo = self.make_repo()
+        (repo / "src").mkdir()
+        (repo / "tests").mkdir()
+        (repo / "scripts").mkdir()
+        (repo / "src" / "helpers.py").write_text("def helper():\n    return 1\n")
+        (repo / "src" / "api.py").write_text(
+            "from .helpers import helper\n\n# optimize latency in this hot path\n"
+        )
+        (repo / "tests" / "test_api.py").write_text("from src.api import helper\n")
+        (repo / "scripts" / "bench.py").write_text("print('benchmark helper')\n")
+        self.commit_all(repo)
+
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            main(["scan", "--repo", str(repo), "--no-interactive"])
+        rendered = output.getvalue()
+
+        self.assertIn("Core functionality focus:", rendered)
+        self.assertIn("Focused dependency graph:", rendered)
+        self.assertIn("src/api.py", rendered)
+        self.assertIn("Use --full-summary", rendered)
+        self.assertNotIn("tests/test_api.py [", rendered)
+        self.assertNotIn("scripts/bench.py [", rendered)
+
+    def test_scan_full_summary_shows_all_parts(self) -> None:
+        repo = self.make_repo()
+        (repo / "src").mkdir()
+        (repo / "tests").mkdir()
+        (repo / "scripts").mkdir()
+        (repo / "src" / "helpers.py").write_text("def helper():\n    return 1\n")
+        (repo / "src" / "api.py").write_text(
+            "from .helpers import helper\n\n# optimize latency in this hot path\n"
+        )
+        (repo / "tests" / "test_api.py").write_text("from src.api import helper\n")
+        (repo / "scripts" / "bench.py").write_text("print('benchmark helper')\n")
+        self.commit_all(repo)
+
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            main(["scan", "--repo", str(repo), "--no-interactive", "--full-summary"])
+        rendered = output.getvalue()
+
+        self.assertIn("By language:", rendered)
+        self.assertIn("By directory:", rendered)
+        self.assertIn("Module dependency graph:", rendered)
+        self.assertIn("tests/test_api.py", rendered)
+        self.assertIn("scripts/bench.py", rendered)
+
+    def test_scan_wizard_defaults_to_core_functionality(self) -> None:
+        repo = self.make_repo()
+        (repo / "src").mkdir()
+        (repo / "tests").mkdir()
+        (repo / "src" / "helpers.py").write_text("def helper():\n    return 1\n")
+        (repo / "src" / "api.py").write_text(
+            "from .helpers import helper\n\n# optimize latency in this hot path\n"
+        )
+        (repo / "tests" / "test_api.py").write_text("from src.api import helper\n")
+        self.commit_all(repo)
+
+        prompts: list[tuple[str, list[str], str | None]] = []
+
+        def fake_wizard(label: str, options: list[str], default: str | None = None) -> str:
+            prompts.append((label, options, default))
+            return default or options[0]
+
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            with mock.patch("autoresearch_wrapper.core.resolve_interactive", return_value=True):
+                with mock.patch("autoresearch_wrapper.core.wizard_select", side_effect=fake_wizard):
+                    main(["scan", "--repo", str(repo)])
+
+        first_prompt = prompts[0]
+        self.assertEqual(first_prompt[0], "Which kind of files do you want to optimize?")
+        self.assertIsNotNone(first_prompt[2])
+        self.assertTrue(first_prompt[2].startswith("core functionality ("))
 
     # -----------------------------------------------------------------------
     # Wizard (basic unit tests, not interactive)
