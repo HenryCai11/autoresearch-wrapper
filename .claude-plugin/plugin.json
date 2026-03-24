@@ -1,0 +1,13 @@
+{
+  "name": "autoresearch-wrapper",
+  "description": "Dependency-aware optimization engine for any codebase. Scan, plan, isolate, measure, repeat — all in Git worktrees.",
+  "version": "0.0.2",
+  "author": {
+    "name": "HenryCai11",
+    "url": "https://github.com/HenryCai11"
+  },
+  "homepage": "https://github.com/HenryCai11/autoresearch-wrapper",
+  "repository": "https://github.com/HenryCai11/autoresearch-wrapper",
+  "license": "MIT",
+  "keywords": ["autoresearch", "optimization", "dependency-graph", "worktree"]
+}
