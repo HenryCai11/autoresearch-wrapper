@@ -1,5 +1,4 @@
 {
-  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "autoresearch-wrapper",
   "version": "0.0.2",
   "description": "Dependency-aware optimization engine for any codebase. Scan, plan, isolate, measure, repeat — all in Git worktrees. Builds module-level dependency graphs and runs optimization loops in isolated worktrees.",
