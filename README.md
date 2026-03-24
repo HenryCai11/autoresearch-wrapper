@@ -41,6 +41,7 @@ Recently, I've been asking Codex to write autoresearch wrappers for the modules 
 
 ```bash
 /plugin marketplace add HenryCai11/autoresearch-wrapper
+/plugin install autoresearch-wrapper
 ```
 
 To update to the latest version:
