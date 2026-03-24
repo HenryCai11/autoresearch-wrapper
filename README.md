@@ -100,7 +100,7 @@ Just run
 ```
 /autoresearch-wrapper
 ```
-This starts a wizard that begins with a compact core-functionality scan, then guides you step-by-step through target selection and run setup. If you want the full repo-wide listing, use `python3 scripts/autoresearch_wrapper.py scan --full-summary`.
+This starts a wizard that begins with a compact core-functionality scan, then guides you step-by-step through target selection and run setup. If you want the full repo-wide listing, use `python3 scripts/autoresearch_wrapper.py wizard --full-summary`.
 
 ## Examples
 
@@ -112,7 +112,7 @@ An example of the wizard for optimizing [Recursive Language Models](https://gith
 
 | Codex | Claude Code | CLI | What it does |
 | --- | --- | --- | --- |
-| `/autoresearch-wrapper` | `/autoresearch-wrapper` | `scan` / `wrap` | Scan repo or wrap a script |
+| `/autoresearch-wrapper` | `/autoresearch-wrapper` | `wizard` / `wrap` | Run the end-to-end wizard or wrap a script |
 | `:status` | `-status` | `status` | Show state and readiness |
 | `:run` | `-run` | `run` | Start or resume a run |
 | `:flow` | `-flow` | `flow` | Metric history and plot |
@@ -120,7 +120,7 @@ An example of the wizard for optimizing [Recursive Language Models](https://gith
 | `:delete` | `-delete` | `delete` | Post-deletion optimization |
 | `:monitor` | `-monitor` | `monitor` | Live progress polling |
 
-Additional CLI subcommands: `configure`, `allocate`, `evaluate`, `record`, `resources`, `preset-metric`, `reference`
+Additional CLI subcommands: `scan`, `configure`, `allocate`, `evaluate`, `record`, `resources`, `preset-metric`, `reference`
 
 ## Testing
 

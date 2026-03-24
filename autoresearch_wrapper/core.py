@@ -62,6 +62,7 @@ METRIC_PRESETS = {
 }
 
 CLI_COMMANDS = {
+    "wizard",
     "scan",
     "wrap",
     "configure",
@@ -209,6 +210,19 @@ def main(argv: list[str] | None = None) -> int:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Dependency-aware autoresearch wrapper helpers.")
     subparsers = parser.add_subparsers(dest="command", required=True)
+
+    wizard = subparsers.add_parser(
+        "wizard",
+        help="Run the end-to-end interactive workflow: scan, choose a part, configure it, and optionally start a run.",
+    )
+    add_repo_arg(wizard)
+    wizard.add_argument(
+        "--full-summary",
+        action="store_true",
+        help="Print the full language/directory listing and full dependency graph before prompting.",
+    )
+    add_interactive_arg(wizard)
+    wizard.set_defaults(func=command_wizard)
 
     scan = subparsers.add_parser("scan", help="Analyze the repo and persist part status.")
     add_repo_arg(scan)
@@ -479,6 +493,8 @@ def normalize_entry_argv(argv: list[str] | None) -> list[str] | None:
     if argv is None:
         argv = sys.argv[1:]
     if not argv:
+        if is_interactive_default():
+            return ["wizard"]
         return argv
     first = argv[0]
     if first.startswith("-") or first in CLI_COMMANDS:
@@ -643,6 +659,103 @@ def format_scan_focus_line(part: dict[str, Any]) -> str:
     return f"  - {part['id']} [{part['status']}; {', '.join(summary_bits)}]"
 
 
+def print_scan_summary(
+    parts: list[dict[str, Any]],
+    lang_groups: dict[str, list[dict[str, Any]]],
+    dir_groups: dict[str, list[dict[str, Any]]],
+    focus_parts: list[dict[str, Any]],
+    *,
+    full_summary: bool,
+) -> None:
+    if full_summary:
+        print("\nBy language:")
+        for lang, lang_parts in lang_groups.items():
+            ids = [p["id"] for p in lang_parts]
+            print(f"  {lang} ({len(lang_parts)}): {', '.join(ids[:5])}"
+                  + (f" ... +{len(ids)-5}" if len(ids) > 5 else ""))
+
+        print("\nBy directory:")
+        for directory, dir_parts in dir_groups.items():
+            ids = [p["id"] for p in dir_parts]
+            print(f"  {directory}/ ({len(dir_parts)}): {', '.join(ids[:5])}"
+                  + (f" ... +{len(ids)-5}" if len(ids) > 5 else ""))
+
+        print(f"\nModule dependency graph:\n{render_dependency_tree(parts)}\n")
+        return
+
+    print("\nRepo shape:")
+    print(f"  languages: {format_group_overview(lang_groups)}")
+    print(f"  top directories: {format_group_overview(dir_groups, directory_mode=True)}")
+
+    print("\nCore functionality focus:")
+    for part in focus_parts:
+        print(format_scan_focus_line(part))
+
+    print(f"\nFocused dependency graph:\n{render_dependency_tree(focus_parts, max_depth=2)}\n")
+    if len(focus_parts) < len(parts):
+        print(
+            f"{len(parts) - len(focus_parts)} additional parts omitted from the default scan view. "
+            "Use --full-summary to inspect all scanned parts."
+        )
+
+
+def build_scan_group_selection(
+    parts: list[dict[str, Any]],
+    lang_groups: dict[str, list[dict[str, Any]]],
+    dir_groups: dict[str, list[dict[str, Any]]],
+    focus_parts: list[dict[str, Any]],
+) -> tuple[list[str], dict[str, list[dict[str, Any]]], str]:
+    group_options: list[str] = []
+    group_map: dict[str, list[dict[str, Any]]] = {}
+    default_group = "all files"
+    if len(focus_parts) < len(parts):
+        default_group = f"core functionality ({len(focus_parts)} files)"
+        group_options.append(default_group)
+        group_map[default_group] = focus_parts
+    group_options.append("all files")
+    group_map["all files"] = parts
+    for lang, lang_parts in lang_groups.items():
+        label = f"{lang} ({len(lang_parts)} files)"
+        group_options.append(label)
+        group_map[label] = lang_parts
+    for directory, dir_parts in dir_groups.items():
+        label = f"{directory}/ ({len(dir_parts)} files)"
+        if label not in group_options:
+            group_options.append(label)
+            group_map[label] = dir_parts
+    return group_options, group_map, default_group
+
+
+def interactive_select_part_from_scan(
+    state: dict[str, Any],
+    repo_root: Path,
+    parts: list[dict[str, Any]],
+    lang_groups: dict[str, list[dict[str, Any]]],
+    dir_groups: dict[str, list[dict[str, Any]]],
+    focus_parts: list[dict[str, Any]],
+) -> dict[str, Any]:
+    group_options, group_map, default_group = build_scan_group_selection(
+        parts, lang_groups, dir_groups, focus_parts
+    )
+    chosen_group = wizard_select(
+        "Which kind of files do you want to optimize?",
+        group_options,
+        default=default_group,
+    )
+    filtered_parts = group_map[chosen_group]
+
+    if chosen_group != "all files":
+        print(f"\n{len(filtered_parts)} files in scope.")
+        print(f"\n{render_dependency_tree(filtered_parts)}\n")
+
+    part_ids = [p["id"] for p in filtered_parts]
+    chosen = wizard_select("Select a part to optimize", part_ids)
+    state.setdefault("selection", {})["part_id"] = chosen
+    write_state(repo_root, state)
+    print(f"selected: {chosen}")
+    return next(part for part in state["parts"] if part["id"] == chosen)
+
+
 def render_dependency_tree(parts: list[dict[str, Any]], max_depth: int = 3) -> str:
     """Render a text-based module-level dependency graph for a set of parts."""
     part_ids = {p["id"] for p in parts}
@@ -704,78 +817,182 @@ def command_scan(args: argparse.Namespace) -> int:
     lang_groups = group_parts_by_language(parts)
     dir_groups = group_parts_by_directory(parts)
     focus_parts = select_scan_focus_parts(parts)
-
-    if args.full_summary:
-        print("\nBy language:")
-        for lang, lang_parts in lang_groups.items():
-            ids = [p["id"] for p in lang_parts]
-            print(f"  {lang} ({len(lang_parts)}): {', '.join(ids[:5])}"
-                  + (f" ... +{len(ids)-5}" if len(ids) > 5 else ""))
-
-        print("\nBy directory:")
-        for directory, dir_parts in dir_groups.items():
-            ids = [p["id"] for p in dir_parts]
-            print(f"  {directory}/ ({len(dir_parts)}): {', '.join(ids[:5])}"
-                  + (f" ... +{len(ids)-5}" if len(ids) > 5 else ""))
-
-        print(f"\nModule dependency graph:\n{render_dependency_tree(parts)}\n")
-    else:
-        print("\nRepo shape:")
-        print(f"  languages: {format_group_overview(lang_groups)}")
-        print(f"  top directories: {format_group_overview(dir_groups, directory_mode=True)}")
-
-        print("\nCore functionality focus:")
-        for part in focus_parts:
-            print(format_scan_focus_line(part))
-
-        print(f"\nFocused dependency graph:\n{render_dependency_tree(focus_parts, max_depth=2)}\n")
-        if len(focus_parts) < len(parts):
-            print(
-                f"{len(parts) - len(focus_parts)} additional parts omitted from the default scan view. "
-                "Use --full-summary to inspect all scanned parts."
-            )
+    print_scan_summary(parts, lang_groups, dir_groups, focus_parts, full_summary=args.full_summary)
 
     interactive = resolve_interactive(args)
     if not interactive or len(parts) < 2:
         return 0
 
-    # Interactive: let user filter by group
-    group_options: list[str] = []
-    group_map: dict[str, list[dict[str, Any]]] = {}
-    default_group = "all files"
-    if len(focus_parts) < len(parts):
-        default_group = f"core functionality ({len(focus_parts)} files)"
-        group_options.append(default_group)
-        group_map[default_group] = focus_parts
-    group_options.append("all files")
-    group_map["all files"] = parts
-    for lang, lang_parts in lang_groups.items():
-        label = f"{lang} ({len(lang_parts)} files)"
-        group_options.append(label)
-        group_map[label] = lang_parts
-    for directory, dir_parts in dir_groups.items():
-        label = f"{directory}/ ({len(dir_parts)} files)"
-        if label not in group_options:
-            group_options.append(label)
-            group_map[label] = dir_parts
+    interactive_select_part_from_scan(state, repo_root, parts, lang_groups, dir_groups, focus_parts)
+    return 0
 
-    chosen_group = wizard_select(
-        "Which kind of files do you want to optimize?",
-        group_options,
-        default=default_group,
-    )
-    filtered_parts = group_map[chosen_group]
 
-    if chosen_group != "all files":
-        print(f"\n{len(filtered_parts)} files in scope.")
-        print(f"\n{render_dependency_tree(filtered_parts)}\n")
+def command_wizard(args: argparse.Namespace) -> int:
+    if not resolve_interactive(args):
+        raise SystemExit("wizard requires interactive mode; run it in a TTY or pass --interactive")
 
-    # Select a specific part
-    part_ids = [p["id"] for p in filtered_parts]
-    chosen = wizard_select("Select a part to optimize", part_ids)
-    state.setdefault("selection", {})["part_id"] = chosen
+    repo_root = detect_repo_root(Path(args.repo))
+    state = refresh_repo_state(repo_root)
     write_state(repo_root, state)
-    print(f"selected: {chosen}")
+    parts = state["parts"]
+    print(f"scanned {len(parts)} parts into {state_file(repo_root)}")
+    if not parts:
+        return 0
+
+    lang_groups = group_parts_by_language(parts)
+    dir_groups = group_parts_by_directory(parts)
+    focus_parts = select_scan_focus_parts(parts)
+    print_scan_summary(parts, lang_groups, dir_groups, focus_parts, full_summary=args.full_summary)
+
+    part = interactive_select_part_from_scan(
+        state, repo_root, parts, lang_groups, dir_groups, focus_parts
+    )
+    existing = dict(state.setdefault("part_configs", {}).get(part["id"], {}))
+    metric = dict(existing.get("metric", {}))
+    execution = dict(existing.get("execution", {}))
+
+    resources = state.get("resources") or detect_system_resources()
+    state["resources"] = resources
+
+    suggested_metric = part.get("suggested_metric", {}).get("name")
+    metric_name_default = metric.get("name")
+    if not metric_name_default and suggested_metric and suggested_metric != "unknown":
+        metric_name_default = suggested_metric
+    metric_goal_default = (
+        metric.get("goal")
+        or infer_metric_goal(metric_name_default)
+        or part.get("suggested_metric", {}).get("goal")
+        or "minimize"
+    )
+    metric_command_default = metric.get("command")
+    metric_regex = metric.get("regex") or DEFAULT_METRIC_REGEX
+    mode_default = execution.get("mode") or "sequential"
+    rounds_default = execution.get("rounds") or WRAP_DEFAULT_ROUNDS
+    stop_rule_default = execution.get("stop_rule")
+    parallelism_default = execution.get("parallelism")
+    if mode_default in ("parallel", "wild") and not parallelism_default:
+        parallelism_default = resources.get("recommended_parallelism") or 2
+    if mode_default not in ("parallel", "wild"):
+        parallelism_default = 1
+    early_exit_patience_default = execution.get("early_exit_patience")
+    early_exit_threshold_default = execution.get("early_exit_threshold")
+    wild_max_default = execution.get("wild_max_simultaneous") or 3
+
+    print("\nSelected part details:")
+    print(f"  part: {part['id']}")
+    print(f"  status: {part['status']}")
+    print(f"  suggested metric: {suggested_metric or 'unknown'}")
+    print(f"  direct dependencies: {format_neighbors(part.get('dependencies', []))}")
+    print(f"  dependents: {format_neighbors(part.get('dependents', []))}")
+    blockers = dependency_run_blockers(part)
+    if blockers:
+        print(f"  dependency blockers: {', '.join(blockers)}")
+    else:
+        print("  dependency blockers: none")
+
+    print("\nRun setup:")
+    if not metric_name_default:
+        print("  No metric could be inferred for this part. You need to provide one.")
+    metric_name = wizard_input("Metric name", default=metric_name_default)
+    metric_goal = wizard_select(
+        "Metric goal",
+        ["minimize", "maximize"],
+        default=metric_goal_default,
+    )
+    print("  Metric command should print METRIC=<value> when evaluated.")
+    metric_command = wizard_input("Metric command", default=metric_command_default)
+    mode = wizard_select(
+        "Execution mode",
+        ["sequential", "parallel", "wild"],
+        default=mode_default,
+    )
+    rounds = wizard_int("Rounds", default=rounds_default)
+    parallelism = 1
+    if mode in ("parallel", "wild"):
+        parallelism = wizard_int(
+            "Parallelism",
+            default=parallelism_default or (resources.get("recommended_parallelism") or 2),
+        )
+    stop_rule = wizard_optional_input("Stop rule", default=stop_rule_default)
+
+    enable_early_exit = wizard_confirm(
+        "Enable early exit?",
+        default=bool(early_exit_patience_default),
+    )
+    early_exit_patience = None
+    early_exit_threshold = None
+    if enable_early_exit:
+        early_exit_patience = wizard_int(
+            "Early-exit patience",
+            default=early_exit_patience_default or 3,
+        )
+        early_exit_threshold = wizard_optional_float(
+            "Early-exit threshold",
+            default=early_exit_threshold_default,
+        )
+
+    wild_max_simultaneous = None
+    if mode == "wild":
+        wild_max_simultaneous = wizard_int(
+            "Wild max simultaneous changes",
+            default=wild_max_default,
+        )
+
+    config = merge_config(
+        part=part,
+        existing=existing,
+        metric_name=metric_name,
+        metric_goal=metric_goal,
+        metric_command=metric_command,
+        metric_regex=metric_regex,
+        mode=mode,
+        rounds=rounds,
+        stop_rule=stop_rule,
+        parallelism=parallelism,
+        entrypoint_type=existing.get("entrypoint", {}).get("type") or "part",
+        entrypoint_path=existing.get("entrypoint", {}).get("path") or part["id"],
+        metric_preset=metric.get("preset"),
+        command_suggestion=metric.get("command_suggestion"),
+        early_exit_patience=early_exit_patience,
+        early_exit_threshold=early_exit_threshold,
+        wild_max_simultaneous=wild_max_simultaneous,
+    )
+    normalize_execution_defaults(config["execution"])
+    state.setdefault("part_configs", {})[part["id"]] = config
+    state.setdefault("selection", {})["part_id"] = part["id"]
+    refresh_part_readiness(state)
+    write_state(repo_root, state)
+
+    print("\nConfiguration saved:")
+    print(f"  metric: {metric_name} ({metric_goal})")
+    print(f"  mode: {mode}")
+    print(f"  rounds: {rounds}")
+    if mode in ("parallel", "wild"):
+        print(f"  parallelism: {config['execution']['parallelism']}")
+    if mode == "wild":
+        print(f"  wild max simultaneous: {config['execution']['wild_max_simultaneous']}")
+    if early_exit_patience is not None:
+        print(f"  early exit patience: {early_exit_patience}")
+        if early_exit_threshold is not None:
+            print(f"  early exit threshold: {early_exit_threshold}")
+
+    if blockers:
+        print(
+            "\nRun not started because the selected part still has dependency blockers. "
+            "Clarify or narrow the target, then run `run`."
+        )
+        return 0
+
+    if not wizard_confirm("Start the run now?", default=True):
+        print("\nRun not started. Use `run` when you are ready.")
+        return 0
+
+    payload = start_or_resume_run(repo_root, state, part, config)
+    print("\nRun started:")
+    print(f"  run id: {payload['run_id']}")
+    print(f"  part: {payload['part_id']}")
+    print(f"  program: {payload['program_path']}")
+    print(f"  candidates: {', '.join(payload['active_candidates'])}")
     return 0
 
 
@@ -949,14 +1166,13 @@ def command_status(args: argparse.Namespace) -> int:
     return 0
 
 
-def command_run(args: argparse.Namespace) -> int:
-    repo_root = detect_repo_root(Path(args.repo))
+def start_or_resume_run(
+    repo_root: Path,
+    state: dict[str, Any],
+    part: dict[str, Any],
+    config: dict[str, Any] | None,
+) -> dict[str, Any]:
     ensure_git_repo(repo_root)
-    state = ensure_scanned(repo_root)
-    part = resolve_part(state, args.part or state.get("selection", {}).get("part_id"))
-    if part is None:
-        raise SystemExit("no selected part; configure one with the wrapper first")
-    config = state.get("part_configs", {}).get(part["id"])
     missing = missing_run_fields(config)
     if missing:
         raise SystemExit(
@@ -982,12 +1198,22 @@ def command_run(args: argparse.Namespace) -> int:
     state.setdefault("selection", {})["active_run_id"] = run["run_id"]
     write_state(repo_root, state)
 
-    payload = {
+    return {
         "run_id": run["run_id"],
         "part_id": part["id"],
         "program_path": run["program_path"],
         "active_candidates": [candidate["candidate_id"] for candidate in run["candidates"]],
     }
+
+
+def command_run(args: argparse.Namespace) -> int:
+    repo_root = detect_repo_root(Path(args.repo))
+    state = ensure_scanned(repo_root)
+    part = resolve_part(state, args.part or state.get("selection", {}).get("part_id"))
+    if part is None:
+        raise SystemExit("no selected part; configure one with the wrapper first")
+    config = state.get("part_configs", {}).get(part["id"])
+    payload = start_or_resume_run(repo_root, state, part, config)
     emit(payload, args.json)
     return 0
 
@@ -3083,6 +3309,49 @@ def wizard_int(label: str, default: int | None = None) -> int:
             return int(raw)
         except ValueError:
             print("  Please enter a valid integer.")
+
+
+def wizard_optional_input(label: str, default: str | None = None) -> str | None:
+    """Prompt for optional text input; blank keeps the default or leaves it unset."""
+    if default:
+        raw = input(f"{label} [default: {default}]: ").strip()
+        return default if not raw else raw
+    raw = input(f"{label} [optional]: ").strip()
+    return raw or None
+
+
+def wizard_optional_int(label: str, default: int | None = None) -> int | None:
+    """Prompt for an optional integer; blank keeps the default or leaves it unset."""
+    while True:
+        if default is not None:
+            raw = input(f"{label} [default: {default}]: ").strip()
+            if not raw:
+                return default
+        else:
+            raw = input(f"{label} [optional]: ").strip()
+            if not raw:
+                return None
+        try:
+            return int(raw)
+        except ValueError:
+            print("  Please enter a valid integer.")
+
+
+def wizard_optional_float(label: str, default: float | None = None) -> float | None:
+    """Prompt for an optional float; blank keeps the default or leaves it unset."""
+    while True:
+        if default is not None:
+            raw = input(f"{label} [default: {default}]: ").strip()
+            if not raw:
+                return default
+        else:
+            raw = input(f"{label} [optional]: ").strip()
+            if not raw:
+                return None
+        try:
+            return float(raw)
+        except ValueError:
+            print("  Please enter a valid number.")
 
 
 def prompt_if_missing(current: Any, label: str) -> Any:

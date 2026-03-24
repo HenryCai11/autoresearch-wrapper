@@ -27,7 +27,7 @@ Treat these names as the skill's command surface:
 - `/autoresearch-wrapper:monitor`
 
 These map to CLI subcommands:
-- `/autoresearch-wrapper` -> `scan`, or `wrap <script-path>` when the user passes a repo-local script path
+- `/autoresearch-wrapper` -> `wizard`, or `wrap <script-path>` when the user passes a repo-local script path
 - `/autoresearch-wrapper:status` -> `status`
 - `/autoresearch-wrapper:run` -> `run`
 - `/autoresearch-wrapper:flow` -> `flow`
@@ -54,26 +54,22 @@ These map to CLI subcommands:
 1. Run:
 
 ```bash
-python3 scripts/autoresearch_wrapper.py scan
+python3 scripts/autoresearch_wrapper.py wizard
 ```
 
-2. Summarize discovered parts, their language/directory groupings, and the module-level dependency graph printed by scan.
-3. Ask the user which kind of files (language or directory) they want to focus on, then which specific part to optimize.
-4. Lock the required run-gate fields before execution:
-   - target part
-   - metric name
-   - metric command
-   - metric goal
-   - sequential, parallel, or wild mode
-   - rounds or stop rule
-   - early exit patience (optional)
-5. Persist them with:
+2. Let the wizard:
+   - scan the repo and print the compact core-functionality summary
+   - let the user narrow to a language, directory, or all files when needed
+   - select the target part
+   - lock the metric name, command, goal, and execution mode
+   - persist the config
+   - optionally start the run immediately
+
+If the user explicitly wants the full scan listing first, run:
 
 ```bash
-python3 scripts/autoresearch_wrapper.py configure --part <part> --metric <metric> --metric-command "<cmd>" --metric-goal <minimize|maximize> --mode <sequential|parallel|wild> --rounds <n>
+python3 scripts/autoresearch_wrapper.py wizard --full-summary
 ```
-
-Use `--interactive` if gathering the values from stdin is easier.
 
 If the user provides a repo-local script path directly, use the script-wrapper shortcut:
 

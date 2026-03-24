@@ -26,17 +26,17 @@ Then use `python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py"` for all 
 
 When this skill is invoked:
 
-1. If invoked with no arguments or just `/autoresearch-wrapper`, run a full scan and guide the user through setup:
+1. If invoked with no arguments or just `/autoresearch-wrapper`, prefer the end-to-end wizard when a real interactive terminal is available:
 
 ```bash
-python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" scan --no-interactive
+python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" wizard
 ```
 
-Then:
-- Start from the compact core-functionality summary printed by scan
-- Show the focused dependency graph printed by scan
+If you are operating without a real interactive stdin, emulate the same flow manually:
+- Run `scan --no-interactive`
+- Start from the compact core-functionality summary and focused dependency graph
 - Only ask for the full language/directory listing if the user explicitly wants a broader scan
-- Ask the user which kind of files (language or directory) they want to focus on
+- Ask which kind of files (language or directory) they want to focus on
 - Ask which specific part to optimize
 - Ask for the metric name, metric command, metric goal
 - Ask for execution mode (sequential / parallel / wild) and rounds
@@ -46,7 +46,7 @@ Then:
 If the user explicitly asks to inspect everything, rerun with:
 
 ```bash
-python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" scan --no-interactive --full-summary
+python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" wizard --full-summary
 ```
 
 2. If the user provides extra text after `/autoresearch-wrapper`, treat it as the high-level instruction and act accordingly.

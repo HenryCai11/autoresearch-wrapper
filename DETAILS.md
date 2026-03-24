@@ -158,7 +158,21 @@ python3 scripts/autoresearch_wrapper.py reference --refresh
 
 ## Typical Workflow
 
-### 1. Scan the repo
+### 1. Run the end-to-end wizard
+
+```bash
+python3 scripts/autoresearch_wrapper.py wizard
+```
+
+This scans the repo, starts from the compact core-functionality summary, lets you choose the target part, captures the metric and execution settings, persists the config, and can start the run immediately.
+
+If you explicitly want the full scan listing before choosing, use:
+
+```bash
+python3 scripts/autoresearch_wrapper.py wizard --full-summary
+```
+
+### 2. Scan the repo manually
 
 ```bash
 python3 scripts/autoresearch_wrapper.py scan
@@ -166,7 +180,7 @@ python3 scripts/autoresearch_wrapper.py scan
 
 This discovers parts, builds the dependency graph, updates `state.json`, refreshes `STATUS.md`, and regenerates `.autoresearch-wrapper/plans/`.
 
-### 2. Configure the selected part
+### 3. Configure the selected part
 
 ```bash
 python3 scripts/autoresearch_wrapper.py configure \
@@ -199,20 +213,20 @@ python3 scripts/autoresearch_wrapper.py configure \
   --use-suggested-command
 ```
 
-### 3. Inspect status
+### 4. Inspect status
 
 ```bash
 python3 scripts/autoresearch_wrapper.py status
 python3 scripts/autoresearch_wrapper.py status --json
 ```
 
-### 4. Start or resume a run
+### 5. Start or resume a run
 
 ```bash
 python3 scripts/autoresearch_wrapper.py run
 ```
 
-### 5. Manage candidates during the run
+### 6. Manage candidates during the run
 
 ```bash
 python3 scripts/autoresearch_wrapper.py allocate --run-id <run-id>
@@ -220,14 +234,14 @@ python3 scripts/autoresearch_wrapper.py evaluate --run-id <run-id> --candidate s
 python3 scripts/autoresearch_wrapper.py record --run-id <run-id> --candidate seed --status auto --description "baseline"
 ```
 
-### 6. Inspect the metric flow
+### 7. Inspect the metric flow
 
 ```bash
 python3 scripts/autoresearch_wrapper.py flow
 python3 scripts/autoresearch_wrapper.py flow --run-id <run-id>
 ```
 
-### 7. Use preset-backed script metrics
+### 8. Use preset-backed script metrics
 
 Available preset helpers:
 - `runtime_seconds`

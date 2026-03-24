@@ -24,6 +24,7 @@ from autoresearch_wrapper.core import (
     load_state,
     main,
     migrate_state,
+    normalize_entry_argv,
     plan_wild_changes,
     plans_dir,
     recommend_parallelism,
@@ -772,6 +773,73 @@ class AutoresearchWrapperTests(unittest.TestCase):
         self.assertEqual(first_prompt[0], "Which kind of files do you want to optimize?")
         self.assertIsNotNone(first_prompt[2])
         self.assertTrue(first_prompt[2].startswith("core functionality ("))
+
+    def test_no_args_defaults_to_wizard_in_interactive_mode(self) -> None:
+        with mock.patch("autoresearch_wrapper.core.is_interactive_default", return_value=True):
+            self.assertEqual(normalize_entry_argv([]), ["wizard"])
+
+    def test_wizard_runs_end_to_end(self) -> None:
+        repo = self.make_repo()
+        (repo / "helper.py").write_text("VALUE = 1\n")
+        (repo / "module.py").write_text(
+            "import helper\n# optimize this runtime path for latency\n"
+        )
+        self.commit_all(repo)
+
+        def fake_select(label: str, options: list[str], default: str | None = None) -> str:
+            if label == "Which kind of files do you want to optimize?":
+                return default or options[0]
+            if label == "Select a part to optimize":
+                return "module.py"
+            if label == "Metric goal":
+                return "minimize"
+            if label == "Execution mode":
+                return "sequential"
+            return default or options[0]
+
+        def fake_input(label: str, default: str | None = None) -> str:
+            if label == "Metric command":
+                return "python -c \"print('METRIC=1.0')\""
+            return default or "runtime_seconds"
+
+        def fake_int(label: str, default: int | None = None) -> int:
+            if label == "Rounds":
+                return 2
+            return default or 2
+
+        def fake_confirm(label: str, default: bool = True) -> bool:
+            if label == "Enable early exit?":
+                return False
+            if label == "Start the run now?":
+                return True
+            return default
+
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            with mock.patch("autoresearch_wrapper.core.wizard_select", side_effect=fake_select):
+                with mock.patch("autoresearch_wrapper.core.wizard_input", side_effect=fake_input):
+                    with mock.patch("autoresearch_wrapper.core.wizard_int", side_effect=fake_int):
+                        with mock.patch(
+                            "autoresearch_wrapper.core.wizard_optional_input", return_value=None
+                        ):
+                            with mock.patch(
+                                "autoresearch_wrapper.core.wizard_optional_float", return_value=None
+                            ):
+                                with mock.patch(
+                                    "autoresearch_wrapper.core.wizard_confirm",
+                                    side_effect=fake_confirm,
+                                ):
+                                    main(["wizard", "--repo", str(repo), "--interactive"])
+
+        rendered = output.getvalue()
+        self.assertIn("Run started:", rendered)
+        state = load_state(repo)
+        self.assertEqual(state["selection"]["part_id"], "module.py")
+        self.assertIsNotNone(state["selection"]["active_run_id"])
+        config = state["part_configs"]["module.py"]
+        self.assertEqual(config["metric"]["name"], "latency_ms")
+        self.assertEqual(config["execution"]["mode"], "sequential")
+        self.assertEqual(config["execution"]["rounds"], 2)
 
     # -----------------------------------------------------------------------
     # Wizard (basic unit tests, not interactive)

@@ -103,7 +103,7 @@ python3 scripts/autoresearch_wrapper.py scan
 ```
 /autoresearch-wrapper
 ```
-然后你会进入一个引导界面（类似plan mode），一步步选择最后开始优化你想优化的模块。
+然后你会进入一个端到端引导界面：先看核心功能模块的紧凑扫描结果，再一步步选择目标、锁定指标与运行参数，最后开始优化你想优化的模块。如果你明确想先看完整仓库列表，可以用 `python3 scripts/autoresearch_wrapper.py wizard --full-summary`。
 
 ## Examples
 
@@ -115,7 +115,7 @@ python3 scripts/autoresearch_wrapper.py scan
 
 | Codex | Claude Code | CLI | 说明 |
 | --- | --- | --- | --- |
-| `/autoresearch-wrapper` | `/autoresearch-wrapper` | `scan` / `wrap` | 扫描仓库或包装脚本 |
+| `/autoresearch-wrapper` | `/autoresearch-wrapper` | `wizard` / `wrap` | 运行端到端引导或包装脚本 |
 | `:status` | `-status` | `status` | 查看状态和就绪情况 |
 | `:run` | `-run` | `run` | 启动或恢复运行 |
 | `:flow` | `-flow` | `flow` | 指标历史和图表 |
@@ -123,7 +123,7 @@ python3 scripts/autoresearch_wrapper.py scan
 | `:delete` | `-delete` | `delete` | 删除后参数优化 |
 | `:monitor` | `-monitor` | `monitor` | 实时进度轮询 |
 
-其他 CLI 子命令：`configure`、`allocate`、`evaluate`、`record`、`resources`、`preset-metric`、`reference`
+其他 CLI 子命令：`scan`、`configure`、`allocate`、`evaluate`、`record`、`resources`、`preset-metric`、`reference`
 
 ## 测试
 
