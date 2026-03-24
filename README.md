@@ -2,8 +2,6 @@
 
 ![Autoresearch Wrapper Banner](./assets/banner.svg)
 
-# Autoresearch Wrapper
-
 **Dependency-aware optimization engine for any codebase.**
 
 Scan, plan, isolate, measure, repeat — all in Git worktrees, hands-free.
@@ -18,7 +16,7 @@ Inspired by [Karpathy's autoresearch](https://github.com/karpathy/autoresearch) 
 
 <br>
 
-*"Scan the repo → Pick a target → Lock the metric → Claude/Codex runs the loop → You wake up to results"*
+*"Just type /autoresearch-wrapper → everything's managed"*
 
 <br>
 
