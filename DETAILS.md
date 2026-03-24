@@ -283,6 +283,8 @@ The script-wrapper flow is intentionally a shortcut, not a separate mode:
 
 - `SKILL.md` — Codex skill behavior and command mapping
 - `.claude/skills/` — Claude Code skill definitions (one directory per command)
+- `.claude-plugin/marketplace.json` — Claude marketplace manifest at the repo root
+- `plugins/autoresearch-wrapper/` — packaged Claude plugin root used by the marketplace
 - `scripts/autoresearch_wrapper.py` — CLI entrypoint
 - `autoresearch_wrapper/core.py` — scan, dependency graph, state, worktree, and run logic
 - `templates/autoresearch_program_template.md` — generated per-run instructions

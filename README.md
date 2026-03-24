@@ -69,6 +69,8 @@ mkdir -p /path/to/your-project/.claude/skills
 ln -s /path/to/autoresearch-wrapper/.claude/skills/* /path/to/your-project/.claude/skills/
 ```
 
+The marketplace package itself lives under `plugins/autoresearch-wrapper/`, while `.claude/skills/` remains the source of truth for project-local Claude usage.
+
 </details>
 
 <details>

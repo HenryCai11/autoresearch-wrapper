@@ -1,9 +1,7 @@
 {
-  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "autoresearch-wrapper",
   "owner": {
-    "name": "HenryCai11",
-    "email": "henrycai@example.com"
+    "name": "HenryCai11"
   },
   "metadata": {
     "description": "Dependency-aware optimization engine for any codebase. Scan, plan, isolate, measure, repeat — all in Git worktrees.",
@@ -14,7 +12,7 @@
       "name": "autoresearch-wrapper",
       "description": "Dependency-aware autoresearch engine: /autoresearch-wrapper runs scan + guided wizard. Includes /autoresearch-wrapper-run (optimization loop), /autoresearch-wrapper-status (state summary), /autoresearch-wrapper-flow (metric history + plot), /autoresearch-wrapper-create (multi-candidate feature comparison), /autoresearch-wrapper-delete (post-deletion optimization), and /autoresearch-wrapper-monitor (live progress polling).",
       "version": "0.0.2",
-      "source": ".",
+      "source": "./plugins/autoresearch-wrapper",
       "author": {
         "name": "HenryCai11"
       },

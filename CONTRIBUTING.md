@@ -7,6 +7,8 @@ Thanks for contributing to `autoresearch-wrapper`. Bug reports and feature reque
 This repo contains:
 - the Codex skill definition in `SKILL.md`
 - the Claude Code skill definitions under `.claude/skills/`
+- the Claude marketplace manifest in `.claude-plugin/marketplace.json`
+- the packaged Claude plugin under `plugins/autoresearch-wrapper/`
 - the helper CLI in `scripts/autoresearch_wrapper.py`
 - the main implementation in `autoresearch_wrapper/core.py`
 - tests in `tests/`
@@ -35,6 +37,12 @@ Claude Code can load the project-local skills from this repo directly through:
 .claude/skills/
 ```
 
+The marketplace-installed Claude plugin is packaged separately under:
+
+```text
+plugins/autoresearch-wrapper/
+```
+
 The current Claude-facing commands are:
 - `/autoresearch-wrapper`
 - `/autoresearch-wrapper-status`
@@ -44,7 +52,7 @@ The current Claude-facing commands are:
 - `/autoresearch-wrapper-delete`
 - `/autoresearch-wrapper-monitor`
 
-If you change Claude-specific skill behavior, update the corresponding `SKILL.md` files under `.claude/skills/`.
+If you change Claude-specific skill behavior, update the corresponding `SKILL.md` files under `.claude/skills/`, then refresh the packaged plugin with `python3 scripts/sync_claude_plugin.py`. Keep `.claude/skills/` as the source of truth.
 
 ## Development Workflow
 
@@ -54,6 +62,7 @@ If you change Claude-specific skill behavior, update the corresponding `SKILL.md
    - `README.zh-CN.md`
    - `SKILL.md`
    - relevant `.claude/skills/*/SKILL.md` files when the Claude command surface is affected
+   - `plugins/autoresearch-wrapper/` by running `python3 scripts/sync_claude_plugin.py` when Claude packaging or runtime files changed
 3. If behavior changes, add or update tests in `tests/test_autoresearch_wrapper.py`.
 4. Keep the worktree-first design intact. New optimization features should prefer Git worktrees over mutating the primary checkout.
 5. Keep dependency-aware behavior explicit. If a new feature affects part discovery, readiness, or run gating, update the persisted state and status surfaces accordingly.
@@ -85,6 +94,8 @@ Claude Code uses:
 - `.claude/skills/autoresearch-wrapper-create/SKILL.md`
 - `.claude/skills/autoresearch-wrapper-delete/SKILL.md`
 - `.claude/skills/autoresearch-wrapper-monitor/SKILL.md`
+- `.claude-plugin/marketplace.json`
+- `plugins/autoresearch-wrapper/.claude-plugin/plugin.json`
 
 Claude does not use `agents/openai.yaml`, so do not treat the Codex metadata file as shared packaging.
 
@@ -93,8 +104,10 @@ Claude does not use `agents/openai.yaml`, so do not treat the Codex metadata fil
 Run these checks before opening a PR or pushing a branch:
 
 ```bash
+python3 scripts/sync_claude_plugin.py
 python3 -m py_compile autoresearch_wrapper/core.py scripts/autoresearch_wrapper.py
 python3 -m unittest -q
+claude plugin validate .
 ```
 
 ## Documentation Expectations

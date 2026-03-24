@@ -70,6 +70,8 @@ mkdir -p /path/to/your-project/.claude/skills
 ln -s /path/to/autoresearch-wrapper/.claude/skills/* /path/to/your-project/.claude/skills/
 ```
 
+Marketplace 打包目录位于 `plugins/autoresearch-wrapper/`，而 `.claude/skills/` 仍然是项目内 Claude 使用场景的单一事实来源。
+
 </details>
 
 <details>
