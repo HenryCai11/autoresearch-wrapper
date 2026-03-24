@@ -14,7 +14,7 @@
       "name": "autoresearch-wrapper",
       "description": "Dependency-aware autoresearch engine: /autoresearch-wrapper runs scan + guided wizard. Includes /autoresearch-wrapper-run (optimization loop), /autoresearch-wrapper-status (state summary), /autoresearch-wrapper-flow (metric history + plot), /autoresearch-wrapper-create (multi-candidate feature comparison), /autoresearch-wrapper-delete (post-deletion optimization), and /autoresearch-wrapper-monitor (live progress polling).",
       "version": "0.0.2",
-      "source": ".",
+      "source": "./claude-plugin",
       "author": {
         "name": "HenryCai11"
       },
