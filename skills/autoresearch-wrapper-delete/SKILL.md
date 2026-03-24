@@ -8,8 +8,8 @@ description: Create a feature-deletion run that removes a part and optimizes dep
 Resolve the CLI path (handles symlinked skills):
 
 ```bash
-_SKILL_REAL=$(readlink -f .claude/skills/autoresearch-wrapper-delete/SKILL.md)
-AUTORESEARCH_ROOT=${_SKILL_REAL%%/.claude/*}
+_SKILL_REAL=$(readlink -f skills/autoresearch-wrapper-delete/SKILL.md)
+AUTORESEARCH_ROOT=${_SKILL_REAL%%/skills/*}
 ```
 
 Use:

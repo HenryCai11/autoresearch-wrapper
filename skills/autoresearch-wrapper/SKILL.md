@@ -10,8 +10,8 @@ description: Dependency-aware repo optimization workflow. Use when scanning a re
 The helper CLI may live outside the current repo (e.g. when this skill is symlinked). Resolve the path first:
 
 ```bash
-_SKILL_REAL=$(readlink -f .claude/skills/autoresearch-wrapper/SKILL.md)
-AUTORESEARCH_ROOT=${_SKILL_REAL%%/.claude/*}
+_SKILL_REAL=$(readlink -f skills/autoresearch-wrapper/SKILL.md)
+AUTORESEARCH_ROOT=${_SKILL_REAL%%/skills/*}
 ```
 
 Then use `python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py"` for all commands below. If the skill lives inside the current repo, `python3 scripts/autoresearch_wrapper.py` also works.

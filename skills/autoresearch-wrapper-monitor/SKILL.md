@@ -8,8 +8,8 @@ description: Poll the active autoresearch-wrapper run at a configurable interval
 Resolve the CLI path (handles symlinked skills):
 
 ```bash
-_SKILL_REAL=$(readlink -f .claude/skills/autoresearch-wrapper-monitor/SKILL.md)
-AUTORESEARCH_ROOT=${_SKILL_REAL%%/.claude/*}
+_SKILL_REAL=$(readlink -f skills/autoresearch-wrapper-monitor/SKILL.md)
+AUTORESEARCH_ROOT=${_SKILL_REAL%%/skills/*}
 ```
 
 Use:

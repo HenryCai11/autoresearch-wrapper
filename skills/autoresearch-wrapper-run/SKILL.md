@@ -8,8 +8,8 @@ description: Start or resume a dependency-aware autoresearch-wrapper run in Git 
 Resolve the CLI path (handles symlinked skills):
 
 ```bash
-_SKILL_REAL=$(readlink -f .claude/skills/autoresearch-wrapper-run/SKILL.md)
-AUTORESEARCH_ROOT=${_SKILL_REAL%%/.claude/*}
+_SKILL_REAL=$(readlink -f skills/autoresearch-wrapper-run/SKILL.md)
+AUTORESEARCH_ROOT=${_SKILL_REAL%%/skills/*}
 ```
 
 Use:
