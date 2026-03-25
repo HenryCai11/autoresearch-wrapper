@@ -493,9 +493,7 @@ def normalize_entry_argv(argv: list[str] | None) -> list[str] | None:
     if argv is None:
         argv = sys.argv[1:]
     if not argv:
-        if is_interactive_default():
-            return ["wizard"]
-        return argv
+        return ["wizard"]
     first = argv[0]
     if first.startswith("-") or first in CLI_COMMANDS:
         return argv

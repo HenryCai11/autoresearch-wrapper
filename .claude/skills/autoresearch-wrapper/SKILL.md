@@ -26,13 +26,13 @@ Then use `python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py"` for all 
 
 When this skill is invoked:
 
-1. If invoked with no arguments or just `/autoresearch-wrapper`, prefer the end-to-end wizard when a real interactive terminal is available:
+1. If invoked with no arguments or just `/autoresearch-wrapper`, route to the end-to-end wizard:
 
 ```bash
 python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" wizard
 ```
 
-If you are operating without a real interactive stdin, emulate the same flow manually:
+If you are operating without a real interactive stdin and the CLI cannot complete the prompts directly, emulate the same flow manually:
 - Run `scan --no-interactive`
 - Start from the compact core-functionality summary and focused dependency graph
 - Only ask for the full language/directory listing if the user explicitly wants a broader scan

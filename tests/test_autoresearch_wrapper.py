@@ -775,8 +775,10 @@ class AutoresearchWrapperTests(unittest.TestCase):
         self.assertTrue(first_prompt[2].startswith("best-defined optimization targets ("))
         self.assertTrue(any("latency-sensitive functionality" in option for option in first_prompt[1]))
 
-    def test_no_args_defaults_to_wizard_in_interactive_mode(self) -> None:
+    def test_no_args_always_defaults_to_wizard(self) -> None:
         with mock.patch("autoresearch_wrapper.core.is_interactive_default", return_value=True):
+            self.assertEqual(normalize_entry_argv([]), ["wizard"])
+        with mock.patch("autoresearch_wrapper.core.is_interactive_default", return_value=False):
             self.assertEqual(normalize_entry_argv([]), ["wizard"])
 
     def test_wizard_runs_end_to_end(self) -> None:
