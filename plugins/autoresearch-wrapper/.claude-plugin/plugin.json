@@ -1,7 +1,7 @@
 {
   "name": "autoresearch-wrapper",
   "description": "Dependency-aware optimization engine for any codebase. Scan, plan, isolate, measure, repeat - all in Git worktrees.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": {
     "name": "HenryCai11",
     "url": "https://github.com/HenryCai11"

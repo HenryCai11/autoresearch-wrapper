@@ -12,7 +12,7 @@
 
 [![Claude Code Skill](https://img.shields.io/badge/Claude_Code-Skill-blue?logo=anthropic&logoColor=white)](https://docs.anthropic.com/en/docs/claude-code)
 [![Codex Skill](https://img.shields.io/badge/Codex-Skill-green?logo=openai&logoColor=white)](https://platform.openai.com/docs/codex)
-[![Version](https://img.shields.io/badge/version-0.0.2-blue.svg)](https://github.com/HenryCai11/autoresearch-wrapper/releases)
+[![Version](https://img.shields.io/badge/version-0.0.3-blue.svg)](https://github.com/HenryCai11/autoresearch-wrapper/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Inspired by](https://img.shields.io/badge/Based_on-Karpathy's_Autoresearch-orange)](https://github.com/karpathy/autoresearch)
 
@@ -32,6 +32,7 @@
 
 ## 进展
 
+- 2026/03/25: 刷新了 Claude marketplace 打包版本，确保 wizard-first 流程和随插件打包的脚本能正确安装到插件缓存中。
 - 2026/03/23 北京时间凌晨2:31: 虽然只开发测试到v0.0.2，我决定还是直接开源了！大半夜开始试用之后很激动，想快点和社区分享。虽然时间有限同时也还在确保每一个我想要的功能都已经正确实现，但我觉得它已经做好准备开始干活了（狗头）。
 
 
@@ -48,7 +49,16 @@
 更新到最新版本：
 
 ```bash
+/plugin marketplace update autoresearch-wrapper
 /plugin update autoresearch-wrapper
+```
+
+如果你之前装的是打包结构调整前的旧 `0.0.2` marketplace 版本，请执行：
+
+```bash
+/plugin marketplace update autoresearch-wrapper
+/plugin remove autoresearch-wrapper
+/plugin install autoresearch-wrapper
 ```
 
 卸载：

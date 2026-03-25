@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import contextlib
 import io
+import json
 import subprocess
 import sys
 import tempfile
@@ -805,6 +806,20 @@ class AutoresearchWrapperTests(unittest.TestCase):
                 or "python3 scripts/autoresearch_wrapper.py wizard" in text,
                 str(path),
             )
+
+    def test_marketplace_versions_and_runtime_files_stay_aligned(self) -> None:
+        marketplace = json.loads((REPO_ROOT / ".claude-plugin" / "marketplace.json").read_text())
+        packaged_plugin = json.loads(
+            (REPO_ROOT / "plugins" / "autoresearch-wrapper" / ".claude-plugin" / "plugin.json").read_text()
+        )
+        self.assertEqual(marketplace["metadata"]["version"], packaged_plugin["version"])
+        self.assertEqual(marketplace["plugins"][0]["version"], packaged_plugin["version"])
+        self.assertTrue(
+            (REPO_ROOT / "plugins" / "autoresearch-wrapper" / "scripts" / "autoresearch_wrapper.py").is_file()
+        )
+        self.assertTrue(
+            (REPO_ROOT / "plugins" / "autoresearch-wrapper" / "autoresearch_wrapper" / "core.py").is_file()
+        )
 
     def test_wizard_runs_end_to_end(self) -> None:
         repo = self.make_repo()

@@ -10,7 +10,7 @@ Inspired by [Karpathy's autoresearch](https://github.com/karpathy/autoresearch) 
 
 [![Claude Code Skill](https://img.shields.io/badge/Claude_Code-Skill-blue?logo=anthropic&logoColor=white)](https://docs.anthropic.com/en/docs/claude-code)
 [![Codex Skill](https://img.shields.io/badge/Codex-Skill-green?logo=openai&logoColor=white)](https://platform.openai.com/docs/codex)
-[![Version](https://img.shields.io/badge/version-0.0.2-blue.svg)](https://github.com/HenryCai11/autoresearch-wrapper/releases)
+[![Version](https://img.shields.io/badge/version-0.0.3-blue.svg)](https://github.com/HenryCai11/autoresearch-wrapper/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Inspired by](https://img.shields.io/badge/Based_on-Karpathy's_Autoresearch-orange)](https://github.com/karpathy/autoresearch)
 
@@ -30,6 +30,7 @@ Recently, I've been asking Codex to write autoresearch wrappers for the modules 
 
 ## News
 
+- 2026/03/25: Refreshed the Claude marketplace package so the wizard-first flow and bundled scripts install correctly from the plugin cache.
 - 2026/03/23 2:31 AM, Beijing Time: I've decided to release it at v0.0.2! Just feel excited to share it with the community. Although I'm still going through all the features to make sure they are everything I want, I think it is ready to play with.
 
 ## Install
@@ -45,7 +46,16 @@ Recently, I've been asking Codex to write autoresearch wrappers for the modules 
 To update to the latest version:
 
 ```bash
+/plugin marketplace update autoresearch-wrapper
 /plugin update autoresearch-wrapper
+```
+
+If you installed an older `0.0.2` marketplace build before the plugin packaging changes, run:
+
+```bash
+/plugin marketplace update autoresearch-wrapper
+/plugin remove autoresearch-wrapper
+/plugin install autoresearch-wrapper
 ```
 
 To uninstall:
