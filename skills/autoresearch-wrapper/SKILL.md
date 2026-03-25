@@ -7,33 +7,34 @@ description: Dependency-aware repo optimization workflow. Use when scanning a re
 
 ## Locating the CLI
 
-The helper CLI may live outside the current repo, either because this skill is symlinked into a project or because it was installed as a plugin. Resolve the path first:
+Use the launcher next to this skill:
 
 ```bash
-if [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
-  AUTORESEARCH_ROOT="$CLAUDE_PLUGIN_ROOT"
+if [ -n "${CLAUDE_SKILL_DIR:-}" ]; then
+  AUTORESEARCH_RUNNER="${CLAUDE_SKILL_DIR}/run.sh"
+elif [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
+  AUTORESEARCH_RUNNER="${CLAUDE_PLUGIN_ROOT}/skills/autoresearch-wrapper/run.sh"
+elif [ -f ".claude/skills/autoresearch-wrapper/run.sh" ]; then
+  AUTORESEARCH_RUNNER="$(readlink -f ".claude/skills/autoresearch-wrapper/run.sh")"
+elif [ -f "skills/autoresearch-wrapper/run.sh" ]; then
+  AUTORESEARCH_RUNNER="$(readlink -f "skills/autoresearch-wrapper/run.sh")"
 else
-  _SKILL_REAL=$(readlink -f "${CLAUDE_SKILL_DIR:-.claude/skills/autoresearch-wrapper}/SKILL.md")
-  case "$_SKILL_REAL" in
-    */.claude/skills/*) AUTORESEARCH_ROOT=${_SKILL_REAL%%/.claude/skills/*} ;;
-    */skills/*) AUTORESEARCH_ROOT=${_SKILL_REAL%%/skills/*} ;;
-    *) echo "Could not resolve AUTORESEARCH_ROOT from $_SKILL_REAL" >&2; exit 1 ;;
-  esac
+  echo "Could not resolve the autoresearch-wrapper launcher" >&2; exit 1
 fi
 ```
 
-Then use `python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py"` for all commands below. If the skill lives inside the current repo, `python3 scripts/autoresearch_wrapper.py` also works.
+Then use `bash "$AUTORESEARCH_RUNNER"` for all commands below. If the skill lives inside the current repo, `python3 scripts/autoresearch_wrapper.py` also works.
 
 When this skill is invoked:
 
 1. If invoked with no arguments or just `/autoresearch-wrapper`, route to the end-to-end wizard:
 
 ```bash
-python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" wizard
+bash "$AUTORESEARCH_RUNNER" wizard
 ```
 
 If you are operating without a real interactive stdin and the CLI cannot complete the prompts directly, emulate the same flow manually:
-- Run `scan --no-interactive`
+- Run `bash "$AUTORESEARCH_RUNNER" scan --no-interactive`
 - Start from the compact core-functionality summary and focused dependency graph
 - Only ask for the full language/directory listing if the user explicitly wants a broader scan
 - Ask which functionality area they want to improve first
@@ -46,7 +47,7 @@ If you are operating without a real interactive stdin and the CLI cannot complet
 If the user explicitly asks to inspect everything, rerun with:
 
 ```bash
-python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" wizard --full-summary
+bash "$AUTORESEARCH_RUNNER" wizard --full-summary
 ```
 
 2. If the user provides extra text after `/autoresearch-wrapper`, treat it as the high-level instruction and act accordingly.
@@ -54,7 +55,7 @@ python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" wizard --full-summa
 3. If the user names a repo-local script path, wrap it with:
 
 ```bash
-python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" wrap <script-path>
+bash "$AUTORESEARCH_RUNNER" wrap <script-path>
 ```
 
 4. Before starting any run, make sure these are explicit:
@@ -69,7 +70,7 @@ python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" wrap <script-path>
 Persist them with:
 
 ```bash
-python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" configure --part <part> --metric <metric> --metric-command "<cmd>" --metric-goal <minimize|maximize> --mode <sequential|parallel|wild> --rounds <n>
+bash "$AUTORESEARCH_RUNNER" configure --part <part> --metric <metric> --metric-command "<cmd>" --metric-goal <minimize|maximize> --mode <sequential|parallel|wild> --rounds <n>
 ```
 
 5. Prefer Git worktrees. Do not optimize in the primary checkout if the helper can create a worktree-backed run.

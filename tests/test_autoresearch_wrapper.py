@@ -802,10 +802,36 @@ class AutoresearchWrapperTests(unittest.TestCase):
                 str(path),
             )
             self.assertTrue(
-                'python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" wizard' in text
+                'bash "$AUTORESEARCH_RUNNER" wizard' in text
+                or 'python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" wizard' in text
                 or "python3 scripts/autoresearch_wrapper.py wizard" in text,
                 str(path),
             )
+
+    def test_skill_launchers_find_cli_from_multiple_skill_trees(self) -> None:
+        repo = self.make_repo()
+        (repo / "module.py").write_text("print('ok')\n")
+        self.commit_all(repo)
+
+        launchers = [
+            REPO_ROOT / ".claude" / "skills" / "autoresearch-wrapper" / "run.sh",
+            REPO_ROOT / "skills" / "autoresearch-wrapper" / "run.sh",
+            REPO_ROOT
+            / "plugins"
+            / "autoresearch-wrapper"
+            / "skills"
+            / "autoresearch-wrapper"
+            / "run.sh",
+        ]
+        for launcher in launchers:
+            result = subprocess.run(
+                ["bash", str(launcher), "status", "--repo", str(repo), "--json"],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            payload = json.loads(result.stdout)
+            self.assertIn("parts", payload, str(launcher))
 
     def test_marketplace_versions_and_runtime_files_stay_aligned(self) -> None:
         marketplace = json.loads((REPO_ROOT / ".claude-plugin" / "marketplace.json").read_text())

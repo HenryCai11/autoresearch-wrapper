@@ -5,17 +5,26 @@ description: Create a feature-deletion run that removes a part and optimizes dep
 
 # Autoresearch Wrapper Delete
 
-Resolve the CLI path (handles symlinked skills):
+Use the launcher next to this skill:
 
 ```bash
-_SKILL_REAL=$(readlink -f skills/autoresearch-wrapper-delete/SKILL.md)
-AUTORESEARCH_ROOT=${_SKILL_REAL%%/skills/*}
+if [ -n "${CLAUDE_SKILL_DIR:-}" ]; then
+  AUTORESEARCH_RUNNER="${CLAUDE_SKILL_DIR}/run.sh"
+elif [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
+  AUTORESEARCH_RUNNER="${CLAUDE_PLUGIN_ROOT}/skills/autoresearch-wrapper-delete/run.sh"
+elif [ -f ".claude/skills/autoresearch-wrapper-delete/run.sh" ]; then
+  AUTORESEARCH_RUNNER="$(readlink -f ".claude/skills/autoresearch-wrapper-delete/run.sh")"
+elif [ -f "skills/autoresearch-wrapper-delete/run.sh" ]; then
+  AUTORESEARCH_RUNNER="$(readlink -f "skills/autoresearch-wrapper-delete/run.sh")"
+else
+  echo "Could not resolve the autoresearch-wrapper-delete launcher" >&2; exit 1
+fi
 ```
 
 Use:
 
 ```bash
-python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" delete --part <part> --metric <metric> --metric-command "<cmd>" --metric-goal <minimize|maximize>
+bash "$AUTORESEARCH_RUNNER" delete --part <part> --metric <metric> --metric-command "<cmd>" --metric-goal <minimize|maximize>
 ```
 
 When this skill is invoked:

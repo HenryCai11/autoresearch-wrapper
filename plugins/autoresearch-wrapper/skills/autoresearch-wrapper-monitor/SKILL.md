@@ -5,25 +5,26 @@ description: Poll the active autoresearch-wrapper run at a configurable interval
 
 # Autoresearch Wrapper Monitor
 
-Resolve the CLI path (handles symlinked skills and installed plugins):
+Use the launcher next to this skill:
 
 ```bash
-if [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
-  AUTORESEARCH_ROOT="$CLAUDE_PLUGIN_ROOT"
+if [ -n "${CLAUDE_SKILL_DIR:-}" ]; then
+  AUTORESEARCH_RUNNER="${CLAUDE_SKILL_DIR}/run.sh"
+elif [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
+  AUTORESEARCH_RUNNER="${CLAUDE_PLUGIN_ROOT}/skills/autoresearch-wrapper-monitor/run.sh"
+elif [ -f ".claude/skills/autoresearch-wrapper-monitor/run.sh" ]; then
+  AUTORESEARCH_RUNNER="$(readlink -f ".claude/skills/autoresearch-wrapper-monitor/run.sh")"
+elif [ -f "skills/autoresearch-wrapper-monitor/run.sh" ]; then
+  AUTORESEARCH_RUNNER="$(readlink -f "skills/autoresearch-wrapper-monitor/run.sh")"
 else
-  _SKILL_REAL=$(readlink -f "${CLAUDE_SKILL_DIR:-.claude/skills/autoresearch-wrapper-monitor}/SKILL.md")
-  case "$_SKILL_REAL" in
-    */.claude/skills/*) AUTORESEARCH_ROOT=${_SKILL_REAL%%/.claude/skills/*} ;;
-    */skills/*) AUTORESEARCH_ROOT=${_SKILL_REAL%%/skills/*} ;;
-    *) echo "Could not resolve AUTORESEARCH_ROOT from $_SKILL_REAL" >&2; exit 1 ;;
-  esac
+  echo "Could not resolve the autoresearch-wrapper-monitor launcher" >&2; exit 1
 fi
 ```
 
 Use:
 
 ```bash
-python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" monitor --interval <seconds>
+bash "$AUTORESEARCH_RUNNER" monitor --interval <seconds>
 ```
 
 When this skill is invoked:

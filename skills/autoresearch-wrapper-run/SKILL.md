@@ -5,17 +5,26 @@ description: Start or resume a dependency-aware autoresearch-wrapper run in Git 
 
 # Autoresearch Wrapper Run
 
-Resolve the CLI path (handles symlinked skills):
+Use the launcher next to this skill:
 
 ```bash
-_SKILL_REAL=$(readlink -f skills/autoresearch-wrapper-run/SKILL.md)
-AUTORESEARCH_ROOT=${_SKILL_REAL%%/skills/*}
+if [ -n "${CLAUDE_SKILL_DIR:-}" ]; then
+  AUTORESEARCH_RUNNER="${CLAUDE_SKILL_DIR}/run.sh"
+elif [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
+  AUTORESEARCH_RUNNER="${CLAUDE_PLUGIN_ROOT}/skills/autoresearch-wrapper-run/run.sh"
+elif [ -f ".claude/skills/autoresearch-wrapper-run/run.sh" ]; then
+  AUTORESEARCH_RUNNER="$(readlink -f ".claude/skills/autoresearch-wrapper-run/run.sh")"
+elif [ -f "skills/autoresearch-wrapper-run/run.sh" ]; then
+  AUTORESEARCH_RUNNER="$(readlink -f "skills/autoresearch-wrapper-run/run.sh")"
+else
+  echo "Could not resolve the autoresearch-wrapper-run launcher" >&2; exit 1
+fi
 ```
 
 Use:
 
 ```bash
-python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" run
+bash "$AUTORESEARCH_RUNNER" run
 ```
 
 When this skill is invoked:

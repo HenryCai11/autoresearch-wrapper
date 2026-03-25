@@ -5,17 +5,26 @@ description: Show or plot recorded metric flow for an autoresearch-wrapper run. 
 
 # Autoresearch Wrapper Flow
 
-Resolve the CLI path (handles symlinked skills):
+Use the launcher next to this skill:
 
 ```bash
-_SKILL_REAL=$(readlink -f skills/autoresearch-wrapper-flow/SKILL.md)
-AUTORESEARCH_ROOT=${_SKILL_REAL%%/skills/*}
+if [ -n "${CLAUDE_SKILL_DIR:-}" ]; then
+  AUTORESEARCH_RUNNER="${CLAUDE_SKILL_DIR}/run.sh"
+elif [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
+  AUTORESEARCH_RUNNER="${CLAUDE_PLUGIN_ROOT}/skills/autoresearch-wrapper-flow/run.sh"
+elif [ -f ".claude/skills/autoresearch-wrapper-flow/run.sh" ]; then
+  AUTORESEARCH_RUNNER="$(readlink -f ".claude/skills/autoresearch-wrapper-flow/run.sh")"
+elif [ -f "skills/autoresearch-wrapper-flow/run.sh" ]; then
+  AUTORESEARCH_RUNNER="$(readlink -f "skills/autoresearch-wrapper-flow/run.sh")"
+else
+  echo "Could not resolve the autoresearch-wrapper-flow launcher" >&2; exit 1
+fi
 ```
 
 Use:
 
 ```bash
-python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" flow
+bash "$AUTORESEARCH_RUNNER" flow
 ```
 
 When this skill is invoked:
@@ -34,7 +43,7 @@ When this skill is invoked:
 4. If the user asks for raw structured data, use:
 
 ```bash
-python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" flow --json
+bash "$AUTORESEARCH_RUNNER" flow --json
 ```
 
 ## Example
