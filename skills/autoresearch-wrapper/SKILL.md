@@ -7,32 +7,47 @@ description: Dependency-aware repo optimization workflow. Use when scanning a re
 
 ## Locating the CLI
 
-The helper CLI may live outside the current repo (e.g. when this skill is symlinked). Resolve the path first:
+The helper CLI may live outside the current repo, either because this skill is symlinked into a project or because it was installed as a plugin. Resolve the path first:
 
 ```bash
-_SKILL_REAL=$(readlink -f skills/autoresearch-wrapper/SKILL.md)
-AUTORESEARCH_ROOT=${_SKILL_REAL%%/skills/*}
+if [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
+  AUTORESEARCH_ROOT="$CLAUDE_PLUGIN_ROOT"
+else
+  _SKILL_REAL=$(readlink -f "${CLAUDE_SKILL_DIR:-.claude/skills/autoresearch-wrapper}/SKILL.md")
+  case "$_SKILL_REAL" in
+    */.claude/skills/*) AUTORESEARCH_ROOT=${_SKILL_REAL%%/.claude/skills/*} ;;
+    */skills/*) AUTORESEARCH_ROOT=${_SKILL_REAL%%/skills/*} ;;
+    *) echo "Could not resolve AUTORESEARCH_ROOT from $_SKILL_REAL" >&2; exit 1 ;;
+  esac
+fi
 ```
 
 Then use `python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py"` for all commands below. If the skill lives inside the current repo, `python3 scripts/autoresearch_wrapper.py` also works.
 
 When this skill is invoked:
 
-1. If invoked with no arguments or just `/autoresearch-wrapper`, run a full scan and guide the user through setup:
+1. If invoked with no arguments or just `/autoresearch-wrapper`, route to the end-to-end wizard:
 
 ```bash
-python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" scan --no-interactive
+python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" wizard
 ```
 
-Then:
-- Show the language and directory groupings printed by scan
-- Show the module-level dependency graph printed by scan
-- Ask the user which kind of files (language or directory) they want to focus on
+If you are operating without a real interactive stdin and the CLI cannot complete the prompts directly, emulate the same flow manually:
+- Run `scan --no-interactive`
+- Start from the compact core-functionality summary and focused dependency graph
+- Only ask for the full language/directory listing if the user explicitly wants a broader scan
+- Ask which functionality area they want to improve first
 - Ask which specific part to optimize
 - Ask for the metric name, metric command, metric goal
 - Ask for execution mode (sequential / parallel / wild) and rounds
 - Persist the configuration with `configure`
 - Ask if the user wants to start the run immediately
+
+If the user explicitly asks to inspect everything, rerun with:
+
+```bash
+python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" wizard --full-summary
+```
 
 2. If the user provides extra text after `/autoresearch-wrapper`, treat it as the high-level instruction and act accordingly.
 

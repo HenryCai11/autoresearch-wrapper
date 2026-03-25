@@ -51,11 +51,24 @@ These map to CLI subcommands:
 
 ### `/autoresearch-wrapper`
 
+If invoked with no arguments or just `/autoresearch-wrapper`, route to the end-to-end wizard:
+
 1. Run:
 
 ```bash
 python3 scripts/autoresearch_wrapper.py wizard
 ```
+
+If you are operating without a real interactive stdin and the CLI cannot complete the prompts directly, emulate the same flow manually:
+- Run `python3 scripts/autoresearch_wrapper.py scan --no-interactive`
+- Start from the compact core-functionality summary and focused dependency graph
+- Only ask for the full language/directory listing if the user explicitly wants a broader scan
+- Ask which functionality area they want to improve first
+- Ask which specific part to optimize
+- Ask for the metric name, metric command, metric goal
+- Ask for execution mode (sequential / parallel / wild) and rounds
+- Persist the configuration with `configure`
+- Ask if the user wants to start the run immediately
 
 2. Let the wizard:
    - scan the repo and print the compact core-functionality summary

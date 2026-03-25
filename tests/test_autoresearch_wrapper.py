@@ -781,6 +781,31 @@ class AutoresearchWrapperTests(unittest.TestCase):
         with mock.patch("autoresearch_wrapper.core.is_interactive_default", return_value=False):
             self.assertEqual(normalize_entry_argv([]), ["wizard"])
 
+    def test_skill_docs_route_bare_invocation_to_wizard(self) -> None:
+        skill_files = [
+            REPO_ROOT / "SKILL.md",
+            REPO_ROOT / "skills" / "autoresearch-wrapper" / "SKILL.md",
+            REPO_ROOT / ".claude" / "skills" / "autoresearch-wrapper" / "SKILL.md",
+            REPO_ROOT
+            / "plugins"
+            / "autoresearch-wrapper"
+            / "skills"
+            / "autoresearch-wrapper"
+            / "SKILL.md",
+        ]
+        for path in skill_files:
+            text = path.read_text()
+            self.assertIn(
+                "If invoked with no arguments or just `/autoresearch-wrapper`, route to the end-to-end wizard:",
+                text,
+                str(path),
+            )
+            self.assertTrue(
+                'python3 "$AUTORESEARCH_ROOT/scripts/autoresearch_wrapper.py" wizard' in text
+                or "python3 scripts/autoresearch_wrapper.py wizard" in text,
+                str(path),
+            )
+
     def test_wizard_runs_end_to_end(self) -> None:
         repo = self.make_repo()
         (repo / "helper.py").write_text("VALUE = 1\n")
