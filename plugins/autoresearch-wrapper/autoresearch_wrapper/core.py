@@ -89,6 +89,7 @@ CLI_COMMANDS = {
     "monitor",
     "create",
     "delete",
+    "finalize",
 }
 
 IGNORED_DIRS = {
@@ -277,7 +278,7 @@ def build_parser() -> argparse.ArgumentParser:
         default=WRAP_DEFAULT_ROUNDS,
         help="Initial round count for the run stub.",
     )
-    wrap.add_argument("--stop-rule", help="Optional textual stop rule.")
+    wrap.add_argument("--stop-rule", help="Stop rule: " + STOP_RULE_HELP + ".")
     wrap.add_argument("--parallelism", type=int, help="Worker count for parallel mode.")
     wrap.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
     add_interactive_arg(wrap)
@@ -309,7 +310,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="Execution mode for the optimization loop.",
     )
     configure.add_argument("--rounds", type=int, help="Number of optimization rounds.")
-    configure.add_argument("--stop-rule", help="Optional textual stop rule.")
+    configure.add_argument("--stop-rule", help="Stop rule: " + STOP_RULE_HELP + ".")
     configure.add_argument(
         "--metric-timeout",
         type=float,
@@ -476,6 +477,40 @@ def build_parser() -> argparse.ArgumentParser:
     delete.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
     add_interactive_arg(delete)
     delete.set_defaults(func=command_delete)
+
+    finalize = subparsers.add_parser(
+        "finalize",
+        help="Optionally merge the best candidate back, then remove the run's worktrees.",
+    )
+    add_repo_arg(finalize)
+    finalize.add_argument("--run-id", help="Run id. Defaults to the active run.")
+    finalize.add_argument(
+        "--merge",
+        action="store_true",
+        help="Squash-merge the best branch into the current checkout and leave it staged for review.",
+    )
+    finalize.add_argument(
+        "--stop",
+        action="store_true",
+        help="Mark a still-running run as completed before finalizing it.",
+    )
+    finalize.add_argument(
+        "--keep-best-worktree",
+        action="store_true",
+        help="Leave the best candidate's worktree in place.",
+    )
+    finalize.add_argument(
+        "--prune-branches",
+        action="store_true",
+        help="Delete every run branch except the best one.",
+    )
+    finalize.add_argument(
+        "--force",
+        action="store_true",
+        help="Remove worktrees even if they hold uncommitted or untracked files.",
+    )
+    finalize.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
+    finalize.set_defaults(func=command_finalize)
 
     return parser
 
@@ -1016,7 +1051,7 @@ def command_wizard(args: argparse.Namespace) -> int:
             "Parallelism",
             default=parallelism_default or (resources.get("recommended_parallelism") or 2),
         )
-    stop_rule = wizard_optional_input("Stop rule", default=stop_rule_default)
+    stop_rule = validate_stop_rule(wizard_optional_input("Stop rule", default=stop_rule_default))
 
     enable_early_exit = wizard_confirm(
         "Enable early exit?",
@@ -1123,7 +1158,7 @@ def command_wrap(args: argparse.Namespace) -> int:
         metric_regex=existing.get("metric", {}).get("regex") or DEFAULT_METRIC_REGEX,
         mode=args.mode or existing.get("execution", {}).get("mode") or "sequential",
         rounds=args.rounds if args.rounds is not None else existing.get("execution", {}).get("rounds"),
-        stop_rule=args.stop_rule or existing.get("execution", {}).get("stop_rule"),
+        stop_rule=validate_stop_rule(args.stop_rule) or existing.get("execution", {}).get("stop_rule"),
         parallelism=(
             args.parallelism
             if args.parallelism is not None
@@ -1190,7 +1225,7 @@ def command_configure(args: argparse.Namespace) -> int:
     metric_regex = args.metric_regex or metric.get("regex") or DEFAULT_METRIC_REGEX
     mode = args.mode or execution.get("mode")
     rounds = args.rounds if args.rounds is not None else execution.get("rounds")
-    stop_rule = args.stop_rule or execution.get("stop_rule")
+    stop_rule = validate_stop_rule(args.stop_rule) or execution.get("stop_rule")
     parallelism = (
         args.parallelism if args.parallelism is not None else execution.get("parallelism")
     )
@@ -1202,7 +1237,7 @@ def command_configure(args: argparse.Namespace) -> int:
         metric_regex = prompt_if_missing(metric_regex, "Metric regex")
         mode = prompt_if_missing(mode, "Mode [sequential|parallel|wild]")
         rounds = prompt_int_if_missing(rounds, "Rounds")
-        stop_rule = stop_rule or input("Stop rule (optional): ").strip()
+        stop_rule = stop_rule or validate_stop_rule(input(f"Stop rule (optional; {STOP_RULE_HELP}): "))
         if mode == "parallel" or mode == "wild":
             parallelism = prompt_int_if_missing(parallelism, "Parallelism")
 
@@ -1329,6 +1364,15 @@ def command_allocate(args: argparse.Namespace) -> int:
     with state_lock(repo_root):
         state = ensure_scanned(repo_root)
         run = resolve_run(state, args.run_id)
+        if run.get("status") not in TERMINAL_RUN_STATUSES and (reason := stop_rule_reason(run)):
+            run["status"] = "completed"
+            run["stop_reason"] = reason
+            write_state(repo_root, state)
+        if run.get("status") in TERMINAL_RUN_STATUSES:
+            raise SystemExit(
+                f"run {run['run_id']} is {run['status']} ({run.get('stop_reason') or 'no reason recorded'}); "
+                "use `finalize` to merge the best candidate and clean up"
+            )
         candidate = allocate_candidate(repo_root, run)
         write_state(repo_root, state)
     emit(candidate, args.json)
@@ -1471,6 +1515,10 @@ def record_locked(repo_root: Path, args: argparse.Namespace) -> int:
         pass
     elif rounds_target and run["rounds_completed"] >= rounds_target:
         run["status"] = "completed"
+        run["stop_reason"] = f"rounds target reached ({rounds_target})"
+    elif reason := stop_rule_reason(run):
+        run["status"] = "completed"
+        run["stop_reason"] = reason
     else:
         run["status"] = "running"
 
@@ -1481,6 +1529,7 @@ def record_locked(repo_root: Path, args: argparse.Namespace) -> int:
         exit_check = check_early_exit(run)
         if exit_check["should_exit"]:
             run["status"] = "early_exit"
+            run["stop_reason"] = exit_check["reason"]
             run["early_exit"]["triggered"] = True
             run["early_exit"]["trigger_reason"] = exit_check["reason"]
 
@@ -2765,18 +2814,7 @@ def refresh_part_readiness(state: dict[str, Any]) -> None:
 
 
 def part_config_ready(config: dict[str, Any] | None) -> bool:
-    if not config:
-        return False
-    metric = config.get("metric", {})
-    execution = config.get("execution", {})
-    return bool(
-        metric.get("name")
-        and metric.get("goal")
-        and metric.get("command")
-        and metric.get("regex")
-        and execution.get("mode")
-        and (execution.get("rounds") or execution.get("stop_rule"))
-    )
+    return bool(config) and not missing_run_fields(config)
 
 
 def missing_run_fields(config: dict[str, Any] | None) -> list[str]:
@@ -2795,9 +2833,113 @@ def missing_run_fields(config: dict[str, Any] | None) -> list[str]:
         missing.append("metric.regex")
     if not execution.get("mode"):
         missing.append("execution.mode")
-    if not (execution.get("rounds") or execution.get("stop_rule")):
+    # A legacy free-text stop rule is never enforced, so it cannot stand in for rounds.
+    if not (execution.get("rounds") or stop_rule_is_enforceable(execution.get("stop_rule"))):
         missing.append("execution.rounds_or_stop_rule")
     return missing
+
+
+# ---------------------------------------------------------------------------
+# Stop rules
+# ---------------------------------------------------------------------------
+
+STOP_RULE_HELP = (
+    "comma-separated clauses, any of which ends the run: "
+    "metric<=X | metric>=X | metric<X | metric>X (best metric so far), "
+    "stalled:N (N rounds in a row without improvement), minutes:N (wall clock since run start)"
+)
+STOP_CLAUSE_RE = re.compile(
+    r"^(?:metric\s*(?P<op><=|>=|<|>)\s*(?P<threshold>[-+]?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?)"
+    r"|(?P<kind>stalled|minutes)\s*:\s*(?P<count>\d+(?:\.\d+)?))$"
+)
+
+
+def parse_stop_rule(text: str | None) -> list[dict[str, Any]]:
+    clauses: list[dict[str, Any]] = []
+    for raw in re.split(r"[,;]", text or ""):
+        raw = raw.strip()
+        if not raw:
+            continue
+        match = STOP_CLAUSE_RE.match(raw)
+        if not match:
+            raise ValueError(f"unrecognized stop rule clause {raw!r}")
+        if match.group("op"):
+            clauses.append(
+                {"kind": "metric", "op": match.group("op"), "value": float(match.group("threshold"))}
+            )
+        else:
+            clauses.append({"kind": match.group("kind"), "value": float(match.group("count"))})
+    return clauses
+
+
+def validate_stop_rule(text: str | None) -> str | None:
+    """Return the normalized rule (None when empty) or exit with the supported grammar."""
+    if text is None or not text.strip():
+        return None
+    try:
+        parse_stop_rule(text)
+    except ValueError as exc:
+        raise SystemExit(f"invalid stop rule: {exc}; expected {STOP_RULE_HELP}") from exc
+    return text.strip()
+
+
+def stop_rule_is_enforceable(text: str | None) -> bool:
+    try:
+        return bool(parse_stop_rule(text))
+    except ValueError:
+        return False
+
+
+def trailing_stalled_rounds(run: dict[str, Any]) -> int:
+    """Consecutive most-recent recordings that did not beat the best before them."""
+    goal = run.get("metric", {}).get("goal")
+    recorded = sorted(
+        (candidate for candidate in run.get("candidates", []) if candidate.get("recorded")),
+        key=lambda candidate: candidate.get("result", {}).get("recorded_at") or "",
+    )
+    best: float | None = None
+    stalled = 0
+    for index, candidate in enumerate(recorded):
+        value = candidate["result"].get("metric_value")
+        if candidate["result"].get("status") != "crash" and value is not None and (
+            best is None or is_better_metric(value, best, goal)
+        ):
+            best = value
+            stalled = 0
+        elif index > 0:
+            stalled += 1
+    return stalled
+
+
+def stop_rule_reason(run: dict[str, Any], now: dt.datetime | None = None) -> str | None:
+    try:
+        clauses = parse_stop_rule(run.get("execution", {}).get("stop_rule"))
+    except ValueError:
+        return None
+    best = run.get("best_metric")
+    for clause in clauses:
+        if clause["kind"] == "metric":
+            if best is None:
+                continue
+            op, threshold = clause["op"], clause["value"]
+            reached = {
+                "<=": best <= threshold,
+                ">=": best >= threshold,
+                "<": best < threshold,
+                ">": best > threshold,
+            }[op]
+            if reached:
+                return f"stop rule: best metric {format_metric_value(best)} {op} {threshold:g}"
+        elif clause["kind"] == "stalled":
+            stalled = trailing_stalled_rounds(run)
+            if stalled >= clause["value"]:
+                return f"stop rule: {stalled} rounds without improvement"
+        elif clause["kind"] == "minutes":
+            created = dt.datetime.fromisoformat(run["created_at"])
+            elapsed = ((now or dt.datetime.now(dt.timezone.utc)) - created).total_seconds() / 60
+            if elapsed >= clause["value"]:
+                return f"stop rule: {elapsed:.1f} minutes elapsed (limit {clause['value']:g})"
+    return None
 
 
 def resolve_part(state: dict[str, Any], part_id: str | None) -> dict[str, Any] | None:
@@ -4436,7 +4578,164 @@ def render_delete_program(
         f"python3 {script_path} allocate --run-id {run['run_id']}",
         "```",
         "",
-        "4. Stop when the configured rounds or stop rule is satisfied.",
+        "4. The CLI marks the run completed once the rounds target or stop rule is met; `allocate` then refuses.",
+        f"5. Merge the best candidate and clean up with: `python3 {script_path} finalize --run-id {run['run_id']} --merge`",
         "",
     ])
     return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
+# Feature: Finalize (merge-back + cleanup)
+# ---------------------------------------------------------------------------
+
+
+def command_finalize(args: argparse.Namespace) -> int:
+    repo_root = detect_repo_root(Path(args.repo))
+    ensure_git_repo(repo_root)
+    with state_lock(repo_root):
+        state = load_state(repo_root)
+        run = resolve_run(state, args.run_id)
+        payload = finalize_run(repo_root, run, args)
+        write_state(repo_root, state)
+    emit(payload, args.json)
+    return 0
+
+
+def finalize_run(repo_root: Path, run: dict[str, Any], args: argparse.Namespace) -> dict[str, Any]:
+    if run.get("status") not in TERMINAL_RUN_STATUSES:
+        if not args.stop:
+            raise SystemExit(
+                f"run {run['run_id']} is still {run.get('status')}; pass --stop to end it and finalize"
+            )
+        run["status"] = "completed"
+        run["stop_reason"] = "stopped by finalize"
+
+    best = get_candidate(run, run["best_candidate_id"]) if run.get("best_candidate_id") else None
+    best_branch = best["branch"] if best else None
+    best_has_changes = bool(best_branch) and branch_differs_from(repo_root, best_branch, run["base_ref"])
+
+    # Merge first: if it fails, nothing has been removed yet.
+    merged = False
+    if args.merge and best_has_changes:
+        squash_merge_into_checkout(repo_root, best_branch)
+        merged = True
+
+    removed, skipped = remove_run_worktrees(
+        repo_root,
+        run,
+        keep_candidate_id=best["candidate_id"] if best and args.keep_best_worktree else None,
+        force=args.force,
+    )
+    pruned_branches: list[str] = []
+    if args.prune_branches:
+        pruned_branches, branch_skips = prune_run_branches(repo_root, run, keep_branch=best_branch)
+        skipped.extend(branch_skips)
+
+    refresh_single_run_worktrees(run)
+
+    run["finalized"] = {
+        "finalized_at": now_iso(),
+        "best_candidate_id": best["candidate_id"] if best else None,
+        "best_branch": best_branch,
+        "best_metric": run.get("best_metric"),
+        "best_has_changes": best_has_changes,
+        "merged": merged,
+        "removed_worktrees": removed,
+        "pruned_branches": pruned_branches,
+        "skipped": skipped,
+    }
+
+    payload = {"run_id": run["run_id"], "status": run["status"], **run["finalized"]}
+    if not best_has_changes:
+        payload["next_steps"] = ["no candidate improved on the base commit; nothing to merge"]
+    elif merged:
+        payload["next_steps"] = [
+            f"review the staged squash of {best_branch}: git diff --cached",
+            "commit it when satisfied, or discard with: git reset --merge",
+        ]
+    else:
+        payload["next_steps"] = [
+            f"inspect: git diff {run['base_ref'][:12]} {best_branch}",
+            f"merge:   git merge --squash {best_branch}  (or rerun finalize with --merge)",
+        ]
+    if skipped:
+        payload["next_steps"].append("some items were skipped; rerun with --force to remove dirty worktrees")
+    return payload
+
+
+def branch_differs_from(repo_root: Path, branch: str, base_ref: str) -> bool:
+    completed = git_run(repo_root, ["rev-parse", "--verify", f"{branch}^{{commit}}"])
+    if completed.returncode != 0:
+        return False
+    return completed.stdout.strip() != base_ref
+
+
+def squash_merge_into_checkout(repo_root: Path, branch: str) -> None:
+    dirty = git_stdout(repo_root, ["status", "--porcelain", "--untracked-files=no"]).strip()
+    if dirty:
+        raise SystemExit(
+            "the main checkout has uncommitted changes to tracked files; commit or stash them before --merge"
+        )
+    merge = git_run(repo_root, ["merge", "--squash", branch])
+    if merge.returncode != 0:
+        git_run(repo_root, ["reset", "--merge"])
+        detail = (merge.stdout + merge.stderr).strip()
+        raise SystemExit(
+            f"squash merge of {branch} failed and was rolled back; nothing was cleaned up.\n{detail}\n"
+            f"Resolve manually with: git merge --squash {branch}"
+        )
+
+
+def remove_run_worktrees(
+    repo_root: Path,
+    run: dict[str, Any],
+    keep_candidate_id: str | None,
+    force: bool,
+) -> tuple[list[str], list[dict[str, str]]]:
+    removed: list[str] = []
+    skipped: list[dict[str, str]] = []
+    for candidate in run.get("candidates", []):
+        path = Path(candidate["worktree_path"])
+        if candidate["candidate_id"] == keep_candidate_id or not path.exists():
+            continue
+        command = ["worktree", "remove", *(["--force"] if force else []), str(path)]
+        completed = git_run(repo_root, command)
+        if completed.returncode == 0:
+            removed.append(candidate["candidate_id"])
+        else:
+            skipped.append(
+                {
+                    "item": candidate["candidate_id"],
+                    "reason": (completed.stderr or completed.stdout).strip() or "git worktree remove failed",
+                }
+            )
+    git_run(repo_root, ["worktree", "prune"])
+    worktree_root = Path(run["worktree_root"])
+    try:
+        worktree_root.rmdir()
+    except OSError:
+        pass  # not empty (kept/skipped worktrees) or already gone
+    return removed, skipped
+
+
+def prune_run_branches(
+    repo_root: Path, run: dict[str, Any], keep_branch: str | None
+) -> tuple[list[str], list[dict[str, str]]]:
+    pruned: list[str] = []
+    skipped: list[dict[str, str]] = []
+    for candidate in run.get("candidates", []):
+        branch = candidate["branch"]
+        if branch == keep_branch:
+            continue
+        exists = git_run(repo_root, ["rev-parse", "--verify", "--quiet", f"refs/heads/{branch}"])
+        if exists.returncode != 0:
+            continue
+        completed = git_run(repo_root, ["branch", "-D", branch])
+        if completed.returncode == 0:
+            pruned.append(branch)
+        else:
+            skipped.append(
+                {"item": branch, "reason": (completed.stderr or completed.stdout).strip() or "branch -D failed"}
+            )
+    return pruned, skipped

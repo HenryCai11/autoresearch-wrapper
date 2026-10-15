@@ -197,6 +197,16 @@ python3 scripts/autoresearch_wrapper.py evaluate --run-id <run> --candidate <see
 python3 scripts/autoresearch_wrapper.py record --run-id <run> --candidate <id> --status auto --description "<summary>"
 ```
 
+`evaluate` commits pending edits in the candidate worktree before measuring; do not edit between `evaluate` and `record`. The run is marked `completed` when the rounds target or stop rule is met (`--stop-rule "metric<=X, stalled:N, minutes:N"`, any clause ends the run) and `allocate` then refuses.
+
+When the run ends, merge the best candidate back and clean up. Confirm with the user before `--merge` or `--prune-branches`:
+
+```bash
+python3 scripts/autoresearch_wrapper.py finalize --run-id <run> --merge
+```
+
+`--merge` stages a squash merge without committing; `--prune-branches` deletes all other run branches; `--force` removes dirty worktrees; `--stop` ends a running run first.
+
 Use metric presets to scaffold or confirm a script-based metric command:
 
 ```bash

@@ -133,7 +133,9 @@ python3 scripts/autoresearch_wrapper.py scan
 | `:delete` | `-delete` | `delete` | 删除后参数优化 |
 | `:monitor` | `-monitor` | `monitor` | 实时进度轮询 |
 
-其他 CLI 子命令：`scan`、`configure`、`allocate`、`evaluate`、`record`、`resources`、`preset-metric`、`reference`
+其他 CLI 子命令：`scan`、`configure`、`allocate`、`evaluate`、`record`、`finalize`、`resources`、`preset-metric`、`reference`
+
+运行结束后，`finalize --run-id <id> --merge` 会把最优候选 squash 合并到当前 checkout（只暂存、不提交，便于审阅），并清理该运行的 worktree。
 
 ## 测试
 

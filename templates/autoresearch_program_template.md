@@ -65,4 +65,10 @@ python3 $script_path evaluate --run-id $run_id --candidate candidate-XYZ
 python3 $script_path record --run-id $run_id --candidate candidate-XYZ --status auto --description "candidate summary"
 ```
 
-3. Stop when the configured rounds or stop rule is satisfied.
+3. The CLI marks the run `completed` once the rounds target or stop rule is met (or `early_exit` on stall), and `allocate` refuses after that. Check `stop_reason` in the run state.
+
+4. When the run ends, merge the best candidate back and clean up. `--merge` squash-merges into the current checkout and leaves it staged for review:
+
+```bash
+python3 $script_path finalize --run-id $run_id --merge
+```

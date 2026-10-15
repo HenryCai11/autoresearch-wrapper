@@ -125,10 +125,24 @@ Before a run starts, the wrapper requires:
 - metric command
 - metric goal
 - execution mode
-- rounds or stop rule
+- rounds or an enforceable stop rule
 - known-enough important direct dependencies
 
 If the selected part has unresolved important dependency boundaries, `run` is blocked until the part is rescanned, narrowed, or clarified.
+
+### Stop rules
+
+`--stop-rule` takes comma-separated clauses; the run is marked `completed` (with a `stop_reason`) as soon as any clause holds, and `allocate` refuses afterwards:
+
+- `metric<=X`, `metric>=X`, `metric<X`, `metric>X` — the best metric so far crosses a threshold
+- `stalled:N` — N recordings in a row without beating the best (crashes count)
+- `minutes:N` — wall-clock minutes since the run started
+
+```bash
+python3 scripts/autoresearch_wrapper.py configure --part <part> --rounds 50 --stop-rule "metric<=120, stalled:8, minutes:240"
+```
+
+Unparseable rules are rejected at configure time.
 
 ### Git worktree-based optimization
 
@@ -235,6 +249,8 @@ python3 scripts/autoresearch_wrapper.py evaluate --run-id <run-id> --candidate s
 python3 scripts/autoresearch_wrapper.py record --run-id <run-id> --candidate seed --status auto --description "baseline"
 ```
 
+`evaluate` commits pending edits in the candidate worktree before measuring, so a kept candidate's branch becomes the base for the next `allocate`.
+
 ### 7. Inspect the metric flow
 
 ```bash
@@ -242,7 +258,20 @@ python3 scripts/autoresearch_wrapper.py flow
 python3 scripts/autoresearch_wrapper.py flow --run-id <run-id>
 ```
 
-### 8. Use preset-backed script metrics
+### 8. Merge back and clean up
+
+```bash
+python3 scripts/autoresearch_wrapper.py finalize --run-id <run-id> --merge
+```
+
+- `--merge` squash-merges the best branch into the current checkout and leaves it staged (requires no uncommitted changes to tracked files; a conflicting merge is rolled back before anything is removed)
+- worktrees are removed; dirty ones are skipped unless `--force`
+- `--keep-best-worktree` leaves the winner's worktree in place
+- `--prune-branches` deletes every run branch except the best
+- `--stop` ends a still-running run first
+- without `--merge`, the output lists the `git diff` / `git merge --squash` commands to do it by hand
+
+### 9. Use preset-backed script metrics
 
 Available preset helpers:
 - `runtime_seconds`

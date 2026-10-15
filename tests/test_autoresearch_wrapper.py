@@ -41,6 +41,7 @@ from autoresearch_wrapper.core import (
     state_dir,
     status_markdown,
     wizard_select,
+    write_state,
 )
 
 
@@ -1270,21 +1271,182 @@ class AutoresearchWrapperTests(unittest.TestCase):
         repo = self.make_value_repo()
         run_id = self.start_value_run(repo, "--early-exit-patience", "2")
         self.evaluate_and_record(repo, run_id, "seed")
-        for _ in range(2):
-            candidate_id = self.allocate_with_value(repo, run_id, "not-a-number")
+        # Allocate everything up front, as parallel workers would.
+        crashes = [self.allocate_with_value(repo, run_id, "not-a-number") for _ in range(2)]
+        straggler = self.allocate_with_value(repo, run_id, "1")
+        for candidate_id in crashes:
             self.evaluate_and_record(repo, run_id, candidate_id)
         run = self.active_run(repo)
         self.assertEqual(run["status"], "early_exit")
         self.assertEqual(run["early_exit"]["rounds_without_improvement"], 2)
 
         # A straggler recorded after the run ended must not reopen it.
-        candidate_id = self.allocate_with_value(repo, run_id, "1")
-        self.evaluate_and_record(repo, run_id, candidate_id)
+        self.evaluate_and_record(repo, run_id, straggler)
         self.assertEqual(self.active_run(repo)["status"], "early_exit")
 
     def test_parse_metric_value_uses_last_match(self) -> None:
         output = "METRIC=9.0\nepoch 2\nMETRIC=3.5\n"
         self.assertEqual(parse_metric_value(output, DEFAULT_METRIC_REGEX), 3.5)
+
+    # -----------------------------------------------------------------------
+    # Stop rules
+    # -----------------------------------------------------------------------
+
+    def run_candidates(self, repo: Path, run_id: str, values: list[str]) -> None:
+        for value in values:
+            candidate_id = self.allocate_with_value(repo, run_id, value)
+            self.evaluate_and_record(repo, run_id, candidate_id)
+
+    def test_configure_rejects_unparseable_stop_rule(self) -> None:
+        repo = self.make_value_repo()
+        with self.assertRaises(SystemExit) as exc:
+            self.configure_module(
+                repo, self.value_metric_command(), "--mode", "sequential", "--stop-rule", "until it is good"
+            )
+        self.assertIn("invalid stop rule", str(exc.exception))
+
+    def test_metric_threshold_stop_rule_completes_run_and_blocks_allocate(self) -> None:
+        repo = self.make_value_repo()
+        run_id = self.start_value_run(repo, "--rounds", "10", "--stop-rule", "metric<=5")
+        self.evaluate_and_record(repo, run_id, "seed")
+        self.run_candidates(repo, run_id, ["8"])
+        self.assertEqual(self.active_run(repo)["status"], "running")
+        self.run_candidates(repo, run_id, ["4"])
+
+        run = self.active_run(repo)
+        self.assertEqual(run["status"], "completed")
+        self.assertIn("<= 5", run["stop_reason"])
+        with self.assertRaises(SystemExit) as exc:
+            main(["allocate", "--repo", str(repo), "--run-id", run_id])
+        self.assertIn("is completed", str(exc.exception))
+
+    def test_stalled_stop_rule_counts_consecutive_non_improvements(self) -> None:
+        repo = self.make_value_repo()
+        run_id = self.start_value_run(repo, "--rounds", "10", "--stop-rule", "stalled:2, metric<=0")
+        self.evaluate_and_record(repo, run_id, "seed")
+        self.run_candidates(repo, run_id, ["12", "9", "11"])
+        self.assertEqual(self.active_run(repo)["status"], "running")
+        self.run_candidates(repo, run_id, ["not-a-number"])
+
+        run = self.active_run(repo)
+        self.assertEqual(run["status"], "completed")
+        self.assertIn("2 rounds without improvement", run["stop_reason"])
+
+    def test_stop_rule_alone_satisfies_run_gate_and_minutes_rule_stops_allocate(self) -> None:
+        repo = self.make_value_repo()
+        self.configure_module(
+            repo, self.value_metric_command(), "--mode", "sequential", "--stop-rule", "minutes:0"
+        )
+        self.assertIsNone(load_state(repo)["part_configs"]["module.py"]["execution"]["rounds"])
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["run", "--repo", str(repo), "--part", "module.py"])
+        run_id = self.active_run(repo)["run_id"]
+
+        with self.assertRaises(SystemExit) as exc:
+            main(["allocate", "--repo", str(repo), "--run-id", run_id])
+        self.assertIn("minutes elapsed", str(exc.exception))
+        self.assertEqual(self.active_run(repo)["status"], "completed")
+
+    def test_legacy_free_text_stop_rule_does_not_replace_rounds(self) -> None:
+        repo = self.make_value_repo()
+        self.configure_module(repo, self.value_metric_command(), "--mode", "sequential", "--rounds", "3")
+        state = load_state(repo)
+        execution = state["part_configs"]["module.py"]["execution"]
+        execution["rounds"] = None
+        execution["stop_rule"] = "until latency looks good"
+        write_state(repo, state)
+
+        with self.assertRaises(SystemExit) as exc:
+            main(["run", "--repo", str(repo), "--part", "module.py"])
+        self.assertIn("execution.rounds_or_stop_rule", str(exc.exception))
+
+    # -----------------------------------------------------------------------
+    # Finalize
+    # -----------------------------------------------------------------------
+
+    def git_out(self, cwd: Path, *args: str) -> str:
+        return subprocess.run(
+            ["git", *args], cwd=cwd, check=True, capture_output=True, text=True
+        ).stdout.strip()
+
+    def finished_run_with_improvement(self, repo: Path) -> str:
+        run_id = self.start_value_run(repo, "--rounds", "2")
+        self.evaluate_and_record(repo, run_id, "seed")
+        self.run_candidates(repo, run_id, ["5", "7"])
+        self.assertEqual(self.active_run(repo)["status"], "completed")
+        return run_id
+
+    def finalize(self, repo: Path, run_id: str, *flags: str) -> dict:
+        buffer = io.StringIO()
+        with contextlib.redirect_stdout(buffer):
+            main(["finalize", "--repo", str(repo), "--run-id", run_id, "--json", *flags])
+        return json.loads(buffer.getvalue())
+
+    def test_finalize_merges_best_stages_it_and_cleans_up(self) -> None:
+        repo = self.make_value_repo()
+        run_id = self.finished_run_with_improvement(repo)
+        run = self.active_run(repo)
+        best = get_candidate(run, run["best_candidate_id"])
+        self.assertEqual(best["candidate_id"], "candidate-001")
+
+        payload = self.finalize(repo, run_id, "--merge", "--prune-branches")
+
+        self.assertTrue(payload["merged"])
+        self.assertEqual((repo / "value.txt").read_text(), "5\n")
+        self.assertEqual(self.git_out(repo, "diff", "--cached", "--name-only"), "value.txt")
+        self.assertEqual(self.git_out(repo, "log", "-1", "--format=%s"), "init")  # staged, not committed
+        run = self.active_run(repo)
+        for candidate in run["candidates"]:
+            self.assertFalse(Path(candidate["worktree_path"]).exists(), candidate["candidate_id"])
+            self.assertTrue(candidate["missing"])
+        self.assertFalse(Path(run["worktree_root"]).exists())
+        remaining = self.git_out(repo, "branch", "--list", "autoresearch/*", "--format=%(refname:short)")
+        self.assertEqual(remaining.splitlines(), [best["branch"]])
+        self.assertEqual(run["finalized"]["skipped"], [])
+
+    def test_finalize_without_merge_keeps_branches_and_suggests_commands(self) -> None:
+        repo = self.make_value_repo()
+        run_id = self.finished_run_with_improvement(repo)
+        payload = self.finalize(repo, run_id)
+        self.assertFalse(payload["merged"])
+        self.assertTrue(any("git merge --squash" in step for step in payload["next_steps"]))
+        self.assertEqual((repo / "value.txt").read_text(), "10\n")
+        branches = self.git_out(repo, "branch", "--list", "autoresearch/*").splitlines()
+        self.assertEqual(len(branches), 3)  # seed + 2 candidates
+
+    def test_finalize_refuses_running_run_unless_stopped(self) -> None:
+        repo = self.make_value_repo()
+        run_id = self.start_value_run(repo)
+        with self.assertRaises(SystemExit) as exc:
+            self.finalize(repo, run_id)
+        self.assertIn("--stop", str(exc.exception))
+        payload = self.finalize(repo, run_id, "--stop")
+        self.assertEqual(payload["status"], "completed")
+        self.assertFalse(payload["best_has_changes"])
+
+    def test_finalize_merge_refuses_dirty_checkout_and_leaves_worktrees(self) -> None:
+        repo = self.make_value_repo()
+        run_id = self.finished_run_with_improvement(repo)
+        (repo / "module.py").write_text("# local edit\n")
+        with self.assertRaises(SystemExit) as exc:
+            self.finalize(repo, run_id, "--merge")
+        self.assertIn("uncommitted changes", str(exc.exception))
+        for candidate in self.active_run(repo)["candidates"]:
+            self.assertTrue(Path(candidate["worktree_path"]).exists())
+
+    def test_finalize_skips_dirty_worktree_unless_forced(self) -> None:
+        repo = self.make_value_repo()
+        run_id = self.finished_run_with_improvement(repo)
+        dirty = get_candidate(self.active_run(repo), "candidate-002")
+        (Path(dirty["worktree_path"]) / "scratch.log").write_text("metric output\n")
+
+        payload = self.finalize(repo, run_id)
+        self.assertEqual([item["item"] for item in payload["skipped"]], ["candidate-002"])
+        self.assertTrue(Path(dirty["worktree_path"]).exists())
+
+        payload = self.finalize(repo, run_id, "--force")
+        self.assertEqual(payload["removed_worktrees"], ["candidate-002"])
+        self.assertFalse(Path(dirty["worktree_path"]).exists())
 
     def test_mkdir_lock_times_out_and_reclaims_stale_lock(self) -> None:
         lock_dir = Path(tempfile.mkdtemp(prefix="autoresearch-lock-")) / "state.lock.d"

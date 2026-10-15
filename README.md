@@ -130,7 +130,9 @@ An example of the wizard for optimizing [Recursive Language Models](https://gith
 | `:delete` | `-delete` | `delete` | Post-deletion optimization |
 | `:monitor` | `-monitor` | `monitor` | Live progress polling |
 
-Additional CLI subcommands: `scan`, `configure`, `allocate`, `evaluate`, `record`, `resources`, `preset-metric`, `reference`
+Additional CLI subcommands: `scan`, `configure`, `allocate`, `evaluate`, `record`, `finalize`, `resources`, `preset-metric`, `reference`
+
+When a run ends, `finalize --run-id <id> --merge` squash-merges the best candidate into your checkout (staged for review, not committed) and removes the run's worktrees.
 
 ## Testing
 
