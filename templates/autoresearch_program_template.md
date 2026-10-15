@@ -58,7 +58,7 @@ python3 $script_path record --run-id $run_id --candidate seed --status auto --de
 python3 $script_path allocate --run-id $run_id
 ```
 
-Edit inside the returned worktree, then evaluate and record:
+Edit inside the returned worktree, then evaluate and record. `evaluate` commits any pending edits to the candidate branch before measuring (respecting `.gitignore`), and a `keep` makes that branch the base for the next `allocate`, so improvements compound. Do not edit the worktree between `evaluate` and `record`.
 
 ```bash
 python3 $script_path evaluate --run-id $run_id --candidate candidate-XYZ

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import contextlib
 import csv
 import datetime as dt
 import json
@@ -18,9 +19,18 @@ from pathlib import Path, PurePosixPath
 from string import Template
 from typing import Any
 
+try:
+    import fcntl
+except ImportError:  # pragma: no cover - non-POSIX platforms
+    fcntl = None
+
 STATE_DIRNAME = ".autoresearch-wrapper"
 STATE_FILENAME = "state.json"
 STATUS_FILENAME = "STATUS.md"
+STATE_LOCK_FILENAME = "state.lock"
+STATE_LOCK_TIMEOUT_SECONDS = 300.0
+# State critical sections are short (no metric commands run under the lock).
+STATE_LOCK_STALE_SECONDS = 600.0
 RUNS_DIRNAME = "runs"
 PLANS_DIRNAME = "plans"
 REFERENCE_DIRNAME = "reference"
@@ -1290,12 +1300,13 @@ def start_or_resume_run(
 
 def command_run(args: argparse.Namespace) -> int:
     repo_root = detect_repo_root(Path(args.repo))
-    state = ensure_scanned(repo_root)
-    part = resolve_part(state, args.part or state.get("selection", {}).get("part_id"))
-    if part is None:
-        raise SystemExit("no selected part; configure one with the wrapper first")
-    config = state.get("part_configs", {}).get(part["id"])
-    payload = start_or_resume_run(repo_root, state, part, config)
+    with state_lock(repo_root):
+        state = ensure_scanned(repo_root)
+        part = resolve_part(state, args.part or state.get("selection", {}).get("part_id"))
+        if part is None:
+            raise SystemExit("no selected part; configure one with the wrapper first")
+        config = state.get("part_configs", {}).get(part["id"])
+        payload = start_or_resume_run(repo_root, state, part, config)
     emit(payload, args.json)
     return 0
 
@@ -1303,28 +1314,46 @@ def command_run(args: argparse.Namespace) -> int:
 def command_allocate(args: argparse.Namespace) -> int:
     repo_root = detect_repo_root(Path(args.repo))
     ensure_git_repo(repo_root)
-    state = ensure_scanned(repo_root)
-    run = resolve_run(state, args.run_id)
-    candidate = allocate_candidate(repo_root, run)
-    write_state(repo_root, state)
+    with state_lock(repo_root):
+        state = ensure_scanned(repo_root)
+        run = resolve_run(state, args.run_id)
+        candidate = allocate_candidate(repo_root, run)
+        write_state(repo_root, state)
     emit(candidate, args.json)
     return 0
 
 
+def run_metric_settings(state: dict[str, Any], run: dict[str, Any]) -> dict[str, Any]:
+    """Return the metric locked into the run, falling back to the part config for legacy runs."""
+    metric = run.get("metric") or {}
+    if metric.get("command"):
+        return metric
+    config = state.get("part_configs", {}).get(run["part_id"])
+    if not config or not config.get("metric", {}).get("command"):
+        raise SystemExit(f"run {run['run_id']} has no metric configuration")
+    return config["metric"]
+
+
 def command_evaluate(args: argparse.Namespace) -> int:
     repo_root = detect_repo_root(Path(args.repo))
-    state = ensure_scanned(repo_root)
+    # Read without the lock: the metric command can run for a long time and
+    # parallel candidates must be able to evaluate concurrently.
+    state = load_state(repo_root)
     run = resolve_run(state, args.run_id)
     candidate = get_candidate(run, args.candidate)
     if candidate is None:
         raise SystemExit(f"unknown candidate: {args.candidate}")
 
-    config = state["part_configs"][run["part_id"]]
-    metric = config["metric"]
+    metric = run_metric_settings(state, run)
     worktree_path = Path(candidate["worktree_path"])
     if not worktree_path.exists():
         raise SystemExit(f"candidate worktree is missing: {worktree_path}")
 
+    # Snapshot the edits so the evaluated code is exactly what the branch holds;
+    # later candidates are allocated from kept branches.
+    commit = commit_worktree_changes(
+        worktree_path, f"autoresearch: {run['run_id']} {candidate['candidate_id']}"
+    )
     result = run_metric_command(
         metric_command=metric["command"],
         metric_regex=metric["regex"],
@@ -1332,28 +1361,64 @@ def command_evaluate(args: argparse.Namespace) -> int:
         log_dir=Path(run["run_dir"]) / "logs",
         candidate_id=candidate["candidate_id"],
     )
-    candidate["latest_evaluation"] = result
-    candidate["lifecycle"] = "evaluated" if result["exit_code"] == 0 else "failed"
-    write_state(repo_root, state)
+    result["commit"] = commit
+
+    with state_lock(repo_root):
+        state = load_state(repo_root)
+        run = resolve_run(state, run["run_id"])
+        candidate = get_candidate(run, args.candidate)
+        if candidate is None:
+            raise SystemExit(f"candidate disappeared from state: {args.candidate}")
+        candidate["latest_evaluation"] = result
+        candidate["lifecycle"] = "evaluated" if result["exit_code"] == 0 else "failed"
+        write_state(repo_root, state)
     emit(result, args.json)
     return 0
 
 
 def command_record(args: argparse.Namespace) -> int:
     repo_root = detect_repo_root(Path(args.repo))
+    with state_lock(repo_root):
+        return record_locked(repo_root, args)
+
+
+def resolve_recorded_commit(
+    run: dict[str, Any], candidate: dict[str, Any], evaluation: dict[str, Any], manual_value: bool
+) -> str | None:
+    worktree_path = Path(candidate["worktree_path"])
+    if not worktree_path.exists():
+        return evaluation.get("commit")
+    evaluated_commit = evaluation.get("commit")
+    if manual_value or not evaluated_commit:
+        # No evaluated snapshot to trust (manual metric or legacy evaluation): snapshot now.
+        return commit_worktree_changes(
+            worktree_path, f"autoresearch: {run['run_id']} {candidate['candidate_id']}"
+        )
+    head = current_commit(worktree_path)
+    if head and head != evaluated_commit:
+        raise SystemExit(
+            f"{candidate['candidate_id']} HEAD moved since evaluate "
+            f"({evaluated_commit[:12]} -> {head[:12]}); re-run evaluate before record"
+        )
+    return evaluated_commit
+
+
+def record_locked(repo_root: Path, args: argparse.Namespace) -> int:
     state = ensure_scanned(repo_root)
     run = resolve_run(state, args.run_id)
     candidate = get_candidate(run, args.candidate)
     if candidate is None:
         raise SystemExit(f"unknown candidate: {args.candidate}")
 
-    config = state["part_configs"][run["part_id"]]
-    metric_name = config["metric"]["name"]
-    goal = config["metric"]["goal"]
+    metric = run_metric_settings(state, run)
+    metric_name = metric["name"]
+    goal = metric["goal"]
     evaluation = candidate.get("latest_evaluation", {})
     metric_value = args.metric_value if args.metric_value is not None else evaluation.get("metric_value")
     if metric_value is None and args.status != "crash":
         raise SystemExit("no metric value available; run evaluate first or pass --metric-value")
+
+    commit = resolve_recorded_commit(run, candidate, evaluation, args.metric_value is not None)
 
     chosen_status = args.status
     if chosen_status == "auto":
@@ -1363,6 +1428,7 @@ def command_record(args: argparse.Namespace) -> int:
         "status": chosen_status,
         "description": args.description,
         "metric_value": metric_value,
+        "commit": commit,
         "recorded_at": now_iso(),
     }
     candidate["lifecycle"] = chosen_status
@@ -1552,8 +1618,78 @@ def write_state(repo_root: Path, state: dict[str, Any]) -> None:
     target_dir = state_dir(repo_root)
     target_dir.mkdir(parents=True, exist_ok=True)
     state["updated_at"] = now_iso()
-    state_file(repo_root).write_text(json.dumps(state, indent=2, sort_keys=True) + "\n")
-    status_file(repo_root).write_text(status_markdown(state))
+    atomic_write_text(state_file(repo_root), json.dumps(state, indent=2, sort_keys=True) + "\n")
+    atomic_write_text(status_file(repo_root), status_markdown(state))
+
+
+def atomic_write_text(path: Path, text: str) -> None:
+    """Write via a temp file + rename so readers never see a truncated file."""
+    tmp_path = path.with_name(f".{path.name}.{os.getpid()}.tmp")
+    try:
+        tmp_path.write_text(text)
+        os.replace(tmp_path, path)
+    finally:
+        if tmp_path.exists():
+            tmp_path.unlink()
+
+
+@contextlib.contextmanager
+def state_lock(repo_root: Path):
+    """Serialize read-modify-write cycles on state.json across processes.
+
+    Uses a POSIX record lock when the filesystem supports it (NFS via lockd),
+    and falls back to an atomic mkdir lock otherwise. Not reentrant: never nest.
+    """
+    target_dir = state_dir(repo_root)
+    target_dir.mkdir(parents=True, exist_ok=True)
+    with (target_dir / STATE_LOCK_FILENAME).open("a") as handle:
+        if try_posix_lock(handle):
+            try:
+                yield
+            finally:
+                fcntl.lockf(handle, fcntl.LOCK_UN)
+            return
+    with mkdir_lock(target_dir / f"{STATE_LOCK_FILENAME}.d"):
+        yield
+
+
+def try_posix_lock(handle: Any) -> bool:
+    if fcntl is None:
+        return False
+    try:
+        fcntl.lockf(handle, fcntl.LOCK_EX)
+    except OSError:
+        return False
+    return True
+
+
+@contextlib.contextmanager
+def mkdir_lock(
+    lock_dir: Path,
+    timeout: float = STATE_LOCK_TIMEOUT_SECONDS,
+    stale_after: float = STATE_LOCK_STALE_SECONDS,
+):
+    deadline = time.monotonic() + timeout
+    while True:
+        try:
+            lock_dir.mkdir()
+            break
+        except FileExistsError:
+            try:
+                age = time.time() - lock_dir.stat().st_mtime
+            except FileNotFoundError:
+                continue
+            if age > stale_after:
+                # Holder most likely died; state writes are atomic, so reclaiming is safe.
+                shutil.rmtree(lock_dir, ignore_errors=True)
+                continue
+            if time.monotonic() >= deadline:
+                raise SystemExit(f"timed out waiting for state lock: {lock_dir}")
+            time.sleep(0.05)
+    try:
+        yield
+    finally:
+        shutil.rmtree(lock_dir, ignore_errors=True)
 
 
 def default_state(repo_root: Path) -> dict[str, Any]:
@@ -3112,7 +3248,7 @@ def create_run(
     if config["execution"].get("mode") in ("parallel", "wild"):
         parallelism = max(int(config["execution"].get("parallelism", 2)), 1)
         for _ in range(parallelism):
-            run["candidates"].append(allocate_candidate(repo_root, run))
+            allocate_candidate(repo_root, run)
 
     state.setdefault("runs", {})[run_id] = run
     state.setdefault("selection", {})["active_run_id"] = run_id
@@ -3263,7 +3399,7 @@ def count_completed_rounds(run: dict[str, Any]) -> int:
 
 def append_result_row(run: dict[str, Any], candidate: dict[str, Any], metric_name: str, goal: str) -> None:
     result = candidate.get("result", {})
-    commit = current_commit(Path(candidate["worktree_path"]))
+    commit = result.get("commit") or current_commit(Path(candidate["worktree_path"]))
     row = [
         now_iso(),
         run["run_id"],
@@ -3279,6 +3415,31 @@ def append_result_row(run: dict[str, Any], candidate: dict[str, Any], metric_nam
     ]
     with Path(run["results_path"]).open("a") as handle:
         handle.write("\t".join(row) + "\n")
+
+
+def git_identity_args(cwd: Path) -> list[str]:
+    """Fallback committer identity so snapshots work where git user.* is unset."""
+    args: list[str] = []
+    if not git_run(cwd, ["config", "user.name"]).stdout.strip():
+        args += ["-c", "user.name=autoresearch-wrapper"]
+    if not git_run(cwd, ["config", "user.email"]).stdout.strip():
+        args += ["-c", "user.email=autoresearch-wrapper@localhost"]
+    return args
+
+
+def commit_worktree_changes(worktree_path: Path, message: str) -> str:
+    """Commit all pending changes (respecting .gitignore) and return HEAD."""
+    git_run(worktree_path, ["add", "-A"], check=True)
+    staged = git_run(worktree_path, ["diff", "--cached", "--quiet"])
+    if staged.returncode == 1:
+        git_run(
+            worktree_path,
+            [*git_identity_args(worktree_path), "commit", "--no-verify", "-m", message],
+            check=True,
+        )
+    elif staged.returncode != 0:
+        raise RuntimeError(staged.stderr.strip() or "git diff --cached failed")
+    return git_stdout(worktree_path, ["rev-parse", "HEAD"]).strip()
 
 
 def current_commit(worktree_path: Path) -> str | None:
@@ -3822,7 +3983,7 @@ def command_create(args: argparse.Namespace) -> int:
         command_suggestion=None,
     )
     normalize_execution_defaults(config["execution"])
-    state.setdefault("part_configs", {})[part["id"]] = config
+    # The config lives only on the run; the part's own optimize config is left untouched.
 
     create_info = {
         "feature_description": feature_description,
@@ -3831,10 +3992,12 @@ def command_create(args: argparse.Namespace) -> int:
         "approach_labels": [f"approach-{chr(65 + i)}" for i in range(num_candidates)],
     }
 
-    run = create_create_run(repo_root, state, part, config, create_info)
-    state.setdefault("selection", {})["part_id"] = part["id"]
-    state.setdefault("selection", {})["active_run_id"] = run["run_id"]
-    write_state(repo_root, state)
+    with state_lock(repo_root):
+        state = load_state(repo_root)
+        run = create_create_run(repo_root, state, part, config, create_info)
+        state.setdefault("selection", {})["part_id"] = part["id"]
+        state.setdefault("selection", {})["active_run_id"] = run["run_id"]
+        write_state(repo_root, state)
 
     payload = {
         "run_id": run["run_id"],
@@ -4065,10 +4228,12 @@ def command_delete(args: argparse.Namespace) -> int:
         "pre_deletion_metrics": None,
     }
 
-    run = create_delete_run(repo_root, state, part, config, delete_info)
-    state.setdefault("selection", {})["part_id"] = part["id"]
-    state.setdefault("selection", {})["active_run_id"] = run["run_id"]
-    write_state(repo_root, state)
+    with state_lock(repo_root):
+        state = load_state(repo_root)
+        run = create_delete_run(repo_root, state, part, config, delete_info)
+        state.setdefault("selection", {})["part_id"] = part["id"]
+        state.setdefault("selection", {})["active_run_id"] = run["run_id"]
+        write_state(repo_root, state)
 
     payload = {
         "run_id": run["run_id"],
@@ -4105,12 +4270,7 @@ def apply_deletion_to_worktree(worktree_path: Path, part_id: str) -> None:
     target = worktree_path / part_id
     if target.exists():
         target.unlink()
-        git_run(worktree_path, ["add", part_id], check=False)
-        git_run(
-            worktree_path,
-            ["commit", "-m", f"autoresearch: delete {part_id}"],
-            check=False,
-        )
+        commit_worktree_changes(worktree_path, f"autoresearch: delete {part_id}")
 
 
 def create_delete_run(

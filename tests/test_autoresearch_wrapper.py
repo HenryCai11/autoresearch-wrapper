@@ -3,9 +3,12 @@ from __future__ import annotations
 import contextlib
 import io
 import json
+import os
+import shlex
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -19,12 +22,14 @@ from autoresearch_wrapper.core import (
     detect_system_resources,
     find_delete_dependents,
     format_monitor_update,
+    get_candidate,
     group_parts_by_directory,
     group_parts_by_language,
     identify_affected_parts,
     load_state,
     main,
     migrate_state,
+    mkdir_lock,
     normalize_entry_argv,
     plan_wild_changes,
     plans_dir,
@@ -1002,6 +1007,190 @@ class AutoresearchWrapperTests(unittest.TestCase):
         rendered = output.getvalue()
         self.assertIn("scanned 3 parts", rendered)
         self.assertNotIn("Which kind", rendered)
+
+    # -----------------------------------------------------------------------
+    # Run loop integrity: snapshots, run-scoped metrics, state locking
+    # -----------------------------------------------------------------------
+
+    def make_value_repo(self) -> Path:
+        repo = self.make_repo()
+        (repo / "helper.py").write_text("VALUE = 1\n")
+        (repo / "module.py").write_text("import helper\n\ndef main():\n    return helper.VALUE\n")
+        (repo / "value.txt").write_text("10\n")
+        self.commit_all(repo)
+        main(["scan", "--repo", str(repo), "--no-interactive"])
+        return repo
+
+    def value_metric_command(self) -> str:
+        script = "print('METRIC=' + open('value.txt').read().strip())"
+        return f"{shlex.quote(sys.executable)} -c {shlex.quote(script)}"
+
+    def configure_module(self, repo: Path, metric_command: str, *extra: str) -> None:
+        main([
+            "configure", "--repo", str(repo), "--part", "module.py",
+            "--metric", "score", "--metric-command", metric_command,
+            "--metric-goal", "minimize", "--no-interactive", *extra,
+        ])
+
+    def active_run(self, repo: Path) -> dict:
+        state = load_state(repo)
+        return state["runs"][state["selection"]["active_run_id"]]
+
+    def evaluate_and_record(self, repo: Path, run_id: str, candidate: str) -> None:
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["evaluate", "--repo", str(repo), "--run-id", run_id, "--candidate", candidate])
+            main([
+                "record", "--repo", str(repo), "--run-id", run_id, "--candidate", candidate,
+                "--status", "auto", "--description", candidate,
+            ])
+
+    def test_kept_candidate_edits_carry_into_next_allocation(self) -> None:
+        repo = self.make_value_repo()
+        self.configure_module(repo, self.value_metric_command(), "--mode", "sequential", "--rounds", "5")
+        main(["run", "--repo", str(repo), "--part", "module.py"])
+        run_id = self.active_run(repo)["run_id"]
+        self.evaluate_and_record(repo, run_id, "seed")
+
+        main(["allocate", "--repo", str(repo), "--run-id", run_id])
+        first = get_candidate(self.active_run(repo), "candidate-001")
+        # Agent edits without committing.
+        (Path(first["worktree_path"]) / "value.txt").write_text("5\n")
+        self.evaluate_and_record(repo, run_id, "candidate-001")
+
+        run = self.active_run(repo)
+        first = get_candidate(run, "candidate-001")
+        self.assertEqual(first["result"]["status"], "keep")
+        self.assertEqual(run["current_base_branch"], first["branch"])
+        branch_head = subprocess.run(
+            ["git", "rev-parse", first["branch"]], cwd=repo, check=True, capture_output=True, text=True
+        ).stdout.strip()
+        self.assertEqual(first["result"]["commit"], branch_head)
+        self.assertNotEqual(branch_head, run["base_ref"])
+        self.assertIn(branch_head, Path(run["results_path"]).read_text())
+
+        main(["allocate", "--repo", str(repo), "--run-id", run_id])
+        second = get_candidate(self.active_run(repo), "candidate-002")
+        self.assertEqual((Path(second["worktree_path"]) / "value.txt").read_text(), "5\n")
+
+    def test_record_rejects_commits_made_after_evaluate(self) -> None:
+        repo = self.make_value_repo()
+        self.configure_module(repo, self.value_metric_command(), "--mode", "sequential", "--rounds", "5")
+        main(["run", "--repo", str(repo), "--part", "module.py"])
+        run = self.active_run(repo)
+        seed_path = Path(run["candidates"][0]["worktree_path"])
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["evaluate", "--repo", str(repo), "--run-id", run["run_id"], "--candidate", "seed"])
+        (seed_path / "value.txt").write_text("1\n")
+        self.commit_all(seed_path, "sneaky edit")
+
+        with self.assertRaises(SystemExit) as exc:
+            main([
+                "record", "--repo", str(repo), "--run-id", run["run_id"], "--candidate", "seed",
+                "--status", "auto", "--description", "baseline",
+            ])
+        self.assertIn("re-run evaluate", str(exc.exception))
+
+    def test_delete_run_evaluates_with_its_own_metric(self) -> None:
+        repo = self.make_value_repo()
+        main([
+            "delete", "--repo", str(repo), "--part", "helper.py",
+            "--metric", "score", "--metric-command", self.value_metric_command(),
+            "--metric-goal", "minimize", "--no-interactive",
+        ])
+        run = self.active_run(repo)
+        self.assertNotIn("helper.py", load_state(repo).get("part_configs", {}))
+
+        self.evaluate_and_record(repo, run["run_id"], "seed")
+        seed = get_candidate(self.active_run(repo), "seed")
+        self.assertEqual(seed["result"]["metric_value"], 10.0)
+        self.assertEqual(seed["result"]["status"], "keep")
+
+        # The deletion is committed on the seed branch, so candidates inherit it.
+        main(["allocate", "--repo", str(repo), "--run-id", run["run_id"]])
+        candidate = get_candidate(self.active_run(repo), "candidate-001")
+        self.assertFalse((Path(candidate["worktree_path"]) / "helper.py").exists())
+
+    def test_create_keeps_existing_part_config_and_uses_run_metric(self) -> None:
+        repo = self.make_value_repo()
+        self.configure_module(
+            repo, "python -c \"print('METRIC=1.0')\"", "--mode", "sequential", "--rounds", "2"
+        )
+        before = load_state(repo)["part_configs"]["module.py"]
+
+        main([
+            "create", "--repo", str(repo), "--part", "module.py",
+            "--feature", "add caching", "--candidates", "2",
+            "--metric", "score", "--metric-command", self.value_metric_command(),
+            "--metric-goal", "minimize", "--no-interactive",
+        ])
+        self.assertEqual(load_state(repo)["part_configs"]["module.py"], before)
+
+        run = self.active_run(repo)
+        self.evaluate_and_record(repo, run["run_id"], "approach-A")
+        approach = get_candidate(self.active_run(repo), "approach-A")
+        self.assertEqual(approach["result"]["metric_value"], 10.0)
+
+    def test_concurrent_evaluate_and_record_do_not_lose_updates(self) -> None:
+        repo = self.make_value_repo()
+        script = "import time; time.sleep(0.5); print('METRIC=' + open('value.txt').read().strip())"
+        command = f"{shlex.quote(sys.executable)} -c {shlex.quote(script)}"
+        self.configure_module(
+            repo, command, "--mode", "parallel", "--parallelism", "4", "--rounds", "10"
+        )
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["run", "--repo", str(repo), "--part", "module.py"])
+        run = self.active_run(repo)
+        candidate_ids = [c["candidate_id"] for c in run["candidates"] if c["candidate_id"] != "seed"]
+        self.assertEqual(len(candidate_ids), 4)
+        for index, candidate_id in enumerate(candidate_ids):
+            path = Path(get_candidate(run, candidate_id)["worktree_path"])
+            (path / "value.txt").write_text(f"{index + 1}\n")
+
+        cli = [sys.executable, str(REPO_ROOT / "scripts" / "autoresearch_wrapper.py")]
+
+        def run_all(build_args) -> None:
+            procs = [
+                subprocess.Popen(
+                    cli + build_args(candidate_id),
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                )
+                for candidate_id in candidate_ids
+            ]
+            for proc in procs:
+                _, stderr = proc.communicate(timeout=120)
+                self.assertEqual(proc.returncode, 0, stderr)
+
+        run_all(lambda cid: [
+            "evaluate", "--repo", str(repo), "--run-id", run["run_id"], "--candidate", cid,
+        ])
+        run_all(lambda cid: [
+            "record", "--repo", str(repo), "--run-id", run["run_id"], "--candidate", cid,
+            "--status", "auto", "--description", cid,
+        ])
+
+        run = self.active_run(repo)
+        for candidate_id in candidate_ids:
+            candidate = get_candidate(run, candidate_id)
+            self.assertIn("latest_evaluation", candidate, candidate_id)
+            self.assertIn("result", candidate, candidate_id)
+        self.assertEqual(run["rounds_completed"], 4)
+        self.assertEqual(run["best_metric"], 1.0)
+        rows = Path(run["results_path"]).read_text().strip().splitlines()
+        self.assertEqual(len(rows), 1 + 4)
+
+    def test_mkdir_lock_times_out_and_reclaims_stale_lock(self) -> None:
+        lock_dir = Path(tempfile.mkdtemp(prefix="autoresearch-lock-")) / "state.lock.d"
+        lock_dir.mkdir()
+        with self.assertRaises(SystemExit):
+            with mkdir_lock(lock_dir, timeout=0.2, stale_after=60):
+                pass
+        old = time.time() - 120
+        os.utime(lock_dir, (old, old))
+        with mkdir_lock(lock_dir, timeout=1.0, stale_after=60):
+            self.assertTrue(lock_dir.exists())
+        self.assertFalse(lock_dir.exists())
 
 
 if __name__ == "__main__":
