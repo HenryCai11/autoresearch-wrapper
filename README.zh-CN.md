@@ -12,7 +12,7 @@
 
 [![Claude Code Skill](https://img.shields.io/badge/Claude_Code-Skill-blue?logo=anthropic&logoColor=white)](https://docs.anthropic.com/en/docs/claude-code)
 [![Codex Skill](https://img.shields.io/badge/Codex-Skill-green?logo=openai&logoColor=white)](https://platform.openai.com/docs/codex)
-[![Version](https://img.shields.io/badge/version-0.0.3-blue.svg)](https://github.com/HenryCai11/autoresearch-wrapper/releases)
+[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/HenryCai11/autoresearch-wrapper/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Inspired by](https://img.shields.io/badge/Based_on-Karpathy's_Autoresearch-orange)](https://github.com/karpathy/autoresearch)
 
@@ -32,6 +32,12 @@
 
 ## 进展
 
+- 2026/10/15: v0.1.0。
+  - `create` / `delete` 现在是公平对比：每个方案（或删除方案）和一个不做改动的对照组用相同预算调优，再用 `compare` 按调优后的上限排名。
+  - 这些分支的调优被限制在强制执行的文件范围内。
+  - 运行会在保留的候选上继续累积，stop rule 真正生效，新的 `finalize` 会把最优结果合并回来并清理 worktree。
+  - 新增指标超时、并行记录不再丢失，以及许多小修复。
+  - **不兼容变更：** Claude Code 和 Codex 现在共用一套 skill。之前把仓库根目录链接为 `~/.codex/skills/autoresearch-wrapper` 的 Codex 用户，请改用 `ln -s /path/to/autoresearch-wrapper/skills/* ~/.agents/skills/`。旧版本创建的 create/delete 运行无法再对比，需要重新创建。
 - 2026/03/25: 刷新了 Claude marketplace 打包版本，确保 wizard-first 流程和随插件打包的脚本能正确安装到插件缓存中。
 - 2026/03/23 北京时间凌晨2:31: 虽然只开发测试到v0.0.2，我决定还是直接开源了！大半夜开始试用之后很激动，想快点和社区分享。虽然时间有限同时也还在确保每一个我想要的功能都已经正确实现，但我觉得它已经做好准备开始干活了（狗头）。
 

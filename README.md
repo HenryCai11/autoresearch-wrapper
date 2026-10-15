@@ -10,7 +10,7 @@ Inspired by [Karpathy's autoresearch](https://github.com/karpathy/autoresearch) 
 
 [![Claude Code Skill](https://img.shields.io/badge/Claude_Code-Skill-blue?logo=anthropic&logoColor=white)](https://docs.anthropic.com/en/docs/claude-code)
 [![Codex Skill](https://img.shields.io/badge/Codex-Skill-green?logo=openai&logoColor=white)](https://platform.openai.com/docs/codex)
-[![Version](https://img.shields.io/badge/version-0.0.3-blue.svg)](https://github.com/HenryCai11/autoresearch-wrapper/releases)
+[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/HenryCai11/autoresearch-wrapper/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Inspired by](https://img.shields.io/badge/Based_on-Karpathy's_Autoresearch-orange)](https://github.com/karpathy/autoresearch)
 
@@ -30,6 +30,12 @@ Recently, I've been asking Codex to write autoresearch wrappers for the modules 
 
 ## News
 
+- 2026/10/15: v0.1.0.
+  - `create` / `delete` are now fair comparisons: every approach (or the deletion) and a no-change control arm are tuned with the same budget, then ranked by their tuned ceiling with `compare`.
+  - Tuning in those arms is limited to an enforced file scope.
+  - Runs now build on kept candidates, stop rules are enforced, and the new `finalize` merges the winner back and cleans up worktrees.
+  - Metric timeouts, safe parallel bookkeeping, and many smaller fixes.
+  - **Breaking:** one skill set now serves both Claude Code and Codex. Codex users who symlinked the repo root as `~/.codex/skills/autoresearch-wrapper` should switch to `ln -s /path/to/autoresearch-wrapper/skills/* ~/.agents/skills/`. Create/delete runs made with older versions can't be compared; recreate them.
 - 2026/03/25: Refreshed the Claude marketplace package so the wizard-first flow and bundled scripts install correctly from the plugin cache.
 - 2026/03/23 2:31 AM, Beijing Time: I've decided to release it at v0.0.2! Just feel excited to share it with the community. Although I'm still going through all the features to make sure they are everything I want, I think it is ready to play with.
 
