@@ -64,10 +64,10 @@ Confirm with the user before `--merge` (stages a squash merge of the best branch
 - threshold setting (minimum improvement to count as progress)
 - the run will end with status `early_exit` if the patience is exceeded
 
-7. If wild mode is configured, inform the user:
-- wild mode performs simultaneous multi-parameter changes
-- `wild_max_simultaneous` controls how many parameters change at once
-- the search widens automatically when improvement stalls
+7. If wild mode is configured, it is your search strategy, not something the CLI automates. Candidates are allocated as in parallel mode; in each one:
+- change several parameters at once, up to `wild_max_simultaneous`
+- while the metric keeps improving, stay close to the current best (one or two changes)
+- when improvement stalls (watch the stalled-round count), widen: change more parameters together or take larger steps
 
 ## Example
 

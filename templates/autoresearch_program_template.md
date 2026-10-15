@@ -26,7 +26,6 @@ $metric_command
 
 - Canonical JSON: `$state_json`
 - Human summary: `$status_md`
-- Planning workspace: `$plans_root`
 - Run directory: `$run_dir`
 - Seed worktree: `$seed_worktree`
 

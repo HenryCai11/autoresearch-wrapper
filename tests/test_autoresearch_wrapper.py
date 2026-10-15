@@ -20,7 +20,6 @@ if str(REPO_ROOT) not in sys.path:
 from autoresearch_wrapper.core import (
     DEFAULT_METRIC_REGEX,
     check_early_exit,
-    detect_system_resources,
     find_delete_dependents,
     format_monitor_update,
     get_candidate,
@@ -33,11 +32,7 @@ from autoresearch_wrapper.core import (
     mkdir_lock,
     normalize_entry_argv,
     parse_metric_value,
-    plan_wild_changes,
-    plans_dir,
-    recommend_parallelism,
     render_dependency_tree,
-    should_widen_search,
     state_dir,
     status_markdown,
     wizard_select,
@@ -98,9 +93,8 @@ class AutoresearchWrapperTests(unittest.TestCase):
         self.assertEqual(part["dependencies"], ["src/helpers.py"])
         self.assertEqual(part["dependency_clarity"], "clear")
         self.assertEqual(helpers["dependents"], ["src/api.py"])
-        self.assertTrue((plans_dir(repo) / "src" / "api.py" / "metadata.json").exists())
-        self.assertTrue((plans_dir(repo) / "src" / "api.py" / "dependencies.md").exists())
-        self.assertTrue((plans_dir(repo) / "src" / "api.py" / "notes.md").exists())
+        # No per-part planning files: they duplicated state.json and flooded networked filesystems.
+        self.assertFalse((state_dir(repo) / "plans").exists())
         self.assertIn("## Dependency Table", status_markdown(state))
 
     def test_configure_persists_ready_config(self) -> None:
@@ -398,19 +392,26 @@ class AutoresearchWrapperTests(unittest.TestCase):
     # Schema migration
     # -----------------------------------------------------------------------
 
-    def test_migrate_v1_to_v2_adds_resources(self) -> None:
-        v1_state = {
-            "schema_version": 1,
+    def test_migrate_drops_keys_of_removed_features(self) -> None:
+        old_state = {
+            "schema_version": 2,
             "repo_root": "/tmp/test",
             "parts": [],
             "runs": {},
             "part_configs": {},
+            "resources": {"cpus": 4},
+            "reference": {"path": None},
+            "planning_workspace": {"root": "/tmp/test/.autoresearch-wrapper/plans"},
         }
-        migrated = migrate_state(dict(v1_state), Path("/tmp/test"))
-        self.assertEqual(migrated["schema_version"], 2)
-        self.assertIn("resources", migrated)
-        self.assertIsNone(migrated["resources"]["detected_at"])
-        self.assertEqual(migrated["resources"]["recommended_parallelism"], 1)
+        migrated = migrate_state(dict(old_state), Path("/tmp/test"))
+        for key in ("resources", "reference", "planning_workspace"):
+            self.assertNotIn(key, migrated)
+
+    def test_removed_commands_explain_themselves(self) -> None:
+        for command in ("resources", "reference"):
+            with self.assertRaises(SystemExit) as exc:
+                main([command])
+            self.assertIn("was removed", str(exc.exception))
 
     def test_migrate_v1_backfills_run_fields(self) -> None:
         v1_state = {
@@ -438,34 +439,6 @@ class AutoresearchWrapperTests(unittest.TestCase):
         config = migrated["part_configs"]["module.py"]
         self.assertIn("early_exit_patience", config["execution"])
         self.assertIn("wild_max_simultaneous", config["execution"])
-
-    # -----------------------------------------------------------------------
-    # Resource detection
-    # -----------------------------------------------------------------------
-
-    def test_resources_detects_cpu_count(self) -> None:
-        resources = detect_system_resources()
-        self.assertIsInstance(resources["cpus"], int)
-        self.assertGreater(resources["cpus"], 0)
-        self.assertIsNotNone(resources["detected_at"])
-
-    def test_recommended_parallelism_bounds(self) -> None:
-        self.assertEqual(recommend_parallelism(1, 0), 1)
-        self.assertGreaterEqual(recommend_parallelism(16, 0), 1)
-        self.assertLessEqual(recommend_parallelism(16, 0), 8)
-        self.assertGreaterEqual(recommend_parallelism(4, 2), 1)
-        self.assertLessEqual(recommend_parallelism(4, 2), 8)
-
-    def test_resources_persists_to_state(self) -> None:
-        repo = self.make_repo()
-        (repo / "module.py").write_text("x = 1\n")
-        self.commit_all(repo)
-
-        main(["scan", "--repo", str(repo), "--no-interactive"])
-        main(["resources", "--repo", str(repo), "--no-interactive"])
-        state = load_state(repo)
-        self.assertIsNotNone(state["resources"]["detected_at"])
-        self.assertGreater(state["resources"]["cpus"], 0)
 
     # -----------------------------------------------------------------------
     # Early exit
@@ -586,25 +559,6 @@ class AutoresearchWrapperTests(unittest.TestCase):
         self.assertEqual(config["execution"]["mode"], "wild")
         self.assertEqual(config["execution"]["wild_max_simultaneous"], 3)
         self.assertEqual(config["execution"]["parallelism"], 2)
-
-    def test_should_widen_search_when_stalled(self) -> None:
-        run = {
-            "early_exit": {"patience": 4, "rounds_without_improvement": 3},
-        }
-        self.assertTrue(should_widen_search(run))
-
-    def test_should_not_widen_when_improving(self) -> None:
-        run = {
-            "early_exit": {"patience": 4, "rounds_without_improvement": 0},
-        }
-        self.assertFalse(should_widen_search(run))
-
-    def test_plan_wild_changes_strategy(self) -> None:
-        run = {"early_exit": {"rounds_without_improvement": 5}}
-        config = {"execution": {"wild_max_simultaneous": 4}}
-        plan = plan_wild_changes(run, config)
-        self.assertEqual(plan["strategy"], "aggressive")
-        self.assertEqual(plan["max_simultaneous"], 4)
 
     # -----------------------------------------------------------------------
     # Create

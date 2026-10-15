@@ -13,10 +13,9 @@ This wrapper intentionally differs from upstream:
 - it persists repo-level state in `.autoresearch-wrapper/state.json`
 - it isolates experiments in Git worktrees instead of mutating one long-lived branch
 
-Refresh the local reference clone with:
+To read the upstream code, clone it somewhere outside your target repo:
 
 ```bash
-python3 scripts/autoresearch_wrapper.py reference
-python3 scripts/autoresearch_wrapper.py reference --refresh
+git clone https://github.com/karpathy/autoresearch.git
 ```
 

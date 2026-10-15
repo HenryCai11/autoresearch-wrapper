@@ -5,7 +5,7 @@ description: Dependency-aware, worktree-backed autoresearch for any repo. Use wh
 
 # Autoresearch Wrapper
 
-Inspired by Karpathy's `autoresearch`: a fixed constraint, a mechanical metric, and autonomous iteration compound into real gains. This skill adds what a bare loop lacks: it understands the repo's dependency graph before touching anything, refuses to run without an explicit metric, isolates every experiment in a Git worktree, and keeps durable state so runs can be resumed, compared, and merged back.
+Inspired by Karpathy's `autoresearch` (https://github.com/karpathy/autoresearch; clone it if you want to read the original loop): a fixed constraint, a mechanical metric, and autonomous iteration compound into real gains. This skill adds what a bare loop lacks: it understands the repo's dependency graph before touching anything, refuses to run without an explicit metric, isolates every experiment in a Git worktree, and keeps durable state so runs can be resumed, compared, and merged back.
 
 The `autoresearch-wrapper` CLI does the bookkeeping (scanning, state, worktrees, measuring, keep/discard decisions). You, the agent, make the code changes inside the worktrees it hands out.
 
@@ -75,7 +75,7 @@ bash "$AUTORESEARCH_RUNNER" wrap <script-path>
 | `autoresearch-wrapper-flow` | show the metric history and an ASCII plot |
 | `autoresearch-wrapper-create` | compare feature approaches, each tuned against a tuned control |
 | `autoresearch-wrapper-delete` | compare deleting a part against keeping it, both tuned |
-| `autoresearch-wrapper-monitor` | poll a run's progress at an interval |
+| `autoresearch-wrapper-monitor` | report a run's progress, or keep checking until it ends |
 
 ## Concepts
 
@@ -93,7 +93,7 @@ bash "$AUTORESEARCH_RUNNER" wrap <script-path>
 
 **Execution modes.**
 - `sequential`: one candidate at a time.
-- `parallel`: `--parallelism N` candidates are preallocated so several agents or processes can work at once; state updates are locked and safe.
+- `parallel`: `--parallelism N` candidates are preallocated so several agents or processes can work at once; state updates are locked and safe. Choose N from the machine that actually runs the metric command, not the one you are on (check `nproc` and `nvidia-smi` there, or the scheduler, e.g. `sinfo`/`squeue` on a Slurm cluster), and from how much each evaluation uses.
 - `wild`: allocated like `parallel`. In addition, let each candidate change several parameters at once (up to `--wild-max-simultaneous`), and widen how much you change when progress stalls.
 
 **Stopping.** A run ends (`completed`, with a `stop_reason`) when its `--rounds` target is reached or any clause of its `--stop-rule` holds:
@@ -182,14 +182,12 @@ Always confirm with the user before `--merge`, `--prune-branches`, or `--force`.
 | `evaluate` | snapshot and measure a candidate | `--candidate`, `--timeout`, `--arm`, `--allow-out-of-scope` |
 | `record` | keep / discard / crash a candidate | `--candidate`, `--status`, `--description`, `--metric-value`, `--arm`, `--allow-out-of-scope` |
 | `flow` | metric history, best-so-far, ASCII plot | `--run-id`, `--arm`, `--width` |
-| `monitor` | poll progress until the run ends | `--interval`, `--output terminal\|file`, `--status-file` |
+| `monitor` | live poller for a person at a terminal (blocks until the run ends; agents should use `status --json` instead) | `--interval`, `--output terminal\|file`, `--status-file` |
 | `create` / `delete` | start a comparison run | `--part`, `--feature`, `--candidates`, `--rounds`, `--stop-rule`, `--tune-scope` |
 | `arm-ready` | commit an arm's setup and start tuning it | `--arm` |
 | `compare` | rank a comparison run's arms | `--run-id` |
 | `finalize` | merge back and clean up | `--merge`, `--stop`, `--prune-branches`, `--keep-best-worktree`, `--force`, `--arm` |
 | `preset-metric` | measure a script with a preset | `--preset runtime_seconds\|latency_ms\|throughput\|memory_mb`, `--script` |
-| `resources` | detect CPUs, GPUs, memory, scheduler; suggest parallelism | |
-| `reference` | clone Karpathy's upstream `autoresearch` locally | `--refresh` |
 
 ## State and files
 
@@ -197,7 +195,6 @@ Always confirm with the user before `--merge`, `--prune-branches`, or `--force`.
 | --- | --- |
 | `.autoresearch-wrapper/state.json` | canonical state: parts, graph, configs, runs, candidates. Edit only through the CLI. |
 | `.autoresearch-wrapper/STATUS.md` | human-readable summary, regenerated on every write |
-| `.autoresearch-wrapper/plans/` | per-part planning notes (`notes.md` survives rescans) |
 | `.autoresearch-wrapper/runs/<run>/` | `program.md`, `results.tsv` (one row per record), `logs/` (metric output per evaluation) |
 | `<repo>.autoresearch-worktrees/<run>/` | the run's worktrees, next to the repo |
 | branches `autoresearch/<part>/<run>/<candidate>` | one branch per candidate |

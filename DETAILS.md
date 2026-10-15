@@ -10,8 +10,6 @@ Back to [README](./README.md)
 - Dependency-aware readiness gating before any optimization run starts.
 - Persisted canonical state in `.autoresearch-wrapper/state.json`.
 - Human-readable status output in `.autoresearch-wrapper/STATUS.md`.
-- Planning workspace generation under `.autoresearch-wrapper/plans/`.
-- Per-part planning files: `metadata.json`, `dependencies.md`, and `notes.md`.
 - Git worktree-first candidate allocation and experiment isolation.
 - Run resume support with persisted active-run and candidate metadata.
 - Karpathy-style per-run `program.md` generation.
@@ -19,14 +17,12 @@ Back to [README](./README.md)
 - Script-wrapper shortcut for repo-local entrypoints.
 - Metric preset scaffolding for common script measurements.
 - Preset metric helper command for script-based evaluation.
-- Upstream Karpathy `autoresearch` reference clone support.
 - Feature-creation comparison runs (`create`): each approach and a no-change control arm are tuned with equal budgets, then compared by tuned ceiling (`compare`).
 - Feature-deletion comparison runs (`delete`): the codebase with and without a part, both tuned with equal budgets.
-- System resource detection (CPU, GPU, memory, scheduler: slurm/pbs) via `resources`.
-- Progress monitoring with configurable poll intervals (`monitor`).
+- Progress snapshots via `status --json` / `flow`, plus a blocking terminal poller (`monitor`) for people watching a run.
 - Early exit mechanism for stalled optimization runs (`--early-exit-patience`, `--early-exit-threshold`); crashes count as stalled rounds.
 - Metric command timeout (`configure --metric-timeout`, `evaluate --timeout`) that kills the whole command tree and records a crash.
-- Wild mode for simultaneous multi-parameter search (`--mode wild`).
+- Wild mode (`--mode wild`): candidates are allocated as in parallel mode, and the agent changes several parameters at once (up to `--wild-max-simultaneous`), widening when progress stalls.
 - Interactive wizard prompts for all commands when running in a TTY.
 
 ## Feature Details
@@ -102,21 +98,6 @@ python3 scripts/autoresearch_wrapper.py flow --run-id <run-id>
 python3 scripts/autoresearch_wrapper.py flow --json
 ```
 
-### Planning workspace
-
-Scan also regenerates:
-
-```text
-.autoresearch-wrapper/plans/
-```
-
-This planning workspace mirrors repo-relative part paths and creates a directory per part with:
-- `metadata.json`
-- `dependencies.md`
-- `notes.md`
-
-This is a derived workspace for planning and inspection, not the source of truth.
-
 ### Dependency-aware run gating
 
 Before a run starts, the wrapper requires:
@@ -180,17 +161,8 @@ Create/delete runs made before this design have no arms; `compare` refuses them.
 Each run generates a per-run `program.md` under the run directory. It includes:
 - locked metric and stop settings
 - dependency neighborhood for the selected part
-- references to state and planning artifacts
+- references to the state files and run directory
 - helper commands for baseline, candidate allocation, evaluation, and recording
-
-### Reference repo support
-
-The wrapper can clone Karpathy's upstream `autoresearch` repo into the local wrapper state area for reference during implementation:
-
-```bash
-python3 scripts/autoresearch_wrapper.py reference
-python3 scripts/autoresearch_wrapper.py reference --refresh
-```
 
 ## Typical Workflow
 
@@ -214,7 +186,7 @@ python3 scripts/autoresearch_wrapper.py wizard --full-summary
 python3 scripts/autoresearch_wrapper.py scan
 ```
 
-This discovers parts, builds the dependency graph, updates `state.json`, refreshes `STATUS.md`, and regenerates `.autoresearch-wrapper/plans/`.
+This discovers parts, builds the dependency graph, updates `state.json`, and refreshes `STATUS.md`.
 
 ### 3. Configure the selected part
 
@@ -314,19 +286,14 @@ Or let `wrap` create a suggested command and confirm it through `configure --use
 .autoresearch-wrapper/
   state.json
   STATUS.md
-  plans/
-    <repo-relative-part-path>/
-      metadata.json
-      dependencies.md
-      notes.md
   runs/
     <run-id>/
       program.md
       results.tsv
       logs/
-  reference/
-    autoresearch-upstream/
 ```
+
+Runs' worktrees live next to the repo in `<repo>.autoresearch-worktrees/<run-id>/`.
 
 ## Dependency Graph Notes
 

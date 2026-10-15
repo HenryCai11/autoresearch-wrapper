@@ -82,5 +82,5 @@ claude plugin validate .
 
 - Improve dependency extraction for additional languages.
 - Add new metric presets or metric-flow views.
-- Improve status rendering and planning artifacts.
+- Improve status rendering.
 - Expand tests around run resume, plotting, and script-wrapper flows.

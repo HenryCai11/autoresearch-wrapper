@@ -34,15 +34,9 @@ STATE_LOCK_TIMEOUT_SECONDS = 300.0
 # State critical sections are short (no metric commands run under the lock).
 STATE_LOCK_STALE_SECONDS = 600.0
 RUNS_DIRNAME = "runs"
-PLANS_DIRNAME = "plans"
-REFERENCE_DIRNAME = "reference"
-REFERENCE_REPO_URL = "https://github.com/karpathy/autoresearch.git"
-REFERENCE_REPO_NAME = "autoresearch-upstream"
 DEFAULT_METRIC_REGEX = r"METRIC\s*=\s*(?P<value>[-+]?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?)"
-PLAN_METADATA_FILENAME = "metadata.json"
-PLAN_DEPENDENCIES_FILENAME = "dependencies.md"
-PLAN_NOTES_FILENAME = "notes.md"
 WRAP_DEFAULT_ROUNDS = 3
+DEFAULT_PARALLELISM = 2
 SCHEMA_VERSION = 2
 
 SCHEDULER_COMMANDS = {
@@ -83,10 +77,8 @@ CLI_COMMANDS = {
     "allocate",
     "evaluate",
     "record",
-    "reference",
     "preset-metric",
     "flow",
-    "resources",
     "monitor",
     "create",
     "delete",
@@ -215,7 +207,20 @@ DEFAULT_SCAN_FOCUS_PARTS = 8
 DEFAULT_SCAN_FOCUS_SEEDS = 4
 
 
+# Commands removed in favour of plain instructions in the skills. Without this, an
+# unknown first word is treated as a script path for `wrap`.
+REMOVED_COMMANDS = {
+    "resources": "`resources` was removed: check the machine that runs the metric yourself "
+    "(e.g. nproc, nvidia-smi, sinfo) and pass --parallelism to configure.",
+    "reference": "`reference` was removed: clone https://github.com/karpathy/autoresearch "
+    "yourself if you want the upstream reference.",
+}
+
+
 def main(argv: list[str] | None = None) -> int:
+    raw = sys.argv[1:] if argv is None else argv
+    if raw and raw[0] in REMOVED_COMMANDS:
+        raise SystemExit(REMOVED_COMMANDS[raw[0]])
     argv = normalize_entry_argv(argv)
     parser = build_parser()
     args = parser.parse_args(argv)
@@ -407,15 +412,6 @@ def build_parser() -> argparse.ArgumentParser:
     flow.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
     flow.set_defaults(func=command_flow)
 
-    reference = subparsers.add_parser("reference", help="Clone or refresh the upstream reference.")
-    add_repo_arg(reference)
-    reference.add_argument(
-        "--refresh",
-        action="store_true",
-        help="Fetch updates if the reference repo already exists.",
-    )
-    reference.set_defaults(func=command_reference)
-
     preset_metric = subparsers.add_parser(
         "preset-metric",
         help="Run a metric preset against a repo-local script and print METRIC=<value>.",
@@ -426,12 +422,6 @@ def build_parser() -> argparse.ArgumentParser:
     )
     preset_metric.add_argument("--script", required=True, help="Repo-local script path.")
     preset_metric.set_defaults(func=command_preset_metric)
-
-    resources = subparsers.add_parser("resources", help="Detect system resources and set concurrency defaults.")
-    add_repo_arg(resources)
-    resources.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
-    add_interactive_arg(resources)
-    resources.set_defaults(func=command_resources)
 
     monitor = subparsers.add_parser("monitor", help="Poll and report run progress at intervals.")
     add_repo_arg(monitor)
@@ -1039,9 +1029,6 @@ def command_wizard(args: argparse.Namespace) -> int:
     metric = dict(existing.get("metric", {}))
     execution = dict(existing.get("execution", {}))
 
-    resources = state.get("resources") or detect_system_resources()
-    state["resources"] = resources
-
     suggested_metric = part.get("suggested_metric", {}).get("name")
     metric_name_default = metric.get("name")
     if not metric_name_default and suggested_metric and suggested_metric != "unknown":
@@ -1059,7 +1046,7 @@ def command_wizard(args: argparse.Namespace) -> int:
     stop_rule_default = execution.get("stop_rule")
     parallelism_default = execution.get("parallelism")
     if mode_default in ("parallel", "wild") and not parallelism_default:
-        parallelism_default = resources.get("recommended_parallelism") or 2
+        parallelism_default = DEFAULT_PARALLELISM
     if mode_default not in ("parallel", "wild"):
         parallelism_default = 1
     early_exit_patience_default = execution.get("early_exit_patience")
@@ -1099,7 +1086,7 @@ def command_wizard(args: argparse.Namespace) -> int:
     if mode in ("parallel", "wild"):
         parallelism = wizard_int(
             "Parallelism",
-            default=parallelism_default or (resources.get("recommended_parallelism") or 2),
+            default=parallelism_default or DEFAULT_PARALLELISM,
         )
     stop_rule = validate_stop_rule(wizard_optional_input("Stop rule", default=stop_rule_default))
 
@@ -1612,32 +1599,6 @@ def refresh_parent_comparison(state: dict[str, Any], run: dict[str, Any]) -> Non
         refresh_comparison_status(state, parent)
 
 
-def command_reference(args: argparse.Namespace) -> int:
-    repo_root = detect_repo_root(Path(args.repo))
-    reference_dir = state_dir(repo_root) / REFERENCE_DIRNAME / REFERENCE_REPO_NAME
-    reference_dir.parent.mkdir(parents=True, exist_ok=True)
-
-    if reference_dir.exists():
-        if args.refresh:
-            git_run(reference_dir, ["fetch", "--all", "--prune"], check=True)
-            action = "refreshed"
-        else:
-            action = "present"
-    else:
-        git_run(repo_root, ["clone", REFERENCE_REPO_URL, str(reference_dir)], check=True)
-        action = "cloned"
-
-    state = ensure_scanned(repo_root)
-    state["reference"] = {
-        "url": REFERENCE_REPO_URL,
-        "path": str(reference_dir),
-        "updated_at": now_iso(),
-    }
-    write_state(repo_root, state)
-    print(f"{action} reference at {reference_dir}")
-    return 0
-
-
 def command_flow(args: argparse.Namespace) -> int:
     repo_root = detect_repo_root(Path(args.repo))
     state = ensure_scanned(repo_root)
@@ -1702,12 +1663,7 @@ def refresh_repo_state(repo_root: Path) -> dict[str, Any]:
     parts, dependency_graph = discover_parts(repo_root)
     state["parts"] = parts
     state["dependency_graph"] = dependency_graph
-    state["planning_workspace"] = {
-        "root": str(plans_dir(repo_root)),
-        "generated_at": now_iso(),
-    }
     refresh_part_readiness(state)
-    write_planning_workspace(repo_root, state)
     return state
 
 
@@ -1731,15 +1687,6 @@ def migrate_state(state: dict[str, Any], repo_root: Path) -> dict[str, Any]:
     """Migrate state from older schema versions to the current one."""
     version = state.get("schema_version", 1)
     if version < 2:
-        state.setdefault("resources", {
-            "detected_at": None,
-            "cpus": None,
-            "memory_gb": None,
-            "gpus": [],
-            "gpu_memory_gb": None,
-            "scheduler": None,
-            "recommended_parallelism": 1,
-        })
         for run in state.get("runs", {}).values():
             run.setdefault("run_type", "optimize")
             run.setdefault("early_exit", {
@@ -1757,6 +1704,10 @@ def migrate_state(state: dict[str, Any], repo_root: Path) -> dict[str, Any]:
             execution.setdefault("early_exit_threshold", None)
             execution.setdefault("wild_max_simultaneous", None)
         state["schema_version"] = 2
+    # Keys from removed features (0.1.x): resource detection, the reference clone,
+    # and the generated planning workspace.
+    for key in ("resources", "reference", "planning_workspace"):
+        state.pop(key, None)
     return state
 
 
@@ -1846,20 +1797,9 @@ def default_state(repo_root: Path) -> dict[str, Any]:
         "git": git_metadata(repo_root),
         "parts": [],
         "dependency_graph": {"edges": [], "unresolved_edges": []},
-        "planning_workspace": {"root": str(plans_dir(repo_root)), "generated_at": None},
         "part_configs": {},
         "selection": {"part_id": None, "active_run_id": None},
         "runs": {},
-        "reference": {"url": REFERENCE_REPO_URL, "path": None, "updated_at": None},
-        "resources": {
-            "detected_at": None,
-            "cpus": None,
-            "memory_gb": None,
-            "gpus": [],
-            "gpu_memory_gb": None,
-            "scheduler": None,
-            "recommended_parallelism": 1,
-        },
     }
 
 
@@ -2578,94 +2518,6 @@ def format_neighbors(neighbors: list[str], fallback: str = "none", limit: int = 
     return rendered
 
 
-def write_planning_workspace(repo_root: Path, state: dict[str, Any]) -> None:
-    root = plans_dir(repo_root)
-    preserved_notes = load_preserved_plan_notes(root)
-    shutil.rmtree(root, ignore_errors=True)
-    root.mkdir(parents=True, exist_ok=True)
-
-    for part in state.get("parts", []):
-        part_dir = root / PurePosixPath(part["id"])
-        part_dir.mkdir(parents=True, exist_ok=True)
-        metadata = {
-            "part_id": part["id"],
-            "status": part["status"],
-            "language": part["language"],
-            "suggested_metric": part["suggested_metric"],
-            "dependency_clarity": part["dependency_clarity"],
-            "dependencies": part["dependencies"],
-            "dependents": part["dependents"],
-            "unresolved_dependencies": part["unresolved_dependencies"],
-        }
-        (part_dir / PLAN_METADATA_FILENAME).write_text(
-            json.dumps(metadata, indent=2, sort_keys=True) + "\n"
-        )
-        (part_dir / PLAN_DEPENDENCIES_FILENAME).write_text(render_part_dependencies(part))
-        notes_path = part_dir / PLAN_NOTES_FILENAME
-        notes_text = preserved_notes.get(part["id"], default_plan_notes(part))
-        notes_path.write_text(notes_text)
-
-
-def load_preserved_plan_notes(root: Path) -> dict[str, str]:
-    if not root.exists():
-        return {}
-    notes: dict[str, str] = {}
-    for path in root.rglob(PLAN_NOTES_FILENAME):
-        relative = path.relative_to(root)
-        part_id = relative.parent.as_posix()
-        notes[part_id] = path.read_text()
-    return notes
-
-
-def render_part_dependencies(part: dict[str, Any]) -> str:
-    lines = [
-        f"# {part['id']}",
-        "",
-        f"- Status: `{part['status']}`",
-        f"- Dependency clarity: `{part['dependency_clarity']}`",
-        f"- Suggested metric: `{part['suggested_metric']['name']}`",
-        "",
-        "## Direct Dependencies",
-    ]
-    if part["dependencies"]:
-        for dependency in part["dependencies"]:
-            lines.append(f"- `{dependency}`")
-    else:
-        lines.append("- none")
-
-    lines.extend(["", "## Dependents"])
-    if part["dependents"]:
-        for dependent in part["dependents"]:
-            lines.append(f"- `{dependent}`")
-    else:
-        lines.append("- none")
-
-    lines.extend(["", "## Unresolved Dependencies"])
-    if part["unresolved_dependencies"]:
-        for item in part["unresolved_dependencies"]:
-            importance = "important" if item["important"] else "external"
-            lines.append(f"- `{item['target']}` ({item['kind']}, {importance})")
-            lines.append(f"  reason: {item['reason']}")
-    else:
-        lines.append("- none")
-    lines.append("")
-    return "\n".join(lines)
-
-
-def default_plan_notes(part: dict[str, Any]) -> str:
-    return "\n".join(
-        [
-            f"# Notes for {part['id']}",
-            "",
-            "- Optimization idea:",
-            "- Metric confirmation:",
-            "- Supporting dependency edits to watch:",
-            "- Risks / open questions:",
-            "",
-        ]
-    )
-
-
 def discover_parts(repo_root: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     docs = load_doc_corpus(repo_root)
     paths = list(iter_source_files(repo_root))
@@ -3046,10 +2898,6 @@ def status_file(repo_root: Path) -> Path:
 
 def runs_dir(repo_root: Path) -> Path:
     return state_dir(repo_root) / RUNS_DIRNAME
-
-
-def plans_dir(repo_root: Path) -> Path:
-    return state_dir(repo_root) / PLANS_DIRNAME
 
 
 def now_iso() -> str:
@@ -3766,7 +3614,6 @@ def render_program(
             [item["target"] for item in part.get("unresolved_dependencies", [])],
             fallback="none",
         ),
-        plans_root=str(plans_dir(repo_root)),
         script_path=str(helper_script_path()),
     )
 
@@ -3959,123 +3806,6 @@ def check_early_exit(run: dict[str, Any]) -> dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
-# Feature: Resource Detection
-# ---------------------------------------------------------------------------
-
-
-def detect_system_resources() -> dict[str, Any]:
-    """Detect CPUs, memory, GPUs, and scheduler type."""
-    cpus = os.cpu_count() or 1
-    memory_gb = detect_system_memory_gb()
-    gpus = detect_gpu_info()
-    gpu_memory_gb = sum(g.get("memory_mb", 0) for g in gpus) / 1024 if gpus else None
-    scheduler = detect_scheduler()
-    recommended = recommend_parallelism(cpus, len(gpus))
-    return {
-        "detected_at": now_iso(),
-        "cpus": cpus,
-        "memory_gb": round(memory_gb, 2) if memory_gb else None,
-        "gpus": gpus,
-        "gpu_memory_gb": round(gpu_memory_gb, 2) if gpu_memory_gb else None,
-        "scheduler": scheduler,
-        "recommended_parallelism": recommended,
-    }
-
-
-def detect_system_memory_gb() -> float | None:
-    """Detect total system memory in GB."""
-    meminfo = Path("/proc/meminfo")
-    if meminfo.exists():
-        try:
-            text = meminfo.read_text()
-            for line in text.splitlines():
-                if line.startswith("MemTotal:"):
-                    kb = int(line.split()[1])
-                    return kb / (1024 * 1024)
-        except (OSError, ValueError, IndexError):
-            pass
-    if shutil.which("sysctl"):
-        try:
-            result = subprocess.run(
-                ["sysctl", "-n", "hw.memsize"],
-                capture_output=True, text=True, check=False,
-            )
-            if result.returncode == 0 and result.stdout.strip():
-                return int(result.stdout.strip()) / (1024 ** 3)
-        except (OSError, ValueError):
-            pass
-    return None
-
-
-def detect_gpu_info() -> list[dict[str, Any]]:
-    """Detect GPUs via nvidia-smi."""
-    if not shutil.which("nvidia-smi"):
-        return []
-    try:
-        result = subprocess.run(
-            ["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader,nounits"],
-            capture_output=True, text=True, check=False,
-        )
-        if result.returncode != 0:
-            return []
-        gpus = []
-        for line in result.stdout.strip().splitlines():
-            parts = [p.strip() for p in line.split(",")]
-            if len(parts) >= 2:
-                gpus.append({"name": parts[0], "memory_mb": float(parts[1])})
-        return gpus
-    except (OSError, ValueError):
-        return []
-
-
-def detect_scheduler() -> str | None:
-    """Check for cluster schedulers (slurm, pbs)."""
-    for name, commands in SCHEDULER_COMMANDS.items():
-        if all(shutil.which(cmd) for cmd in commands):
-            return name
-    return None
-
-
-def recommend_parallelism(cpus: int, gpu_count: int) -> int:
-    """Heuristic for default parallelism."""
-    candidates = [cpus // 2] if cpus > 1 else [1]
-    if gpu_count > 0:
-        candidates.append(gpu_count)
-    else:
-        candidates.append(4)
-    return max(1, min(min(candidates), 8))
-
-
-def command_resources(args: argparse.Namespace) -> int:
-    repo_root = detect_repo_root(Path(args.repo))
-    resources = detect_system_resources()
-    state = ensure_scanned(repo_root)
-    state["resources"] = resources
-    write_state(repo_root, state)
-
-    interactive = resolve_interactive(args)
-    if interactive:
-        print(f"\nDetected resources:")
-        print(f"  CPUs: {resources['cpus']}")
-        print(f"  Memory: {resources['memory_gb']} GB")
-        print(f"  GPUs: {len(resources['gpus'])}")
-        if resources["gpus"]:
-            for gpu in resources["gpus"]:
-                print(f"    - {gpu['name']} ({gpu['memory_mb']} MB)")
-        print(f"  Scheduler: {resources['scheduler'] or 'local'}")
-        print(f"  Recommended parallelism: {resources['recommended_parallelism']}")
-        if wizard_confirm("Override recommended parallelism?", default=False):
-            resources["recommended_parallelism"] = wizard_int(
-                "Parallelism", default=resources["recommended_parallelism"]
-            )
-            state["resources"] = resources
-            write_state(repo_root, state)
-
-    emit(resources, getattr(args, "json", False))
-    return 0
-
-
-# ---------------------------------------------------------------------------
 # Feature: Monitor
 # ---------------------------------------------------------------------------
 
@@ -4166,51 +3896,6 @@ def write_monitor_status_file(path: Path, run: dict[str, Any]) -> None:
         "timestamp": now_iso(),
     }
     path.write_text(json.dumps(snapshot, indent=2, sort_keys=True) + "\n")
-
-
-# ---------------------------------------------------------------------------
-# Feature: Wild Mode
-# ---------------------------------------------------------------------------
-
-
-def should_widen_search(run: dict[str, Any]) -> bool:
-    """Check if improvement has stalled and wild mode should widen the search scope."""
-    early_exit = run.get("early_exit", {})
-    stalled = early_exit.get("rounds_without_improvement", 0)
-    patience = early_exit.get("patience") or 3
-    return stalled >= max(patience // 2, 1)
-
-
-def plan_wild_changes(run: dict[str, Any], config: dict[str, Any]) -> dict[str, Any]:
-    """Analyze metric flow to suggest which parameters to vary together."""
-    max_simultaneous = config.get("execution", {}).get("wild_max_simultaneous") or 3
-    stalled = run.get("early_exit", {}).get("rounds_without_improvement", 0)
-
-    if stalled >= 3:
-        strategy = "aggressive"
-        reason = f"No improvement for {stalled} rounds; widening to {max_simultaneous} simultaneous changes."
-    elif stalled >= 1:
-        strategy = "moderate"
-        max_simultaneous = min(max_simultaneous, 2)
-        reason = f"Improvement slowing; trying {max_simultaneous} simultaneous changes."
-    else:
-        strategy = "conservative"
-        max_simultaneous = 1
-        reason = "Still improving; keeping single-parameter changes."
-
-    return {
-        "strategy": strategy,
-        "max_simultaneous": max_simultaneous,
-        "reason": reason,
-    }
-
-
-def format_wild_plan(plan: dict[str, Any]) -> str:
-    """Format a human-readable summary of the wild mode strategy."""
-    return (
-        f"Wild mode [{plan['strategy']}]: {plan['reason']} "
-        f"(max {plan['max_simultaneous']} simultaneous changes)"
-    )
 
 
 # ---------------------------------------------------------------------------

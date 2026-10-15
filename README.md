@@ -141,9 +141,9 @@ One skill set serves both tools: invoke a skill as `/<skill>` in Claude Code or 
 | `autoresearch-wrapper-flow` | `flow` | Metric history and plot |
 | `autoresearch-wrapper-create` | `create` | Compare feature approaches, each tuned vs. a tuned control |
 | `autoresearch-wrapper-delete` | `delete` | Compare deleting a part vs. keeping it, both tuned |
-| `autoresearch-wrapper-monitor` | `monitor` | Live progress polling |
+| `autoresearch-wrapper-monitor` | `monitor` | Progress snapshots (the CLI poller is for terminals) |
 
-Additional CLI subcommands: `scan`, `configure`, `allocate`, `evaluate`, `record`, `arm-ready`, `compare`, `finalize`, `resources`, `preset-metric`, `reference`
+Additional CLI subcommands: `scan`, `configure`, `allocate`, `evaluate`, `record`, `arm-ready`, `compare`, `finalize`, `preset-metric`
 
 When a run ends, `finalize --run-id <id> --merge` squash-merges the best candidate into your checkout (staged for review, not committed) and removes the run's worktrees.
 

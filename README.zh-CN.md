@@ -144,9 +144,9 @@ python3 scripts/autoresearch_wrapper.py scan
 | `autoresearch-wrapper-flow` | `flow` | 指标历史和图表 |
 | `autoresearch-wrapper-create` | `create` | 对比多种功能实现，每个都与调优后的对照组同等预算调优 |
 | `autoresearch-wrapper-delete` | `delete` | 对比删除与保留某模块（两者都调优） |
-| `autoresearch-wrapper-monitor` | `monitor` | 实时进度轮询 |
+| `autoresearch-wrapper-monitor` | `monitor` | 进度快照（CLI 轮询器供终端使用） |
 
-其他 CLI 子命令：`scan`、`configure`、`allocate`、`evaluate`、`record`、`arm-ready`、`compare`、`finalize`、`resources`、`preset-metric`、`reference`
+其他 CLI 子命令：`scan`、`configure`、`allocate`、`evaluate`、`record`、`arm-ready`、`compare`、`finalize`、`preset-metric`
 
 运行结束后，`finalize --run-id <id> --merge` 会把最优候选 squash 合并到当前 checkout（只暂存、不提交，便于审阅），并清理该运行的 worktree。
 
