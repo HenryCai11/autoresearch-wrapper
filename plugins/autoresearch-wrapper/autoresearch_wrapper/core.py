@@ -85,6 +85,11 @@ CLI_COMMANDS = {
     "arm-ready",
     "compare",
     "finalize",
+    "geo-graph",
+    "geo-score",
+    "geo-apply",
+    "geo-compare",
+    "geo-prioritize",
 }
 
 IGNORED_DIRS = {
@@ -108,6 +113,9 @@ IGNORED_DIRS = {
 }
 
 SOURCE_EXTENSIONS = {
+    ".html": "html",
+    ".css": "css",
+    ".svg": "svg",
     ".c": "c",
     ".cc": "cpp",
     ".cpp": "cpp",
@@ -253,6 +261,26 @@ def build_parser() -> argparse.ArgumentParser:
     )
     add_interactive_arg(scan)
     scan.set_defaults(func=command_scan)
+
+    for name, help_text in (
+        ("geo-graph", "Build a site/component/search-outcome dependency graph."),
+        ("geo-score", "Measure local GEO readiness, never search exposure."),
+        ("geo-apply", "Preview or apply graph-addressed website edits in a worktree."),
+        ("geo-compare", "Compare paired platform observations with global regression guards."),
+        ("geo-prioritize", "Rank proposed edits by dependency reach, marked as hypotheses."),
+    ):
+        geo_parser = subparsers.add_parser(name, help=help_text)
+        add_repo_arg(geo_parser)
+        geo_parser.add_argument("--config", default="geo/config.json")
+        if name == "geo-apply":
+            geo_parser.add_argument("--operations", required=True)
+            geo_parser.add_argument("--apply", action="store_true")
+        if name == "geo-compare":
+            geo_parser.add_argument("--observations", default="geo/observations.csv")
+            geo_parser.add_argument("--candidate")
+        if name == "geo-prioritize":
+            geo_parser.add_argument("--observations", default="geo/observations.csv")
+        geo_parser.set_defaults(func=command_geo)
 
     wrap = subparsers.add_parser(
         "wrap",
@@ -980,6 +1008,40 @@ def render_dependency_tree(parts: list[dict[str, Any]], max_depth: int = 3) -> s
         _render(root, "", i == len(roots) - 1, 0)
 
     return "\n".join(lines) if lines else "(no dependency edges found)"
+
+
+def command_geo(args: argparse.Namespace) -> int:
+    from autoresearch_wrapper import geo
+
+    repo_root = detect_repo_root(Path(args.repo))
+    config = geo.read_config((repo_root / args.config).resolve())
+    if args.command == "geo-graph":
+        result = geo.build_graph(repo_root, config)
+    elif args.command == "geo-score":
+        result = geo.readiness(repo_root, config)
+        print(f"METRIC={result['score']}")
+    elif args.command == "geo-compare":
+        rows = geo.load_observations((repo_root / args.observations).resolve())
+        result = geo.compare_platforms(config, rows, candidate=args.candidate)
+    elif args.command == "geo-prioritize":
+        path = (repo_root / args.observations).resolve()
+        rows = geo.load_observations(path) if path.is_file() else None
+        result = geo.prioritize(geo.build_graph(repo_root, config), config, rows)
+    elif args.command == "geo-apply":
+        manifest = json.loads(Path(args.operations).read_text(encoding="utf-8"))
+        if args.apply:
+            git_dir = subprocess.run(
+                ["git", "rev-parse", "--git-dir"], cwd=repo_root,
+                capture_output=True, text=True, check=True,
+            ).stdout.strip().replace("\\", "/")
+            if "/worktrees/" not in git_dir:
+                raise SystemExit("geo-apply --apply requires a Git worktree candidate")
+        result = geo.apply_operations(repo_root, config, manifest["operations"],
+                                      write=args.apply)
+    else:
+        raise SystemExit(f"unknown GEO command: {args.command}")
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0
 
 
 def command_scan(args: argparse.Namespace) -> int:
@@ -2026,7 +2088,19 @@ def extract_dependencies(
     unresolved: list[dict[str, Any]] = []
     kind = f"{language}-dependency"
 
-    if language == "python":
+    if language in {"html", "css", "svg", "robots", "sitemap", "markdown"}:
+        for target in re.findall(r'''(?:href|src)\s*=\s*["']([^"']+)["']|url\(\s*["']?([^)'"\s]+)''', text, re.I):
+            reference = next((value for value in target if value), "")
+            if not reference or reference.startswith(("#", "http:", "https:", "data:")):
+                continue
+            reference = reference.split("?", 1)[0].split("#", 1)[0]
+            candidate = (repo_root / relative_path).parent.joinpath(reference.lstrip("/")).resolve()
+            if candidate.is_relative_to(repo_root) and candidate.is_file():
+                resolved = candidate.relative_to(repo_root).as_posix()
+                if resolved in index["paths"]:
+                    dependencies.add(resolved)
+        kind = "site-reference"
+    elif language == "python":
         dependencies, unresolved = extract_python_dependencies(relative_path, text, index)
         kind = "python-import"
     elif language in {"javascript", "typescript"}:
@@ -2641,6 +2715,12 @@ def iter_source_files(repo_root: Path):
 
 
 def infer_file_language(path: Path) -> str | None:
+    if path.name.lower() == "readme.md":
+        return "markdown"
+    if path.name == "robots.txt":
+        return "robots"
+    if path.name == "sitemap.xml":
+        return "sitemap"
     suffix_language = SOURCE_EXTENSIONS.get(path.suffix.lower())
     if suffix_language:
         return suffix_language
