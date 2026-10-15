@@ -1,0 +1,74 @@
+{
+  "entity": {
+    "name": "Min Cai",
+    "aliases": ["蔡旻", "HenryCai11"],
+    "url": "https://henrycai11.github.io/"
+  },
+  "nodes": [
+    {"id": "role", "hop": 0, "terms": ["PhD student", "Ph.D. student"], "fact": "Min Cai is a PhD student."},
+    {"id": "affiliation", "hop": 0, "terms": ["University of Alberta", "UAlberta"], "fact": "Min Cai is at the University of Alberta."},
+    {"id": "advisor", "hop": 0, "terms": ["Xi Ye"], "fact": "Min Cai is supervised by Dr. Xi Ye."},
+    {"id": "location", "hop": 0, "terms": ["Edmonton"], "fact": "Min Cai is based in Edmonton, Canada."},
+
+    {"id": "ms-shenzhen", "hop": 1, "terms": ["Shenzhen University"], "fact": "Min Cai received an M.S. from Shenzhen University, supervised by Prof. Haodi Zhang."},
+    {"id": "ba-blcu", "hop": 1, "terms": ["Beijing Language and Culture University"], "fact": "Min Cai received a B.A. in Translation from Beijing Language and Culture University."},
+    {"id": "collaborators", "hop": 1, "terms": ["Ziniu Hu", "Dan Zhang", "Shichang Zhang", "Difan Zou"], "fact": "Min Cai works closely with Dan Zhang, Ziniu Hu, Shichang Zhang, and Difan Zou."},
+    {"id": "intern-baidu", "hop": 1, "terms": ["Baidu"], "fact": "Min Cai was a research intern at Baidu (Oct 2025 - Mar 2026)."},
+    {"id": "intern-zai", "hop": 1, "terms": ["Z.ai"], "fact": "Min Cai was a research intern at Z.ai (Aug 2024 - Jul 2025)."},
+    {"id": "area-agents", "hop": 1, "terms": ["LLM agents", "LLM agent"], "fact": "Min Cai develops LLM agents that solve complex problems."},
+    {"id": "area-interpretability", "hop": 1, "terms": ["mechanistic interpretability"], "fact": "Min Cai studies the mechanisms behind neural language models."},
+    {"id": "area-reasoning", "hop": 1, "terms": ["LLM reasoning", "reasoning models"], "fact": "Min Cai works on enhancing LLM reasoning."},
+    {"id": "area-continual", "hop": 1, "terms": ["continual learning", "continually learn"], "fact": "Min Cai's current focus is teaching LLMs to continually learn."},
+
+    {"id": "avalonbench", "hop": 1, "kind": "paper", "terms": ["AvalonBench"], "queries": ["AvalonBench evaluating LLMs playing Avalon"], "venue": "NeurIPS 2023 Workshop", "url": "https://arxiv.org/abs/2310.05036", "fact": "AvalonBench: Evaluating LLMs Playing the Game of Avalon (NeurIPS 2023 Foundation Models for Decision Making Workshop)."},
+    {"id": "datascibench", "hop": 1, "kind": "paper", "terms": ["DataSciBench"], "queries": ["DataSciBench LLM agent benchmark data science"], "venue": "ACL 2026 Findings", "url": "https://arxiv.org/abs/2502.13897", "fact": "DataSciBench: An LLM Agent Benchmark for Data Science (ACL 2026 Findings)."},
+    {"id": "strategist", "hop": 1, "kind": "paper", "terms": ["Strategist"], "queries": ["Strategist LLM bi-level tree search strategic skills"], "venue": "ICLR 2025", "url": "https://arxiv.org/abs/2408.10635", "fact": "Strategist: Learning Strategic Skills by LLMs via Bi-Level Tree Search (ICLR 2025), featured in the State of AI Report 2024."},
+    {"id": "eau", "hop": 1, "kind": "paper", "terms": ["EAU"], "queries": ["EAU environment agent user co-evolution user-centric agents"], "venue": "arXiv 2026", "url": "https://arxiv.org/abs/2610.16523", "fact": "EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents (arXiv 2026)."},
+    {"id": "post-training", "hop": 1, "kind": "paper", "terms": ["How Post-Training Reshapes LLMs"], "queries": ["How Post-Training Reshapes LLMs mechanistic view"], "venue": "COLM 2025", "url": "https://arxiv.org/abs/2504.02904", "fact": "How Post-Training Reshapes LLMs: A Mechanistic View on Knowledge, Truthfulness, Refusal, and Confidence (COLM 2025; Outstanding Paper at the New England NLP Workshop)."},
+    {"id": "selfcontrol", "hop": 1, "kind": "paper", "terms": ["SelfControl", "Self-Control of LLM Behaviors"], "queries": ["Self-Control of LLM Behaviors suffix gradient prefix controller"], "venue": "ICML 2024 Workshop", "url": "https://arxiv.org/abs/2406.02721", "fact": "Self-Control of LLM Behaviors by Compressing Suffix Gradient into Prefix Controller (ICML 2024 workshops)."},
+    {"id": "tdrm", "hop": 1, "kind": "paper", "terms": ["TDRM"], "queries": ["TDRM smooth reward models temporal difference LLM"], "venue": "arXiv 2025", "url": "https://arxiv.org/abs/2509.15110", "fact": "TDRM: Smooth Reward Models with Temporal Difference for LLM RL and Inference (arXiv 2025)."},
+    {"id": "mgs", "hop": 1, "kind": "paper", "terms": ["Modular Gradient Surgery", "MGS"], "queries": ["Modular Gradient Surgery general-purpose reasoning models"], "venue": "arXiv 2026", "url": "https://arxiv.org/abs/2602.02301", "fact": "Advancing General-Purpose Reasoning Models with Modular Gradient Surgery (arXiv 2026)."},
+    {"id": "tyler", "hop": 1, "kind": "paper", "terms": ["Tyler"], "queries": ["Tyler typed latent reasoning language models"], "venue": "EMNLP 2026", "url": "https://arxiv.org/abs/2606.16360", "fact": "Tyler: Typed Latent Reasoning for Language Models (EMNLP 2026)."},
+
+    {"id": "social-deduction-games", "hop": 2, "kind": "topic", "terms": ["social deduction game", "Avalon"], "via": ["avalonbench", "strategist"], "queries": ["LLM agents playing Avalon social deduction game"]},
+    {"id": "strategic-reasoning", "hop": 2, "kind": "topic", "terms": ["strategic reasoning", "strategic skills"], "via": ["strategist"], "queries": ["LLM strategic reasoning with bi-level tree search"]},
+    {"id": "data-science-agents", "hop": 2, "kind": "topic", "terms": ["data science agent", "data science"], "via": ["datascibench"], "queries": ["benchmark for LLM data science agents"]},
+    {"id": "agent-coevolution", "hop": 2, "kind": "topic", "terms": ["co-evolution", "user-centric agents"], "via": ["eau"], "queries": ["co-evolving environments agents and users for training LLM agents"]},
+    {"id": "post-training-mechanisms", "hop": 2, "kind": "topic", "terms": ["post-training", "truthfulness and refusal"], "via": ["post-training"], "queries": ["how post-training changes LLM internals knowledge truthfulness refusal"]},
+    {"id": "behavior-control", "hop": 2, "kind": "topic", "terms": ["suffix gradient", "behavior control"], "via": ["selfcontrol"], "queries": ["controlling LLM behavior by compressing suffix gradients into a prefix controller"]},
+    {"id": "reward-modeling", "hop": 2, "kind": "topic", "terms": ["reward model", "temporal difference"], "via": ["tdrm"], "queries": ["temporal difference reward models for LLM reinforcement learning"]},
+    {"id": "gradient-conflicts", "hop": 2, "kind": "topic", "terms": ["gradient conflict", "gradient surgery"], "via": ["mgs"], "queries": ["resolving gradient conflicts across domains in reasoning model training"]},
+    {"id": "latent-reasoning", "hop": 2, "kind": "topic", "terms": ["latent reasoning"], "via": ["tyler"], "queries": ["typed latent reasoning for language models"]}
+  ],
+  "questions": [
+    {"id": "q-role", "node": "role", "q": "What is Min Cai's current academic position?", "answer_terms": ["PhD student", "Ph.D. student", "doctoral student"]},
+    {"id": "q-affiliation", "node": "affiliation", "q": "Which university is Min Cai currently at?", "answer_terms": ["University of Alberta", "UAlberta"]},
+    {"id": "q-advisor", "node": "advisor", "q": "Who supervises Min Cai's PhD?", "answer_terms": ["Xi Ye"]},
+    {"id": "q-location", "node": "location", "q": "In which city is Min Cai currently based?", "answer_terms": ["Edmonton"]},
+
+    {"id": "q-ms", "node": "ms-shenzhen", "q": "Where did Min Cai earn an M.S. degree?", "answer_terms": ["Shenzhen University"]},
+    {"id": "q-ba", "node": "ba-blcu", "q": "Where did Min Cai earn a bachelor's degree, and in what subject?", "answer_terms": ["Beijing Language and Culture University"]},
+    {"id": "q-baidu", "node": "intern-baidu", "q": "Which company did Min Cai intern at most recently?", "answer_terms": ["Baidu"]},
+    {"id": "q-zai", "node": "intern-zai", "q": "Where was Min Cai a research intern from August 2024 to July 2025?", "answer_terms": ["Z.ai"]},
+    {"id": "q-focus", "node": "area-continual", "q": "What is Min Cai's current research focus?", "answer_terms": ["continual", "continually learn"]},
+    {"id": "q-interp", "node": "area-interpretability", "q": "Which research area of Min Cai is about understanding the internals of language models?", "answer_terms": ["interpretability", "mechanism"]},
+    {"id": "q-strategist", "node": "strategist", "q": "At which venue was Min Cai's paper Strategist published?", "answer_terms": ["ICLR"]},
+    {"id": "q-tyler", "node": "tyler", "q": "Which conference accepted Min Cai's paper Tyler?", "answer_terms": ["EMNLP"]},
+    {"id": "q-posttraining", "node": "post-training", "q": "Which award did the paper 'How Post-Training Reshapes LLMs' receive?", "answer_terms": ["Outstanding Paper"]},
+    {"id": "q-datascibench", "node": "datascibench", "q": "Which venue accepted DataSciBench?", "answer_terms": ["ACL"]},
+
+    {"id": "q-avalon", "node": "social-deduction-games", "q": "Which of Min Cai's papers involve LLMs playing the game Avalon?", "answer_terms": ["AvalonBench", "Strategist"]},
+    {"id": "q-coevolution", "node": "agent-coevolution", "q": "Which of Min Cai's papers is about co-evolving environments, agents, and users?", "answer_terms": ["EAU"]},
+    {"id": "q-reward", "node": "reward-modeling", "q": "Which of Min Cai's papers proposes reward models based on temporal difference learning?", "answer_terms": ["TDRM"]},
+    {"id": "q-datasci", "node": "data-science-agents", "q": "Which of Min Cai's papers evaluates LLM agents on data science tasks?", "answer_terms": ["DataSciBench"]},
+    {"id": "q-latent", "node": "latent-reasoning", "q": "Which of Min Cai's papers is about latent reasoning?", "answer_terms": ["Tyler"]},
+    {"id": "q-gradient", "node": "gradient-conflicts", "q": "Which of Min Cai's works addresses gradient conflicts when training across domains?", "answer_terms": ["Modular Gradient Surgery", "MGS"]},
+    {"id": "q-control", "node": "behavior-control", "q": "Which of Min Cai's papers controls LLM behavior using suffix gradients?", "answer_terms": ["Self-Control", "SelfControl"]}
+  ],
+  "forbidden": [
+    {"text": "Beijing, China", "reason": "stale location: Min Cai is based in Edmonton"},
+    {"text": "personal description", "reason": "template placeholder site description"},
+    {"text": "Paper Title Number", "reason": "template sample publications"}
+  ],
+  "limits": {"max_visible_chars": 3950, "_note": "baseline homepage visible text was 3041 chars on 2026-10-15; +30% against padding"}
+}

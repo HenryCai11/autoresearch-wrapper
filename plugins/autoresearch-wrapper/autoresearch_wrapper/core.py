@@ -1228,6 +1228,8 @@ def command_configure(args: argparse.Namespace) -> int:
     repo_root = detect_repo_root(Path(args.repo))
     state = ensure_scanned(repo_root)
     part = resolve_part(state, args.part)
+    if part is None and args.part:
+        part = register_explicit_part(repo_root, state, args.part)
     if part is None:
         raise SystemExit("unable to resolve part; run scan first or pass --part")
 
@@ -1662,6 +1664,11 @@ def refresh_repo_state(repo_root: Path) -> dict[str, Any]:
     state["repo_root"] = str(repo_root)
     state["git"] = git_metadata(repo_root)
     parts, dependency_graph = discover_parts(repo_root)
+    # Keep explicitly configured targets (e.g. non-code files) across rescans.
+    discovered = {part["id"] for part in parts}
+    for relative in state.get("explicit_parts", []):
+        if relative not in discovered and (repo_root / relative).is_file():
+            parts.append(explicit_part_record(relative))
     state["parts"] = parts
     state["dependency_graph"] = dependency_graph
     refresh_part_readiness(state)
@@ -2522,6 +2529,40 @@ def merge_part_notes(base_notes: str, dependency_summary: dict[str, Any]) -> str
         f"important_unresolved={dependency_summary['unresolved_count']}"
     )
     return f"{base_notes}; {summary_note}"
+
+
+def explicit_part_record(relative: str) -> dict[str, Any]:
+    """A part the user named directly: any repo file, including non-code (.md, .yml, .html)."""
+    part = {
+        "id": relative,
+        "path": relative,
+        "language": infer_file_language(Path(relative)) or "other",
+        "status": "probably optimizable",
+        "explicit": True,
+        "suggested_metric": {"name": "unknown", "goal": None},
+        "candidate_clarity": False,
+        "signals": [],
+        "dependencies": [],
+        "dependents": [],
+        "unresolved_dependencies": [],
+        "dependency_clarity": "clear",
+        "key_neighbors": [],
+        "notes": "explicit target (not discovered by scan); no dependency graph",
+    }
+    part["dependency_summary"] = build_dependency_summary(part)
+    return part
+
+
+def register_explicit_part(repo_root: Path, state: dict[str, Any], raw_path: str) -> dict[str, Any] | None:
+    relative = normalize_repo_relative_path(repo_root, raw_path)
+    if not (repo_root / relative).is_file():
+        return None
+    explicit = state.setdefault("explicit_parts", [])
+    if relative not in explicit:
+        explicit.append(relative)
+    part = explicit_part_record(relative)
+    state.setdefault("parts", []).append(part)
+    return part
 
 
 def dependency_run_blockers(part: dict[str, Any]) -> list[str]:

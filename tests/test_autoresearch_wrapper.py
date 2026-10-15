@@ -1752,6 +1752,25 @@ class AutoresearchWrapperTests(unittest.TestCase):
         self.assertEqual(identify_affected_parts(state, ["a.py"]), ["b.py"])
         self.assertEqual(identify_affected_parts(state, ["b.py"]), ["a.py", "c.py"])
 
+    def test_non_code_file_can_be_an_explicit_target_and_survives_rescan(self) -> None:
+        repo = self.make_value_repo()
+        (repo / "about.md").write_text("# About\n")
+        self.commit_all(repo, "add page")
+        main([
+            "configure", "--repo", str(repo), "--part", "about.md", "--metric", "geo",
+            "--metric-command", self.value_metric_command(), "--metric-goal", "maximize",
+            "--mode", "sequential", "--rounds", "2", "--no-interactive",
+        ])
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["scan", "--repo", str(repo), "--no-interactive"])
+            main(["run", "--repo", str(repo), "--part", "about.md"])
+        state = load_state(repo)
+        part = next(p for p in state["parts"] if p["id"] == "about.md")
+        self.assertTrue(part["explicit"])
+        self.assertEqual(self.active_run(repo)["part_id"], "about.md")
+        with self.assertRaises(SystemExit):
+            main(["configure", "--repo", str(repo), "--part", "missing.md", "--metric", "x", "--no-interactive"])
+
     def test_state_dir_is_kept_out_of_git_status(self) -> None:
         repo = self.make_value_repo()
         main(["status", "--repo", str(repo), "--json"])  # another write
