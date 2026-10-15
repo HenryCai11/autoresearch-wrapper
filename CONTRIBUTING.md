@@ -5,10 +5,10 @@ Thanks for contributing to `autoresearch-wrapper`. Bug reports and feature reque
 ## Scope
 
 This repo contains:
-- the Codex skill definition in `SKILL.md`
-- the Claude Code skill definitions under `.claude/skills/`
+- one skill set under `skills/`, shared by Claude Code and Codex (one directory per command)
+- `.claude/skills` and `.agents/skills`, symlinks to `skills/` for project-local discovery
 - the Claude marketplace manifest in `.claude-plugin/marketplace.json`
-- the packaged Claude plugin under `plugins/autoresearch-wrapper/`
+- the packaged Claude plugin under `plugins/autoresearch-wrapper/` (generated)
 - the helper CLI in `scripts/autoresearch_wrapper.py`
 - the main implementation in `autoresearch_wrapper/core.py`
 - tests in `tests/`
@@ -16,88 +16,39 @@ This repo contains:
 
 ## Local Setup
 
-Clone the repo and run from the repo root.
+Clone the repo and run from the repo root. Inside the repo, both tools find the skills without any install step:
+- Claude Code reads `.claude/skills/` (invoke as `/autoresearch-wrapper-run`)
+- Codex reads `.agents/skills/` (invoke as `$autoresearch-wrapper-run`)
 
-### Codex
-
-To test the skill locally inside Codex, install it as a local skill:
+To use your working copy from other projects, symlink the skill folders into your user directory (`~/.claude/skills/` and/or `~/.agents/skills/`):
 
 ```bash
-mkdir -p ~/.codex/skills
-ln -s /path/to/autoresearch-wrapper ~/.codex/skills/autoresearch-wrapper
+ln -s /path/to/autoresearch-wrapper/skills/* ~/.agents/skills/
 ```
 
-Restart Codex after installing or updating the skill.
-
-### Claude Code
-
-Claude Code can load the project-local skills from this repo directly through:
-
-```text
-.claude/skills/
-```
-
-The marketplace-installed Claude plugin is packaged separately under:
-
-```text
-plugins/autoresearch-wrapper/
-```
-
-The current Claude-facing commands are:
-- `/autoresearch-wrapper`
-- `/autoresearch-wrapper-status`
-- `/autoresearch-wrapper-run`
-- `/autoresearch-wrapper-flow`
-- `/autoresearch-wrapper-create`
-- `/autoresearch-wrapper-delete`
-- `/autoresearch-wrapper-monitor`
-
-If you change Claude-specific skill behavior, update the corresponding `SKILL.md` files under `.claude/skills/`, then refresh the packaged plugin with `python3 scripts/sync_claude_plugin.py`. Keep `.claude/skills/` as the source of truth.
+Restart Codex after installing or updating skills.
 
 ## Development Workflow
 
 1. Make the smallest coherent change you can.
 2. If the CLI or command surface changes, update:
-   - `README.md`
-   - `README.zh-CN.md`
-   - `SKILL.md`
-   - relevant `.claude/skills/*/SKILL.md` files when the Claude command surface is affected
-   - `plugins/autoresearch-wrapper/` by running `python3 scripts/sync_claude_plugin.py` when Claude packaging or runtime files changed
+   - `README.md` and `README.zh-CN.md`
+   - the affected `skills/*/SKILL.md` files
+   - `plugins/autoresearch-wrapper/` by running `python3 scripts/sync_claude_plugin.py`
 3. If behavior changes, add or update tests in `tests/test_autoresearch_wrapper.py`.
 4. Keep the worktree-first design intact. New optimization features should prefer Git worktrees over mutating the primary checkout.
 5. Keep dependency-aware behavior explicit. If a new feature affects part discovery, readiness, or run gating, update the persisted state and status surfaces accordingly.
 
-## Skill Surfaces
+## Skills
 
-### Codex
+`skills/` is the only place skill instructions are written. Both tools load the same `SKILL.md` format (`name` + `description` frontmatter), so:
+- Write instructions that work in both tools. Refer to companion skills by name (`autoresearch-wrapper-run`); where invocation syntax matters, give both forms (`/name` in Claude Code, `$name` in Codex).
+- Each skill's launcher block must find its own `run.sh` in Claude Code locations (`CLAUDE_SKILL_DIR`, `CLAUDE_PLUGIN_ROOT`, `.claude/skills`) and Codex locations (`.agents/skills`, `~/.agents/skills`). `run.sh` resolves symlinks before searching for the CLI, so symlinked installs work.
+- Tool-specific packaging stays separate from the instructions:
+  - Codex UI metadata: `skills/autoresearch-wrapper/agents/openai.yaml`
+  - Claude marketplace: `.claude-plugin/marketplace.json` and `plugins/autoresearch-wrapper/.claude-plugin/plugin.json`
 
-Codex uses:
-- `SKILL.md`
-- `agents/openai.yaml`
-
-The Codex-facing command surface is:
-- `/autoresearch-wrapper`
-- `/autoresearch-wrapper:status`
-- `/autoresearch-wrapper:run`
-- `/autoresearch-wrapper:flow`
-- `/autoresearch-wrapper:create`
-- `/autoresearch-wrapper:delete`
-- `/autoresearch-wrapper:monitor`
-
-### Claude Code
-
-Claude Code uses:
-- `.claude/skills/autoresearch-wrapper/SKILL.md`
-- `.claude/skills/autoresearch-wrapper-status/SKILL.md`
-- `.claude/skills/autoresearch-wrapper-run/SKILL.md`
-- `.claude/skills/autoresearch-wrapper-flow/SKILL.md`
-- `.claude/skills/autoresearch-wrapper-create/SKILL.md`
-- `.claude/skills/autoresearch-wrapper-delete/SKILL.md`
-- `.claude/skills/autoresearch-wrapper-monitor/SKILL.md`
-- `.claude-plugin/marketplace.json`
-- `plugins/autoresearch-wrapper/.claude-plugin/plugin.json`
-
-Claude does not use `agents/openai.yaml`, so do not treat the Codex metadata file as shared packaging.
+`test_skills_have_a_single_source` fails if a second copy of the skills appears, if the plugin copy drifts from `skills/`, or if a launcher block misses a location.
 
 ## Verification
 
@@ -114,15 +65,14 @@ claude plugin validate .
 
 - Keep the English and Chinese READMEs aligned.
 - Keep examples consistent with the actual CLI behavior.
-- If you add a new command, status view, or generated artifact, document it in both READMEs and in `SKILL.md`.
-- If the change also affects Claude Code usage, update the matching `.claude/skills/` files.
+- If you add a new command, status view, or generated artifact, document it in both READMEs and in the relevant `skills/*/SKILL.md`.
 
 ## Commit Guidance
 
 - Use clear commit messages that describe the feature or fix.
 - Avoid committing runtime state such as `.autoresearch-wrapper/`.
-- Do not commit local Codex home changes from `~/.codex/`.
-- Keep Codex-specific and Claude-specific packaging changes scoped and explicit. Shared behavior belongs in the Python CLI; packaging differences belong in the skill files.
+- Do not commit local tool home changes from `~/.codex/`, `~/.agents/`, or `~/.claude/`.
+- Shared behavior belongs in the Python CLI and the shared skills; only packaging differs per tool.
 
 ## Good First Contributions
 
@@ -130,4 +80,3 @@ claude plugin validate .
 - Add new metric presets or metric-flow views.
 - Improve status rendering and planning artifacts.
 - Expand tests around run resume, plotting, and script-wrapper flows.
-- Improve parity between Codex and Claude Code skill instructions without forking the shared CLI behavior.

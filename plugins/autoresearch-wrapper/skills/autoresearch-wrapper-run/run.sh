@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SELF_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+# Resolve symlinks (e.g. ~/.agents/skills/<name> -> <repo>/skills/<name>) so the
+# upward search starts inside the repo or plugin, not inside the skills folder.
+SELF_PATH="$(readlink -f -- "${BASH_SOURCE[0]}" 2>/dev/null || echo "${BASH_SOURCE[0]}")"
+SELF_DIR="$(cd -P -- "$(dirname -- "$SELF_PATH")" && pwd -P)"
 SEARCH_DIR="$SELF_DIR"
 
 while [ "$SEARCH_DIR" != "/" ]; do

@@ -10,7 +10,9 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 PLUGIN_ROOT = REPO_ROOT / "plugins" / "autoresearch-wrapper"
 
 SYNC_TARGETS = {
-    REPO_ROOT / ".claude" / "skills": PLUGIN_ROOT / "skills",
+    # skills/ is the single source for Claude Code and Codex; .claude/skills and
+    # .agents/skills are symlinks to it, and the plugin ships a real copy.
+    REPO_ROOT / "skills": PLUGIN_ROOT / "skills",
     REPO_ROOT / "scripts": PLUGIN_ROOT / "scripts",
     REPO_ROOT / "autoresearch_wrapper": PLUGIN_ROOT / "autoresearch_wrapper",
     REPO_ROOT / "templates": PLUGIN_ROOT / "templates",

@@ -5,20 +5,20 @@ description: Show or plot recorded metric flow for an autoresearch-wrapper run. 
 
 # Autoresearch Wrapper Flow
 
-Use the launcher next to this skill:
+Use the `run.sh` launcher in this skill's folder (the folder containing this `SKILL.md`). This block finds it in the standard Claude Code and Codex install locations:
 
 ```bash
+AUTORESEARCH_RUNNER=""
 if [ -n "${CLAUDE_SKILL_DIR:-}" ]; then
   AUTORESEARCH_RUNNER="${CLAUDE_SKILL_DIR}/run.sh"
 elif [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
   AUTORESEARCH_RUNNER="${CLAUDE_PLUGIN_ROOT}/skills/autoresearch-wrapper-flow/run.sh"
-elif [ -f ".claude/skills/autoresearch-wrapper-flow/run.sh" ]; then
-  AUTORESEARCH_RUNNER="$(readlink -f ".claude/skills/autoresearch-wrapper-flow/run.sh")"
-elif [ -f "skills/autoresearch-wrapper-flow/run.sh" ]; then
-  AUTORESEARCH_RUNNER="$(readlink -f "skills/autoresearch-wrapper-flow/run.sh")"
 else
-  echo "Could not resolve the autoresearch-wrapper-flow launcher" >&2; exit 1
+  for dir in skills/autoresearch-wrapper-flow .agents/skills/autoresearch-wrapper-flow .claude/skills/autoresearch-wrapper-flow "$HOME/.agents/skills/autoresearch-wrapper-flow" "$HOME/.claude/skills/autoresearch-wrapper-flow"; do
+    if [ -f "$dir/run.sh" ]; then AUTORESEARCH_RUNNER="$(readlink -f "$dir/run.sh")"; break; fi
+  done
 fi
+[ -n "$AUTORESEARCH_RUNNER" ] || { echo "Could not resolve the autoresearch-wrapper-flow launcher" >&2; exit 1; }
 ```
 
 Use:

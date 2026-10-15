@@ -73,26 +73,30 @@
 git clone https://github.com/HenryCai11/autoresearch-wrapper.git
 ```
 
-Claude Code 会自动从 `.claude/skills/` 发现 skill。如果仓库在项目外，用符号链接：
+Claude Code 会自动从 `.claude/skills/` 发现 skill。若想在所有项目中使用，把各个 skill 目录链接到用户级 skill 目录：
 
 ```bash
-mkdir -p /path/to/your-project/.claude/skills
-ln -s /path/to/autoresearch-wrapper/.claude/skills/* /path/to/your-project/.claude/skills/
+mkdir -p ~/.claude/skills
+ln -s /path/to/autoresearch-wrapper/skills/* ~/.claude/skills/
 ```
 
-Marketplace 打包目录位于 `plugins/autoresearch-wrapper/`，而 `.claude/skills/` 仍然是项目内 Claude 使用场景的单一事实来源。
+Marketplace 打包目录位于 `plugins/autoresearch-wrapper/`，由 `skills/` 生成。
 
 </details>
 
 <details>
 <summary><b>Codex</b></summary>
 
+Codex 读取同一套 skill 目录。在本仓库内会从 `.agents/skills/` 自动发现；若想在任何地方使用：
+
 ```bash
-mkdir -p ~/.codex/skills
-ln -s /path/to/autoresearch-wrapper ~/.codex/skills/autoresearch-wrapper
+mkdir -p ~/.agents/skills
+ln -s /path/to/autoresearch-wrapper/skills/* ~/.agents/skills/
 ```
 
-安装后重启 Codex。
+用 `$autoresearch-wrapper`、`$autoresearch-wrapper-run` 等调用（或从 `/skills` 中选择）。安装后重启 Codex。
+
+如果之前用的是旧的单 skill 安装方式（`~/.codex/skills/autoresearch-wrapper` 指向仓库根目录），请删除该链接并改用上面的命令；根目录的 `SKILL.md` 已不再存在。
 
 </details>
 
@@ -123,15 +127,17 @@ python3 scripts/autoresearch_wrapper.py scan
 
 ## 命令
 
-| Codex | Claude Code | CLI | 说明 |
-| --- | --- | --- | --- |
-| `/autoresearch-wrapper` | `/autoresearch-wrapper` | `wizard` / `wrap` | 运行端到端引导或包装脚本 |
-| `:status` | `-status` | `status` | 查看状态和就绪情况 |
-| `:run` | `-run` | `run` | 启动或恢复运行 |
-| `:flow` | `-flow` | `flow` | 指标历史和图表 |
-| `:create` | `-create` | `create` | 对比多种功能实现，每个都与调优后的对照组同等预算调优 |
-| `:delete` | `-delete` | `delete` | 对比删除与保留某模块（两者都调优） |
-| `:monitor` | `-monitor` | `monitor` | 实时进度轮询 |
+同一套 skill 同时服务两个工具：在 Claude Code 中用 `/<skill>` 调用，在 Codex 中用 `$<skill>` 调用。
+
+| Skill | CLI | 说明 |
+| --- | --- | --- |
+| `autoresearch-wrapper` | `wizard` / `wrap` | 运行端到端引导或包装脚本 |
+| `autoresearch-wrapper-status` | `status` | 查看状态和就绪情况 |
+| `autoresearch-wrapper-run` | `run` | 启动或恢复运行 |
+| `autoresearch-wrapper-flow` | `flow` | 指标历史和图表 |
+| `autoresearch-wrapper-create` | `create` | 对比多种功能实现，每个都与调优后的对照组同等预算调优 |
+| `autoresearch-wrapper-delete` | `delete` | 对比删除与保留某模块（两者都调优） |
+| `autoresearch-wrapper-monitor` | `monitor` | 实时进度轮询 |
 
 其他 CLI 子命令：`scan`、`configure`、`allocate`、`evaluate`、`record`、`arm-ready`、`compare`、`finalize`、`resources`、`preset-metric`、`reference`
 

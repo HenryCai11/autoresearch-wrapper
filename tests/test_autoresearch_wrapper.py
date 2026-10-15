@@ -795,9 +795,7 @@ class AutoresearchWrapperTests(unittest.TestCase):
 
     def test_skill_docs_route_bare_invocation_to_wizard(self) -> None:
         skill_files = [
-            REPO_ROOT / "SKILL.md",
             REPO_ROOT / "skills" / "autoresearch-wrapper" / "SKILL.md",
-            REPO_ROOT / ".claude" / "skills" / "autoresearch-wrapper" / "SKILL.md",
             REPO_ROOT
             / "plugins"
             / "autoresearch-wrapper"
@@ -808,7 +806,8 @@ class AutoresearchWrapperTests(unittest.TestCase):
         for path in skill_files:
             text = path.read_text()
             self.assertIn(
-                "If invoked with no arguments or just `/autoresearch-wrapper`, route to the end-to-end wizard:",
+                "If invoked with no arguments (just `/autoresearch-wrapper` or `$autoresearch-wrapper`), "
+                "route to the end-to-end wizard:",
                 text,
                 str(path),
             )
@@ -824,9 +823,17 @@ class AutoresearchWrapperTests(unittest.TestCase):
         (repo / "module.py").write_text("print('ok')\n")
         self.commit_all(repo)
 
+        # A user-level symlinked install, as Codex (~/.agents/skills) or Claude Code would use.
+        home = Path(tempfile.mkdtemp(prefix="autoresearch-home-"))
+        (home / ".agents" / "skills").mkdir(parents=True)
+        installed = home / ".agents" / "skills" / "autoresearch-wrapper-run"
+        installed.symlink_to(REPO_ROOT / "skills" / "autoresearch-wrapper-run", target_is_directory=True)
+
         launchers = [
             REPO_ROOT / ".claude" / "skills" / "autoresearch-wrapper" / "run.sh",
+            REPO_ROOT / ".agents" / "skills" / "autoresearch-wrapper" / "run.sh",
             REPO_ROOT / "skills" / "autoresearch-wrapper" / "run.sh",
+            installed / "run.sh",
             REPO_ROOT
             / "plugins"
             / "autoresearch-wrapper"
@@ -843,6 +850,33 @@ class AutoresearchWrapperTests(unittest.TestCase):
             )
             payload = json.loads(result.stdout)
             self.assertIn("parts", payload, str(launcher))
+
+    def test_skills_have_a_single_source(self) -> None:
+        skills_root = REPO_ROOT / "skills"
+        for link in (REPO_ROOT / ".claude" / "skills", REPO_ROOT / ".agents" / "skills"):
+            self.assertTrue(link.is_symlink(), str(link))
+            self.assertEqual(link.resolve(), skills_root.resolve(), str(link))
+        self.assertFalse((REPO_ROOT / "SKILL.md").exists(), "root SKILL.md would be a second Codex skill")
+
+        # The packaged plugin is a generated copy; it must not drift from skills/.
+        plugin_skills = REPO_ROOT / "plugins" / "autoresearch-wrapper" / "skills"
+        source_files = sorted(p.relative_to(skills_root) for p in skills_root.rglob("*") if p.is_file())
+        plugin_files = sorted(p.relative_to(plugin_skills) for p in plugin_skills.rglob("*") if p.is_file())
+        self.assertEqual(source_files, plugin_files)
+        for relative in source_files:
+            self.assertEqual(
+                (skills_root / relative).read_bytes(),
+                (plugin_skills / relative).read_bytes(),
+                f"{relative} drifted; run scripts/sync_claude_plugin.py",
+            )
+
+        for skill_dir in sorted(p for p in skills_root.iterdir() if p.is_dir()):
+            text = (skill_dir / "SKILL.md").read_text()
+            self.assertIn(f"name: {skill_dir.name}\n", text, skill_dir.name)
+            # Each launcher block must look for its own folder, in Claude and Codex locations.
+            for location in (f".agents/skills/{skill_dir.name}", f".claude/skills/{skill_dir.name}"):
+                self.assertIn(location, text, skill_dir.name)
+            self.assertTrue((skill_dir / "run.sh").is_file(), skill_dir.name)
 
     def test_marketplace_versions_and_runtime_files_stay_aligned(self) -> None:
         marketplace = json.loads((REPO_ROOT / ".claude-plugin" / "marketplace.json").read_text())

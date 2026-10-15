@@ -70,26 +70,30 @@ Or install manually:
 git clone https://github.com/HenryCai11/autoresearch-wrapper.git
 ```
 
-Claude Code discovers skills from `.claude/skills/` automatically. If the repo lives outside your project, symlink:
+Claude Code discovers skills from `.claude/skills/` automatically. To use them in all your projects, symlink the skill folders into your user skills directory:
 
 ```bash
-mkdir -p /path/to/your-project/.claude/skills
-ln -s /path/to/autoresearch-wrapper/.claude/skills/* /path/to/your-project/.claude/skills/
+mkdir -p ~/.claude/skills
+ln -s /path/to/autoresearch-wrapper/skills/* ~/.claude/skills/
 ```
 
-The marketplace package itself lives under `plugins/autoresearch-wrapper/`, while `.claude/skills/` remains the source of truth for project-local Claude usage.
+The marketplace package lives under `plugins/autoresearch-wrapper/` and is generated from `skills/`.
 
 </details>
 
 <details>
 <summary><b>Codex</b></summary>
 
+Codex reads the same skill folders. Inside this repo they are picked up from `.agents/skills/`. To use them everywhere:
+
 ```bash
-mkdir -p ~/.codex/skills
-ln -s /path/to/autoresearch-wrapper ~/.codex/skills/autoresearch-wrapper
+mkdir -p ~/.agents/skills
+ln -s /path/to/autoresearch-wrapper/skills/* ~/.agents/skills/
 ```
 
-Restart Codex after installing.
+Invoke skills with `$autoresearch-wrapper`, `$autoresearch-wrapper-run`, and so on (or pick from `/skills`). Restart Codex after installing.
+
+Upgrading from the old single-skill install (`~/.codex/skills/autoresearch-wrapper` pointing at the repo root)? Remove that symlink and use the command above; the root `SKILL.md` no longer exists.
 
 </details>
 
@@ -120,15 +124,17 @@ An example of the wizard for optimizing [Recursive Language Models](https://gith
 
 ## Commands
 
-| Codex | Claude Code | CLI | What it does |
-| --- | --- | --- | --- |
-| `/autoresearch-wrapper` | `/autoresearch-wrapper` | `wizard` / `wrap` | Run the end-to-end wizard or wrap a script |
-| `:status` | `-status` | `status` | Show state and readiness |
-| `:run` | `-run` | `run` | Start or resume a run |
-| `:flow` | `-flow` | `flow` | Metric history and plot |
-| `:create` | `-create` | `create` | Compare feature approaches, each tuned vs. a tuned control |
-| `:delete` | `-delete` | `delete` | Compare deleting a part vs. keeping it, both tuned |
-| `:monitor` | `-monitor` | `monitor` | Live progress polling |
+One skill set serves both tools: invoke a skill as `/<skill>` in Claude Code or `$<skill>` in Codex.
+
+| Skill | CLI | What it does |
+| --- | --- | --- |
+| `autoresearch-wrapper` | `wizard` / `wrap` | Run the end-to-end wizard or wrap a script |
+| `autoresearch-wrapper-status` | `status` | Show state and readiness |
+| `autoresearch-wrapper-run` | `run` | Start or resume a run |
+| `autoresearch-wrapper-flow` | `flow` | Metric history and plot |
+| `autoresearch-wrapper-create` | `create` | Compare feature approaches, each tuned vs. a tuned control |
+| `autoresearch-wrapper-delete` | `delete` | Compare deleting a part vs. keeping it, both tuned |
+| `autoresearch-wrapper-monitor` | `monitor` | Live progress polling |
 
 Additional CLI subcommands: `scan`, `configure`, `allocate`, `evaluate`, `record`, `arm-ready`, `compare`, `finalize`, `resources`, `preset-metric`, `reference`
 

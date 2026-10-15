@@ -5,20 +5,20 @@ description: Poll the active autoresearch-wrapper run at a configurable interval
 
 # Autoresearch Wrapper Monitor
 
-Use the launcher next to this skill:
+Use the `run.sh` launcher in this skill's folder (the folder containing this `SKILL.md`). This block finds it in the standard Claude Code and Codex install locations:
 
 ```bash
+AUTORESEARCH_RUNNER=""
 if [ -n "${CLAUDE_SKILL_DIR:-}" ]; then
   AUTORESEARCH_RUNNER="${CLAUDE_SKILL_DIR}/run.sh"
 elif [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
   AUTORESEARCH_RUNNER="${CLAUDE_PLUGIN_ROOT}/skills/autoresearch-wrapper-monitor/run.sh"
-elif [ -f ".claude/skills/autoresearch-wrapper-monitor/run.sh" ]; then
-  AUTORESEARCH_RUNNER="$(readlink -f ".claude/skills/autoresearch-wrapper-monitor/run.sh")"
-elif [ -f "skills/autoresearch-wrapper-monitor/run.sh" ]; then
-  AUTORESEARCH_RUNNER="$(readlink -f "skills/autoresearch-wrapper-monitor/run.sh")"
 else
-  echo "Could not resolve the autoresearch-wrapper-monitor launcher" >&2; exit 1
+  for dir in skills/autoresearch-wrapper-monitor .agents/skills/autoresearch-wrapper-monitor .claude/skills/autoresearch-wrapper-monitor "$HOME/.agents/skills/autoresearch-wrapper-monitor" "$HOME/.claude/skills/autoresearch-wrapper-monitor"; do
+    if [ -f "$dir/run.sh" ]; then AUTORESEARCH_RUNNER="$(readlink -f "$dir/run.sh")"; break; fi
+  done
 fi
+[ -n "$AUTORESEARCH_RUNNER" ] || { echo "Could not resolve the autoresearch-wrapper-monitor launcher" >&2; exit 1; }
 ```
 
 Use:
@@ -39,7 +39,7 @@ When this skill is invoked:
 
 4. If no interval is specified, ask the user or use the default.
 
-5. If no active run exists, inform the user and suggest starting one with `/autoresearch-wrapper-run`.
+5. If no active run exists, inform the user and suggest starting one with the `autoresearch-wrapper-run` skill.
 
 ## Example
 

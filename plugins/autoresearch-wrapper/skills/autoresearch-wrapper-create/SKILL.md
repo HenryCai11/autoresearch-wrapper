@@ -5,20 +5,20 @@ description: Create a feature-comparison run where each candidate implementation
 
 # Autoresearch Wrapper Create
 
-Use the launcher next to this skill:
+Use the `run.sh` launcher in this skill's folder (the folder containing this `SKILL.md`). This block finds it in the standard Claude Code and Codex install locations:
 
 ```bash
+AUTORESEARCH_RUNNER=""
 if [ -n "${CLAUDE_SKILL_DIR:-}" ]; then
   AUTORESEARCH_RUNNER="${CLAUDE_SKILL_DIR}/run.sh"
 elif [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
   AUTORESEARCH_RUNNER="${CLAUDE_PLUGIN_ROOT}/skills/autoresearch-wrapper-create/run.sh"
-elif [ -f ".claude/skills/autoresearch-wrapper-create/run.sh" ]; then
-  AUTORESEARCH_RUNNER="$(readlink -f ".claude/skills/autoresearch-wrapper-create/run.sh")"
-elif [ -f "skills/autoresearch-wrapper-create/run.sh" ]; then
-  AUTORESEARCH_RUNNER="$(readlink -f "skills/autoresearch-wrapper-create/run.sh")"
 else
-  echo "Could not resolve the autoresearch-wrapper-create launcher" >&2; exit 1
+  for dir in skills/autoresearch-wrapper-create .agents/skills/autoresearch-wrapper-create .claude/skills/autoresearch-wrapper-create "$HOME/.agents/skills/autoresearch-wrapper-create" "$HOME/.claude/skills/autoresearch-wrapper-create"; do
+    if [ -f "$dir/run.sh" ]; then AUTORESEARCH_RUNNER="$(readlink -f "$dir/run.sh")"; break; fi
+  done
 fi
+[ -n "$AUTORESEARCH_RUNNER" ] || { echo "Could not resolve the autoresearch-wrapper-create launcher" >&2; exit 1; }
 ```
 
 Use:
