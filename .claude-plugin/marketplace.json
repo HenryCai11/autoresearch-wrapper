@@ -10,7 +10,7 @@
   "plugins": [
     {
       "name": "autoresearch-wrapper",
-      "description": "Dependency-aware autoresearch engine: /autoresearch-wrapper launches the end-to-end wizard. Includes /autoresearch-wrapper-run (optimization loop), /autoresearch-wrapper-status (state summary), /autoresearch-wrapper-flow (metric history + plot), /autoresearch-wrapper-create (multi-candidate feature comparison), /autoresearch-wrapper-delete (post-deletion optimization), and /autoresearch-wrapper-monitor (live progress polling).",
+      "description": "Dependency-aware autoresearch engine: /autoresearch-wrapper launches the end-to-end wizard. Includes /autoresearch-wrapper-run (optimization loop), /autoresearch-wrapper-status (state summary), /autoresearch-wrapper-flow (metric history + plot), /autoresearch-wrapper-create (compare feature approaches, each tuned against a tuned control), /autoresearch-wrapper-delete (compare removing a part vs. keeping it, both tuned), and /autoresearch-wrapper-monitor (live progress polling).",
       "version": "0.0.3",
       "source": "./plugins/autoresearch-wrapper",
       "author": {

@@ -643,11 +643,12 @@ class AutoresearchWrapperTests(unittest.TestCase):
         self.assertEqual(run["run_type"], "create")
         self.assertIsNotNone(run["create_info"])
         self.assertEqual(run["create_info"]["feature_description"], "add caching")
-        # seed + 2 approaches
-        self.assertEqual(len(run["candidates"]), 3)
-        candidate_ids = [c["candidate_id"] for c in run["candidates"]]
-        self.assertIn("approach-A", candidate_ids)
-        self.assertIn("approach-B", candidate_ids)
+        # control + 2 approaches, each with its own setup worktree
+        self.assertEqual(
+            [arm["arm_id"] for arm in run["arms"]], ["control", "approach-A", "approach-B"]
+        )
+        for arm in run["arms"]:
+            self.assertTrue(Path(arm["setup"]["worktree_path"]).exists(), arm["arm_id"])
 
     # -----------------------------------------------------------------------
     # Delete
@@ -687,10 +688,12 @@ class AutoresearchWrapperTests(unittest.TestCase):
         self.assertIsNotNone(run["delete_info"])
         self.assertEqual(run["delete_info"]["deleted_part_id"], "helper.py")
         self.assertIn("module.py", run["delete_info"]["dependent_parts"])
-        # Verify file is removed in seed worktree
-        seed = run["candidates"][0]
-        seed_helper = Path(seed["worktree_path"]) / "helper.py"
-        self.assertFalse(seed_helper.exists())
+        self.assertEqual([arm["arm_id"] for arm in run["arms"]], ["control", "deleted"])
+        # The deleted arm's setup worktree has the file removed; control keeps it.
+        deleted = next(arm for arm in run["arms"] if arm["arm_id"] == "deleted")
+        control = next(arm for arm in run["arms"] if arm["arm_id"] == "control")
+        self.assertFalse((Path(deleted["setup"]["worktree_path"]) / "helper.py").exists())
+        self.assertTrue((Path(control["setup"]["worktree_path"]) / "helper.py").exists())
 
     def test_delete_blocks_if_part_not_found(self) -> None:
         repo = self.make_repo()
@@ -1039,13 +1042,29 @@ class AutoresearchWrapperTests(unittest.TestCase):
         state = load_state(repo)
         return state["runs"][state["selection"]["active_run_id"]]
 
-    def evaluate_and_record(self, repo: Path, run_id: str, candidate: str) -> None:
+    def evaluate_and_record(self, repo: Path, run_id: str, candidate: str, arm: str | None = None) -> None:
+        arm_args = ["--arm", arm] if arm else []
         with contextlib.redirect_stdout(io.StringIO()):
-            main(["evaluate", "--repo", str(repo), "--run-id", run_id, "--candidate", candidate])
+            main(["evaluate", "--repo", str(repo), "--run-id", run_id, "--candidate", candidate, *arm_args])
             main([
                 "record", "--repo", str(repo), "--run-id", run_id, "--candidate", candidate,
-                "--status", "auto", "--description", candidate,
+                "--status", "auto", "--description", candidate, *arm_args,
             ])
+
+    def arm_run(self, repo: Path, parent_id: str, arm_id: str) -> dict:
+        state = load_state(repo)
+        arm = next(arm for arm in state["runs"][parent_id]["arms"] if arm["arm_id"] == arm_id)
+        return state["runs"][arm["child_run_id"]]
+
+    def start_create(self, repo: Path, candidates: int = 2, *extra: str) -> str:
+        with contextlib.redirect_stdout(io.StringIO()):
+            main([
+                "create", "--repo", str(repo), "--part", "module.py",
+                "--feature", "add caching", "--candidates", str(candidates),
+                "--metric", "score", "--metric-command", self.value_metric_command(),
+                "--metric-goal", "minimize", "--no-interactive", *extra,
+            ])
+        return self.active_run(repo)["run_id"]
 
     def test_kept_candidate_edits_carry_into_next_allocation(self) -> None:
         repo = self.make_value_repo()
@@ -1095,22 +1114,27 @@ class AutoresearchWrapperTests(unittest.TestCase):
 
     def test_delete_run_evaluates_with_its_own_metric(self) -> None:
         repo = self.make_value_repo()
-        main([
-            "delete", "--repo", str(repo), "--part", "helper.py",
-            "--metric", "score", "--metric-command", self.value_metric_command(),
-            "--metric-goal", "minimize", "--no-interactive",
-        ])
-        run = self.active_run(repo)
+        with contextlib.redirect_stdout(io.StringIO()):
+            main([
+                "delete", "--repo", str(repo), "--part", "helper.py",
+                "--metric", "score", "--metric-command", self.value_metric_command(),
+                "--metric-goal", "minimize", "--no-interactive",
+            ])
+        parent_id = self.active_run(repo)["run_id"]
         self.assertNotIn("helper.py", load_state(repo).get("part_configs", {}))
 
-        self.evaluate_and_record(repo, run["run_id"], "seed")
-        seed = get_candidate(self.active_run(repo), "seed")
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["arm-ready", "--repo", str(repo), "--run-id", parent_id, "--arm", "deleted"])
+        self.evaluate_and_record(repo, parent_id, "seed", arm="deleted")
+        child = self.arm_run(repo, parent_id, "deleted")
+        seed = get_candidate(child, "seed")
         self.assertEqual(seed["result"]["metric_value"], 10.0)
         self.assertEqual(seed["result"]["status"], "keep")
 
-        # The deletion is committed on the seed branch, so candidates inherit it.
-        main(["allocate", "--repo", str(repo), "--run-id", run["run_id"]])
-        candidate = get_candidate(self.active_run(repo), "candidate-001")
+        # The deletion is committed on the arm's seed branch, so candidates inherit it.
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["allocate", "--repo", str(repo), "--run-id", parent_id, "--arm", "deleted"])
+        candidate = get_candidate(self.arm_run(repo, parent_id, "deleted"), "candidate-001")
         self.assertFalse((Path(candidate["worktree_path"]) / "helper.py").exists())
 
     def test_create_keeps_existing_part_config_and_uses_run_metric(self) -> None:
@@ -1120,18 +1144,12 @@ class AutoresearchWrapperTests(unittest.TestCase):
         )
         before = load_state(repo)["part_configs"]["module.py"]
 
-        main([
-            "create", "--repo", str(repo), "--part", "module.py",
-            "--feature", "add caching", "--candidates", "2",
-            "--metric", "score", "--metric-command", self.value_metric_command(),
-            "--metric-goal", "minimize", "--no-interactive",
-        ])
+        parent_id = self.start_create(repo, candidates=2)
         self.assertEqual(load_state(repo)["part_configs"]["module.py"], before)
 
-        run = self.active_run(repo)
-        self.evaluate_and_record(repo, run["run_id"], "approach-A")
-        approach = get_candidate(self.active_run(repo), "approach-A")
-        self.assertEqual(approach["result"]["metric_value"], 10.0)
+        self.evaluate_and_record(repo, parent_id, "seed", arm="control")
+        seed = get_candidate(self.arm_run(repo, parent_id, "control"), "seed")
+        self.assertEqual(seed["result"]["metric_value"], 10.0)
 
     def test_concurrent_evaluate_and_record_do_not_lose_updates(self) -> None:
         repo = self.make_value_repo()
@@ -1447,6 +1465,187 @@ class AutoresearchWrapperTests(unittest.TestCase):
         payload = self.finalize(repo, run_id, "--force")
         self.assertEqual(payload["removed_worktrees"], ["candidate-002"])
         self.assertFalse(Path(dirty["worktree_path"]).exists())
+
+    # -----------------------------------------------------------------------
+    # Comparison runs (create / delete arms)
+    # -----------------------------------------------------------------------
+
+    def setup_arm(self, repo: Path, parent_id: str, arm_id: str, value: str) -> None:
+        state = load_state(repo)
+        arm = next(arm for arm in state["runs"][parent_id]["arms"] if arm["arm_id"] == arm_id)
+        (Path(arm["setup"]["worktree_path"]) / "value.txt").write_text(f"{value}\n")
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["arm-ready", "--repo", str(repo), "--run-id", parent_id, "--arm", arm_id])
+
+    def tune_arm(self, repo: Path, parent_id: str, arm_id: str, values: list[str]) -> None:
+        self.evaluate_and_record(repo, parent_id, "seed", arm=arm_id)
+        for value in values:
+            with contextlib.redirect_stdout(io.StringIO()):
+                main(["allocate", "--repo", str(repo), "--run-id", parent_id, "--arm", arm_id])
+            candidate = self.arm_run(repo, parent_id, arm_id)["candidates"][-1]
+            (Path(candidate["worktree_path"]) / "value.txt").write_text(f"{value}\n")
+            self.evaluate_and_record(repo, parent_id, candidate["candidate_id"], arm=arm_id)
+
+    def compare(self, repo: Path, parent_id: str) -> dict:
+        buffer = io.StringIO()
+        with contextlib.redirect_stdout(buffer):
+            main(["compare", "--repo", str(repo), "--run-id", parent_id, "--json"])
+        return json.loads(buffer.getvalue())
+
+    def test_create_readies_control_and_keeps_approaches_in_setup(self) -> None:
+        repo = self.make_value_repo()
+        parent_id = self.start_create(repo, 2)
+        parent = self.active_run(repo)
+        phases = {arm["arm_id"]: arm["phase"] for arm in parent["arms"]}
+        self.assertEqual(phases, {"control": "tuning", "approach-A": "setup", "approach-B": "setup"})
+        control = self.arm_run(repo, parent_id, "control")
+        self.assertEqual(control["parent_run_id"], parent_id)
+        self.assertEqual(control["base_ref"], parent["base_ref"])
+
+        with self.assertRaises(SystemExit) as exc:
+            main(["allocate", "--repo", str(repo), "--run-id", parent_id, "--arm", "approach-A"])
+        self.assertIn("still in setup", str(exc.exception))
+        with self.assertRaises(SystemExit) as exc:
+            main(["allocate", "--repo", str(repo), "--run-id", parent_id])
+        self.assertIn("pass --arm", str(exc.exception))
+        with self.assertRaises(SystemExit) as exc:
+            main(["finalize", "--repo", str(repo), "--run-id", control["run_id"]])
+        self.assertIn("finalize that run instead", str(exc.exception))
+
+    def test_arm_ready_starts_child_from_setup_commit_with_equal_budget(self) -> None:
+        repo = self.make_value_repo()
+        parent_id = self.start_create(repo, 1, "--rounds", "4", "--stop-rule", "stalled:2")
+        self.setup_arm(repo, parent_id, "approach-A", "7")
+
+        parent = self.active_run(repo)
+        arm = next(arm for arm in parent["arms"] if arm["arm_id"] == "approach-A")
+        child = self.arm_run(repo, parent_id, "approach-A")
+        self.assertEqual(arm["phase"], "tuning")
+        self.assertEqual(child["base_ref"], arm["setup_commit"])
+        self.assertNotEqual(arm["setup_commit"], parent["base_ref"])
+        self.assertEqual(self.git_out(repo, "rev-parse", child["candidates"][0]["branch"]), arm["setup_commit"])
+        control = self.arm_run(repo, parent_id, "control")
+        for run in (child, control):
+            self.assertEqual(run["execution"]["rounds"], 4)
+            self.assertEqual(run["execution"]["stop_rule"], "stalled:2")
+        self.assertTrue(Path(child["program_path"]).exists())
+
+        self.evaluate_and_record(repo, parent_id, "seed", arm="approach-A")
+        seed = get_candidate(self.arm_run(repo, parent_id, "approach-A"), "seed")
+        self.assertEqual(seed["result"]["metric_value"], 7.0)
+
+        with self.assertRaises(SystemExit) as exc:
+            main(["arm-ready", "--repo", str(repo), "--run-id", parent_id, "--arm", "approach-A"])
+        self.assertIn("already tuning", str(exc.exception))
+
+    def test_create_comparison_picks_tuned_winner_and_finalize_merges_it(self) -> None:
+        repo = self.make_value_repo()
+        parent_id = self.start_create(repo, 2, "--rounds", "1")
+        self.setup_arm(repo, parent_id, "approach-A", "6")
+        self.setup_arm(repo, parent_id, "approach-B", "8")
+        self.tune_arm(repo, parent_id, "control", ["9"])
+        self.assertEqual(self.active_run(repo)["status"], "running")
+        self.tune_arm(repo, parent_id, "approach-A", ["5"])
+        self.tune_arm(repo, parent_id, "approach-B", ["12"])
+        self.assertEqual(self.active_run(repo)["status"], "completed")
+
+        result = self.compare(repo, parent_id)
+        rows = {row["arm_id"]: row for row in result["arms"]}
+        self.assertEqual(result["winner_arm"], "approach-A")
+        self.assertEqual(result["incomplete_arms"], [])
+        self.assertEqual(rows["control"]["setup_metric"], 10.0)
+        self.assertEqual(rows["control"]["best_metric"], 9.0)
+        self.assertEqual(rows["approach-A"]["setup_metric"], 6.0)
+        self.assertEqual(rows["approach-A"]["tuning_gain"], -1.0)
+        self.assertEqual(rows["approach-A"]["delta_vs_control"], -4.0)
+        self.assertEqual(rows["approach-B"]["best_metric"], 8.0)
+
+        payload = self.finalize(repo, parent_id, "--merge", "--prune-branches")
+        self.assertEqual(payload["winner_arm"], "approach-A")
+        self.assertTrue(payload["merged"])
+        self.assertEqual((repo / "value.txt").read_text(), "5\n")
+        state = load_state(repo)
+        parent = state["runs"][parent_id]
+        for arm in parent["arms"]:
+            for candidate in state["runs"][arm["child_run_id"]]["candidates"]:
+                self.assertFalse(Path(candidate["worktree_path"]).exists())
+        self.assertFalse(Path(parent["worktree_root"]).exists())
+        remaining = self.git_out(repo, "branch", "--list", "autoresearch/*", "--format=%(refname:short)")
+        self.assertEqual(remaining.splitlines(), [payload["best_branch"]])
+
+    def test_tie_goes_to_control_and_text_compare_renders(self) -> None:
+        repo = self.make_value_repo()
+        parent_id = self.start_create(repo, 1, "--rounds", "1")
+        self.setup_arm(repo, parent_id, "approach-A", "9")
+        self.tune_arm(repo, parent_id, "control", ["9"])
+        self.tune_arm(repo, parent_id, "approach-A", ["9"])
+        self.assertEqual(self.compare(repo, parent_id)["winner_arm"], "control")
+
+        buffer = io.StringIO()
+        with contextlib.redirect_stdout(buffer):
+            main(["compare", "--repo", str(repo), "--run-id", parent_id])
+        self.assertIn("| control * |", buffer.getvalue())
+
+    def test_compare_flags_incomplete_arms_and_finalize_needs_stop(self) -> None:
+        repo = self.make_value_repo()
+        parent_id = self.start_create(repo, 1, "--rounds", "2")
+        self.tune_arm(repo, parent_id, "control", ["9"])
+        result = self.compare(repo, parent_id)
+        self.assertEqual(result["incomplete_arms"], ["control", "approach-A"])
+        self.assertEqual(result["winner_arm"], "control")
+
+        with self.assertRaises(SystemExit) as exc:
+            self.finalize(repo, parent_id)
+        self.assertIn("--stop", str(exc.exception))
+        payload = self.finalize(repo, parent_id, "--stop")
+        parent = load_state(repo)["runs"][parent_id]
+        phases = {arm["arm_id"]: arm["phase"] for arm in parent["arms"]}
+        self.assertEqual(phases, {"control": "done", "approach-A": "abandoned"})
+        self.assertIn("approach-A/seed", payload["removed_worktrees"])
+        self.assertFalse(Path(parent["worktree_root"]).exists())
+
+    def test_delete_comparison_uses_control_as_pre_deletion_baseline(self) -> None:
+        repo = self.make_value_repo()
+        with contextlib.redirect_stdout(io.StringIO()):
+            main([
+                "delete", "--repo", str(repo), "--part", "helper.py", "--rounds", "1",
+                "--metric", "score", "--metric-command", self.value_metric_command(),
+                "--metric-goal", "minimize", "--no-interactive",
+            ])
+        parent_id = self.active_run(repo)["run_id"]
+        self.setup_arm(repo, parent_id, "deleted", "10")
+        self.tune_arm(repo, parent_id, "control", ["10"])
+        self.tune_arm(repo, parent_id, "deleted", ["4"])
+
+        result = self.compare(repo, parent_id)
+        rows = {row["arm_id"]: row for row in result["arms"]}
+        self.assertEqual(rows["control"]["setup_metric"], 10.0)
+        self.assertEqual(result["winner_arm"], "deleted")
+        self.assertEqual(rows["deleted"]["delta_vs_control"], -6.0)
+
+    def test_compare_refuses_legacy_create_run(self) -> None:
+        repo = self.make_value_repo()
+        state = load_state(repo)
+        state.setdefault("runs", {})["legacy"] = {
+            "run_id": "legacy", "part_id": "module.py", "run_type": "create",
+            "status": "running", "candidates": [],
+            "results_path": str(state_dir(repo) / "runs" / "legacy" / "results.tsv"),
+        }
+        write_state(repo, state)
+        with self.assertRaises(SystemExit) as exc:
+            main(["compare", "--repo", str(repo), "--run-id", "legacy"])
+        self.assertIn("legacy create run", str(exc.exception))
+
+    def test_affected_parts_are_direct_neighbours_only(self) -> None:
+        repo = self.make_repo()
+        (repo / "a.py").write_text("def a(): pass\n")
+        (repo / "b.py").write_text("import a\ndef b(): pass\n")
+        (repo / "c.py").write_text("import b\ndef c(): pass\n")
+        self.commit_all(repo)
+        main(["scan", "--repo", str(repo), "--no-interactive"])
+        state = load_state(repo)
+        self.assertEqual(identify_affected_parts(state, ["a.py"]), ["b.py"])
+        self.assertEqual(identify_affected_parts(state, ["b.py"]), ["a.py", "c.py"])
 
     def test_mkdir_lock_times_out_and_reclaims_stale_lock(self) -> None:
         lock_dir = Path(tempfile.mkdtemp(prefix="autoresearch-lock-")) / "state.lock.d"

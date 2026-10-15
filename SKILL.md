@@ -155,10 +155,13 @@ python3 scripts/autoresearch_wrapper.py create --part <part> --feature "<descrip
 ```
 
 Behavior:
-- identify affected parts via the dependency graph
-- create N candidate worktrees, each for a different implementation approach
-- generate a per-run `program.md` with comparison instructions
-- use `evaluate` and `record` against each approach to find the best capability ceiling
+- create a comparison run with arms `control` + `approach-A..N`; each arm gets a setup worktree
+- `control` (no change) starts tuning immediately, so gains from tuning are not credited to the feature
+- implement each approach in its setup worktree, then `arm-ready --run-id <run> --arm approach-A` to commit it and start that arm's tuning run
+- every arm is tuned with the same `--rounds` / `--stop-rule` budget; drive the loop with `--arm` (`evaluate`/`record` the `seed` first for the setup score, then `allocate`/`evaluate`/`record`)
+- tuning scope: the target's direct dependency neighbours (listed in `program.md`)
+- `compare --run-id <run>` reports setup score, tuned ceiling, tuning gain, and delta vs. the tuned control per arm, and picks a winner (ties go to control)
+- `finalize --run-id <run> --merge` merges the winning arm's best (confirm with the user first) and cleans up every arm
 
 ### `/autoresearch-wrapper:delete`
 
@@ -169,10 +172,11 @@ python3 scripts/autoresearch_wrapper.py delete --part <part> --metric <metric> -
 ```
 
 Behavior:
-- identify transitive dependents of the deleted part
-- create a seed worktree with the target file removed
-- optimize dependent parameters in subsequent candidate worktrees
-- generate a per-run `program.md` with post-deletion optimization instructions
+- create a comparison run with arms `control` (part kept) and `deleted` (part removed and committed in its setup worktree)
+- `control` starts tuning immediately and is the tuned pre-deletion baseline
+- fix broken imports/references in the `deleted` setup worktree, then `arm-ready --run-id <run> --arm deleted`
+- both arms are tuned with the same budget via `--arm`; `compare` shows whether removing the part costs or gains once dependents are re-tuned
+- `finalize --run-id <run> --merge` merges the winner (confirm with the user first) and cleans up
 
 ### `/autoresearch-wrapper:monitor`
 

@@ -1,6 +1,6 @@
 ---
 name: autoresearch-wrapper-delete
-description: Create a feature-deletion run that removes a part and optimizes dependent parameters. Use when the user wants to remove a module or file and find the best post-deletion configuration.
+description: Create a deletion-comparison run that tunes the codebase with and without a part using equal budgets. Use when the user wants to remove a module or file and know whether it is worth it once dependents are re-tuned.
 ---
 
 # Autoresearch Wrapper Delete
@@ -29,22 +29,25 @@ bash "$AUTORESEARCH_RUNNER" delete --part <part> --metric <metric> --metric-comm
 
 When this skill is invoked:
 
-1. Identify the part to be deleted.
-2. The wrapper identifies transitive dependents of the deleted part.
-3. Create a seed worktree with the target file removed.
-4. Optimize dependent parameters in subsequent candidate worktrees.
-5. Summarize:
-- run id
-- run type (`delete`)
-- deleted part
-- transitive dependents affected
-- candidate worktrees
-- generated `program.md` with post-deletion optimization instructions
+1. If the user has not scanned yet, run `scan` first. Pass `--no-interactive` when stdin is not a terminal.
+2. Identify the part to delete, the metric, and the per-arm budget (`--rounds` and/or `--stop-rule`).
+3. Run `delete`. It sets up two arms: `control` (part kept, starts tuning immediately; it is the tuned pre-deletion baseline) and `deleted` (part removed and committed in its setup worktree).
+4. Summarize: run id, transitive dependents of the deleted part, tuning scope (its direct neighbours), budget, and the generated `program.md`.
+5. Setup phase: fix broken imports and references in the `deleted` setup worktree, then start its tuning run:
 
-6. If the user has not scanned yet, run `scan` first.
+```bash
+bash "$AUTORESEARCH_RUNNER" arm-ready --run-id <run> --arm deleted
+```
 
-7. If running interactively, use `--no-interactive` to skip wizard prompts or omit it to use the interactive wizard.
+6. Tuning phase, for both arms: `evaluate`/`record` the `seed` with `--arm <arm>` to get the setup score, then `allocate`/`evaluate`/`record` with `--arm <arm>` until the budget is spent.
+7. Compare and report whether removing the part costs or gains once dependents are re-tuned:
+
+```bash
+bash "$AUTORESEARCH_RUNNER" compare --run-id <run>
+```
+
+8. Offer `finalize --run-id <run> --merge` to merge the winner and clean up. Confirm with the user before `--merge` or `--prune-branches`.
 
 ## Example
 
-- `/autoresearch-wrapper-delete --part src/legacy_cache.py --metric throughput --metric-command "python bench.py" --metric-goal maximize`
+- `/autoresearch-wrapper-delete --part src/legacy_cache.py --rounds 10 --metric throughput --metric-command "python bench.py" --metric-goal maximize`

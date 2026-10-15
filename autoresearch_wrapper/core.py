@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import ast
 import contextlib
+import copy
 import csv
 import datetime as dt
 import json
@@ -89,6 +90,8 @@ CLI_COMMANDS = {
     "monitor",
     "create",
     "delete",
+    "arm-ready",
+    "compare",
     "finalize",
 }
 
@@ -356,6 +359,7 @@ def build_parser() -> argparse.ArgumentParser:
     allocate = subparsers.add_parser("allocate", help="Create a candidate worktree.")
     add_repo_arg(allocate)
     allocate.add_argument("--run-id", help="Run id. Defaults to the active run.")
+    add_arm_arg(allocate)
     allocate.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
     allocate.set_defaults(func=command_allocate)
 
@@ -363,6 +367,7 @@ def build_parser() -> argparse.ArgumentParser:
     add_repo_arg(evaluate)
     evaluate.add_argument("--run-id", help="Run id. Defaults to the active run.")
     evaluate.add_argument("--candidate", required=True, help="Candidate id.")
+    add_arm_arg(evaluate)
     evaluate.add_argument(
         "--timeout",
         type=float,
@@ -375,6 +380,7 @@ def build_parser() -> argparse.ArgumentParser:
     add_repo_arg(record)
     record.add_argument("--run-id", help="Run id. Defaults to the active run.")
     record.add_argument("--candidate", required=True, help="Candidate id.")
+    add_arm_arg(record)
     record.add_argument(
         "--status",
         choices=("auto", "keep", "discard", "crash"),
@@ -389,6 +395,7 @@ def build_parser() -> argparse.ArgumentParser:
     flow = subparsers.add_parser("flow", help="Show recorded metric flow for a run.")
     add_repo_arg(flow)
     flow.add_argument("--run-id", help="Run id. Defaults to the active run.")
+    add_arm_arg(flow)
     flow.add_argument(
         "--width",
         type=int,
@@ -440,43 +447,44 @@ def build_parser() -> argparse.ArgumentParser:
 
     create = subparsers.add_parser(
         "create",
-        help="Propose and compare candidate implementations for a new feature.",
+        help="Compare feature approaches, each tuned to its ceiling against a tuned control arm.",
     )
     add_repo_arg(create)
     create.add_argument("--part", help="Part id that the new feature relates to.")
     create.add_argument("--feature", help="Description of the feature to create.")
     create.add_argument(
-        "--candidates", type=int, default=3, help="Number of candidate approaches."
+        "--candidates", type=int, default=3, help="Number of candidate approaches (arms besides control)."
     )
-    create.add_argument("--metric-command", help="Metric command to evaluate each approach.")
-    create.add_argument("--metric", help="Metric name.")
-    create.add_argument(
-        "--metric-goal",
-        choices=("minimize", "maximize"),
-        help="Metric direction.",
-    )
-    create.add_argument("--rounds", type=int, default=3, help="Optimization rounds per candidate.")
-    create.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
-    add_interactive_arg(create)
+    add_comparison_args(create, "Metric command to evaluate each arm.")
     create.set_defaults(func=command_create)
 
     delete = subparsers.add_parser(
         "delete",
-        help="Delete a module and optimize dependent parameters.",
+        help="Compare deleting a part (then tuning) against a tuned control arm that keeps it.",
     )
     add_repo_arg(delete)
     delete.add_argument("--part", help="Part id to delete.")
-    delete.add_argument("--metric-command", help="Metric command to evaluate post-deletion quality.")
-    delete.add_argument("--metric", help="Metric name.")
-    delete.add_argument(
-        "--metric-goal",
-        choices=("minimize", "maximize"),
-        help="Metric direction.",
-    )
-    delete.add_argument("--rounds", type=int, default=3, help="Optimization rounds after deletion.")
-    delete.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
-    add_interactive_arg(delete)
+    add_comparison_args(delete, "Metric command to evaluate each arm.")
     delete.set_defaults(func=command_delete)
+
+    arm_ready = subparsers.add_parser(
+        "arm-ready",
+        help="Commit a comparison arm's setup and start tuning it.",
+    )
+    add_repo_arg(arm_ready)
+    arm_ready.add_argument("--run-id", help="Comparison run id. Defaults to the active run.")
+    arm_ready.add_argument("--arm", required=True, help="Arm id, e.g. approach-A or deleted.")
+    arm_ready.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
+    arm_ready.set_defaults(func=command_arm_ready)
+
+    compare = subparsers.add_parser(
+        "compare",
+        help="Compare the tuned ceilings of a create/delete run's arms.",
+    )
+    add_repo_arg(compare)
+    compare.add_argument("--run-id", help="Comparison run id. Defaults to the active run.")
+    compare.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
+    compare.set_defaults(func=command_compare)
 
     finalize = subparsers.add_parser(
         "finalize",
@@ -484,6 +492,10 @@ def build_parser() -> argparse.ArgumentParser:
     )
     add_repo_arg(finalize)
     finalize.add_argument("--run-id", help="Run id. Defaults to the active run.")
+    finalize.add_argument(
+        "--arm",
+        help="For comparison runs: merge this arm's best instead of the compare winner.",
+    )
     finalize.add_argument(
         "--merge",
         action="store_true",
@@ -517,6 +529,26 @@ def build_parser() -> argparse.ArgumentParser:
 
 def add_repo_arg(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--repo", default=".", help="Repo root or any path inside the repo.")
+
+
+def add_arm_arg(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "--arm",
+        help="For create/delete comparison runs: the arm whose tuning run to act on.",
+    )
+
+
+def add_comparison_args(parser: argparse.ArgumentParser, metric_command_help: str) -> None:
+    parser.add_argument("--metric-command", help=metric_command_help)
+    parser.add_argument("--metric", help="Metric name.")
+    parser.add_argument("--metric-goal", choices=("minimize", "maximize"), help="Metric direction.")
+    parser.add_argument(
+        "--rounds", type=int, default=3, help="Tuning rounds per arm (every arm gets the same budget)."
+    )
+    parser.add_argument("--stop-rule", help="Per-arm stop rule: " + STOP_RULE_HELP + ".")
+    parser.add_argument("--metric-timeout", type=float, help="Kill a metric command after this many seconds.")
+    parser.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
+    add_interactive_arg(parser)
 
 
 def add_interactive_arg(parser: argparse.ArgumentParser) -> None:
@@ -1363,10 +1395,11 @@ def command_allocate(args: argparse.Namespace) -> int:
     ensure_git_repo(repo_root)
     with state_lock(repo_root):
         state = ensure_scanned(repo_root)
-        run = resolve_run(state, args.run_id)
+        run = resolve_target_run(state, args.run_id, args.arm)
         if run.get("status") not in TERMINAL_RUN_STATUSES and (reason := stop_rule_reason(run)):
             run["status"] = "completed"
             run["stop_reason"] = reason
+            refresh_parent_comparison(state, run)
             write_state(repo_root, state)
         if run.get("status") in TERMINAL_RUN_STATUSES:
             raise SystemExit(
@@ -1395,7 +1428,7 @@ def command_evaluate(args: argparse.Namespace) -> int:
     # Read without the lock: the metric command can run for a long time and
     # parallel candidates must be able to evaluate concurrently.
     state = load_state(repo_root)
-    run = resolve_run(state, args.run_id)
+    run = resolve_target_run(state, args.run_id, args.arm)
     candidate = get_candidate(run, args.candidate)
     if candidate is None:
         raise SystemExit(f"unknown candidate: {args.candidate}")
@@ -1462,7 +1495,7 @@ def resolve_recorded_commit(
 
 def record_locked(repo_root: Path, args: argparse.Namespace) -> int:
     state = ensure_scanned(repo_root)
-    run = resolve_run(state, args.run_id)
+    run = resolve_target_run(state, args.run_id, args.arm)
     candidate = get_candidate(run, args.candidate)
     if candidate is None:
         raise SystemExit(f"unknown candidate: {args.candidate}")
@@ -1534,9 +1567,16 @@ def record_locked(repo_root: Path, args: argparse.Namespace) -> int:
             run["early_exit"]["trigger_reason"] = exit_check["reason"]
 
     append_result_row(run, candidate, metric_name, goal)
+    refresh_parent_comparison(state, run)
     write_state(repo_root, state)
     emit(candidate["result"], args.json)
     return 0
+
+
+def refresh_parent_comparison(state: dict[str, Any], run: dict[str, Any]) -> None:
+    parent = state.get("runs", {}).get(run.get("parent_run_id") or "")
+    if parent:
+        refresh_comparison_status(state, parent)
 
 
 def command_reference(args: argparse.Namespace) -> int:
@@ -1568,7 +1608,7 @@ def command_reference(args: argparse.Namespace) -> int:
 def command_flow(args: argparse.Namespace) -> int:
     repo_root = detect_repo_root(Path(args.repo))
     state = ensure_scanned(repo_root)
-    run = resolve_run(state, args.run_id)
+    run = resolve_target_run(state, args.run_id, args.arm)
     payload = metric_flow_snapshot(run)
     if args.json:
         print(json.dumps(payload, indent=2, sort_keys=True))
@@ -3093,6 +3133,9 @@ def status_markdown(state: dict[str, Any]) -> str:
                     path=candidate["worktree_path"],
                 )
             )
+        for arm in run.get("arms", []):
+            tuning = f", tuning run `{arm['child_run_id']}`" if arm.get("child_run_id") else ""
+            lines.append(f"  - arm `{arm['arm_id']}` ({arm['kind']}): `{arm['phase']}`{tuning}")
         if flow["points"]:
             lines.append(f"  - Metric flow: {flow['sequence']}")
             lines.append(f"  - Best-so-far: {flow['best_sequence']}")
@@ -3336,6 +3379,9 @@ def git_run(cwd: Path, args: list[str], check: bool = False) -> subprocess.Compl
 
 
 TERMINAL_RUN_STATUSES = {"completed", "early_exit"}
+RESULTS_HEADER = (
+    "timestamp\trun_id\tcandidate_id\tstatus\tmetric_name\tmetric_value\tgoal\tcommit\tbranch\tworktree\tdescription\n"
+)
 
 
 def find_active_run(state: dict[str, Any], part_id: str) -> dict[str, Any] | None:
@@ -3346,6 +3392,7 @@ def find_active_run(state: dict[str, Any], part_id: str) -> dict[str, Any] | Non
             run
             and run.get("part_id") == part_id
             and run.get("run_type", "optimize") == "optimize"
+            and not run.get("parent_run_id")  # comparison arms are driven via --arm
             and run.get("status") not in TERMINAL_RUN_STATUSES
         )
 
@@ -3375,21 +3422,38 @@ def create_run(
     repo_root: Path, state: dict[str, Any], part: dict[str, Any], config: dict[str, Any]
 ) -> dict[str, Any]:
     run_id = build_run_id(part["id"])
-    run_dir = runs_dir(repo_root) / run_id
-    run_dir.mkdir(parents=True, exist_ok=True)
     worktree_root = default_worktree_root(repo_root) / run_id
-    worktree_root.mkdir(parents=True, exist_ok=True)
-
     base_ref = git_stdout(repo_root, ["rev-parse", "HEAD"]).strip()
-    branch_prefix = f"autoresearch/{slugify(part['id'])}/{run_id}"
     seed = create_candidate_worktree(
         repo_root=repo_root,
         worktree_path=worktree_root / "seed",
-        branch_name=f"{branch_prefix}/seed",
+        branch_name=f"autoresearch/{slugify(part['id'])}/{run_id}/seed",
         base_ref=base_ref,
         candidate_id="seed",
         based_on=base_ref,
     )
+    run = init_optimize_run(
+        repo_root, part, config, run_id=run_id, worktree_root=worktree_root, seed=seed, base_ref=base_ref
+    )
+    state.setdefault("runs", {})[run_id] = run
+    state.setdefault("selection", {})["active_run_id"] = run_id
+    return run
+
+
+def init_optimize_run(
+    repo_root: Path,
+    part: dict[str, Any],
+    config: dict[str, Any],
+    *,
+    run_id: str,
+    worktree_root: Path,
+    seed: dict[str, Any],
+    base_ref: str,
+) -> dict[str, Any]:
+    """Build an optimize run around an existing seed worktree (fresh, or a comparison arm's setup)."""
+    run_dir = runs_dir(repo_root) / run_id
+    run_dir.mkdir(parents=True, exist_ok=True)
+    worktree_root.mkdir(parents=True, exist_ok=True)
 
     run = {
         "run_id": run_id,
@@ -3420,18 +3484,13 @@ def create_run(
         "delete_info": None,
     }
 
-    Path(run["results_path"]).write_text(
-        "timestamp\trun_id\tcandidate_id\tstatus\tmetric_name\tmetric_value\tgoal\tcommit\tbranch\tworktree\tdescription\n"
-    )
+    Path(run["results_path"]).write_text(RESULTS_HEADER)
     Path(run["program_path"]).write_text(render_program(repo_root, run, part, config))
 
     if config["execution"].get("mode") in ("parallel", "wild"):
         parallelism = max(int(config["execution"].get("parallelism", 2)), 1)
         for _ in range(parallelism):
             allocate_candidate(repo_root, run)
-
-    state.setdefault("runs", {})[run_id] = run
-    state.setdefault("selection", {})["active_run_id"] = run_id
     return run
 
 
@@ -4122,8 +4181,18 @@ def format_wild_plan(plan: dict[str, Any]) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Feature: Create
+# Feature: Comparison runs (create / delete)
 # ---------------------------------------------------------------------------
+#
+# A comparison run holds "arms". Each arm starts with a setup worktree where the
+# structural change is made (implement an approach, or repair references after a
+# deletion). `arm-ready` commits the setup and starts an ordinary optimize child
+# run seeded from it, so every arm is tuned with the same budget. A tuned
+# `control` arm (no structural change) is always included, so gains from tuning
+# are not credited to the change itself; for delete runs it is the pre-deletion
+# baseline.
+
+MAX_CREATE_APPROACHES = 26
 
 
 def command_create(args: argparse.Namespace) -> int:
@@ -4148,217 +4217,28 @@ def command_create(args: argparse.Namespace) -> int:
     if part is None:
         raise SystemExit("unable to resolve part; run scan first or pass --part")
 
-    num_candidates = args.candidates
-    affected = identify_affected_parts(state, [part["id"]])
+    if not 1 <= args.candidates <= MAX_CREATE_APPROACHES:
+        raise SystemExit(f"--candidates must be between 1 and {MAX_CREATE_APPROACHES}")
+    config = comparison_config(args, part, interactive)
 
-    metric_name = args.metric
-    metric_goal = args.metric_goal
-    metric_command = args.metric_command
-    if interactive:
-        metric_name = prompt_if_missing(metric_name, "Metric name")
-        metric_goal = prompt_if_missing(metric_goal, "Metric goal [minimize|maximize]")
-        metric_command = prompt_if_missing(metric_command, "Metric command")
-
-    if not metric_name or not metric_goal or not metric_command:
-        raise SystemExit("metric, metric-goal, and metric-command are required for create runs")
-
-    config = merge_config(
-        part=part,
-        existing={},
-        metric_name=metric_name,
-        metric_goal=metric_goal,
-        metric_command=metric_command,
-        metric_regex=DEFAULT_METRIC_REGEX,
-        mode="parallel",
-        rounds=args.rounds,
-        stop_rule=None,
-        parallelism=num_candidates,
-        entrypoint_type="part",
-        entrypoint_path=part["id"],
-        metric_preset=None,
-        command_suggestion=None,
-    )
-    normalize_execution_defaults(config["execution"])
-    # The config lives only on the run; the part's own optimize config is left untouched.
-
+    approach_labels = [f"approach-{chr(65 + i)}" for i in range(args.candidates)]
     create_info = {
         "feature_description": feature_description,
-        "num_approaches": num_candidates,
-        "affected_parts": affected,
-        "approach_labels": [f"approach-{chr(65 + i)}" for i in range(num_candidates)],
+        "num_approaches": args.candidates,
+        "affected_parts": identify_affected_parts(state, [part["id"]]),
+        "approach_labels": approach_labels,
     }
+    arms = [("control", "control")] + [(label, "approach") for label in approach_labels]
 
     with state_lock(repo_root):
         state = load_state(repo_root)
-        run = create_create_run(repo_root, state, part, config, create_info)
-        state.setdefault("selection", {})["part_id"] = part["id"]
-        state.setdefault("selection", {})["active_run_id"] = run["run_id"]
+        parent = create_comparison_run(
+            repo_root, state, part, config, "create", arms, create_info=create_info
+        )
         write_state(repo_root, state)
 
-    payload = {
-        "run_id": run["run_id"],
-        "run_type": "create",
-        "part_id": part["id"],
-        "feature": feature_description,
-        "candidates": [c["candidate_id"] for c in run["candidates"]],
-        "affected_parts": affected,
-        "program_path": run["program_path"],
-    }
-    emit(payload, getattr(args, "json", False))
+    emit(comparison_summary(parent), getattr(args, "json", False))
     return 0
-
-
-def identify_affected_parts(state: dict[str, Any], target_part_ids: list[str]) -> list[str]:
-    """Walk the dependency graph outward from target parts to find affected modules."""
-    affected: set[str] = set()
-    queue = list(target_part_ids)
-    parts_by_id = {p["id"]: p for p in state.get("parts", [])}
-
-    while queue:
-        current = queue.pop(0)
-        if current in affected:
-            continue
-        affected.add(current)
-        part = parts_by_id.get(current)
-        if part:
-            for dep in part.get("dependents", []):
-                if dep not in affected:
-                    queue.append(dep)
-            for dep in part.get("dependencies", []):
-                if dep not in affected:
-                    queue.append(dep)
-
-    affected.discard(target_part_ids[0] if target_part_ids else "")
-    return sorted(affected)
-
-
-def create_create_run(
-    repo_root: Path, state: dict[str, Any], part: dict[str, Any],
-    config: dict[str, Any], create_info: dict[str, Any],
-) -> dict[str, Any]:
-    """Create a run with multiple candidate worktrees for comparing new feature approaches."""
-    run_id = build_run_id(part["id"])
-    run_dir = runs_dir(repo_root) / run_id
-    run_dir.mkdir(parents=True, exist_ok=True)
-    worktree_root = default_worktree_root(repo_root) / run_id
-    worktree_root.mkdir(parents=True, exist_ok=True)
-
-    base_ref = git_stdout(repo_root, ["rev-parse", "HEAD"]).strip()
-    branch_prefix = f"autoresearch/{slugify(part['id'])}/{run_id}"
-
-    seed = create_candidate_worktree(
-        repo_root=repo_root,
-        worktree_path=worktree_root / "seed",
-        branch_name=f"{branch_prefix}/seed",
-        base_ref=base_ref,
-        candidate_id="seed",
-        based_on=base_ref,
-    )
-
-    run = {
-        "run_id": run_id,
-        "part_id": part["id"],
-        "run_type": "create",
-        "status": "running",
-        "created_at": now_iso(),
-        "run_dir": str(run_dir),
-        "program_path": str(run_dir / "program.md"),
-        "results_path": str(run_dir / "results.tsv"),
-        "worktree_root": str(worktree_root),
-        "base_ref": base_ref,
-        "current_base_branch": seed["branch"],
-        "best_candidate_id": None,
-        "best_metric": None,
-        "execution": config["execution"],
-        "metric": config["metric"],
-        "rounds_completed": 0,
-        "candidates": [seed],
-        "early_exit": {
-            "patience": None, "threshold": None,
-            "rounds_without_improvement": 0, "triggered": False, "trigger_reason": None,
-        },
-        "create_info": create_info,
-        "delete_info": None,
-    }
-
-    Path(run["results_path"]).write_text(
-        "timestamp\trun_id\tcandidate_id\tstatus\tmetric_name\tmetric_value\tgoal\tcommit\tbranch\tworktree\tdescription\n"
-    )
-
-    # Create candidate worktrees for each approach
-    for label in create_info["approach_labels"]:
-        candidate = create_candidate_worktree(
-            repo_root=repo_root,
-            worktree_path=worktree_root / label,
-            branch_name=f"{branch_prefix}/{label}",
-            base_ref=base_ref,
-            candidate_id=label,
-            based_on=base_ref,
-        )
-        run["candidates"].append(candidate)
-
-    Path(run["program_path"]).write_text(render_create_program(repo_root, run, part, config, create_info))
-    state.setdefault("runs", {})[run_id] = run
-    return run
-
-
-def render_create_program(
-    repo_root: Path, run: dict[str, Any], part: dict[str, Any],
-    config: dict[str, Any], create_info: dict[str, Any],
-) -> str:
-    """Render a program.md for create runs."""
-    lines = [
-        f"# Create Run: {run['run_id']}",
-        "",
-        f"## Feature: {create_info['feature_description']}",
-        "",
-        f"Target part: `{part['id']}`",
-        f"Approaches: {create_info['num_approaches']}",
-        "",
-        "## Affected Parts",
-        "",
-    ]
-    for affected in create_info["affected_parts"]:
-        lines.append(f"- `{affected}`")
-    if not create_info["affected_parts"]:
-        lines.append("- none identified")
-
-    lines.extend([
-        "",
-        "## Metric",
-        "",
-        f"- Name: `{config['metric']['name']}`",
-        f"- Goal: `{config['metric']['goal']}`",
-        f"- Command: `{config['metric']['command']}`",
-        "",
-        "## Candidate Worktrees",
-        "",
-    ])
-    for candidate in run["candidates"]:
-        lines.append(f"- `{candidate['candidate_id']}`: `{candidate['worktree_path']}`")
-
-    script_path = str(helper_script_path())
-    lines.extend([
-        "",
-        "## Instructions",
-        "",
-        "1. Implement the feature differently in each approach worktree.",
-        "2. Evaluate each approach:",
-        "",
-        f"```bash",
-        f"python3 {script_path} evaluate --run-id {run['run_id']} --candidate <approach>",
-        f"python3 {script_path} record --run-id {run['run_id']} --candidate <approach> --status auto --description \"<summary>\"",
-        "```",
-        "",
-        "3. Compare results to find the approach with the best real capability ceiling.",
-        "",
-    ])
-    return "\n".join(lines)
-
-
-# ---------------------------------------------------------------------------
-# Feature: Delete
-# ---------------------------------------------------------------------------
 
 
 def command_delete(args: argparse.Namespace) -> int:
@@ -4389,6 +4269,26 @@ def command_delete(args: argparse.Namespace) -> int:
             print("Cancelled.")
             return 0
 
+    config = comparison_config(args, part, interactive)
+    delete_info = {
+        "deleted_part_id": part["id"],
+        "dependent_parts": dependents,
+        "affected_parts": identify_affected_parts(state, [part["id"]]),
+    }
+    arms = [("control", "control"), ("deleted", "deletion")]
+
+    with state_lock(repo_root):
+        state = load_state(repo_root)
+        parent = create_comparison_run(
+            repo_root, state, part, config, "delete", arms, delete_info=delete_info
+        )
+        write_state(repo_root, state)
+
+    emit(comparison_summary(parent), getattr(args, "json", False))
+    return 0
+
+
+def comparison_config(args: argparse.Namespace, part: dict[str, Any], interactive: bool) -> dict[str, Any]:
     metric_name = args.metric
     metric_goal = args.metric_goal
     metric_command = args.metric_command
@@ -4396,9 +4296,8 @@ def command_delete(args: argparse.Namespace) -> int:
         metric_name = prompt_if_missing(metric_name, "Metric name")
         metric_goal = prompt_if_missing(metric_goal, "Metric goal [minimize|maximize]")
         metric_command = prompt_if_missing(metric_command, "Metric command")
-
     if not metric_name or not metric_goal or not metric_command:
-        raise SystemExit("metric, metric-goal, and metric-command are required for delete runs")
+        raise SystemExit("metric, metric-goal, and metric-command are required for comparison runs")
 
     config = merge_config(
         part=part,
@@ -4409,38 +4308,36 @@ def command_delete(args: argparse.Namespace) -> int:
         metric_regex=DEFAULT_METRIC_REGEX,
         mode="sequential",
         rounds=args.rounds,
-        stop_rule=None,
+        stop_rule=validate_stop_rule(args.stop_rule),
         parallelism=1,
         entrypoint_type="part",
         entrypoint_path=part["id"],
         metric_preset=None,
         command_suggestion=None,
+        metric_timeout=args.metric_timeout,
     )
     normalize_execution_defaults(config["execution"])
+    missing = missing_run_fields(config)
+    if missing:
+        raise SystemExit("comparison run config is incomplete: " + ", ".join(missing))
+    return config
 
-    delete_info = {
-        "deleted_part_id": part["id"],
-        "dependent_parts": dependents,
-        "pre_deletion_metrics": None,
-    }
 
-    with state_lock(repo_root):
-        state = load_state(repo_root)
-        run = create_delete_run(repo_root, state, part, config, delete_info)
-        state.setdefault("selection", {})["part_id"] = part["id"]
-        state.setdefault("selection", {})["active_run_id"] = run["run_id"]
-        write_state(repo_root, state)
+def identify_affected_parts(state: dict[str, Any], target_part_ids: list[str]) -> list[str]:
+    """Direct (1-hop) dependency neighbourhood of the targets, excluding the targets.
 
-    payload = {
-        "run_id": run["run_id"],
-        "run_type": "delete",
-        "deleted_part": part["id"],
-        "dependent_parts": dependents,
-        "program_path": run["program_path"],
-        "candidates": [c["candidate_id"] for c in run["candidates"]],
-    }
-    emit(payload, getattr(args, "json", False))
-    return 0
+    Walking the graph transitively returns the whole connected component, which is
+    far too broad to tune.
+    """
+    targets = set(target_part_ids)
+    parts_by_id = {p["id"]: p for p in state.get("parts", [])}
+    affected: set[str] = set()
+    for target in targets:
+        part = parts_by_id.get(target)
+        if part:
+            affected.update(part.get("dependencies", []))
+            affected.update(part.get("dependents", []))
+    return sorted(affected - targets)
 
 
 def find_delete_dependents(state: dict[str, Any], part_id: str) -> list[str]:
@@ -4469,36 +4366,31 @@ def apply_deletion_to_worktree(worktree_path: Path, part_id: str) -> None:
         commit_worktree_changes(worktree_path, f"autoresearch: delete {part_id}")
 
 
-def create_delete_run(
-    repo_root: Path, state: dict[str, Any], part: dict[str, Any],
-    config: dict[str, Any], delete_info: dict[str, Any],
+def arm_child_run_id(parent_run_id: str, arm_id: str) -> str:
+    return f"{parent_run_id}-{arm_id}"
+
+
+def create_comparison_run(
+    repo_root: Path,
+    state: dict[str, Any],
+    part: dict[str, Any],
+    config: dict[str, Any],
+    run_type: str,
+    arms: list[tuple[str, str]],
+    create_info: dict[str, Any] | None = None,
+    delete_info: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Create a run where the seed worktree has the target part removed."""
     run_id = build_run_id(part["id"])
     run_dir = runs_dir(repo_root) / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
     worktree_root = default_worktree_root(repo_root) / run_id
     worktree_root.mkdir(parents=True, exist_ok=True)
-
     base_ref = git_stdout(repo_root, ["rev-parse", "HEAD"]).strip()
-    branch_prefix = f"autoresearch/{slugify(part['id'])}/{run_id}"
 
-    seed = create_candidate_worktree(
-        repo_root=repo_root,
-        worktree_path=worktree_root / "seed",
-        branch_name=f"{branch_prefix}/seed",
-        base_ref=base_ref,
-        candidate_id="seed",
-        based_on=base_ref,
-    )
-
-    # Apply the deletion in the seed worktree
-    apply_deletion_to_worktree(Path(seed["worktree_path"]), part["id"])
-
-    run = {
+    parent = {
         "run_id": run_id,
         "part_id": part["id"],
-        "run_type": "delete",
+        "run_type": run_type,
         "status": "running",
         "created_at": now_iso(),
         "run_dir": str(run_dir),
@@ -4506,82 +4398,481 @@ def create_delete_run(
         "results_path": str(run_dir / "results.tsv"),
         "worktree_root": str(worktree_root),
         "base_ref": base_ref,
-        "current_base_branch": seed["branch"],
+        "current_base_branch": None,
         "best_candidate_id": None,
         "best_metric": None,
         "execution": config["execution"],
         "metric": config["metric"],
         "rounds_completed": 0,
-        "candidates": [seed],
+        "candidates": [],
         "early_exit": {
             "patience": None, "threshold": None,
             "rounds_without_improvement": 0, "triggered": False, "trigger_reason": None,
         },
-        "create_info": None,
+        "create_info": create_info,
         "delete_info": delete_info,
+        "arms": [],
+        "compare": None,
     }
+    Path(parent["results_path"]).write_text(RESULTS_HEADER)
 
-    Path(run["results_path"]).write_text(
-        "timestamp\trun_id\tcandidate_id\tstatus\tmetric_name\tmetric_value\tgoal\tcommit\tbranch\tworktree\tdescription\n"
-    )
-    Path(run["program_path"]).write_text(render_delete_program(repo_root, run, part, config, delete_info))
-    state.setdefault("runs", {})[run_id] = run
+    for arm_id, kind in arms:
+        child_run_id = arm_child_run_id(run_id, arm_id)
+        arm_root = worktree_root / arm_id
+        setup = create_candidate_worktree(
+            repo_root=repo_root,
+            worktree_path=arm_root / "seed",
+            branch_name=f"autoresearch/{slugify(part['id'])}/{child_run_id}/seed",
+            base_ref=base_ref,
+            candidate_id="seed",
+            based_on=base_ref,
+        )
+        parent["arms"].append(
+            {
+                "arm_id": arm_id,
+                "kind": kind,
+                "phase": "setup",
+                "worktree_root": str(arm_root),
+                "setup": setup,
+                "setup_commit": None,
+                "child_run_id": None,
+                "ready_at": None,
+            }
+        )
+
+    state.setdefault("runs", {})[run_id] = parent
+    state.setdefault("selection", {})["part_id"] = part["id"]
+    state.setdefault("selection", {})["active_run_id"] = run_id
+
+    if run_type == "delete":
+        deleted_arm = get_arm(parent, "deleted")
+        apply_deletion_to_worktree(Path(deleted_arm["setup"]["worktree_path"]), part["id"])
+
+    # The control arm has no setup work, so it can start tuning immediately.
+    ready_arm(repo_root, state, parent, get_arm(parent, "control"))
+
+    Path(parent["program_path"]).write_text(render_comparison_program(repo_root, parent))
+    return parent
+
+
+def get_arm(parent: dict[str, Any], arm_id: str) -> dict[str, Any]:
+    for arm in parent.get("arms", []):
+        if arm["arm_id"] == arm_id:
+            return arm
+    known = ", ".join(arm["arm_id"] for arm in parent.get("arms", []))
+    raise SystemExit(f"unknown arm {arm_id!r} for run {parent['run_id']}; arms: {known}")
+
+
+def resolve_comparison_run(state: dict[str, Any], run_id: str | None) -> dict[str, Any]:
+    run = resolve_run(state, run_id)
+    if run.get("parent_run_id"):
+        run = resolve_run(state, run["parent_run_id"])
+    if "arms" not in run:
+        if run.get("run_type") in ("create", "delete"):
+            raise SystemExit(
+                f"run {run['run_id']} is a legacy {run['run_type']} run without arms; "
+                "recreate it to get tuned, comparable arms"
+            )
+        raise SystemExit(f"run {run['run_id']} is not a create/delete comparison run")
     return run
 
 
-def render_delete_program(
-    repo_root: Path, run: dict[str, Any], part: dict[str, Any],
-    config: dict[str, Any], delete_info: dict[str, Any],
-) -> str:
-    """Render a program.md for delete runs."""
-    lines = [
-        f"# Delete Run: {run['run_id']}",
-        "",
-        f"Deleted part: `{delete_info['deleted_part_id']}`",
-        "",
-        "## Affected Dependents",
-        "",
-    ]
-    for dep in delete_info["dependent_parts"]:
-        lines.append(f"- `{dep}`")
-    if not delete_info["dependent_parts"]:
-        lines.append("- none identified")
+def resolve_target_run(state: dict[str, Any], run_id: str | None, arm_id: str | None) -> dict[str, Any]:
+    """Resolve the run a loop command acts on; `--arm` maps a comparison run to that arm's tuning run."""
+    run = resolve_run(state, run_id)
+    if arm_id:
+        parent = resolve_comparison_run(state, run["run_id"])
+        arm = get_arm(parent, arm_id)
+        if not arm.get("child_run_id"):
+            raise SystemExit(
+                f"arm {arm_id} is still in setup; make the change in {arm['setup']['worktree_path']} "
+                f"then run: arm-ready --run-id {parent['run_id']} --arm {arm_id}"
+            )
+        return resolve_run(state, arm["child_run_id"])
+    if "arms" in run:
+        arms = "|".join(arm["arm_id"] for arm in run["arms"])
+        raise SystemExit(f"run {run['run_id']} is a comparison run; pass --arm <{arms}>")
+    return run
 
-    lines.extend([
+
+def ready_arm(
+    repo_root: Path, state: dict[str, Any], parent: dict[str, Any], arm: dict[str, Any]
+) -> dict[str, Any]:
+    """Commit the arm's setup and start its optimize child run from that commit."""
+    if arm.get("child_run_id"):
+        raise SystemExit(f"arm {arm['arm_id']} is already tuning in run {arm['child_run_id']}")
+    setup = arm["setup"]
+    setup_path = Path(setup["worktree_path"])
+    if not setup_path.exists():
+        raise SystemExit(f"setup worktree is missing: {setup_path}")
+    part = resolve_part(state, parent["part_id"])
+    if part is None:
+        raise SystemExit(f"part {parent['part_id']} is no longer in the scan; rescan before readying arms")
+
+    setup_commit = commit_worktree_changes(
+        setup_path, f"autoresearch: {parent['run_id']} {arm['arm_id']} setup"
+    )
+    config = {
+        "metric": copy.deepcopy(parent["metric"]),
+        "execution": copy.deepcopy(parent["execution"]),
+    }
+    child = init_optimize_run(
+        repo_root,
+        part,
+        config,
+        run_id=arm_child_run_id(parent["run_id"], arm["arm_id"]),
+        worktree_root=Path(arm["worktree_root"]),
+        seed=copy.deepcopy(setup),
+        base_ref=setup_commit,
+    )
+    child["parent_run_id"] = parent["run_id"]
+    child["arm_id"] = arm["arm_id"]
+    state.setdefault("runs", {})[child["run_id"]] = child
+    arm.update(
+        {
+            "phase": "tuning",
+            "setup_commit": setup_commit,
+            "child_run_id": child["run_id"],
+            "ready_at": now_iso(),
+        }
+    )
+    return child
+
+
+def command_arm_ready(args: argparse.Namespace) -> int:
+    repo_root = detect_repo_root(Path(args.repo))
+    ensure_git_repo(repo_root)
+    with state_lock(repo_root):
+        state = load_state(repo_root)
+        parent = resolve_comparison_run(state, args.run_id)
+        arm = get_arm(parent, args.arm)
+        child = ready_arm(repo_root, state, parent, arm)
+        write_state(repo_root, state)
+    emit(
+        {
+            "run_id": parent["run_id"],
+            "arm": arm["arm_id"],
+            "child_run_id": child["run_id"],
+            "setup_commit": arm["setup_commit"],
+            "program_path": child["program_path"],
+            "next": f"evaluate and record `seed` with --arm {arm['arm_id']} to measure the setup score",
+        },
+        args.json,
+    )
+    return 0
+
+
+def refresh_comparison_status(state: dict[str, Any], parent: dict[str, Any]) -> None:
+    """Sync arm phases from their child runs; the parent completes when every arm has."""
+    all_done = True
+    for arm in parent.get("arms", []):
+        child = state.get("runs", {}).get(arm.get("child_run_id") or "")
+        if child and child.get("status") in TERMINAL_RUN_STATUSES:
+            arm["phase"] = "done"
+        elif arm.get("phase") != "abandoned":
+            all_done = False
+    if all_done and parent.get("status") not in TERMINAL_RUN_STATUSES:
+        parent["status"] = "completed"
+        parent["stop_reason"] = "all arms finished tuning"
+
+
+def compare_arms(state: dict[str, Any], parent: dict[str, Any]) -> dict[str, Any]:
+    refresh_comparison_status(state, parent)
+    goal = parent["metric"].get("goal")
+    rows: list[dict[str, Any]] = []
+    for arm in parent["arms"]:
+        child = state.get("runs", {}).get(arm.get("child_run_id") or "")
+        seed = get_candidate(child, "seed") if child else None
+        setup_metric = (seed or {}).get("result", {}).get("metric_value")
+        best_metric = child.get("best_metric") if child else None
+        rows.append(
+            {
+                "arm_id": arm["arm_id"],
+                "kind": arm["kind"],
+                "phase": arm["phase"],
+                "child_run_id": arm.get("child_run_id"),
+                "setup_metric": setup_metric,
+                "best_metric": best_metric,
+                "best_candidate_id": child.get("best_candidate_id") if child else None,
+                "rounds_completed": child.get("rounds_completed", 0) if child else 0,
+                "stop_reason": child.get("stop_reason") if child else None,
+                "tuning_gain": (
+                    best_metric - setup_metric
+                    if best_metric is not None and setup_metric is not None
+                    else None
+                ),
+            }
+        )
+
+    control_best = next(row["best_metric"] for row in rows if row["arm_id"] == "control")
+    for row in rows:
+        row["delta_vs_control"] = (
+            row["best_metric"] - control_best
+            if row["best_metric"] is not None and control_best is not None
+            else None
+        )
+
+    # Ties go to the earlier arm, so the control (status quo) wins a tie.
+    winner = None
+    for row in rows:
+        if row["best_metric"] is None:
+            continue
+        if winner is None or is_better_metric(row["best_metric"], winner["best_metric"], goal):
+            winner = row
+
+    return {
+        "compared_at": now_iso(),
+        "metric_name": parent["metric"].get("name"),
+        "goal": goal,
+        "arms": rows,
+        "winner_arm": winner["arm_id"] if winner else None,
+        "incomplete_arms": [row["arm_id"] for row in rows if row["phase"] != "done"],
+    }
+
+
+def format_compare_table(result: dict[str, Any]) -> str:
+    lines = [
+        f"Metric: `{result['metric_name']}` ({result['goal']})",
         "",
-        "## Metric",
-        "",
-        f"- Name: `{config['metric']['name']}`",
-        f"- Goal: `{config['metric']['goal']}`",
-        f"- Command: `{config['metric']['command']}`",
-        "",
-        "## Seed Worktree",
-        "",
-        f"The seed worktree at `{run['candidates'][0]['worktree_path']}` already has `{delete_info['deleted_part_id']}` removed.",
-        "",
-        "## Instructions",
-        "",
-        "1. Fix broken imports and references in dependent parts within the seed worktree.",
-        "2. Evaluate the baseline after fixing:",
-        "",
-    ])
-    script_path = str(helper_script_path())
-    lines.extend([
-        f"```bash",
-        f"python3 {script_path} evaluate --run-id {run['run_id']} --candidate seed",
-        f"python3 {script_path} record --run-id {run['run_id']} --candidate seed --status auto --description \"post-deletion baseline\"",
-        "```",
-        "",
-        "3. Allocate candidates to optimize dependent parameters:",
-        "",
-        f"```bash",
-        f"python3 {script_path} allocate --run-id {run['run_id']}",
-        "```",
-        "",
-        "4. The CLI marks the run completed once the rounds target or stop rule is met; `allocate` then refuses.",
-        f"5. Merge the best candidate and clean up with: `python3 {script_path} finalize --run-id {run['run_id']} --merge`",
-        "",
-    ])
+        "| arm | phase | setup | tuned best | tuning gain | vs control | rounds |",
+        "| --- | --- | --- | --- | --- | --- | --- |",
+    ]
+    for row in result["arms"]:
+        lines.append(
+            "| {arm} | {phase} | {setup} | {best} | {gain} | {delta} | {rounds} |".format(
+                arm=row["arm_id"] + (" *" if row["arm_id"] == result["winner_arm"] else ""),
+                phase=row["phase"],
+                setup=format_metric_value(row["setup_metric"]),
+                best=format_metric_value(row["best_metric"]),
+                gain=format_metric_delta(row["tuning_gain"]),
+                delta=format_metric_delta(row["delta_vs_control"]),
+                rounds=row["rounds_completed"],
+            )
+        )
+    lines.append("")
+    if result["winner_arm"]:
+        lines.append(f"Winner (*): `{result['winner_arm']}`")
+    else:
+        lines.append("Winner: none yet (no arm has a recorded metric)")
+    if result["incomplete_arms"]:
+        lines.append(
+            "Incomplete arms (comparison is provisional): " + ", ".join(result["incomplete_arms"])
+        )
+    return "\n".join(lines)
+
+
+def command_compare(args: argparse.Namespace) -> int:
+    repo_root = detect_repo_root(Path(args.repo))
+    with state_lock(repo_root):
+        state = load_state(repo_root)
+        parent = resolve_comparison_run(state, args.run_id)
+        result = compare_arms(state, parent)
+        parent["compare"] = result
+        write_state(repo_root, state)
+    if args.json:
+        print(json.dumps(result, indent=2, sort_keys=True))
+    else:
+        print(format_compare_table(result))
+    return 0
+
+
+def finalize_comparison(
+    repo_root: Path, state: dict[str, Any], parent: dict[str, Any], args: argparse.Namespace
+) -> dict[str, Any]:
+    refresh_comparison_status(state, parent)
+    unfinished = [arm for arm in parent["arms"] if arm["phase"] not in ("done", "abandoned")]
+    if unfinished and not args.stop:
+        names = ", ".join(arm["arm_id"] for arm in unfinished)
+        raise SystemExit(f"arms still in progress: {names}; pass --stop to end them and finalize")
+    for arm in unfinished:
+        child = state.get("runs", {}).get(arm.get("child_run_id") or "")
+        if child:
+            child["status"] = "completed"
+            child["stop_reason"] = "stopped by finalize"
+            arm["phase"] = "done"
+        else:
+            arm["phase"] = "abandoned"
+    refresh_comparison_status(state, parent)
+    if parent.get("status") not in TERMINAL_RUN_STATUSES:
+        parent["status"] = "completed"
+        parent["stop_reason"] = "stopped by finalize"
+
+    result = compare_arms(state, parent)
+    parent["compare"] = result
+    winner_arm_id = args.arm or result["winner_arm"]
+
+    winner_branch = None
+    winner_candidate_id = None
+    if winner_arm_id:
+        winner_child = state.get("runs", {}).get(get_arm(parent, winner_arm_id).get("child_run_id") or "")
+        if winner_child is None:
+            raise SystemExit(f"arm {winner_arm_id} never started tuning; nothing to merge from it")
+        winner_candidate_id = winner_child.get("best_candidate_id") or "seed"
+        winner_branch = get_candidate(winner_child, winner_candidate_id)["branch"]
+    has_changes = bool(winner_branch) and branch_differs_from(repo_root, winner_branch, parent["base_ref"])
+
+    # Merge first: if it fails, nothing has been removed yet.
+    merged = False
+    if args.merge and has_changes:
+        squash_merge_into_checkout(repo_root, winner_branch)
+        merged = True
+
+    removed: list[str] = []
+    skipped: list[dict[str, str]] = []
+    pruned: list[str] = []
+    for arm in parent["arms"]:
+        child = state.get("runs", {}).get(arm.get("child_run_id") or "")
+        run_like = child or {"candidates": [arm["setup"]], "worktree_root": arm["worktree_root"]}
+        keep = winner_candidate_id if arm["arm_id"] == winner_arm_id and args.keep_best_worktree else None
+        arm_removed, arm_skipped = remove_run_worktrees(repo_root, run_like, keep, args.force)
+        removed.extend(f"{arm['arm_id']}/{item}" for item in arm_removed)
+        skipped.extend({**item, "item": f"{arm['arm_id']}/{item['item']}"} for item in arm_skipped)
+        if args.prune_branches:
+            arm_pruned, branch_skips = prune_run_branches(repo_root, run_like, keep_branch=winner_branch)
+            pruned.extend(arm_pruned)
+            skipped.extend(branch_skips)
+        if child:
+            refresh_single_run_worktrees(child)
+    try:
+        Path(parent["worktree_root"]).rmdir()
+    except OSError:
+        pass
+
+    parent["finalized"] = {
+        "finalized_at": now_iso(),
+        "winner_arm": winner_arm_id,
+        "best_candidate_id": winner_candidate_id,
+        "best_branch": winner_branch,
+        "best_has_changes": has_changes,
+        "merged": merged,
+        "removed_worktrees": removed,
+        "pruned_branches": pruned,
+        "skipped": skipped,
+    }
+    return {
+        "run_id": parent["run_id"],
+        "status": parent["status"],
+        "compare": result,
+        **parent["finalized"],
+        "next_steps": finalize_next_steps(parent["base_ref"], winner_branch, has_changes, merged, skipped),
+    }
+
+
+def comparison_summary(parent: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "run_id": parent["run_id"],
+        "run_type": parent["run_type"],
+        "part_id": parent["part_id"],
+        "arms": [
+            {
+                "arm": arm["arm_id"],
+                "kind": arm["kind"],
+                "phase": arm["phase"],
+                "setup_worktree": arm["setup"]["worktree_path"],
+                "child_run_id": arm.get("child_run_id"),
+            }
+            for arm in parent["arms"]
+        ],
+        "affected_parts": (parent.get("create_info") or parent.get("delete_info") or {}).get("affected_parts", []),
+        "program_path": parent["program_path"],
+    }
+
+
+def render_comparison_program(repo_root: Path, parent: dict[str, Any]) -> str:
+    script = f"python3 {helper_script_path()}"
+    run_id = parent["run_id"]
+    metric = parent["metric"]
+    execution = parent["execution"]
+    is_create = parent["run_type"] == "create"
+    info = parent.get("create_info") or parent.get("delete_info") or {}
+
+    lines = [f"# {'Create' if is_create else 'Delete'} Comparison Run: {run_id}", ""]
+    if is_create:
+        lines.append(f"Feature: {info['feature_description']}")
+    else:
+        lines.append(f"Deleted part: `{info['deleted_part_id']}`")
+    lines.extend(
+        [
+            f"Target part: `{parent['part_id']}`",
+            "",
+            "Every arm is tuned with the same budget and compared against a tuned `control` arm",
+            "(no structural change), so gains from tuning are not credited to the change itself.",
+            "",
+            "## Locked config (every arm)",
+            "",
+            f"- Metric: `{metric['name']}` ({metric['goal']})",
+            f"- Metric command: `{metric['command']}`",
+            f"- Rounds per arm: `{execution.get('rounds')}`",
+            f"- Stop rule per arm: `{execution.get('stop_rule') or 'none'}`",
+            "",
+            "## Tuning scope",
+            "",
+        ]
+    )
+    affected = info.get("affected_parts") or []
+    lines.extend(f"- `{item}`" for item in affected)
+    if not affected:
+        lines.append("- no direct neighbours identified")
+    lines.extend(["", "## Arms", ""])
+    for arm in parent["arms"]:
+        child_program = runs_dir(repo_root) / arm_child_run_id(run_id, arm["arm_id"]) / "program.md"
+        lines.append(
+            f"- `{arm['arm_id']}` ({arm['kind']}): setup worktree `{arm['setup']['worktree_path']}`, "
+            f"tuning program `{child_program}`"
+        )
+
+    lines.extend(["", "## Phase 1: setup", ""])
+    if is_create:
+        lines.extend(
+            [
+                "Implement the feature differently in each `approach-*` setup worktree. Leave `control` untouched;",
+                "it is already tuning-ready. When an approach is implemented:",
+            ]
+        )
+    else:
+        lines.extend(
+            [
+                f"The `deleted` setup worktree already has `{info['deleted_part_id']}` removed and committed.",
+                "Fix broken imports and references there. `control` keeps the part and is already tuning-ready.",
+                "When the deletion compiles and runs:",
+            ]
+        )
+    lines.extend(["", "```bash", f"{script} arm-ready --run-id {run_id} --arm <arm>", "```", ""])
+
+    lines.extend(
+        [
+            "## Phase 2: tune every arm with the same budget",
+            "",
+            "Each ready arm has its own optimize run (see its tuning program). Measure the setup score first,",
+            "then run the usual loop, editing only files in the tuning scope:",
+            "",
+            "```bash",
+            f"{script} evaluate --run-id {run_id} --arm <arm> --candidate seed",
+            f"{script} record --run-id {run_id} --arm <arm> --candidate seed --status auto --description \"setup\"",
+            f"{script} allocate --run-id {run_id} --arm <arm>",
+            f"{script} evaluate --run-id {run_id} --arm <arm> --candidate candidate-XYZ",
+            f"{script} record --run-id {run_id} --arm <arm> --candidate candidate-XYZ --status auto --description \"...\"",
+            "```",
+            "",
+            "An arm is done when its rounds target or stop rule is met.",
+            "",
+            "## Phase 3: compare",
+            "",
+            "```bash",
+            f"{script} compare --run-id {run_id}",
+            "```",
+            "",
+            "## Phase 4: merge the winner and clean up",
+            "",
+            "```bash",
+            f"{script} finalize --run-id {run_id} --merge",
+            "```",
+            "",
+            "If `control` wins, no approach beat the status quo once both were tuned; merging it applies",
+            "only the tuning changes.",
+            "",
+        ]
+    )
     return "\n".join(lines)
 
 
@@ -4596,10 +4887,40 @@ def command_finalize(args: argparse.Namespace) -> int:
     with state_lock(repo_root):
         state = load_state(repo_root)
         run = resolve_run(state, args.run_id)
-        payload = finalize_run(repo_root, run, args)
+        if run.get("parent_run_id"):
+            raise SystemExit(
+                f"run {run['run_id']} is arm {run.get('arm_id')} of comparison run "
+                f"{run['parent_run_id']}; finalize that run instead"
+            )
+        if "arms" in run:
+            payload = finalize_comparison(repo_root, state, run, args)
+        else:
+            if args.arm:
+                raise SystemExit("--arm only applies to create/delete comparison runs")
+            payload = finalize_run(repo_root, run, args)
         write_state(repo_root, state)
     emit(payload, args.json)
     return 0
+
+
+def finalize_next_steps(
+    base_ref: str, branch: str | None, has_changes: bool, merged: bool, skipped: list[dict[str, str]]
+) -> list[str]:
+    if not has_changes:
+        steps = ["no candidate changed the base commit; nothing to merge"]
+    elif merged:
+        steps = [
+            f"review the staged squash of {branch}: git diff --cached",
+            "commit it when satisfied, or discard with: git reset --merge",
+        ]
+    else:
+        steps = [
+            f"inspect: git diff {base_ref[:12]} {branch}",
+            f"merge:   git merge --squash {branch}  (or rerun finalize with --merge)",
+        ]
+    if skipped:
+        steps.append("some items were skipped; rerun with --force to remove dirty worktrees")
+    return steps
 
 
 def finalize_run(repo_root: Path, run: dict[str, Any], args: argparse.Namespace) -> dict[str, Any]:
@@ -4646,22 +4967,12 @@ def finalize_run(repo_root: Path, run: dict[str, Any], args: argparse.Namespace)
         "skipped": skipped,
     }
 
-    payload = {"run_id": run["run_id"], "status": run["status"], **run["finalized"]}
-    if not best_has_changes:
-        payload["next_steps"] = ["no candidate improved on the base commit; nothing to merge"]
-    elif merged:
-        payload["next_steps"] = [
-            f"review the staged squash of {best_branch}: git diff --cached",
-            "commit it when satisfied, or discard with: git reset --merge",
-        ]
-    else:
-        payload["next_steps"] = [
-            f"inspect: git diff {run['base_ref'][:12]} {best_branch}",
-            f"merge:   git merge --squash {best_branch}  (or rerun finalize with --merge)",
-        ]
-    if skipped:
-        payload["next_steps"].append("some items were skipped; rerun with --force to remove dirty worktrees")
-    return payload
+    return {
+        "run_id": run["run_id"],
+        "status": run["status"],
+        **run["finalized"],
+        "next_steps": finalize_next_steps(run["base_ref"], best_branch, best_has_changes, merged, skipped),
+    }
 
 
 def branch_differs_from(repo_root: Path, branch: str, base_ref: str) -> bool:

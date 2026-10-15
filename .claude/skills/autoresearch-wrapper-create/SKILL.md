@@ -1,6 +1,6 @@
 ---
 name: autoresearch-wrapper-create
-description: Create a feature-addition run with multiple candidate implementations. Use when the user wants to add a new feature and compare approaches to find the best capability ceiling.
+description: Create a feature-comparison run where each candidate implementation and a no-change control are tuned with equal budgets. Use when the user wants to add a new feature and compare approaches by their tuned capability ceiling.
 ---
 
 # Autoresearch Wrapper Create
@@ -29,23 +29,38 @@ bash "$AUTORESEARCH_RUNNER" create --part <part> --feature "<description>" --can
 
 When this skill is invoked:
 
-1. Identify the target part and the feature to be added.
-2. The wrapper identifies affected parts via the dependency graph.
-3. Create N candidate worktrees, each for a different implementation approach.
-4. Summarize:
-- run id
-- run type (`create`)
-- feature description
-- affected parts
-- candidate worktrees (seed + approach-A, approach-B, ...)
-- generated `program.md` with comparison instructions
+1. If the user has not scanned yet, run `scan` first. Pass `--no-interactive` when stdin is not a terminal.
+2. Identify the target part, the feature, the number of approaches, the metric, and the per-arm budget (`--rounds` and/or `--stop-rule`). Every arm gets the same budget.
+3. Run `create`. It sets up arms `control` + `approach-A..N`, each with its own setup worktree. `control` (no change) starts tuning immediately: it exists so gains from tuning are not credited to the feature.
+4. Summarize: run id, arms and their setup worktrees, tuning scope (the target's direct dependency neighbours), budget, and the generated `program.md`.
+5. Setup phase: implement the feature differently in each `approach-*` setup worktree, then start its tuning run:
 
-5. The user then uses `evaluate` and `record` against each approach to find the best capability ceiling.
+```bash
+bash "$AUTORESEARCH_RUNNER" arm-ready --run-id <run> --arm approach-A
+```
 
-6. If the user has not scanned yet, run `scan` first.
+6. Tuning phase, per arm (`control` included): measure the setup score, then run the normal loop, editing only files in the tuning scope:
 
-7. If running interactively, use `--no-interactive` to skip wizard prompts or omit it to use the interactive wizard.
+```bash
+bash "$AUTORESEARCH_RUNNER" evaluate --run-id <run> --arm <arm> --candidate seed
+bash "$AUTORESEARCH_RUNNER" record --run-id <run> --arm <arm> --candidate seed --status auto --description "setup"
+bash "$AUTORESEARCH_RUNNER" allocate --run-id <run> --arm <arm>
+```
+
+An arm is done when its rounds target or stop rule is met.
+
+7. Compare. Present the table: setup score, tuned ceiling, tuning gain, delta vs. tuned control, and the winner (ties go to control, i.e. the status quo):
+
+```bash
+bash "$AUTORESEARCH_RUNNER" compare --run-id <run>
+```
+
+8. Offer to merge the winner and clean up. Confirm with the user before `--merge` or `--prune-branches`. If `control` wins, say plainly that no approach beat the status quo once both were tuned:
+
+```bash
+bash "$AUTORESEARCH_RUNNER" finalize --run-id <run> --merge
+```
 
 ## Example
 
-- `/autoresearch-wrapper-create --part src/api.py --feature "add response caching" --candidates 3 --metric latency_ms --metric-command "python bench.py" --metric-goal minimize`
+- `/autoresearch-wrapper-create --part src/api.py --feature "add response caching" --candidates 3 --rounds 10 --metric latency_ms --metric-command "python bench.py" --metric-goal minimize`

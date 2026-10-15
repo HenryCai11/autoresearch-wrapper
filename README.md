@@ -126,11 +126,11 @@ An example of the wizard for optimizing [Recursive Language Models](https://gith
 | `:status` | `-status` | `status` | Show state and readiness |
 | `:run` | `-run` | `run` | Start or resume a run |
 | `:flow` | `-flow` | `flow` | Metric history and plot |
-| `:create` | `-create` | `create` | Multi-candidate feature addition |
-| `:delete` | `-delete` | `delete` | Post-deletion optimization |
+| `:create` | `-create` | `create` | Compare feature approaches, each tuned vs. a tuned control |
+| `:delete` | `-delete` | `delete` | Compare deleting a part vs. keeping it, both tuned |
 | `:monitor` | `-monitor` | `monitor` | Live progress polling |
 
-Additional CLI subcommands: `scan`, `configure`, `allocate`, `evaluate`, `record`, `finalize`, `resources`, `preset-metric`, `reference`
+Additional CLI subcommands: `scan`, `configure`, `allocate`, `evaluate`, `record`, `arm-ready`, `compare`, `finalize`, `resources`, `preset-metric`, `reference`
 
 When a run ends, `finalize --run-id <id> --merge` squash-merges the best candidate into your checkout (staged for review, not committed) and removes the run's worktrees.
 

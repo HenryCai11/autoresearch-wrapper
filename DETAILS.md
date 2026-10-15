@@ -20,8 +20,8 @@ Back to [README](./README.md)
 - Metric preset scaffolding for common script measurements.
 - Preset metric helper command for script-based evaluation.
 - Upstream Karpathy `autoresearch` reference clone support.
-- Feature-creation runs with multi-candidate comparison (`create`).
-- Feature-deletion runs with post-deletion parameter optimization (`delete`).
+- Feature-creation comparison runs (`create`): each approach and a no-change control arm are tuned with equal budgets, then compared by tuned ceiling (`compare`).
+- Feature-deletion comparison runs (`delete`): the codebase with and without a part, both tuned with equal budgets.
 - System resource detection (CPU, GPU, memory, scheduler: slurm/pbs) via `resources`.
 - Progress monitoring with configurable poll intervals (`monitor`).
 - Early exit mechanism for stalled optimization runs (`--early-exit-patience`, `--early-exit-threshold`); crashes count as stalled rounds.
@@ -153,6 +153,27 @@ That means:
 - each run has a seed worktree
 - new candidates are allocated into their own worktrees
 - candidate branches and paths are persisted for resume/status
+
+### Comparison runs (create / delete)
+
+Adding or removing a module changes what the best settings of its neighbours are, so a fair comparison tunes every option, including "no change", with the same budget:
+
+```text
+comparison run
+├── control     setup: nothing                     → tuning run (budget B)
+├── approach-A  setup: implement A                 → tuning run (budget B)
+├── approach-B  setup: implement B                 → tuning run (budget B)
+└── deleted     setup: remove part + fix imports   → tuning run (budget B)   (delete runs)
+```
+
+- `create` / `delete` create the arms, each with a setup worktree; `control` starts tuning immediately
+- `arm-ready --run-id <run> --arm <arm>` commits an arm's setup and starts its tuning run (an ordinary optimize run seeded from the setup commit, with the shared `--rounds` / `--stop-rule`)
+- `allocate` / `evaluate` / `record` / `flow` take `--arm <arm>` to act on that arm's tuning run; record the `seed` first to capture the setup score
+- the tuning scope is the target's direct dependency neighbours
+- `compare --run-id <run>` reports setup score, tuned ceiling, tuning gain, and delta vs. the tuned control per arm; ties go to control; unfinished arms are flagged as provisional
+- `finalize --run-id <run> [--merge]` merges the winning arm's best (or `--arm <arm>`) and removes every arm's worktrees; `--stop` ends unfinished arms first
+
+Create/delete runs made before this design have no arms; `compare` refuses them.
 
 ### Karpathy-style run program
 

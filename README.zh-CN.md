@@ -129,11 +129,11 @@ python3 scripts/autoresearch_wrapper.py scan
 | `:status` | `-status` | `status` | 查看状态和就绪情况 |
 | `:run` | `-run` | `run` | 启动或恢复运行 |
 | `:flow` | `-flow` | `flow` | 指标历史和图表 |
-| `:create` | `-create` | `create` | 多候选功能添加 |
-| `:delete` | `-delete` | `delete` | 删除后参数优化 |
+| `:create` | `-create` | `create` | 对比多种功能实现，每个都与调优后的对照组同等预算调优 |
+| `:delete` | `-delete` | `delete` | 对比删除与保留某模块（两者都调优） |
 | `:monitor` | `-monitor` | `monitor` | 实时进度轮询 |
 
-其他 CLI 子命令：`scan`、`configure`、`allocate`、`evaluate`、`record`、`finalize`、`resources`、`preset-metric`、`reference`
+其他 CLI 子命令：`scan`、`configure`、`allocate`、`evaluate`、`record`、`arm-ready`、`compare`、`finalize`、`resources`、`preset-metric`、`reference`
 
 运行结束后，`finalize --run-id <id> --merge` 会把最优候选 squash 合并到当前 checkout（只暂存、不提交，便于审阅），并清理该运行的 worktree。
 
