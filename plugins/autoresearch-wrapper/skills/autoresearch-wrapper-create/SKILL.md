@@ -14,7 +14,7 @@ if [ -n "${CLAUDE_SKILL_DIR:-}" ]; then
 elif [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
   AUTORESEARCH_RUNNER="${CLAUDE_PLUGIN_ROOT}/skills/autoresearch-wrapper-create/run.sh"
 else
-  for dir in skills/autoresearch-wrapper-create .agents/skills/autoresearch-wrapper-create .claude/skills/autoresearch-wrapper-create "$HOME/.agents/skills/autoresearch-wrapper-create" "$HOME/.claude/skills/autoresearch-wrapper-create"; do
+  for dir in skills/autoresearch-wrapper-create .agents/skills/autoresearch-wrapper-create .claude/skills/autoresearch-wrapper-create "$HOME/.agents/skills/autoresearch-wrapper-create" "$HOME/.claude/skills/autoresearch-wrapper-create" "$HOME/.codex/skills/autoresearch-wrapper-create"; do
     if [ -f "$dir/run.sh" ]; then AUTORESEARCH_RUNNER="$(readlink -f "$dir/run.sh")"; break; fi
   done
 fi

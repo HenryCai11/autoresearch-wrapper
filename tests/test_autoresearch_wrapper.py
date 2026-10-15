@@ -795,6 +795,7 @@ class AutoresearchWrapperTests(unittest.TestCase):
 
     def test_skill_docs_route_bare_invocation_to_wizard(self) -> None:
         skill_files = [
+            REPO_ROOT / "SKILL.md",
             REPO_ROOT / "skills" / "autoresearch-wrapper" / "SKILL.md",
             REPO_ROOT
             / "plugins"
@@ -833,6 +834,7 @@ class AutoresearchWrapperTests(unittest.TestCase):
             REPO_ROOT / ".claude" / "skills" / "autoresearch-wrapper" / "run.sh",
             REPO_ROOT / ".agents" / "skills" / "autoresearch-wrapper" / "run.sh",
             REPO_ROOT / "skills" / "autoresearch-wrapper" / "run.sh",
+            REPO_ROOT / "run.sh",  # repo root installed as a single skill
             installed / "run.sh",
             REPO_ROOT
             / "plugins"
@@ -856,7 +858,12 @@ class AutoresearchWrapperTests(unittest.TestCase):
         for link in (REPO_ROOT / ".claude" / "skills", REPO_ROOT / ".agents" / "skills"):
             self.assertTrue(link.is_symlink(), str(link))
             self.assertEqual(link.resolve(), skills_root.resolve(), str(link))
-        self.assertFalse((REPO_ROOT / "SKILL.md").exists(), "root SKILL.md would be a second Codex skill")
+        # The root SKILL.md (repo installed as one skill) is a generated copy, not a second source.
+        self.assertEqual(
+            (REPO_ROOT / "SKILL.md").read_bytes(),
+            (skills_root / "autoresearch-wrapper" / "SKILL.md").read_bytes(),
+            "root SKILL.md drifted; run scripts/sync_claude_plugin.py",
+        )
 
         # The packaged plugin is a generated copy; it must not drift from skills/.
         plugin_skills = REPO_ROOT / "plugins" / "autoresearch-wrapper" / "skills"

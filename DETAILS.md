@@ -350,6 +350,7 @@ The script-wrapper flow is intentionally a shortcut, not a separate mode:
 
 - `skills/` — the single skill set for Claude Code and Codex (one directory per command; `skills/autoresearch-wrapper/agents/openai.yaml` holds Codex UI metadata)
 - `.claude/skills`, `.agents/skills` — symlinks to `skills/` so Claude Code and Codex discover the skills inside this repo
+- `SKILL.md`, `run.sh` (repo root) — generated copy of the main skill plus a launcher symlink, for installing the repo root as one skill
 - `.claude-plugin/marketplace.json` — Claude marketplace manifest at the repo root
 - `plugins/autoresearch-wrapper/` — packaged Claude plugin root used by the marketplace
 - `scripts/autoresearch_wrapper.py` — CLI entrypoint

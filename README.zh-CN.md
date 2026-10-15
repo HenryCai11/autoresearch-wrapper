@@ -37,7 +37,8 @@
   - 这些分支的调优被限制在强制执行的文件范围内。
   - 运行会在保留的候选上继续累积，stop rule 真正生效，新的 `finalize` 会把最优结果合并回来并清理 worktree。
   - 新增指标超时、并行记录不再丢失，以及许多小修复。
-  - **不兼容变更：** Claude Code 和 Codex 现在共用一套 skill。之前把仓库根目录链接为 `~/.codex/skills/autoresearch-wrapper` 的 Codex 用户，请改用 `ln -s /path/to/autoresearch-wrapper/skills/* ~/.agents/skills/`。旧版本创建的 create/delete 运行无法再对比，需要重新创建。
+  - Claude Code 和 Codex 现在共用一套 skill。Codex 用户执行 `ln -s /path/to/autoresearch-wrapper/skills/* ~/.agents/skills/` 即可让每个命令成为独立的 skill；旧的仓库根目录安装方式仍可作为一个完整 skill 使用。
+  - **不兼容变更：** 旧版本创建的 create/delete 运行无法再对比，需要重新创建。
 - 2026/03/25: 刷新了 Claude marketplace 打包版本，确保 wizard-first 流程和随插件打包的脚本能正确安装到插件缓存中。
 - 2026/03/23 北京时间凌晨2:31: 虽然只开发测试到v0.0.2，我决定还是直接开源了！大半夜开始试用之后很激动，想快点和社区分享。虽然时间有限同时也还在确保每一个我想要的功能都已经正确实现，但我觉得它已经做好准备开始干活了（狗头）。
 
@@ -102,7 +103,7 @@ ln -s /path/to/autoresearch-wrapper/skills/* ~/.agents/skills/
 
 用 `$autoresearch-wrapper`、`$autoresearch-wrapper-run` 等调用（或从 `/skills` 中选择）。安装后重启 Codex。
 
-如果之前用的是旧的单 skill 安装方式（`~/.codex/skills/autoresearch-wrapper` 指向仓库根目录），请删除该链接并改用上面的命令；根目录的 `SKILL.md` 已不再存在。
+也可以把仓库根目录作为一个完整的 skill 安装（`ln -s /path/to/autoresearch-wrapper ~/.agents/skills/autoresearch-wrapper`），根目录的 `SKILL.md` 覆盖所有命令。旧的 `~/.codex/skills/autoresearch-wrapper` 安装方式同样可用。两种方式选其一即可：它们都会提供名为 `autoresearch-wrapper` 的 skill。
 
 </details>
 

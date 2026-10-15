@@ -35,7 +35,8 @@ Recently, I've been asking Codex to write autoresearch wrappers for the modules 
   - Tuning in those arms is limited to an enforced file scope.
   - Runs now build on kept candidates, stop rules are enforced, and the new `finalize` merges the winner back and cleans up worktrees.
   - Metric timeouts, safe parallel bookkeeping, and many smaller fixes.
-  - **Breaking:** one skill set now serves both Claude Code and Codex. Codex users who symlinked the repo root as `~/.codex/skills/autoresearch-wrapper` should switch to `ln -s /path/to/autoresearch-wrapper/skills/* ~/.agents/skills/`. Create/delete runs made with older versions can't be compared; recreate them.
+  - One skill set now serves both Claude Code and Codex. For Codex, `ln -s /path/to/autoresearch-wrapper/skills/* ~/.agents/skills/` gives you every command as its own skill; the old repo-root install still works as one comprehensive skill.
+  - **Breaking:** create/delete runs made with older versions can't be compared; recreate them.
 - 2026/03/25: Refreshed the Claude marketplace package so the wizard-first flow and bundled scripts install correctly from the plugin cache.
 - 2026/03/23 2:31 AM, Beijing Time: I've decided to release it at v0.0.2! Just feel excited to share it with the community. Although I'm still going through all the features to make sure they are everything I want, I think it is ready to play with.
 
@@ -99,7 +100,7 @@ ln -s /path/to/autoresearch-wrapper/skills/* ~/.agents/skills/
 
 Invoke skills with `$autoresearch-wrapper`, `$autoresearch-wrapper-run`, and so on (or pick from `/skills`). Restart Codex after installing.
 
-Upgrading from the old single-skill install (`~/.codex/skills/autoresearch-wrapper` pointing at the repo root)? Remove that symlink and use the command above; the root `SKILL.md` no longer exists.
+Alternatively, install the repo root as one comprehensive skill (`ln -s /path/to/autoresearch-wrapper ~/.agents/skills/autoresearch-wrapper`); the root `SKILL.md` covers every command. The older `~/.codex/skills/autoresearch-wrapper` install keeps working the same way. Pick one style: both provide a skill named `autoresearch-wrapper`.
 
 </details>
 

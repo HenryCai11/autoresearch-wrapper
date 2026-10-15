@@ -36,11 +36,19 @@ def copy_tree(source: Path, destination: Path) -> None:
     )
 
 
+# The root SKILL.md lets the repo itself be installed as one skill (and is what skill
+# indexes read first). It is a generated copy of the main skill, never edited by hand.
+ROOT_SKILL_SOURCE = REPO_ROOT / "skills" / "autoresearch-wrapper" / "SKILL.md"
+ROOT_SKILL_COPY = REPO_ROOT / "SKILL.md"
+
+
 def main() -> int:
     PLUGIN_ROOT.mkdir(parents=True, exist_ok=True)
     for source, destination in SYNC_TARGETS.items():
         copy_tree(source, destination)
         print(f"synced {source.relative_to(REPO_ROOT)} -> {destination.relative_to(REPO_ROOT)}")
+    shutil.copyfile(ROOT_SKILL_SOURCE, ROOT_SKILL_COPY)
+    print(f"synced {ROOT_SKILL_SOURCE.relative_to(REPO_ROOT)} -> {ROOT_SKILL_COPY.relative_to(REPO_ROOT)}")
     return 0
 
 

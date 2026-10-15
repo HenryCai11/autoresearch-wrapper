@@ -48,7 +48,11 @@ Restart Codex after installing or updating skills.
   - Codex UI metadata: `skills/autoresearch-wrapper/agents/openai.yaml`
   - Claude marketplace: `.claude-plugin/marketplace.json` and `plugins/autoresearch-wrapper/.claude-plugin/plugin.json`
 
-`test_skills_have_a_single_source` fails if a second copy of the skills appears, if the plugin copy drifts from `skills/`, or if a launcher block misses a location.
+Two generated copies exist, and both are written only by `python3 scripts/sync_claude_plugin.py`:
+- `plugins/autoresearch-wrapper/skills/`: the marketplace package
+- the root `SKILL.md`: a copy of `skills/autoresearch-wrapper/SKILL.md`, so the repo root can be installed as one comprehensive skill (with the root `run.sh` symlink as its launcher)
+
+Never edit those copies by hand. `test_skills_have_a_single_source` fails if either drifts from `skills/`, if the symlinks change, or if a launcher block misses a location.
 
 ## Verification
 
