@@ -10,7 +10,7 @@ Inspired by [Karpathy's autoresearch](https://github.com/karpathy/autoresearch) 
 
 [![Claude Code Skill](https://img.shields.io/badge/Claude_Code-Skill-blue?logo=anthropic&logoColor=white)](https://docs.anthropic.com/en/docs/claude-code)
 [![Codex Skill](https://img.shields.io/badge/Codex-Skill-green?logo=openai&logoColor=white)](https://platform.openai.com/docs/codex)
-[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/HenryCai11/autoresearch-wrapper/releases)
+[![Version](https://img.shields.io/badge/version-0.1.1-blue.svg)](https://github.com/HenryCai11/autoresearch-wrapper/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Inspired by](https://img.shields.io/badge/Based_on-Karpathy's_Autoresearch-orange)](https://github.com/karpathy/autoresearch)
 
@@ -30,6 +30,10 @@ Recently, I've been asking Codex to write autoresearch wrappers for the modules 
 
 ## News
 
+- 2026/10/15: v0.1.1.
+  - A comprehensive root `SKILL.md` documents every command, so the repo root can be installed as one skill.
+  - Advice-only code moved into the skill instructions: the `resources` and `reference` commands and the `.autoresearch-wrapper/plans/` files are gone (the CLI tells you what to do instead).
+  - The monitor skill now takes progress snapshots instead of running a blocking poll loop.
 - 2026/10/15: v0.1.0.
   - `create` / `delete` are now fair comparisons: every approach (or the deletion) and a no-change control arm are tuned with the same budget, then ranked by their tuned ceiling with `compare`.
   - Tuning in those arms is limited to an enforced file scope.

@@ -12,7 +12,7 @@
 
 [![Claude Code Skill](https://img.shields.io/badge/Claude_Code-Skill-blue?logo=anthropic&logoColor=white)](https://docs.anthropic.com/en/docs/claude-code)
 [![Codex Skill](https://img.shields.io/badge/Codex-Skill-green?logo=openai&logoColor=white)](https://platform.openai.com/docs/codex)
-[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/HenryCai11/autoresearch-wrapper/releases)
+[![Version](https://img.shields.io/badge/version-0.1.1-blue.svg)](https://github.com/HenryCai11/autoresearch-wrapper/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Inspired by](https://img.shields.io/badge/Based_on-Karpathy's_Autoresearch-orange)](https://github.com/karpathy/autoresearch)
 
@@ -32,6 +32,10 @@
 
 ## 进展
 
+- 2026/10/15: v0.1.1。
+  - 新增完整的根目录 `SKILL.md`，涵盖所有命令，可以把仓库根目录作为一个 skill 安装。
+  - 只提供建议的代码改为写进 skill 说明：移除了 `resources` 和 `reference` 命令以及 `.autoresearch-wrapper/plans/` 文件（CLI 会提示替代做法）。
+  - monitor skill 改为获取进度快照，不再运行阻塞式轮询。
 - 2026/10/15: v0.1.0。
   - `create` / `delete` 现在是公平对比：每个方案（或删除方案）和一个不做改动的对照组用相同预算调优，再用 `compare` 按调优后的上限排名。
   - 这些分支的调优被限制在强制执行的文件范围内。
