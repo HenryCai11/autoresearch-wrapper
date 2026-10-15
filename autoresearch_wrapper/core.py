@@ -11,6 +11,7 @@ import re
 import resource
 import shlex
 import shutil
+import signal
 import subprocess
 import sys
 import time
@@ -309,6 +310,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     configure.add_argument("--rounds", type=int, help="Number of optimization rounds.")
     configure.add_argument("--stop-rule", help="Optional textual stop rule.")
+    configure.add_argument(
+        "--metric-timeout",
+        type=float,
+        help="Kill the metric command after this many seconds and record the attempt as a crash.",
+    )
     configure.add_argument("--parallelism", type=int, help="Worker count for parallel mode.")
     configure.add_argument(
         "--use-suggested-command",
@@ -356,6 +362,11 @@ def build_parser() -> argparse.ArgumentParser:
     add_repo_arg(evaluate)
     evaluate.add_argument("--run-id", help="Run id. Defaults to the active run.")
     evaluate.add_argument("--candidate", required=True, help="Candidate id.")
+    evaluate.add_argument(
+        "--timeout",
+        type=float,
+        help="Override the configured metric timeout (seconds) for this evaluation.",
+    )
     evaluate.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
     evaluate.set_defaults(func=command_evaluate)
 
@@ -1234,6 +1245,7 @@ def command_configure(args: argparse.Namespace) -> int:
         early_exit_patience=early_exit_patience,
         early_exit_threshold=early_exit_threshold,
         wild_max_simultaneous=wild_max_simultaneous,
+        metric_timeout=args.metric_timeout,
     )
     normalize_execution_defaults(config["execution"])
     state.setdefault("part_configs", {})[part["id"]] = config
@@ -1360,6 +1372,7 @@ def command_evaluate(args: argparse.Namespace) -> int:
         cwd=worktree_path,
         log_dir=Path(run["run_dir"]) / "logs",
         candidate_id=candidate["candidate_id"],
+        timeout=args.timeout if args.timeout is not None else metric.get("timeout"),
     )
     result["commit"] = commit
 
@@ -1409,13 +1422,19 @@ def record_locked(repo_root: Path, args: argparse.Namespace) -> int:
     candidate = get_candidate(run, args.candidate)
     if candidate is None:
         raise SystemExit(f"unknown candidate: {args.candidate}")
+    if candidate.get("recorded"):
+        raise SystemExit(
+            f"{candidate['candidate_id']} is already recorded "
+            f"({candidate.get('result', {}).get('status')}); allocate a new candidate instead"
+        )
 
     metric = run_metric_settings(state, run)
     metric_name = metric["name"]
     goal = metric["goal"]
     evaluation = candidate.get("latest_evaluation", {})
     metric_value = args.metric_value if args.metric_value is not None else evaluation.get("metric_value")
-    if metric_value is None and args.status != "crash":
+    # `auto` on a failed or timed-out evaluation resolves to crash via decide_status.
+    if metric_value is None and args.status != "crash" and not (args.status == "auto" and evaluation):
         raise SystemExit("no metric value available; run evaluate first or pass --metric-value")
 
     commit = resolve_recorded_commit(run, candidate, evaluation, args.metric_value is not None)
@@ -1437,15 +1456,20 @@ def record_locked(repo_root: Path, args: argparse.Namespace) -> int:
     previous_best_metric = run.get("best_metric")
 
     if chosen_status == "keep" and metric_value is not None:
-        run["best_metric"] = metric_value
-        run["best_candidate_id"] = candidate["candidate_id"]
+        # A manual keep may advance the base without being the best; best_* stays truthful.
         run["current_base_branch"] = candidate["branch"]
+        if previous_best_metric is None or is_better_metric(metric_value, previous_best_metric, goal):
+            run["best_metric"] = metric_value
+            run["best_candidate_id"] = candidate["candidate_id"]
 
     if candidate["candidate_id"] != "seed":
         run["rounds_completed"] = count_completed_rounds(run)
 
     rounds_target = run["execution"].get("rounds")
-    if rounds_target and run["rounds_completed"] >= rounds_target:
+    if run.get("status") in TERMINAL_RUN_STATUSES:
+        # In-flight parallel candidates may still be recorded; don't reopen the run.
+        pass
+    elif rounds_target and run["rounds_completed"] >= rounds_target:
         run["status"] = "completed"
     else:
         run["status"] = "running"
@@ -1764,7 +1788,10 @@ def merge_config(
     early_exit_patience: int | None = None,
     early_exit_threshold: float | None = None,
     wild_max_simultaneous: int | None = None,
+    metric_timeout: float | None = None,
 ) -> dict[str, Any]:
+    if metric_timeout is None:
+        metric_timeout = existing.get("metric", {}).get("timeout")
     return {
         "entrypoint": {
             "type": entrypoint_type,
@@ -1777,6 +1804,7 @@ def merge_config(
             "regex": metric_regex,
             "preset": metric_preset,
             "command_suggestion": command_suggestion,
+            "timeout": metric_timeout,
         },
         "execution": {
             "mode": mode,
@@ -3169,13 +3197,23 @@ TERMINAL_RUN_STATUSES = {"completed", "early_exit"}
 
 
 def find_active_run(state: dict[str, Any], part_id: str) -> dict[str, Any] | None:
+    """Find the resumable optimize run for a part; create/delete runs are never resumed by `run`."""
+
+    def resumable(run: dict[str, Any] | None) -> bool:
+        return bool(
+            run
+            and run.get("part_id") == part_id
+            and run.get("run_type", "optimize") == "optimize"
+            and run.get("status") not in TERMINAL_RUN_STATUSES
+        )
+
     active_id = state.get("selection", {}).get("active_run_id")
     if active_id:
         run = state.get("runs", {}).get(active_id)
-        if run and run.get("part_id") == part_id and run.get("status") not in TERMINAL_RUN_STATUSES:
+        if resumable(run):
             return run
     for run in state.get("runs", {}).values():
-        if run.get("part_id") == part_id and run.get("status") not in TERMINAL_RUN_STATUSES:
+        if resumable(run):
             return run
     return None
 
@@ -3331,35 +3369,42 @@ def run_metric_command(
     cwd: Path,
     log_dir: Path,
     candidate_id: str,
+    timeout: float | None = None,
 ) -> dict[str, Any]:
     log_dir.mkdir(parents=True, exist_ok=True)
-    completed = subprocess.run(
+    # Own process group so a timeout kills the whole command tree, not just the shell.
+    process = subprocess.Popen(
         metric_command,
         cwd=cwd,
         shell=True,
         text=True,
-        capture_output=True,
-        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        start_new_session=True,
     )
-    combined = completed.stdout + ("\n" if completed.stdout and completed.stderr else "") + completed.stderr
-    metric_value = parse_metric_value(combined, metric_regex)
+    timed_out = False
+    try:
+        stdout, stderr = process.communicate(timeout=timeout)
+    except subprocess.TimeoutExpired:
+        timed_out = True
+        try:
+            os.killpg(process.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        stdout, stderr = process.communicate()
+    combined = stdout + ("\n" if stdout and stderr else "") + stderr
+    metric_value = None if timed_out else parse_metric_value(combined, metric_regex)
     timestamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     log_path = log_dir / f"{candidate_id}-{timestamp}.log"
-    log_path.write_text(
-        "\n".join(
-            [
-                f"$ {metric_command}",
-                "",
-                completed.stdout,
-                "",
-                completed.stderr,
-            ]
-        )
-    )
+    log_lines = [f"$ {metric_command}", "", stdout, "", stderr]
+    if timed_out:
+        log_lines.append(f"\n[autoresearch-wrapper] killed after {timeout}s timeout")
+    log_path.write_text("\n".join(log_lines))
     return {
         "command": metric_command,
         "regex": metric_regex,
-        "exit_code": completed.returncode,
+        "exit_code": None if timed_out else process.returncode,
+        "timed_out": timed_out,
         "metric_value": metric_value,
         "log_path": str(log_path),
         "recorded_at": now_iso(),
@@ -3367,7 +3412,10 @@ def run_metric_command(
 
 
 def parse_metric_value(output: str, metric_regex: str) -> float | None:
-    match = re.search(metric_regex, output, re.MULTILINE)
+    # Use the last match: scripts often print intermediate values before the final one.
+    match = None
+    for match in re.finditer(metric_regex, output, re.MULTILINE):
+        pass
     if not match:
         return None
     if "value" in match.groupdict():
@@ -3636,11 +3684,17 @@ def update_early_exit_state(run: dict[str, Any], metric_value: float | None, pre
     early_exit = run.get("early_exit", {})
     if not early_exit.get("patience"):
         return
-    best_metric = previous_best if previous_best is not None else run.get("best_metric")
+    # previous_best is the best *before* this record; None means this is the first
+    # measurement (the baseline), which can never be a stall.
+    best_metric = previous_best
     threshold = early_exit.get("threshold") or 0.0
     goal = run.get("metric", {}).get("goal") or "minimize"
 
-    if metric_value is None or best_metric is None:
+    if metric_value is None:
+        # A crashed or timed-out candidate is a round without improvement.
+        early_exit["rounds_without_improvement"] = early_exit.get("rounds_without_improvement", 0) + 1
+        return
+    if best_metric is None:
         return
 
     improved = False

@@ -18,6 +18,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from autoresearch_wrapper.core import (
+    DEFAULT_METRIC_REGEX,
     check_early_exit,
     detect_system_resources,
     find_delete_dependents,
@@ -31,6 +32,7 @@ from autoresearch_wrapper.core import (
     migrate_state,
     mkdir_lock,
     normalize_entry_argv,
+    parse_metric_value,
     plan_wild_changes,
     plans_dir,
     recommend_parallelism,
@@ -1179,6 +1181,110 @@ class AutoresearchWrapperTests(unittest.TestCase):
         self.assertEqual(run["best_metric"], 1.0)
         rows = Path(run["results_path"]).read_text().strip().splitlines()
         self.assertEqual(len(rows), 1 + 4)
+
+    def start_value_run(self, repo: Path, *extra: str) -> str:
+        self.configure_module(
+            repo, self.value_metric_command(), "--mode", "sequential", "--rounds", "5", *extra
+        )
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["run", "--repo", str(repo), "--part", "module.py"])
+        return self.active_run(repo)["run_id"]
+
+    def allocate_with_value(self, repo: Path, run_id: str, value: str) -> str:
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["allocate", "--repo", str(repo), "--run-id", run_id])
+        candidate = self.active_run(repo)["candidates"][-1]
+        (Path(candidate["worktree_path"]) / "value.txt").write_text(f"{value}\n")
+        return candidate["candidate_id"]
+
+    def test_run_does_not_resume_create_run_for_same_part(self) -> None:
+        repo = self.make_value_repo()
+        self.configure_module(repo, self.value_metric_command(), "--mode", "sequential", "--rounds", "2")
+        with contextlib.redirect_stdout(io.StringIO()):
+            main([
+                "create", "--repo", str(repo), "--part", "module.py",
+                "--feature", "add caching", "--candidates", "2",
+                "--metric", "score", "--metric-command", self.value_metric_command(),
+                "--metric-goal", "minimize", "--no-interactive",
+            ])
+        create_run_id = self.active_run(repo)["run_id"]
+        time.sleep(1.1)  # run ids have one-second resolution
+
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["run", "--repo", str(repo), "--part", "module.py"])
+        run = self.active_run(repo)
+        self.assertNotEqual(run["run_id"], create_run_id)
+        self.assertEqual(run["run_type"], "optimize")
+
+    def test_metric_timeout_kills_command_and_auto_records_crash(self) -> None:
+        repo = self.make_value_repo()
+        command = f"{shlex.quote(sys.executable)} -c 'import time; time.sleep(60)'"
+        self.configure_module(
+            repo, command, "--mode", "sequential", "--rounds", "5", "--metric-timeout", "1"
+        )
+        # Re-configuring without the flag keeps the timeout.
+        self.configure_module(repo, command)
+        self.assertEqual(load_state(repo)["part_configs"]["module.py"]["metric"]["timeout"], 1.0)
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["run", "--repo", str(repo), "--part", "module.py"])
+        run_id = self.active_run(repo)["run_id"]
+
+        started = time.monotonic()
+        self.evaluate_and_record(repo, run_id, "seed")
+        self.assertLess(time.monotonic() - started, 20)
+
+        seed = get_candidate(self.active_run(repo), "seed")
+        self.assertTrue(seed["latest_evaluation"]["timed_out"])
+        self.assertEqual(seed["result"]["status"], "crash")
+
+    def test_record_rejects_second_record_of_same_candidate(self) -> None:
+        repo = self.make_value_repo()
+        run_id = self.start_value_run(repo)
+        self.evaluate_and_record(repo, run_id, "seed")
+        with self.assertRaises(SystemExit) as exc:
+            main([
+                "record", "--repo", str(repo), "--run-id", run_id, "--candidate", "seed",
+                "--status", "auto",
+            ])
+        self.assertIn("already recorded", str(exc.exception))
+        rows = Path(self.active_run(repo)["results_path"]).read_text().strip().splitlines()
+        self.assertEqual(len(rows), 2)
+
+    def test_manual_keep_of_worse_metric_preserves_best(self) -> None:
+        repo = self.make_value_repo()
+        run_id = self.start_value_run(repo)
+        self.evaluate_and_record(repo, run_id, "seed")
+        candidate_id = self.allocate_with_value(repo, run_id, "20")
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["evaluate", "--repo", str(repo), "--run-id", run_id, "--candidate", candidate_id])
+            main([
+                "record", "--repo", str(repo), "--run-id", run_id, "--candidate", candidate_id,
+                "--status", "keep", "--description", "keep for readability",
+            ])
+        run = self.active_run(repo)
+        self.assertEqual(run["best_metric"], 10.0)
+        self.assertEqual(run["best_candidate_id"], "seed")
+        self.assertEqual(run["current_base_branch"], get_candidate(run, candidate_id)["branch"])
+
+    def test_crashes_count_toward_early_exit(self) -> None:
+        repo = self.make_value_repo()
+        run_id = self.start_value_run(repo, "--early-exit-patience", "2")
+        self.evaluate_and_record(repo, run_id, "seed")
+        for _ in range(2):
+            candidate_id = self.allocate_with_value(repo, run_id, "not-a-number")
+            self.evaluate_and_record(repo, run_id, candidate_id)
+        run = self.active_run(repo)
+        self.assertEqual(run["status"], "early_exit")
+        self.assertEqual(run["early_exit"]["rounds_without_improvement"], 2)
+
+        # A straggler recorded after the run ended must not reopen it.
+        candidate_id = self.allocate_with_value(repo, run_id, "1")
+        self.evaluate_and_record(repo, run_id, candidate_id)
+        self.assertEqual(self.active_run(repo)["status"], "early_exit")
+
+    def test_parse_metric_value_uses_last_match(self) -> None:
+        output = "METRIC=9.0\nepoch 2\nMETRIC=3.5\n"
+        self.assertEqual(parse_metric_value(output, DEFAULT_METRIC_REGEX), 3.5)
 
     def test_mkdir_lock_times_out_and_reclaims_stale_lock(self) -> None:
         lock_dir = Path(tempfile.mkdtemp(prefix="autoresearch-lock-")) / "state.lock.d"

@@ -223,6 +223,12 @@ Use early exit to stop runs that stall:
 python3 scripts/autoresearch_wrapper.py configure --part <part> --early-exit-patience 3 --early-exit-threshold 0.01
 ```
 
+Crashed or timed-out candidates count as rounds without improvement. Bound each metric evaluation so a hung candidate is killed and recorded as a crash (`evaluate --timeout <s>` overrides it once):
+
+```bash
+python3 scripts/autoresearch_wrapper.py configure --part <part> --metric-timeout 1800
+```
+
 Use wild mode for multi-parameter search when the search space is large:
 
 ```bash

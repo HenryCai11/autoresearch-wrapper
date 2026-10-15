@@ -24,7 +24,8 @@ Back to [README](./README.md)
 - Feature-deletion runs with post-deletion parameter optimization (`delete`).
 - System resource detection (CPU, GPU, memory, scheduler: slurm/pbs) via `resources`.
 - Progress monitoring with configurable poll intervals (`monitor`).
-- Early exit mechanism for stalled optimization runs (`--early-exit-patience`, `--early-exit-threshold`).
+- Early exit mechanism for stalled optimization runs (`--early-exit-patience`, `--early-exit-threshold`); crashes count as stalled rounds.
+- Metric command timeout (`configure --metric-timeout`, `evaluate --timeout`) that kills the whole command tree and records a crash.
 - Wild mode for simultaneous multi-parameter search (`--mode wild`).
 - Interactive wizard prompts for all commands when running in a TTY.
 
