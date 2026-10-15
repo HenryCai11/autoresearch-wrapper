@@ -32,7 +32,7 @@ When this skill is invoked:
 1. If the user has not scanned yet, run `scan` first. Pass `--no-interactive` when stdin is not a terminal.
 2. Identify the part to delete, the metric, and the per-arm budget (`--rounds` and/or `--stop-rule`).
 3. Run `delete`. It sets up two arms: `control` (part kept, starts tuning immediately; it is the tuned pre-deletion baseline) and `deleted` (part removed and committed in its setup worktree).
-4. Summarize: run id, transitive dependents of the deleted part, tuning scope (its direct neighbours), budget, and the generated `program.md`.
+4. Summarize: run id, transitive dependents of the deleted part, tuning scope, budget, and the generated `program.md`. The tuning scope defaults to the deleted part's direct dependents (override with `--tune-scope`); files changed while repairing the `deleted` arm are added to its scope. `evaluate` rejects out-of-scope edits; `--allow-out-of-scope` is for user-approved exceptions and is flagged in `compare`.
 5. Setup phase: fix broken imports and references in the `deleted` setup worktree, then start its tuning run:
 
 ```bash

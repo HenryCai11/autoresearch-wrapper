@@ -32,14 +32,14 @@ When this skill is invoked:
 1. If the user has not scanned yet, run `scan` first. Pass `--no-interactive` when stdin is not a terminal.
 2. Identify the target part, the feature, the number of approaches, the metric, and the per-arm budget (`--rounds` and/or `--stop-rule`). Every arm gets the same budget.
 3. Run `create`. It sets up arms `control` + `approach-A..N`, each with its own setup worktree. `control` (no change) starts tuning immediately: it exists so gains from tuning are not credited to the feature.
-4. Summarize: run id, arms and their setup worktrees, tuning scope (the target's direct dependency neighbours), budget, and the generated `program.md`.
+4. Summarize: run id, arms and their setup worktrees, tuning scope, budget, and the generated `program.md`. The tuning scope defaults to the target and its direct dependency neighbours; pass `--tune-scope "a.py,src/models/"` if the user names the knobs to tune (e.g. a config file). Files an arm changes during setup are always added to that arm's scope.
 5. Setup phase: implement the feature differently in each `approach-*` setup worktree, then start its tuning run:
 
 ```bash
 bash "$AUTORESEARCH_RUNNER" arm-ready --run-id <run> --arm approach-A
 ```
 
-6. Tuning phase, per arm (`control` included): measure the setup score, then run the normal loop, editing only files in the tuning scope:
+6. Tuning phase, per arm (`control` included): measure the setup score, then run the normal loop, editing only files in the tuning scope. `evaluate` rejects out-of-scope edits before running the metric; revert them rather than reaching for `--allow-out-of-scope`, which is for deliberate exceptions the user approves and is flagged in `compare`:
 
 ```bash
 bash "$AUTORESEARCH_RUNNER" evaluate --run-id <run> --arm <arm> --candidate seed

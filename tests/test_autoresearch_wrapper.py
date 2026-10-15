@@ -1056,13 +1056,16 @@ class AutoresearchWrapperTests(unittest.TestCase):
         arm = next(arm for arm in state["runs"][parent_id]["arms"] if arm["arm_id"] == arm_id)
         return state["runs"][arm["child_run_id"]]
 
-    def start_create(self, repo: Path, candidates: int = 2, *extra: str) -> str:
+    def start_create(
+        self, repo: Path, candidates: int = 2, *extra: str, scope: str | None = "value.txt"
+    ) -> str:
+        scope_args = ["--tune-scope", scope] if scope else []
         with contextlib.redirect_stdout(io.StringIO()):
             main([
                 "create", "--repo", str(repo), "--part", "module.py",
                 "--feature", "add caching", "--candidates", str(candidates),
                 "--metric", "score", "--metric-command", self.value_metric_command(),
-                "--metric-goal", "minimize", "--no-interactive", *extra,
+                "--metric-goal", "minimize", "--no-interactive", *scope_args, *extra,
             ])
         return self.active_run(repo)["run_id"]
 
@@ -1609,6 +1612,7 @@ class AutoresearchWrapperTests(unittest.TestCase):
         with contextlib.redirect_stdout(io.StringIO()):
             main([
                 "delete", "--repo", str(repo), "--part", "helper.py", "--rounds", "1",
+                "--tune-scope", "value.txt",
                 "--metric", "score", "--metric-command", self.value_metric_command(),
                 "--metric-goal", "minimize", "--no-interactive",
             ])
@@ -1622,6 +1626,111 @@ class AutoresearchWrapperTests(unittest.TestCase):
         self.assertEqual(rows["control"]["setup_metric"], 10.0)
         self.assertEqual(result["winner_arm"], "deleted")
         self.assertEqual(rows["deleted"]["delta_vs_control"], -6.0)
+
+    # -----------------------------------------------------------------------
+    # Tuning scope enforcement
+    # -----------------------------------------------------------------------
+
+    def test_default_tune_scopes(self) -> None:
+        repo = self.make_value_repo()
+        parent_id = self.start_create(repo, 1, scope=None)
+        self.assertEqual(load_state(repo)["runs"][parent_id]["tune_scope"], ["helper.py", "module.py"])
+        self.assertEqual(self.arm_run(repo, parent_id, "control")["tune_scope"], ["helper.py", "module.py"])
+        self.assertIn("Tuning scope (enforced)", Path(self.arm_run(repo, parent_id, "control")["program_path"]).read_text())
+
+        with contextlib.redirect_stdout(io.StringIO()):
+            main([
+                "delete", "--repo", str(repo), "--part", "helper.py",
+                "--metric", "score", "--metric-command", self.value_metric_command(),
+                "--metric-goal", "minimize", "--no-interactive",
+            ])
+        self.assertEqual(self.active_run(repo)["tune_scope"], ["module.py"])
+
+    def test_tune_scope_marks_directories(self) -> None:
+        repo = self.make_value_repo()
+        (repo / "src").mkdir()
+        (repo / "src" / "x.py").write_text("X = 1\n")
+        self.commit_all(repo, "add src")
+        parent_id = self.start_create(repo, 1, scope="src, value.txt,./module.py")
+        self.assertEqual(
+            load_state(repo)["runs"][parent_id]["tune_scope"], ["module.py", "src/", "value.txt"]
+        )
+        with self.assertRaises(SystemExit):
+            self.start_create(repo, 1, scope="../outside.py")
+
+    def test_evaluate_rejects_out_of_scope_edit_before_running_metric(self) -> None:
+        repo = self.make_value_repo()
+        parent_id = self.start_create(repo, 1, "--rounds", "3", scope=None)
+        self.evaluate_and_record(repo, parent_id, "seed", arm="control")
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["allocate", "--repo", str(repo), "--run-id", parent_id, "--arm", "control"])
+        candidate = self.arm_run(repo, parent_id, "control")["candidates"][-1]
+        (Path(candidate["worktree_path"]) / "value.txt").write_text("1\n")
+
+        evaluate = [
+            "evaluate", "--repo", str(repo), "--run-id", parent_id, "--arm", "control",
+            "--candidate", candidate["candidate_id"],
+        ]
+        with self.assertRaises(SystemExit) as exc:
+            main(evaluate)
+        self.assertIn("outside the arm's tuning scope: value.txt", str(exc.exception))
+        rejected = get_candidate(self.arm_run(repo, parent_id, "control"), candidate["candidate_id"])
+        self.assertNotIn("latest_evaluation", rejected)
+
+        with contextlib.redirect_stdout(io.StringIO()):
+            main([*evaluate, "--allow-out-of-scope"])
+            # Accepted at evaluate, so record needs no second flag.
+            main([
+                "record", "--repo", str(repo), "--run-id", parent_id, "--arm", "control",
+                "--candidate", candidate["candidate_id"], "--status", "auto",
+            ])
+        recorded = get_candidate(self.arm_run(repo, parent_id, "control"), candidate["candidate_id"])
+        self.assertEqual(recorded["result"]["out_of_scope"], ["value.txt"])
+        rows = {row["arm_id"]: row for row in self.compare(repo, parent_id)["arms"]}
+        self.assertEqual(rows["control"]["out_of_scope_candidates"], [candidate["candidate_id"]])
+        buffer = io.StringIO()
+        with contextlib.redirect_stdout(buffer):
+            main(["compare", "--repo", str(repo), "--run-id", parent_id])
+        self.assertIn("Out-of-scope edits accepted", buffer.getvalue())
+
+    def test_files_changed_in_setup_join_that_arms_scope_only(self) -> None:
+        repo = self.make_value_repo()
+        parent_id = self.start_create(repo, 1, "--rounds", "3", scope="module.py")
+        arm = next(a for a in self.active_run(repo)["arms"] if a["arm_id"] == "approach-A")
+        (Path(arm["setup"]["worktree_path"]) / "cache.py").write_text("SIZE = 8\n")
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["arm-ready", "--repo", str(repo), "--run-id", parent_id, "--arm", "approach-A"])
+        self.assertEqual(self.arm_run(repo, parent_id, "approach-A")["tune_scope"], ["cache.py", "module.py"])
+        self.assertEqual(self.arm_run(repo, parent_id, "control")["tune_scope"], ["module.py"])
+
+        self.evaluate_and_record(repo, parent_id, "seed", arm="approach-A")
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["allocate", "--repo", str(repo), "--run-id", parent_id, "--arm", "approach-A"])
+        candidate = self.arm_run(repo, parent_id, "approach-A")["candidates"][-1]
+        (Path(candidate["worktree_path"]) / "cache.py").write_text("SIZE = 64\n")
+        self.evaluate_and_record(repo, parent_id, candidate["candidate_id"], arm="approach-A")
+        recorded = get_candidate(self.arm_run(repo, parent_id, "approach-A"), candidate["candidate_id"])
+        self.assertNotIn("out_of_scope", recorded["result"])
+
+    def test_record_backstop_rejects_manual_out_of_scope_value(self) -> None:
+        repo = self.make_value_repo()
+        parent_id = self.start_create(repo, 1, "--rounds", "3", scope="module.py")
+        self.evaluate_and_record(repo, parent_id, "seed", arm="control")
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["allocate", "--repo", str(repo), "--run-id", parent_id, "--arm", "control"])
+        candidate = self.arm_run(repo, parent_id, "control")["candidates"][-1]
+        (Path(candidate["worktree_path"]) / "helper.py").write_text("VALUE = 2\n")
+        record = [
+            "record", "--repo", str(repo), "--run-id", parent_id, "--arm", "control",
+            "--candidate", candidate["candidate_id"], "--metric-value", "3", "--status", "auto",
+        ]
+        with self.assertRaises(SystemExit) as exc:
+            main(record)
+        self.assertIn("helper.py", str(exc.exception))
+        with contextlib.redirect_stdout(io.StringIO()):
+            main([*record, "--allow-out-of-scope"])
+        recorded = get_candidate(self.arm_run(repo, parent_id, "control"), candidate["candidate_id"])
+        self.assertEqual(recorded["result"]["out_of_scope"], ["helper.py"])
 
     def test_compare_refuses_legacy_create_run(self) -> None:
         repo = self.make_value_repo()

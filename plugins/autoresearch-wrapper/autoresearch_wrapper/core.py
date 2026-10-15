@@ -368,6 +368,7 @@ def build_parser() -> argparse.ArgumentParser:
     evaluate.add_argument("--run-id", help="Run id. Defaults to the active run.")
     evaluate.add_argument("--candidate", required=True, help="Candidate id.")
     add_arm_arg(evaluate)
+    add_allow_out_of_scope_arg(evaluate)
     evaluate.add_argument(
         "--timeout",
         type=float,
@@ -381,6 +382,7 @@ def build_parser() -> argparse.ArgumentParser:
     record.add_argument("--run-id", help="Run id. Defaults to the active run.")
     record.add_argument("--candidate", required=True, help="Candidate id.")
     add_arm_arg(record)
+    add_allow_out_of_scope_arg(record)
     record.add_argument(
         "--status",
         choices=("auto", "keep", "discard", "crash"),
@@ -538,6 +540,14 @@ def add_arm_arg(parser: argparse.ArgumentParser) -> None:
     )
 
 
+def add_allow_out_of_scope_arg(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "--allow-out-of-scope",
+        action="store_true",
+        help="Accept a comparison-arm candidate that edits files outside the tuning scope (flagged in compare).",
+    )
+
+
 def add_comparison_args(parser: argparse.ArgumentParser, metric_command_help: str) -> None:
     parser.add_argument("--metric-command", help=metric_command_help)
     parser.add_argument("--metric", help="Metric name.")
@@ -547,6 +557,14 @@ def add_comparison_args(parser: argparse.ArgumentParser, metric_command_help: st
     )
     parser.add_argument("--stop-rule", help="Per-arm stop rule: " + STOP_RULE_HELP + ".")
     parser.add_argument("--metric-timeout", type=float, help="Kill a metric command after this many seconds.")
+    parser.add_argument(
+        "--tune-scope",
+        help=(
+            "Comma-separated files and directories (trailing /) that tuning may change. Default: the "
+            "target and its direct neighbours (create) or the deleted part's direct dependents (delete). "
+            "Files changed during an arm's setup are always added."
+        ),
+    )
     parser.add_argument("--json", action="store_true", help="Emit JSON instead of text.")
     add_interactive_arg(parser)
 
@@ -1443,6 +1461,10 @@ def command_evaluate(args: argparse.Namespace) -> int:
     commit = commit_worktree_changes(
         worktree_path, f"autoresearch: {run['run_id']} {candidate['candidate_id']}"
     )
+    # Reject out-of-scope edits before spending compute on the metric.
+    out_of_scope = out_of_scope_paths(run, worktree_path, commit)
+    if out_of_scope and not args.allow_out_of_scope:
+        raise SystemExit(scope_violation_message(candidate["candidate_id"], out_of_scope, run["tune_scope"]))
     result = run_metric_command(
         metric_command=metric["command"],
         metric_regex=metric["regex"],
@@ -1452,6 +1474,8 @@ def command_evaluate(args: argparse.Namespace) -> int:
         timeout=args.timeout if args.timeout is not None else metric.get("timeout"),
     )
     result["commit"] = commit
+    if out_of_scope:
+        result["out_of_scope"] = out_of_scope
 
     with state_lock(repo_root):
         state = load_state(repo_root)
@@ -1516,6 +1540,13 @@ def record_locked(repo_root: Path, args: argparse.Namespace) -> int:
 
     commit = resolve_recorded_commit(run, candidate, evaluation, args.metric_value is not None)
 
+    # Backstop for manual metric values and edits that bypassed evaluate. Commits live in
+    # the shared object store, so the diff works even if the worktree is gone.
+    out_of_scope = out_of_scope_paths(run, repo_root, commit)
+    accepted_at_evaluate = bool(evaluation.get("out_of_scope")) and evaluation.get("commit") == commit
+    if out_of_scope and not (args.allow_out_of_scope or accepted_at_evaluate):
+        raise SystemExit(scope_violation_message(candidate["candidate_id"], out_of_scope, run["tune_scope"]))
+
     chosen_status = args.status
     if chosen_status == "auto":
         chosen_status = decide_status(run, goal, metric_value)
@@ -1527,6 +1558,8 @@ def record_locked(repo_root: Path, args: argparse.Namespace) -> int:
         "commit": commit,
         "recorded_at": now_iso(),
     }
+    if out_of_scope:
+        candidate["result"]["out_of_scope"] = out_of_scope
     candidate["lifecycle"] = chosen_status
     candidate["recorded"] = True
 
@@ -4229,11 +4262,16 @@ def command_create(args: argparse.Namespace) -> int:
         "approach_labels": approach_labels,
     }
     arms = [("control", "control")] + [(label, "approach") for label in approach_labels]
+    tune_scope = (
+        parse_tune_scope(repo_root, args.tune_scope)
+        if args.tune_scope
+        else default_tune_scope(state, part, "create")
+    )
 
     with state_lock(repo_root):
         state = load_state(repo_root)
         parent = create_comparison_run(
-            repo_root, state, part, config, "create", arms, create_info=create_info
+            repo_root, state, part, config, "create", arms, tune_scope, create_info=create_info
         )
         write_state(repo_root, state)
 
@@ -4276,11 +4314,16 @@ def command_delete(args: argparse.Namespace) -> int:
         "affected_parts": identify_affected_parts(state, [part["id"]]),
     }
     arms = [("control", "control"), ("deleted", "deletion")]
+    tune_scope = (
+        parse_tune_scope(repo_root, args.tune_scope)
+        if args.tune_scope
+        else default_tune_scope(state, part, "delete")
+    )
 
     with state_lock(repo_root):
         state = load_state(repo_root)
         parent = create_comparison_run(
-            repo_root, state, part, config, "delete", arms, delete_info=delete_info
+            repo_root, state, part, config, "delete", arms, tune_scope, delete_info=delete_info
         )
         write_state(repo_root, state)
 
@@ -4370,6 +4413,59 @@ def arm_child_run_id(parent_run_id: str, arm_id: str) -> str:
     return f"{parent_run_id}-{arm_id}"
 
 
+# Tuning scope: the files an arm's tuning loop may change. Entries are repo-relative
+# files, or directory prefixes ending in "/". Setup is never restricted.
+
+
+def parse_tune_scope(repo_root: Path, raw: str) -> list[str]:
+    entries: set[str] = set()
+    for item in raw.split(","):
+        item = item.strip()
+        if not item:
+            continue
+        relative = normalize_repo_relative_path(repo_root, item.rstrip("/"))
+        if relative in ("", "."):
+            raise SystemExit("--tune-scope cannot be the whole repo; omit it or list files/directories")
+        if item.endswith("/") or (repo_root / relative).is_dir():
+            relative += "/"
+        entries.add(relative)
+    if not entries:
+        raise SystemExit("--tune-scope is empty")
+    return sorted(entries)
+
+
+def default_tune_scope(state: dict[str, Any], part: dict[str, Any], run_type: str) -> list[str]:
+    if run_type == "delete":
+        # Only direct importers break when the part disappears.
+        return sorted(part.get("dependents", []))
+    return sorted({part["id"], *identify_affected_parts(state, [part["id"]])})
+
+
+def path_in_scope(path: str, scope: list[str]) -> bool:
+    return any(path == entry or (entry.endswith("/") and path.startswith(entry)) for entry in scope)
+
+
+def changed_paths(worktree_path: Path, base_ref: str, commit: str) -> list[str]:
+    output = git_stdout(worktree_path, ["diff", "--no-renames", "--name-only", base_ref, commit])
+    return sorted(line for line in output.splitlines() if line.strip())
+
+
+def out_of_scope_paths(run: dict[str, Any], worktree_path: Path, commit: str | None) -> list[str]:
+    """Files changed since the run's base that fall outside its tuning scope (empty if unscoped)."""
+    scope = run.get("tune_scope")
+    if scope is None or not commit:
+        return []
+    return [path for path in changed_paths(worktree_path, run["base_ref"], commit) if not path_in_scope(path, scope)]
+
+
+def scope_violation_message(candidate_id: str, paths: list[str], scope: list[str]) -> str:
+    return (
+        f"{candidate_id} changes files outside the arm's tuning scope: {', '.join(paths)}\n"
+        f"tuning scope: {', '.join(scope) or '(empty)'}\n"
+        "revert those edits and re-run evaluate, or pass --allow-out-of-scope to accept and flag it"
+    )
+
+
 def create_comparison_run(
     repo_root: Path,
     state: dict[str, Any],
@@ -4377,6 +4473,7 @@ def create_comparison_run(
     config: dict[str, Any],
     run_type: str,
     arms: list[tuple[str, str]],
+    tune_scope: list[str],
     create_info: dict[str, Any] | None = None,
     delete_info: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
@@ -4413,6 +4510,7 @@ def create_comparison_run(
         "delete_info": delete_info,
         "arms": [],
         "compare": None,
+        "tune_scope": tune_scope,
     }
     Path(parent["results_path"]).write_text(RESULTS_HEADER)
 
@@ -4527,6 +4625,12 @@ def ready_arm(
     )
     child["parent_run_id"] = parent["run_id"]
     child["arm_id"] = arm["arm_id"]
+    if parent.get("tune_scope") is not None:
+        # Files the setup touched (new feature modules, repaired importers) are tunable too.
+        setup_changes = changed_paths(setup_path, parent["base_ref"], setup_commit)
+        child["tune_scope"] = sorted(set(parent["tune_scope"]) | set(setup_changes))
+        with Path(child["program_path"]).open("a") as handle:
+            handle.write(render_scope_section(child["tune_scope"]))
     state.setdefault("runs", {})[child["run_id"]] = child
     arm.update(
         {
@@ -4537,6 +4641,22 @@ def ready_arm(
         }
     )
     return child
+
+
+def render_scope_section(scope: list[str]) -> str:
+    lines = [
+        "",
+        "## Tuning scope (enforced)",
+        "",
+        "`evaluate` and `record` reject candidates that change files outside this list",
+        "(directories end in `/`). Use `--allow-out-of-scope` only for a deliberate exception;",
+        "such candidates are flagged in `compare`.",
+        "",
+    ]
+    lines.extend(f"- `{entry}`" for entry in scope)
+    if not scope:
+        lines.append("- (empty: no file may change)")
+    return "\n".join(lines) + "\n"
 
 
 def command_arm_ready(args: argparse.Namespace) -> int:
@@ -4596,6 +4716,11 @@ def compare_arms(state: dict[str, Any], parent: dict[str, Any]) -> dict[str, Any
                 "best_candidate_id": child.get("best_candidate_id") if child else None,
                 "rounds_completed": child.get("rounds_completed", 0) if child else 0,
                 "stop_reason": child.get("stop_reason") if child else None,
+                "out_of_scope_candidates": [
+                    candidate["candidate_id"]
+                    for candidate in (child or {}).get("candidates", [])
+                    if candidate.get("result", {}).get("out_of_scope")
+                ],
                 "tuning_gain": (
                     best_metric - setup_metric
                     if best_metric is not None and setup_metric is not None
@@ -4658,6 +4783,13 @@ def format_compare_table(result: dict[str, Any]) -> str:
         lines.append(
             "Incomplete arms (comparison is provisional): " + ", ".join(result["incomplete_arms"])
         )
+    flagged = [
+        f"{row['arm_id']}/{candidate_id}"
+        for row in result["arms"]
+        for candidate_id in row.get("out_of_scope_candidates", [])
+    ]
+    if flagged:
+        lines.append("Out-of-scope edits accepted (comparison may be unfair): " + ", ".join(flagged))
     return "\n".join(lines)
 
 
@@ -4774,6 +4906,7 @@ def comparison_summary(parent: dict[str, Any]) -> dict[str, Any]:
             for arm in parent["arms"]
         ],
         "affected_parts": (parent.get("create_info") or parent.get("delete_info") or {}).get("affected_parts", []),
+        "tune_scope": parent.get("tune_scope"),
         "program_path": parent["program_path"],
     }
 
@@ -4805,14 +4938,17 @@ def render_comparison_program(repo_root: Path, parent: dict[str, Any]) -> str:
             f"- Rounds per arm: `{execution.get('rounds')}`",
             f"- Stop rule per arm: `{execution.get('stop_rule') or 'none'}`",
             "",
-            "## Tuning scope",
+            "## Tuning scope (enforced)",
+            "",
+            "During tuning, `evaluate` and `record` reject candidates that change files outside this",
+            "list; each arm also may change the files its own setup changed. Setup itself is unrestricted.",
             "",
         ]
     )
-    affected = info.get("affected_parts") or []
-    lines.extend(f"- `{item}`" for item in affected)
-    if not affected:
-        lines.append("- no direct neighbours identified")
+    scope = parent.get("tune_scope") or []
+    lines.extend(f"- `{item}`" for item in scope)
+    if not scope:
+        lines.append("- (empty: only files changed during setup)")
     lines.extend(["", "## Arms", ""])
     for arm in parent["arms"]:
         child_program = runs_dir(repo_root) / arm_child_run_id(run_id, arm["arm_id"]) / "program.md"

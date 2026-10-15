@@ -159,7 +159,7 @@ Behavior:
 - `control` (no change) starts tuning immediately, so gains from tuning are not credited to the feature
 - implement each approach in its setup worktree, then `arm-ready --run-id <run> --arm approach-A` to commit it and start that arm's tuning run
 - every arm is tuned with the same `--rounds` / `--stop-rule` budget; drive the loop with `--arm` (`evaluate`/`record` the `seed` first for the setup score, then `allocate`/`evaluate`/`record`)
-- tuning scope: the target's direct dependency neighbours (listed in `program.md`)
+- tuning scope (enforced): defaults to the target and its direct neighbours, `--tune-scope "a.py,src/"` overrides; files changed in an arm's setup join that arm's scope; `evaluate`/`record` reject out-of-scope edits unless `--allow-out-of-scope` (flagged in `compare`)
 - `compare --run-id <run>` reports setup score, tuned ceiling, tuning gain, and delta vs. the tuned control per arm, and picks a winner (ties go to control)
 - `finalize --run-id <run> --merge` merges the winning arm's best (confirm with the user first) and cleans up every arm
 

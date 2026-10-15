@@ -169,7 +169,7 @@ comparison run
 - `create` / `delete` create the arms, each with a setup worktree; `control` starts tuning immediately
 - `arm-ready --run-id <run> --arm <arm>` commits an arm's setup and starts its tuning run (an ordinary optimize run seeded from the setup commit, with the shared `--rounds` / `--stop-rule`)
 - `allocate` / `evaluate` / `record` / `flow` take `--arm <arm>` to act on that arm's tuning run; record the `seed` first to capture the setup score
-- the tuning scope is the target's direct dependency neighbours
+- the tuning scope is enforced: `evaluate` rejects a candidate that changes files outside it before running the metric, and `record` re-checks (e.g. manual `--metric-value`). Default: the target plus its direct neighbours (create) or the deleted part's direct dependents (delete); `--tune-scope "a.py,src/"` overrides; files an arm changes during setup join that arm's scope. `--allow-out-of-scope` accepts an exception and `compare` flags it
 - `compare --run-id <run>` reports setup score, tuned ceiling, tuning gain, and delta vs. the tuned control per arm; ties go to control; unfinished arms are flagged as provisional
 - `finalize --run-id <run> [--merge]` merges the winning arm's best (or `--arm <arm>`) and removes every arm's worktrees; `--stop` ends unfinished arms first
 
