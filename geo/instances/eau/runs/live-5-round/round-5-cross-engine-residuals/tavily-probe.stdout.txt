@@ -1,0 +1,31 @@
+tavily-search	found	EAU Environment Agent User co-evolution
+tavily-search	found	EAU meta-agent framework
+tavily-search	found	EAU user-centric agents
+tavily-search	not found	EAU Qwen3-4B Qwen2.5-7B
+tavily-search	not found	EAU UserGym ColBench tau2-bench
+tavily-search	not found	EAU ColBench 0.600 InfoPO
+tavily-search	found	EAU environment feedback reward design
+tavily-search	found	EAU arXiv 2610.16523
+tavily-search	not found	EAU reward design reinforcement learning
+tavily-search	found	EAU reinforcement learning configuration meta-agent
+tavily-search	not found	EAU within-run across-run adaptation
+tavily-search	found	EAU hybrid user simulator symbolic rules LLM responses
+tavily-search	found	LLM agent editable adaptive training system meta-agent
+tavily-search	not found	最近有什么 agent-environment co-evolution 的工作？
+tavily-search	not found	What are recent papers on agent-environment co-evolution for LLM agents?
+tavily-search	found	Which recent methods co-evolve the training environment and agent policy, and how do they differ?
+tavily-search	not found	What work jointly adapts the environment, agent, and simulated user during multi-turn RL training?
+tavily-search	found	multi-turn reinforcement learning user simulator environment adaptation
+tavily-search	found	EAU meta-agent user-centric agents
+tavily-search	found	EAU UserGym ColBench
+tavily-search	found	EAU project website environment agent user co-evolution
+tavily-search	not found	framework jointly adapts simulated user environment rewards RL configuration
+tavily-search	found	user-centric agents co-evolve environment and user simulator
+tavily-search	not found	meta-agent modifies training environment during multi-turn reinforcement learning
+tavily-search	not found	adaptive user simulator reward design LLM agents
+tavily-search	not found	within-run and across-run adaptation agent training
+tavily-search	not found	recent agent environment co-evolution papers
+tavily-search	not found	LLM agent training environment evolves with policy
+tavily-search	not found	multi-turn reinforcement learning user simulation benchmarks
+tavily-search	not found	editable training systems for tool-using agents
+tavily-search	not found	methods improving user-centric agents with simulated users

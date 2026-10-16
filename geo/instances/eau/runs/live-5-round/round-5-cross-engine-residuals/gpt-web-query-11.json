@@ -1,0 +1,296 @@
+Co-Evolution in Agentic Systems: Toward Self-Directed Evolution Beyond Human Design (https://arxiv.org/abs/2608.10299)
+citeturn190academia12 [wordlim: 200] Published: 2 months ago; Agent--Agent Co-Evolution studies how agents adapt through dynamic peers, including adversarial, collaborative, and organizational adaptation.Agent--Environment Co-Evolution extends this loop to adaptive tasks, feedback, and interaction spaces that change with the agents.
+Title: Co-Evolution in Agentic Systems: Toward Self-Directed Evolution Beyond Human Design
+Authors: Qing Zong, Jiayu Liu, Junhao Shen, Zecong Tang, Linsi Wu, Yuxuan Liu, Rui Wang, Zhaowei Wang, Weiqi Wang, Cheng Qian, Xiusi Chen, Yangqiu Song
+Date: Mon Aug 10 23:10:40 2026
+
+Agentic systems are increasingly expected to improve after deployment, yet single-entity self-evolution is often bounded by a static learning context, such as fixed tasks and feedback. This survey focuses on co-evolution in agentic systems, a multi-component form of self-evolution in which multiple agents and their environment impose adaptive pressure on one another. To organize existing papers, we propose a progressive three-stage taxonomy that traces how the system gradually sheds human-engineered constraints. Agent--Agent Co-Evolution studies how agents adapt through dynamic peers, including adversarial, collaborative, and organizational adaptation. Agent--Environment Co-Evolution extends this loop to adaptive tasks, feedback, and interaction spaces that change with the agents. Meta Co-Evolution further explores the possibility of making the evolution mechanism itself evolvable. We also discuss open challenges in evaluating such systems, scaling them across multiple components, and keeping increasingly autonomous evolutionary processes safe and controllable. This survey provides a unified foundation for building robust and open-ended agentic systems that can improve beyond fixed human-designed paths.--------------------------------------------------------------------------------
+CoEvolve: Training LLM Agents via Agent-Data Mutual Evolution - ACL Anthology (https://aclanthology.org/2026.acl-long.1055/)
+citeturn190search0 [wordlim: 200] Published: 3 months ago; Crawled: today; Reinforcement learning for LLM agents is typically conducted on a static data distribution, which fails to adapt to the agent’s evolving behavior and leads to poor coverage of complex environment interactions.To address these challenges, we propose CoEvolve, an agent-data mutual evolution framework that enables LLM agents to improve through closed-loop, interaction-driven training.
+
+## CoEvolve: Training LLM Agents via Agent-Data Mutual Evolution
+
+Shidong Yang, Ziyu Ma, Tongwen Huang, Yiming Hu, Yong Wang, Xiangxiang Chu
+
+##### Abstract
+
+Reinforcement learning for LLM agents is typically conducted on a static data distribution, which fails to adapt to the agent’s evolving behavior and leads to poor coverage of complex environment interactions. To address these challenges, we propose CoEvolve, an agent-data mutual evolution framework that enables LLM agents to improve through closed-loop, interaction-driven training. Specifically, CoEvolve extracts feedback signals such as forgetting and uncertainty from rollout trajectories to identify failure-prone interaction patterns, and utilizes them to guide LLM-based task synthesis. The synthesized tasks are validated through environment interaction and utilized to update the data distribution, enabling joint adaptation of the agent and its data. Extensive experiments on AppWorld and BFCL across Qwen2.5-7B, Qwen3-4B, and Qwen3-30B-A3B demonstrate consistent and significant improvements over strong base models, yielding absolute gains of 19.43%, 15.58%, and 18.14%, respectively.
+
+Anthology ID:
+    2026.acl-long.1055
+Volume:
+    Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)
+Month:
+    July
+Year:
+    2026
+Address:
+    San Diego, California, United States
+Editors:
+    Maria Liakata, Viviane P. Moreira, Jiajun Zhang, David Jurgens
+Venue:
+    ACL
+SIG:
+    
+Publisher:
+    Association for Computational Linguistics
+Note:
+    
+Pages:
+    23015–23036
+Language:
+    
+URL:
+    https://aclanthology.org/2026.acl-long.1055/
+DOI:
+    10.18653/v1/2026.acl-long.1055
+Bibkey:
+    
+Cite (ACL):
+    Shidong Yang, Ziyu Ma, Tongwen Huang, Yiming Hu, Yong Wang, and Xiangxiang Chu. 2026. CoEvolve: Training LLM Agents via Agent-Data Mutual Evolution. In Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages 23015–23036, San Diego, California, United States. Association for Computational Linguistics.
+Cite (Informal):
+    CoEvolve: Training LLM Agents via Agent-Data Mutual Evolution (Yang et al., ACL 2026)
+PDF:
+    https://aclanthology.org/2026.acl-long.1055.pdf
+Checklist:
+     2026.acl-long.1055.checklist.pdf
+    
+    @inproceedings{yang-etal-2026-coevolve,
+        title = "{C}o{E}volve: Training {LLM} Agents via Agent-Data Mutual Evolution",
+        author = "Yang, Shidong  and
+          Ma, Ziyu  and
+          Huang, Tongwen  and
+          Hu, Yiming  and
+          Wang, Yong  and
+          Chu, Xiangxiang",
+        editor = "Liakata, Maria  and
+          Moreira, Viviane P.  and
+          Zhang, Jiajun  and
+          Jurgens, David",
+        booktitle = "Proceedings of the 64th Annual Meeting of the {A}ssociation for {C}omputational {L}inguistics (Volume 1: Long Papers)",
+        month = jul,
+        year = "2026",
+        address = "San Diego, California, United States",
+        publisher = "Association for Computational Linguistics",
+        url = "https://aclanthology.org/2026.acl-long.1055/",
+        doi = "10.18653/v1/2026.acl-long.1055",
+        pages = "23015--23036",
+        ISBN = "979-8-89176-390-6",
+        abstract = "Reinforcement learning for LLM agents is typically conducted on a static data distribution, which fails to adapt to the agent{'}s evolving behavior and leads to poor coverage of complex environment interactions. To address these challenges, we propose CoEvolve, an agent-data mutual evolution framework that enables LLM agents to improve through closed-loop, interaction-driven training. Specifically, CoEvolve extracts feedback signals such as forgetting and uncertainty from rollout trajectories to identify failure-prone interaction patterns, and utilizes them to guide LLM-based task synthesis. The synthesized tasks are validated through environment interaction and utilized to update the data distribution, enabling joint adaptation of the agent and its data. Extensive experiments on AppWorld and BFCL across Qwen2.5-7B, Qwen3-4B, and Qwen3-30B-A3B demonstrate consistent and significant improvements over strong base models, yielding absolute gains of 19.43{\%}, 15.58{\%}, and 18.14{\%}, respectively."
+        <identifier type="citekey">yang-etal-2026-coevolve</identifier>
+        <identifier type="doi">10.18653/v1/2026.acl-long.1055</identifier>
+        <location>
+            <url>https://aclanthology.org/2026.acl-long.1055/</url>
+        </location>
+        <part>
+            <date>2026-07</date>
+            <extent unit="page">
+                <start>23015</start>
+                <end>23036</end>
+            </extent>
+        </part>
+    </mods>
+    
+    %0 Conference Proceedings
+    %T CoEvolve: Training LLM Agents via Agent-Data Mutual Evolution
+    %A Yang, Shidong
+    %A Ma, Ziyu
+    %A Huang, Tongwen
+    %A Hu, Yiming
+    %A Wang, Yong
+    %A Chu, Xiangxiang
+    %Y Liakata, Maria
+    %Y Moreira, Viviane P.
+    %Y Zhang, Jiajun
+    %Y Jurgens, David
+    %S Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)
+    %D 2026
+    %8 July
+    %I Association for Computational Linguistics
+    %C San Diego, California, United States
+    %@ 979-8-89176-390-6
+    %F yang-etal-2026-coevolve
+    %X Reinforcement learning for LLM agents is typically conducted on a static data distribution, which fails to adapt to the agent’s evolving behavior and leads to poor coverage of complex environment interactions. To address these challenges, we propose CoEvolve, an agent-data mutual evolution framework that enables LLM agents to improve through closed-loop, interaction-driven training. Specifically, CoEvolve extracts feedback signals such as forgetting and uncertainty from rollout trajectories to identify failure-prone interaction patterns, and utilizes them to guide LLM-based task synthesis. The synthesized tasks are validated through environment interaction and utilized to update the data distribution, enabling joint adaptation of the agent and its data. Extensive experiments on AppWorld and BFCL across Qwen2.5-7B, Qwen3-4B, and Qwen3-30B-A3B demonstrate consistent and significant improvements over strong base models, yielding absolute gains of 19.43%, 15.58%, and 18.14%, respectively.
+--------------------------------------------------------------------------------
+SEAL: Synergistic Co-Evolution of Agents and Learning Environments (https://arxiv.org/abs/2605.24426)
+citeturn190academia13 [wordlim: 200] Published: 4 months ago; We identify this structural gap as \emph{Agent-Environment Misalignment}: the agent's capability frontier changes during training, while the environment that provides supervision remains static or only weakly coupled to the agent's revealed failures.We propose SEAL, a closed-loop co-evolution framework for interactive tool-use agents.
+Title: SEAL: Synergistic Co-Evolution of Agents and Learning Environments
+Authors: Yihao Hu, Zhihao Wen, Xiujin Liu, Pan Wang, Xin Zhang, Wei Wu
+Date: Sat May 23 06:41:31 2026
+
+Large Language Model (LLM) agents are increasingly improved through interaction, yet most self-evolution methods adapt either the policy or the learning environment in isolation. We identify this structural gap as \emph{Agent-Environment Misalignment}: the agent's capability frontier changes during training, while the environment that provides supervision remains static or only weakly coupled to the agent's revealed failures. We propose SEAL, a closed-loop co-evolution framework for interactive tool-use agents. SEAL collects on-policy trajectories under executable verification, diagnoses failed rollouts into turn-level failure labels, and uses these diagnoses as a shared signal for both environment-side adaptation and model-side policy optimization. The environment evolves its training-time learning interface by exposing clearer tool affordance cues, constraint information, and recovery-oriented feedback, while the policy is updated with diagnosis-guided advantage reweighting. Extensive experiments across in-distribution and out-of-distribution multi-turn tool-use evaluations show that SEAL improves low-resource agent learning: with only 400 training samples, it yields +8.25 to +26.25 average-point gains across three backbones and exhibits positive out-of-distribution transfer. These results demonstrate the value of jointly adapting the learner and its training-time learning substrate for robust self-improving LLM agents.--------------------------------------------------------------------------------
+Environment Evolution for Terminal Agents (https://arxiv.org/abs/2609.04128)
+citeturn190academia14 [wordlim: 200] Published: last month; Recent co-evolution methods iteratively synthesize environments near the model's learnable frontier based on weaknesses exposed during rollouts. ... In this paper, we propose environment evolution, which incrementally increases environment difficulty off-policy and schedules the evolved environments generation by generation during training to provide continuous learning signals.We derive three evolution directions that influence environment difficulty from the multi-turn learning objective and then implement evolution along these directions through a loop-engineered multi-agent harness.
+Title: Environment Evolution for Terminal Agents
+Authors: Zhiyuan Fan, Tinghao Yu, Yuanjun Cai, Jiang Zhou, Jiangtao Guan, Jincheng Liu, Yun Yang, Dingxin Hu, Zhuo Han, Xing Wu, Feng Zhang, Lilin Wang
+Date: Thu Sep  3 17:26:33 2026
+
+Scaling interactive and verifiable environments is critical for training terminal agents. As frontier models become more capable, environments synthesized from scratch become less challenging and thus provide limited learning signals. Recent co-evolution methods iteratively synthesize environments near the model's learnable frontier based on weaknesses exposed during rollouts. However, their dependence on on-policy rollouts limits generalization and the continuous provision of learning signals as the model becomes stronger. In this paper, we propose environment evolution, which incrementally increases environment difficulty off-policy and schedules the evolved environments generation by generation during training to provide continuous learning signals. We derive three evolution directions that influence environment difficulty from the multi-turn learning objective and then implement evolution along these directions through a loop-engineered multi-agent harness. Quantitative rollout experiments with Hy4 preview, Claude Opus 5, and GPT-5.6 Sol show that environment evolution consistently produces more difficult environments. We validate its effectiveness on Qwen3.6-27B and Qwen3.6-35B-A3B through simple long-horizon RL training, improving their performance by 14.4 and 18.0 percentage points on Terminal-Bench 2.1, respectively.--------------------------------------------------------------------------------
+CoEvolve: Training LLM Agents via Agent-Data Mutual Evolution (https://arxiv.org/abs/2604.15840)
+citeturn190academia15 [wordlim: 200] Published: 6 months ago; Reinforcement learning for LLM agents is typically conducted on a static data distribution, which fails to adapt to the agent's evolving behavior and leads to poor coverage of complex environment interactions.To address these challenges, we propose CoEvolve, an agent-data mutual evolution framework that enables LLM agents to improve through closed-loop, interaction-driven training.
+Title: CoEvolve: Training LLM Agents via Agent-Data Mutual Evolution
+Authors: Shidong Yang, Ziyu Ma, Tongwen Huang, Yiming Hu, Yong Wang, Xiangxiang Chu
+Date: Fri Apr 17 08:41:26 2026
+
+Reinforcement learning for LLM agents is typically conducted on a static data distribution, which fails to adapt to the agent's evolving behavior and leads to poor coverage of complex environment interactions. To address these challenges, we propose CoEvolve, an agent-data mutual evolution framework that enables LLM agents to improve through closed-loop, interaction-driven training. Specifically, CoEvolve extracts feedback signals such as forgetting and uncertainty from rollout trajectories to identify failure-prone interaction patterns, and utilizes them to guide LLM-based task synthesis. The synthesized tasks are validated through environment interaction and utilized to update the data distribution, enabling joint adaptation of the agent and its data. Extensive experiments on AppWorld and BFCL across Qwen2.5-7B, Qwen3-4B, and Qwen3-30B-A3B demonstrate consistent and significant improvements over strong base models, yielding absolute gains of 19.43%, 15.58%, and 18.14%, respectively.--------------------------------------------------------------------------------
+GitHub - aaronlyt/awesome-agentic-environment-evolving: A curated list of agentic environment synthesis, evolution, quality & scaling — built on three surveys (AEE, Environment Scaling, ACE lens) · GitHub (https://github.com/aaronlyt/awesome-agentic-environment-evolving)
+citeturn190search1 [wordlim: 200] Crawled: last month;   * Environment evolution: difficulty-driven curricula, self-play & world-model co-evolution, scaling-driven expansion, agent–environment co-evolution, generator–verifier co-evolution. ... AgentScaler  | ICLR 2026  | The manifesto-paper of environment scaling: 30k heterogeneous APIs turned into diverse environments by treating function calls as database reads/writes.  | arXiv:2509.13311 ... WebEvolver  | EMNLP 2025  | World model and agent policy jointly evolve (planning simulator + trajectory factory).  | `src:AEE-7.1,ACE-T2` `evolution:neural,co-evolve`  | — ... DR Tulu  | 2025  | Evolving rubrics for deep-research RL.  | `src:ES` `evolution:verifier`  | 2511.19399
+### 4.4 Agent–Environment Co-Evolution
+
+Bidirectional: the environment tracks the agent's weaknesses and new capabilities; both drift together (AEE §8.6).
+
+Paper  | Venue  | One-liner (survey-derived)  | Tags  | arXiv
+--- | --- | --- | --- | ---
+GenEnv  | 2025  | Difficulty-aligned co-evolution of environment simulator and agent.  | `src:AEE-7.2,ACE` `evolution:co-evolve`  | 2512.19682
+EvoEnv  | 2026  | Single-policy generator+solver co-evolution.  | `evolution:co-evolve` `produces:E,v`  | 2605.14392
+Agent-World  | 2026  | Environment and policy co-evolve in a training arena.  | `src:ACE-T1` `evolution:co-evolve`  | 2604.18292
+Socratic-Zero  | 2025  | Data-free agent co-evolution via self-questioning.  | `src:ES` `evolution:co-evolve`  | 2509.24726
+From Trainee to Trainer  | 2026  | LLMs design their own training environments (multi-agent reasoning).  | `evolution:co-evolve`  | 2606.17682
+EigenData  | 2026  | Hierarchical multi-agent engine synthesizing tool dialogues with per-instance executable checkers; self-evolving loop + GRPO-style RL (τ²-bench Airline 73.0).  | `src:ACE` `evolution:co-evolve` `produces:q,τ,v`  | 2601.22607
+--------------------------------------------------------------------------------
+(PDF) What Should Agent Evaluation Measure When Agents Change Their Environments? A Survey of Agent-Environment Co-Evolution (https://www.researchgate.net/publication/405920320_What_Should_Agent_Evaluation_Measure_When_Agents_Change_Their_Environments_A_Survey_of_Agent-Environment_Co-Evolution)
+citeturn190search2 [wordlim: 200] Published: 4 months ago; Crawled: last month; A Survey of Agent-Environment Co-Evolution ... Using a mechanism-driven 133-reference corpus, we survey agent-environment co-evolution across benchmarks, environment design, tool and memory creation, software agents, synthetic-data feedback, multi-agent norms, self-evolving agents, and safety. ... Modern AI evaluation often ﬁxes the input, resets ... and model outputs enter future corpora (Shumailov ... Recent work goes further: agents can write
+
+# What Should Agent Evaluation Measure When Agents Change Their Environments? A Survey of Agent-Environment Co-Evolution
+
+  * June 2026
+
+DOI:10.13140/RG.2.2.22606.42563
+
+Authors:
+
+Chenzhi Zheng
+
+  * University of Birmingham
+
+Jingwen Lin
+
+Jingwen Lin
+
+  * This person is not on ResearchGate, or hasn't claimed this research yet.
+
+Jiang-Ming Yang
+
+Jiang-Ming Yang
+
+  * This person is not on ResearchGate, or hasn't claimed this research yet.
+
+Xin Zhang
+
+Xin Zhang
+
+  * This person is not on ResearchGate, or hasn't claimed this research yet.
+
+Show all 6 authors Hide
+
+Image
+
+Download file PDFRead file
+
+Preprints and early-stage research may not have been peer reviewed yet.
+
+## Abstract
+
+When agents leave behind tools, memories , code, data, or policies, task success alone no longer characterizes evaluation. Reset protocols remain reproducible, but they discard inherited state and cannot measure whether an agent improves, degrades , or burdens the environment used by later agents. Public Full-text 1
+
+Content uploaded by Chenzhi Zheng
+
+Author content
+
+All content in this area was uploaded by Chenzhi Zheng on Jun 04, 2026
+
+Content may be subject to copyright.
+
+What Should Agent Evaluation Measure When Agents Change Their
+
+Environments? A Survey of Agent-Environment Co-Evolution
+
+Chenzhi Zheng 1*Jingwen Lin 1*Jiang-Ming Yang 2
+
+Xin Zhang 2 Jianshe Li 2 Yongqi Tong 2
+
+1 University of Birmingham 2 Ant International
+
+cxz477@student.bham.ac.uk
+
+jxl2044@student.bham.ac.uk tongyongqi.yq@ant-intl.com
+
+Abstract
+
+When agents leave behind tools, memo-
+
+ries, code, data, or policies, task suc-
+
+cess alone no longer characterizes evalua-
+
+tion. Reset protocols remain reproducible,
+
+but they discard inherited state and can-
+
+not measure whether an agent improves, de-
+
+grades, or burdens the environment used by
+
+later agents. Using a mechanism-driven 133-
+
+reference corpus, we survey agent-environment
+
+co-evolution across benchmarks, environment
+
+design, tool and memory creation, software
+
+agents, synthetic-data feedback, multi-agent
+--------------------------------------------------------------------------------
+A Systematic Survey of Self-Evolving Agents: From Model-Centric to Environment-Driven Co-Evolution | TechRxiv (https://doi.org/10.36227/techrxiv.177203250.05832634/v2)
+citeturn190search3 [wordlim: 200] Published: 7 months ago; Crawled: 2 weeks ago; However, traditional agent systems rely heavily on human-guided training. ... To unify this rapidly expanding field, we propose a taxonomy that categorizes methods into three core components of an autonomous evolutionary cycle: (i) Model-Centric Self-Evolution, where agents enhance internal capabilities through inference scaling or parameter bootstrapping; (ii) Environment-Centric Self-Evolution, where agents achieve continual self-evolution by interacting with the environment to obtain external knowledge and experience-based feedback; and (iii) Model-Environment Co-Evolution, where agents and their environments jointly evolve through sustained interaction.We highlight Model-Environment Co-Evolution as a key emerging direction for Self-Evolving Agents, where environment definitions and their co-evolution with agents will become central challenges in future research. ... Scite shows how a scientific paper has been cited by providing the context of the citation, a classification describing whether it supports, mentions, or contrasts the cited claim, and a label indicating in which section the citation was made.
+--------------------------------------------------------------------------------
+GitHub - zongqing0068/awesome-co-evolution: A curated paper list for co-evolution in agentic systems · GitHub (https://github.com/zongqing0068/awesome-co-evolution)
+citeturn190search4 [wordlim: 200] Crawled: 2 days ago; A curated paper list for co-evolution in agentic systems ... Agent–Agent Co-Evolution studies joint evolution among agents in an otherwise fixed environment. ... Agent–Environment Co-Evolution extends the evolutionary process to environments containing task, feedback, and interaction spaces. ...   * 2026 · MAAC — Learning Decentralized LLM Collaboration with Multi-Agent Actor Critic ...   * 2025 · MARS — MARS: Co-evolving Dual-System Deep Research via Multi-Agent Reinforcement Learning ...   * 2026 · SIA — SIA: Self Improving AI with Harness & Weight Updates
+--------------------------------------------------------------------------------
+Co-Evolution in Agentic Systems: Toward Self-Directed Evolution Beyond Human Design | alphaXiv (https://www.alphaxiv.org/abs/2608.10299)
+citeturn190search5 [wordlim: 200] Published: 2 months ago; Crawled: last month; Agent--Environment Co-Evolution extends this loop to adaptive tasks, feedback, and interaction spaces that change with the agents.
+--------------------------------------------------------------------------------
+Environment Evolution for Terminal Agents | alphaXiv (https://www.alphaxiv.org/abs/2609.04128)
+citeturn190search6 [wordlim: 200] Published: last month; Crawled: today; Recent co-evolution methods iteratively synthesize environments near the model's learnable frontier based on weaknesses exposed during rollouts. ... In this paper, we propose environment evolution, which incrementally increases environment difficulty off-policy and schedules the evolved environments generation by generation during training to provide continuous learning signals.We derive three evolution directions that influence environment difficulty from the multi-turn learning objective and then implement evolution along these directions through a loop-engineered multi-agent harness. ... @misc{fan2026environmentevolutionterminalagents, title={Environment Evolution for Terminal Agents}, author={Zhiyuan Fan and Tinghao Yu and Yuanjun Cai and Jiang Zhou and Jiangtao Guan and Jincheng Liu and Yun Yang and Dingxin Hu and Zhuo Han and Xing Wu and Feng Zhang and Lilin Wang}, year={2026}, eprint={2609.04128}, archivePrefix={arXiv}, primaryClass={cs.AI}, url={https://arxiv.org/abs/2609.04128}, }
+--------------------------------------------------------------------------------
+CoEvolve: Training LLM Agents via Agent-Data Mutual Evolution (https://aclanthology.org/2026.acl-long.1055.pdf)
+citeturn190search16 [wordlim: 200] Published: 4 months ago; CoEvolve: Training LLM Agents via Agent-Data Mutual Evolution ... (c) Our Agent–Data Co-Evolution (Evolving Training) ... Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages 23015–23036
+--------------------------------------------------------------------------------
+SEAL: Synergistic Co-Evolution of Agents and Learning Environments (arXiv:2605.24426) | Papers with Code (https://paperswithcode.co/paper/2605.24426)
+citeturn190search7 [wordlim: 200] Published: 4 months ago; Crawled: last week; Paper · arXiv:2605.24426 · 23 May 2026 ... SEAL is a closed-loop co-evolution framework that simultaneously adapts both agent policies and training environments to improve interactive tool-use capabilities in large language models. ... Large Language Model (LLM) agents are increasingly improved through interaction, yet most self-evolution methods adapt either the policy or the learning environment in isolation.
+--------------------------------------------------------------------------------
+SEAL: Synergistic Co-Evolution of Agents and Learning Environments | alphaXiv (https://www.alphaxiv.org/abs/2605.24426v1)
+citeturn190search8 [wordlim: 200] Published: 4 months ago; Crawled: 2 weeks ago; We identify this structural gap as Agent-Environment Misalignment: the agent's capability frontier changes during training, while the environment that provides supervision remains static or only weakly coupled to the agent's revealed failures.We propose SEAL, a closed-loop co-evolution framework for interactive tool-use agents.
+--------------------------------------------------------------------------------
+(PDF) A Systematic Survey of Self-Evolving Agents: From Model-Centric to Environment-Driven Co-Evolution (https://www.researchgate.net/publication/401016261_A_Systematic_Survey_of_Self-Evolving_Agents_From_Model-Centric_to_Environment-Driven_Co-Evolution)
+citeturn190search9 [wordlim: 200] Published: 8 months ago; Crawled: 5 days ago; However, traditional agent systems rely heavily on human-guided training. ... To unify this rapidly expanding field, we propose a taxonomy that categorizes methods into three core components of an autonomous evolutionary cycle: (i) Model-Centric Self-Evolution, where agents enhance internal capabilities through inference scaling or parameter bootstrapping; (ii) Environment-Centric Self-Evolution, where agents achieve continual self-evolution by interacting with the environment to obtain external knowledge and experience-based feedback; and (iii) Model-Environment Co-Evolution, where agents and their environments jointly evolve through sustained interaction.We highlight Model-Environment Co-Evolution as a key emerging direction for Self-Evolving Agents, where environment definitions and their co-evolution with agents will become central challenges in future research.
+--------------------------------------------------------------------------------
+Environment Evolution for Terminal Agents (arXiv:2609.04128) | Papers with Code (https://paperswithcode.co/paper/2609.04128)
+citeturn190search10 [wordlim: 200] Published: last month; Crawled: today; Paper · arXiv:2609.04128 · 3 September 2026# Environment Evolution for Terminal Agents ... A multi-agent harness adjusts three difficulty dimensions and schedules evolved environments during training, improving Terminal-Bench 2.1 by 14.4 and 18.0 points. ... Recent co-evolution methods iteratively synthesize environments near the model's learnable frontier based on weaknesses exposed during rollouts.
+--------------------------------------------------------------------------------
+Multi‐Objective Dynamic Task Scheduling via Multi‐Agent Cooperative Co‐Evolution in Edge Computing Environment - Fang - 2026 - Concurrency and Computation: Practice and Experience - Wiley Online Library (https://onlinelibrary.wiley.com/doi/10.1002/cpe.70974)
+citeturn190search11 [wordlim: 200] Published: 3 weeks ago; Crawled: last week; Cao, “ Multi-Objective Dynamic Task Scheduling via Multi-Agent Cooperative Co-Evolution in Edge Computing Environment,” Concurrency and Computation: Practice and Experience 38, no. 19 (2026): e70974, https://doi.org/10.1002/cpe.70974.
+--------------------------------------------------------------------------------
+What Should Agent Evaluation Measure When Agents Change Their (https://openreview.net/pdf/278046b48fa5b6caa760d1341a2ecafb2a79a55c.pdf)
+citeturn190search17 [wordlim: 200] Published: 4 months ago; A Survey of Agent-Environment Co-Evolution ... agents, synthetic-data feedback, multi-agent ... Modern AI evaluation often fixes the input, resets ... and model outputs enter future corpora (Shumailov ... Recent work goes further: agents can write
+--------------------------------------------------------------------------------
+A Systematic Survey of Self-Evolving Agents: From Model-Centric (https://d197for5662m48.cloudfront.net/documents/publicationstatus/309709/preprint_pdf/d87671b0e1950a508eb50b56fb3098af.pdf)
+citeturn190search18 [wordlim: 200] Published: 7 months ago; Model-Centric to Environment-Driven Co-Evolution ... agent systems rely heavily on human-guided training. ... (iii) Model-Environment Co-Evolution, where agents and their ... in future research. ... Recent years have witnessed remarkable advancements
+--------------------------------------------------------------------------------
+EcoSim (https://en.wikipedia.org/wiki/EcoSim)
+citeturn190search19 [wordlim: 200] Crawled: 8 months ago; It has been designed to investigate several broad ecological questions, as well as long-term evolutionary patterns and processes such as speciation and macroevolution.EcoSim has been designed by Robin Gras at the University of Windsor in 2009 and it is still currently used for research in his Bioinformatics and Ecosystem Simulation Lab. ... Nature by numbers: Simulated ecosystems provide answers to biological questions.International Science Grid this Week. ... Each agent also possesses several physical characteristics such as: maximum and current ages, minimum age for mating, maximum and current speeds, vision distance, maximum and current levels of energy, and the amount of energy transmitted to the offspring. ... Each time step involves the time needed for each agent to perceive its environment, use its behavioral model to make a decision, perform its action as well as the time to update the species membership, including speciation events and all the world parameters. ... In addition, a food chain consisting of three levels, primary producers, predators and preys, has been implemented allowing complex interactions between agents and co-evolution to occur.
+--------------------------------------------------------------------------------
+AI agent benchmark (https://en.wikipedia.org/wiki/AI_agent_benchmark)
+citeturn190search20 [wordlim: 200] Crawled: yesterday; ACM Transactions on Intelligent Systems and Technology. ... The agent takes in an observation and produces an action, while an environment takes in an action and produces an observation. ... # When running a benchmark on an agent, the task cost itself is recorded, and agents are compared for not just their benchmark performance, but on a cost-performance curve. ... What does OSWorld tell us about AI's ability to use computers?. ... * Robocurve: an organization that runs robotics benchmarks on primarily language-based multimodal agents, such as OpenAI Astra. ... Agent can search the Internet and send emails.
+--------------------------------------------------------------------------------
+Rick L. Riolo (https://en.wikipedia.org/wiki/Rick_L._Riolo)
+citeturn190search21 [wordlim: 200] Crawled: last year; Evolution of cooperation without reciprocity. ... Springer Science & Business Media. ... ### Papers ... Computers, Environment and Urban Systems. ... Co-adaptation and the emergence of structure. ... An agent-based model of income inequalities in diet in the context of residential segregation. ... Evolution of cooperation without reciprocity.
+--------------------------------------------------------------------------------
+Coevolution (https://en.wikipedia.org/wiki/Coevolution)
+citeturn190search22 [wordlim: 200] Crawled: 7 months ago; In astronomy, an emerging theory proposes that black hole s and galaxies develop in an interdependent way analogous to biological coevolution. ... Administrative Science Quarterly. ... In Development Betrayed: The End of Progress and A Coevolutionary Revisioning of the Future (1994) Richard Norgaard proposes a coevolutionary cosmology to explain how social and environmental systems influence and reshape each other.In Coevolutionary Economics: The Economy, Society and the Environment (1994) John Gowdy suggests that: "The economy, society, and the environment are linked together in a coevolutionary relationship". ... The idea is closely related to the concept of "joint optimization" in sociotechnical system s analysis and design, where a system is understood to consist of both a "technical system" encompassing the tools and hardware used for production and maintenance, and a "social system" of relationships and procedures through which the technology is tied into the goals of the system and all the other human and organizational relationships within and outside the system. ... Developed at first from within the computational context of genetic algorithm s, coevolution has been developed as a general, descriptive model of the design process, not only in individual design work but also in teamwork. ... Research in Engineering Design.
+--------------------------------------------------------------------------------
+Multi-agent system (https://en.wikipedia.org/wiki/Multi-agent_system)
+citeturn190search23 [wordlim: 200] Crawled: 5 months ago; Multi-agent systems consist of agents and their environment.Typically, research on multi-agent systems refers to software agent s. ... * Cognitive agents, with beliefs, desires, intentions, and commitments processed by logical, probabilistic, and neural network-based reasoning
+--------------------------------------------------------------------------------
+Multi-agent reinforcement learning (https://en.wikipedia.org/wiki/Multi-agent_reinforcement_learning)
+citeturn190search24 [wordlim: 200] Crawled: 7 months ago; While research in single-agent reinforcement learning is concerned with finding the algorithm that gets the biggest number of points for one agent, research in multi-agent reinforcement learning evaluates and quantifies social metrics, such as cooperation, reciprocity, equity, social influence, language and discrimination. ... The environment is not stationary anymore, thus the Markov property is violated: transitions and rewards do not only depend on the current state of an agent. ... The reinforcement learning algorithms that are used to train the agents are maximizing the agent's own reward; the conflict between the needs of the agents and the needs of the group is a subject of active research. ... Autocurricula are especially apparent in adversarial settings, where each group of agents is racing to counter the current strategy of the opposing group.

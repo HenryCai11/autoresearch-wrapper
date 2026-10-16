@@ -1,0 +1,3 @@
+codex failed for: EAU UserGym ColBench
+codex failed for: EAU project website environment agent user co-evolution
+codex failed for: framework jointly adapts simulated user environment rewards RL configuration
