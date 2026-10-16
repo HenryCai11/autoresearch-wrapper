@@ -1,0 +1,41 @@
+{
+  "experiment_id": "eau-live-geo-r6-2026-10",
+  "round": 6,
+  "label": "canonical-citation-entry",
+  "change_id": "r6-canonical-citation-entry",
+  "base_production_commit": "edec9373f0c5d4fcc0eae9308678c582fb719416",
+  "candidate_commit": "e277d446ab1d2ee12b1b7e2abe3bc5b23a990fd6",
+  "candidate_branch": "codex/geo-live-round-6",
+  "candidate_worktree": "/scratch/henrycai/eau-r6-20261016.autoresearch-worktrees/20261016T112235Z-index-html/candidate-001",
+  "query_count": 15,
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "measurement_phase": "local_candidate_only",
+  "deployment_status": "awaiting_approval",
+  "inner_candidate_score": 99.0,
+  "inner_previous_score": 99.0,
+  "inner_role": "ignored for candidate ranking and promotion; historical inner results are retained only for audit",
+  "outer_status": "unmeasured_pending_production_deployment",
+  "outer_score": null,
+  "production_merge_commit": null,
+  "fresh_control": "r5-control/summary.json",
+  "history_retention": "Keep candidate commit, branch, patch, operations, graph hashes and observations even when local readiness ties.",
+  "selection_policy": "outer-only-policy.json",
+  "historical_readiness_snapshot_result": {
+    "commit": "a643cde471af4a87327ff69e7d046594b9faa52f",
+    "description": "R6 canonical project citation entry; offline gate tie, live effect unmeasured",
+    "metric_value": 99.0,
+    "recorded_at": "2026-10-16T11:19:05+00:00",
+    "status": "discard"
+  },
+  "candidate_review_url": "https://github.com/eau-meta-agent/eau-meta-agent.github.io/compare/main...codex/geo-live-round-6",
+  "active_outer_run": {
+    "active_candidates": [
+      "seed"
+    ],
+    "part_id": "index.html",
+    "program_path": "/scratch/henrycai/eau-r6-20261016/.autoresearch-wrapper/runs/20261016T112235Z-index-html/program.md",
+    "run_id": "20261016T112235Z-index-html"
+  },
+  "primary_metric": "live_project_citation_rate",
+  "baseline_metric": 11.666666666666666
+}

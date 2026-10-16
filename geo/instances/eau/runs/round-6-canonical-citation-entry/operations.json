@@ -1,0 +1,34 @@
+{
+  "operations": [
+    {
+      "op": "replace_text",
+      "node": "file:index.html",
+      "before": "<title>eau — Environment–Agent–User Co-evolution</title>",
+      "after": "<title>EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents</title>"
+    },
+    {
+      "op": "replace_text",
+      "node": "file:index.html",
+      "before": "<meta name=\"description\" content=\"EAU: Environment–Agent–User Co-evolution for Training User-Centric Agents. A meta-agent framework that adapts the training system alongside the policy.\">",
+      "after": "<meta name=\"description\" content=\"Official EAU project website for arXiv:2610.16523. A meta-agent framework that adapts environments, simulated users, rewards, and RL configuration for user-centric agents.\">"
+    },
+    {
+      "op": "replace_text",
+      "node": "file:index.html",
+      "before": "<meta property=\"og:title\" content=\"eau — Learning to evolve, together.\">",
+      "after": "<meta property=\"og:title\" content=\"EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents\">"
+    },
+    {
+      "op": "replace_text",
+      "node": "file:index.html",
+      "before": "<meta property=\"og:description\" content=\"Environment–Agent–User Co-evolution for Training User-Centric Agents. Explore the framework, experiments, and research.\">",
+      "after": "<meta property=\"og:description\" content=\"Official EAU project website for arXiv:2610.16523. A meta-agent framework that adapts environments, simulated users, rewards, and RL configuration for user-centric agents.\">"
+    },
+    {
+      "op": "replace_text",
+      "node": "file:index.html",
+      "before": "      <div class=\"hero-copy\">\n        <h1",
+      "after": "      <div class=\"hero-copy\">\n        <p class=\"hero-description\" id=\"project-reference\">Official EAU project website: <a href=\"https://eau-meta-agent.github.io/\">eau-meta-agent.github.io</a> · <a href=\"https://arxiv.org/abs/2610.16523\">arXiv:2610.16523</a>.</p>\n        <h1"
+    }
+  ]
+}

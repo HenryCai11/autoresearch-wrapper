@@ -1,0 +1,20 @@
+{
+  "round": 6,
+  "change_id": "r6-canonical-citation-entry",
+  "base_production_commit": "edec9373f0c5d4fcc0eae9308678c582fb719416",
+  "files": [
+    "index.html"
+  ],
+  "query_count": 15,
+  "query_tiers": [
+    "exact",
+    "fuzzy",
+    "broad"
+  ],
+  "hypothesis": "An early, visible project URL and arXiv identifier plus consistent title/description may make the official project page easier to identify and cite after recrawling.",
+  "inner_role": "ignored for candidate ranking and promotion; historical inner results are retained only for audit",
+  "outer_role": "project-domain citation rate over the fixed 15 queries and 4 equally weighted search engines",
+  "measurement": "Refresh R5 control now; measure R6 only after explicitly approved production deployment and verified served commit.",
+  "promotion": "No live lift or keep decision may be inferred from offline scores or unpublished candidate content.",
+  "supersedes_readiness_selection": true
+}

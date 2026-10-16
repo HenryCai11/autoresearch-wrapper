@@ -1,0 +1,98 @@
+{
+  "site_url": "https://eau-meta-agent.github.io/",
+  "paper_url": "https://arxiv.org/abs/2610.16523",
+  "repo_url": "https://github.com/eau-meta-agent/eau-meta-agent.github.io",
+  "platforms": {
+    "gpt-web": 0.25,
+    "codex-search": 0.25,
+    "tavily-search": 0.25,
+    "exa-search": 0.25
+  },
+  "queries": [
+    {
+      "id": "Q01",
+      "text": "EAU Environment Agent User Co-evolution"
+    },
+    {
+      "id": "Q02",
+      "text": "EAU arXiv 2610.16523"
+    },
+    {
+      "id": "Q03",
+      "text": "EAU meta-agent user-centric agents"
+    },
+    {
+      "id": "Q04",
+      "text": "EAU UserGym ColBench"
+    },
+    {
+      "id": "Q05",
+      "text": "EAU project website environment agent user co-evolution"
+    },
+    {
+      "id": "Q06",
+      "text": "framework jointly adapts simulated user environment rewards RL configuration"
+    },
+    {
+      "id": "Q07",
+      "text": "user-centric agents co-evolve environment and user simulator"
+    },
+    {
+      "id": "Q08",
+      "text": "meta-agent modifies training environment during multi-turn reinforcement learning"
+    },
+    {
+      "id": "Q09",
+      "text": "adaptive user simulator reward design LLM agents"
+    },
+    {
+      "id": "Q10",
+      "text": "within-run and across-run adaptation agent training"
+    },
+    {
+      "id": "Q11",
+      "text": "recent agent environment co-evolution papers"
+    },
+    {
+      "id": "Q12",
+      "text": "LLM agent training environment evolves with policy"
+    },
+    {
+      "id": "Q13",
+      "text": "multi-turn reinforcement learning user simulation benchmarks"
+    },
+    {
+      "id": "Q14",
+      "text": "editable training systems for tool-using agents"
+    },
+    {
+      "id": "Q15",
+      "text": "methods improving user-centric agents with simulated users"
+    }
+  ],
+  "interventions": [
+    {
+      "id": "r6-canonical-citation-entry",
+      "nodes": [
+        "file:index.html"
+      ],
+      "source_url": "https://eau-meta-agent.github.io/",
+      "link_state": "present",
+      "link_evidence_url": "https://eau-meta-agent.github.io/",
+      "change_kind": "node",
+      "candidate_id": "r6-canonical-citation-entry",
+      "hypothesis": "An early, visible project URL and arXiv identifier plus consistent title/description may make the official project page easier to identify and cite after recrawling."
+    },
+    {
+      "id": "external-paper-backlink-audit",
+      "nodes": [
+        "source:https://arxiv.org/abs/2610.16523"
+      ],
+      "source_url": "https://arxiv.org/abs/2610.16523",
+      "link_state": "unknown",
+      "change_kind": "edge",
+      "owner": "paper author",
+      "hypothesis": "Inspect the returned paper entry for a project-site link before proposing any externally controlled edit."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "recorded_at": "2026-10-16T11:22:35+00:00",
+  "authority": "user requested ignoring inner metric and using outer search tools only",
+  "primary_metric": "project-domain citation rate over the fixed 15 queries and 4 equally weighted search engines",
+  "secondary_metrics": [
+    "outer composite (legacy weights)",
+    "correct attribution",
+    "mention",
+    "reciprocal rank"
+  ],
+  "tool_failure_policy": "Require 60 valid responses for automatic ranking; also report scheduled, valid, matched-valid results.",
+  "inner_role": "ignored for candidate ranking and promotion; historical inner results are retained only for audit",
+  "history_policy": "Preserve discarded/tied candidate commits and patches for deliberate reuse and combination experiments.",
+  "promotion": "Never assign a live metric to an unpublished candidate or substitute R5 production results for R6."
+}

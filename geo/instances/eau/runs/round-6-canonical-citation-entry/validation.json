@@ -1,0 +1,22 @@
+{
+  "checks": {
+    "local_links_resolve": true,
+    "single_home_h1": true,
+    "full_paper_title": true,
+    "title_matches_og": true,
+    "description_matches_og": true,
+    "canonical_unchanged": true,
+    "domain_in_opening_400_chars": true,
+    "arxiv_id_in_opening_400_chars": true,
+    "all_jsonld_parses": true,
+    "all_other_pages_unchanged": true,
+    "style_and_js_unchanged": true
+  },
+  "errors": [],
+  "visible_home_chars": 4964,
+  "opening_400_chars": "Skip to content eau . The idea Framework Results Method summary Research context Paper details Research materials Official EAU project website: eau-meta-agent.github.io · arXiv:2610.16523 . Learning to evolve, together. Environment–Agent–User Co-evolution for Training User-Centric Agents EAU is a meta-agent framework that evolves the environment, the agent, and the simulated user together while tr",
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "scorer_limitations": [
+    "Existing geo_eval parser concatenates SVG title text into Page.title; scoring code is unchanged for R5/R6 comparability."
+  ]
+}
