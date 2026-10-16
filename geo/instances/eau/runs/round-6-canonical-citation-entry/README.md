@@ -37,9 +37,14 @@ unchanged deployed R5, not an R6 intervention.
 | Exa auto, 10 results with highlights | 12/15 | 3/15 |
 
 Primary citation rate: **7/60 = 11.67%**. Legacy outer composite: **29.61**.
-On the 43 cells valid in both the original R5 run and this repeat, the composite
+On the 43 cells valid in both the original failed-Codex R5 measurement and this repeat, the composite
 changed from **25.81 to 26.05 (+0.23)**. The site did not change; this is a repeat
 measurement, and tool/runtime settings and time differ from the original run.
+
+During this experiment, upstream commit `4e0e001` also added a bounded Codex
+retest to R5 (11/15 Codex responses). Its revised all-cell composite is 25.50.
+`r5-control/comparison-vs-r5-codex-retest.json` compares that newer reference to
+this independent control using matched valid cells. Neither comparison is R6 lift.
 
 ## Candidate and evidence
 
