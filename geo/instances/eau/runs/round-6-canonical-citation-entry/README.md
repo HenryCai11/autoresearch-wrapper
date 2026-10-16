@@ -1,4 +1,4 @@
-# EAU R6: canonical citation entry (outer-only, awaiting deployment)
+# EAU R6: canonical citation entry (outer-only, deployed and measured)
 
 R5 has been pulled into `/project/aip-xiye17/henrycai/eau-meta-agent.github.io` at
 `edec9373f0c5d4fcc0eae9308678c582fb719416`. The production homepage SHA-256 matches
@@ -6,8 +6,19 @@ that checkout. The R6 candidate is on the EAU repository's
 [`codex/geo-live-round-6`](https://github.com/eau-meta-agent/eau-meta-agent.github.io/compare/main...codex/geo-live-round-6)
 branch, commit `e277d44`.
 
-R6 is **not deployed** and has **no measured outer result**. Candidate readiness
-scores must not be used as evidence of retrieval or citation improvement.
+R6 was merged and deployed as `e6b74d333b09c30619d5c3c61c95fa066ee50188` after
+explicit user approval. The served homepage was byte-verified against the R6
+checkout before and after measurement. See [`r6-live/REPORT.md`](r6-live/REPORT.md).
+
+Immediate outer result: **7/60 project-domain citations (11.67%)**, unchanged
+from the fresh R5 control, with **60/60 valid responses**. The legacy composite
+changed from 29.61 to 29.56. The wrapper recorded **discard** because the primary
+metric tied; this does not delete the candidate or automatically roll production
+back. Production remains R6 pending any separate rollback decision.
+
+The root `run.json` preserves the pre-deployment candidate snapshot. The deployed
+measurement and final selection record are in `r6-live/run.json` and
+`r6-live/wrapper-record.json`. Readiness scores do not participate in selection.
 
 ## User-selected objective
 
@@ -65,10 +76,10 @@ does not automatically search historical combinations.
 
 ## Next measurement
 
-After approval and deployment of this candidate, verify the served version,
-collect the frozen 15 queries across the same four engines, and write a new
-measurement directory. Compare against `r5-control/` using the outer-only policy.
-Preserve both the immediate measurement and any later recrawl measurement.
+The immediate deployed measurement is complete in `r6-live/`. The next useful
+measurement is a delayed repeat after search engines recrawl, using exactly the
+same queries, engines, and outer-only comparison. Preserve this immediate result
+and write any delayed repeat to a new measurement directory.
 
 Raw control answers and per-query status are in `r5-control/`. Older R0–R5
 artifacts in `live-5-round/` remain unchanged.
