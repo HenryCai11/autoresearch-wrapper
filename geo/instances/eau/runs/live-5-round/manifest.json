@@ -59,7 +59,12 @@
     {
       "round": 4,
       "label": "authority-entity-relations",
-      "status": "candidate_building"
+      "status": "awaiting_merge",
+      "pr": 13,
+      "candidate_commit": "99fd970",
+      "inner_candidate_score": 99.0,
+      "inner_delta_vs_round_3": 6.67,
+      "candidate_summary": "round-4-authority-relations/candidate-summary.json"
     },
     {
       "round": 5,

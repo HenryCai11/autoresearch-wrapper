@@ -1,0 +1,441 @@
+{
+  "site": "/workspace/eau-geo-round4",
+  "metric_version": 2,
+  "metric": 97.33,
+  "offline": 97.33,
+  "matrix_offline": 98.33,
+  "technical": {
+    "score": 95.83,
+    "categories": {
+      "structured_data": 1.0,
+      "crawler_files": 1.0,
+      "metadata": 1.0,
+      "hygiene": 1.0,
+      "scholarly": 0.8333
+    },
+    "checks": [
+      {
+        "name": "entity_jsonld",
+        "category": "structured_data",
+        "value": 1.0,
+        "detail": "JSON-LD ScholarlyArticle/Article for the entity"
+      },
+      {
+        "name": "jsonld_valid",
+        "category": "structured_data",
+        "value": 1.0,
+        "detail": "0 unparseable JSON-LD blocks"
+      },
+      {
+        "name": "entity_url",
+        "category": "structured_data",
+        "value": 1.0,
+        "detail": "url"
+      },
+      {
+        "name": "llms_txt",
+        "category": "crawler_files",
+        "value": 1.0,
+        "detail": "llms.txt naming the entity"
+      },
+      {
+        "name": "robots_allows_ai",
+        "category": "crawler_files",
+        "value": 1.0,
+        "detail": "blocked: none"
+      },
+      {
+        "name": "robots_sitemap",
+        "category": "crawler_files",
+        "value": 1.0,
+        "detail": "Sitemap: line"
+      },
+      {
+        "name": "sitemap_xml",
+        "category": "crawler_files",
+        "value": 1.0,
+        "detail": "sitemap.xml with URLs"
+      },
+      {
+        "name": "title_names_entity",
+        "category": "metadata",
+        "value": 1.0,
+        "detail": "eau — Environment–Agent–User Co-evolutionThree parts. One evolving system."
+      },
+      {
+        "name": "meta_description",
+        "category": "metadata",
+        "value": 1.0,
+        "detail": "EAU: Environment–Agent–User Co-evolution for Training User-Centric Agents. A meta-agent framework that adapts the traini"
+      },
+      {
+        "name": "canonical",
+        "category": "metadata",
+        "value": 1.0,
+        "detail": "https://eau-meta-agent.github.io/"
+      },
+      {
+        "name": "open_graph",
+        "category": "metadata",
+        "value": 1.0,
+        "detail": "og:title / og:description"
+      },
+      {
+        "name": "image_alt",
+        "category": "hygiene",
+        "value": 1.0,
+        "detail": "3/3 images with alt"
+      },
+      {
+        "name": "identity_front_loaded",
+        "category": "scholarly",
+        "value": 0.6666666666666666,
+        "detail": "2/3 core facts in the first 600 chars"
+      },
+      {
+        "name": "aliases_visible",
+        "category": "scholarly",
+        "value": 1.0,
+        "detail": "visible aliases: ['Environment-Agent-User Co-evolution', 'Environment–Agent–User Co-evolution', 'EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents']"
+      }
+    ],
+    "guardrail_violations": [],
+    "stats": {
+      "pages": 4,
+      "home_visible_chars": 4902,
+      "site_visible_chars": 8585
+    }
+  },
+  "llm": null,
+  "matrix": {
+    "columns": [
+      "site",
+      "snippet",
+      "schema",
+      "llms",
+      "llm",
+      "search"
+    ],
+    "summary": {
+      "site": {
+        "all": 1.0,
+        "hop0": 1.0,
+        "hop1": 1.0,
+        "hop2": 1.0
+      },
+      "snippet": {
+        "all": 1.0,
+        "hop0": 1.0,
+        "hop1": 1.0,
+        "hop2": 1.0
+      },
+      "schema": {
+        "all": 0.9333,
+        "hop0": 1.0,
+        "hop1": 0.8889,
+        "hop2": 1.0
+      },
+      "llms": {
+        "all": 1.0,
+        "hop0": 1.0,
+        "hop1": 1.0,
+        "hop2": 1.0
+      },
+      "llm": {
+        "all": null,
+        "hop0": null,
+        "hop1": null,
+        "hop2": null
+      },
+      "search": {
+        "all": null,
+        "hop0": null,
+        "hop1": null,
+        "hop2": null
+      }
+    },
+    "rows": [
+      {
+        "node": "identity",
+        "hop": 0,
+        "kind": "fact",
+        "keyword": "Environment-Agent-User Co-evolution",
+        "weight": 3.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "EAU Environment Agent User co-evolution"
+        ]
+      },
+      {
+        "node": "purpose",
+        "hop": 0,
+        "kind": "fact",
+        "keyword": "user-centric agents",
+        "weight": 3.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "EAU user-centric agents"
+        ]
+      },
+      {
+        "node": "meta-agent",
+        "hop": 0,
+        "kind": "fact",
+        "keyword": "meta-agent framework",
+        "weight": 3.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "EAU meta-agent framework"
+        ]
+      },
+      {
+        "node": "paper",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "arXiv:2610.16523",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "EAU arXiv 2610.16523"
+        ]
+      },
+      {
+        "node": "user-simulator",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "hybrid user simulator",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "EAU hybrid user simulator symbolic rules LLM responses"
+        ]
+      },
+      {
+        "node": "environment",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "environment feedback",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "EAU environment feedback reward design"
+        ]
+      },
+      {
+        "node": "reward",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "reward design",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "EAU reward design reinforcement learning"
+        ]
+      },
+      {
+        "node": "rl-configuration",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "RL configuration",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "EAU reinforcement learning configuration meta-agent"
+        ]
+      },
+      {
+        "node": "timescales",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "within a run",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "EAU within-run across-run adaptation"
+        ]
+      },
+      {
+        "node": "benchmarks",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "UserGym",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "EAU UserGym ColBench tau2-bench"
+        ]
+      },
+      {
+        "node": "backbones",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "Qwen3-4B",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "EAU Qwen3-4B Qwen2.5-7B"
+        ]
+      },
+      {
+        "node": "colbench-result",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "0.600",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 0.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "EAU ColBench 0.600 InfoPO"
+        ]
+      },
+      {
+        "node": "agent-environment-user-coevolution",
+        "hop": 2,
+        "kind": "topic",
+        "keyword": "agent-environment-user co-evolution",
+        "weight": 1.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "最近有什么 agent-environment co-evolution 的工作？",
+          "What are recent papers on agent-environment co-evolution for LLM agents?",
+          "Which recent methods co-evolve the training environment and agent policy, and how do they differ?",
+          "What work jointly adapts the environment, agent, and simulated user during multi-turn RL training?"
+        ]
+      },
+      {
+        "node": "multi-turn-rl",
+        "hop": 2,
+        "kind": "topic",
+        "keyword": "multi-turn reinforcement learning",
+        "weight": 1.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "multi-turn reinforcement learning user simulator environment adaptation"
+        ]
+      },
+      {
+        "node": "adaptive-training-system",
+        "hop": 2,
+        "kind": "topic",
+        "keyword": "adaptive training system",
+        "weight": 1.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "LLM agent editable adaptive training system meta-agent"
+        ]
+      }
+    ]
+  },
+  "scoring": {
+    "offline": 0.5,
+    "llm": 0.5,
+    "matrix_share_of_offline": 0.6,
+    "version": 2.0,
+    "snippet_chars": 400.0,
+    "context_chars": 5000.0
+  }
+}
