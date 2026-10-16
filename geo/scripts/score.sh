@@ -18,5 +18,12 @@ case "${GEO_BUILDER:-jekyll}" in
   static) cp -r "${GEO_STATIC_DIR:-.}/." "$OUT" ;;
   *) echo "unknown GEO_BUILDER: $GEO_BUILDER" >&2; exit 2 ;;
 esac
+# Keep every evaluation's full report (matrix, checks, answers) when asked, e.g. for
+# frontier plots: <GEO_REPORT_DIR>/<worktree-name>-<utc-time>.json
+REPORT_ARGS=()
+if [ -n "${GEO_REPORT_DIR:-}" ]; then
+  mkdir -p "$GEO_REPORT_DIR"
+  REPORT_ARGS=(--report "$GEO_REPORT_DIR/$(basename "$PWD")-$(date -u +%Y%m%dT%H%M%SZ).json")
+fi
 # shellcheck disable=SC2086
-exec python3 "$ROOT/scripts/geo_eval.py" matrix --map "$INSTANCE/map.json" --site "$OUT" ${GEO_EVAL_ARGS:-} "$@"
+exec python3 "$ROOT/scripts/geo_eval.py" matrix --map "$INSTANCE/map.json" --site "$OUT" ${GEO_EVAL_ARGS:-} "${REPORT_ARGS[@]}" "$@"
