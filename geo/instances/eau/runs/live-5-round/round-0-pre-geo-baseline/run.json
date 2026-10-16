@@ -1,0 +1,20 @@
+{
+  "experiment_id": "eau-live-geo-5-round-2026-10",
+  "round": 0,
+  "label": "pre-geo-baseline",
+  "change_id": "r0-restore-e0cc480",
+  "source_tree": "e0cc480",
+  "production_merge_commit": "82ea530ccfc503cd587bd0cf38be52188b66fbff",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "deployment_status": "built",
+  "merged_at": "2026-10-16T08:50:07Z",
+  "query_count": 15,
+  "query_set_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "engines": [
+    "gpt-web",
+    "codex-search",
+    "tavily-search",
+    "exa-search"
+  ],
+  "measurement_phase": "post_merge_production_baseline"
+}

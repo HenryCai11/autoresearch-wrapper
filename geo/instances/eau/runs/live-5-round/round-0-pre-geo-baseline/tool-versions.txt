@@ -1,0 +1,3 @@
+Python 3.10.12
+codex-cli 0.155.1
+e90ee1556ef6678b6d0336945ed779a821a13e81
