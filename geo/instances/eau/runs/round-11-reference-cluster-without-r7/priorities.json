@@ -1,0 +1,48 @@
+{
+  "tool": "R9 saved four-engine responses (not new R11 probes)",
+  "result_scope": "Displayed URLs from preserved answers; not top-ten ranks or predicted lift",
+  "query_count": 15,
+  "observed_funnel": {
+    "project_returned": 5,
+    "paper_returned": 11,
+    "repo_returned": 0
+  },
+  "interventions": [
+    {
+      "id": "external-paper-link-audit",
+      "nodes": [
+        "external:paper-backlink"
+      ],
+      "source_url": "https://arxiv.org/abs/2610.16523",
+      "observed_source_visible_target_absent_queries": [
+        "Q06",
+        "Q08",
+        "Q11",
+        "Q12",
+        "Q14",
+        "Q15"
+      ],
+      "observed_opportunity_count": 6,
+      "next_test_order": 1,
+      "effect_status": "unmeasured",
+      "priority_basis": "returned source URL visible while project URL absent"
+    },
+    {
+      "id": "r11-reference-cluster-without-r7",
+      "nodes": [
+        "section:overview",
+        "file:method.html",
+        "file:paper.html",
+        "file:research-context.html",
+        "section:results"
+      ],
+      "source_url": "https://eau-meta-agent.github.io/",
+      "observed_source_visible_target_absent_queries": [],
+      "observed_opportunity_count": 0,
+      "next_test_order": null,
+      "effect_status": "unmeasured",
+      "priority_basis": "returned source URL visible while project URL absent"
+    }
+  ],
+  "warning": "This orders entry points for a next test using returned URLs only; it does not measure intervention lift, platform reachability, ranking, or citation."
+}

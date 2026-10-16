@@ -1,0 +1,41 @@
+{
+  "checks": {
+    "only_index_changed_vs_best_r9_seed": true,
+    "only_overview_section_changed": true,
+    "restored_overview_equals_exact_r6_source": true,
+    "all_other_sections_unchanged": true,
+    "r9_static_results_preserved": true,
+    "all_head_bytes_including_schema_unchanged_vs_r9": true,
+    "all_other_tracked_files_unchanged_vs_seed": true,
+    "local_links_fragments_and_unique_ids_valid": true,
+    "one_home_h1": true,
+    "jsonld_valid_and_same_as_seed": true,
+    "visible_text_within_existing_limit": true,
+    "no_hidden_text_added": true,
+    "nonhome_visible_content_unchanged": true,
+    "frozen_map_judge_and_normalizer_unchanged": true,
+    "query_set_unchanged": true,
+    "current_r10_production_checkout_unchanged": true,
+    "production_diff_has_only_expected_four_pages": true
+  },
+  "errors": [],
+  "inner_score": "not computed",
+  "visible_home_chars_before": 5436,
+  "visible_home_chars_after": 5349,
+  "limit": 9000,
+  "selection_seed": "R9, not current R10 production",
+  "restore_source_commit": "e6b74d333b09c30619d5c3c61c95fa066ee50188",
+  "scope_vs_seed": [
+    "index.html"
+  ],
+  "scope_vs_current_production": [
+    "index.html",
+    "method.html",
+    "paper.html",
+    "research-context.html"
+  ],
+  "browser_test": "not performed; scripts and styles are byte-identical to R9 and the restored section was already present in R6",
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+  "judge_sha256": "6bb1498e65e5cf065cc8e03e40007c73c32393e16f85a41d2395db76820613de",
+  "normalization_sha256": "8a2856dd9b69fe4b24c7b315f55ac6c98b7bcbd9063dd1093a11fba3e181d537"
+}

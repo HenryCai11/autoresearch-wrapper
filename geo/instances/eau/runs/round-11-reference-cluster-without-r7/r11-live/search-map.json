@@ -1,0 +1,175 @@
+{
+  "entity": {
+    "name": "EAU",
+    "aliases": [
+      "Environment-Agent-User Co-evolution",
+      "Environment–Agent–User Co-evolution",
+      "EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents"
+    ],
+    "schema_types": ["ScholarlyArticle", "Article"],
+    "url": "https://eau-meta-agent.github.io/"
+  },
+  "nodes": [
+    {
+      "id": "identity",
+      "hop": 0,
+      "terms": ["Environment-Agent-User Co-evolution", "Environment–Agent–User Co-evolution"],
+      "queries": ["EAU Environment Agent User co-evolution"],
+      "fact": "EAU stands for Environment-Agent-User Co-evolution."
+    },
+    {
+      "id": "purpose",
+      "hop": 0,
+      "terms": ["user-centric agents", "user-centric LLM agents"],
+      "queries": ["EAU user-centric agents"],
+      "fact": "EAU trains user-centric LLM agents."
+    },
+    {
+      "id": "meta-agent",
+      "hop": 0,
+      "terms": ["meta-agent framework", "meta-agent"],
+      "queries": ["EAU meta-agent framework"],
+      "fact": "EAU uses a meta-agent to diagnose training and propose validated interventions."
+    },
+    {
+      "id": "paper",
+      "hop": 1,
+      "terms": ["arXiv:2610.16523", "2610.16523"],
+      "queries": ["EAU arXiv 2610.16523"],
+      "url": "https://arxiv.org/abs/2610.16523",
+      "venue": "arXiv 2026",
+      "fact": "The EAU paper is arXiv:2610.16523."
+    },
+    {
+      "id": "user-simulator",
+      "hop": 1,
+      "terms": ["hybrid user simulator", "simulated user"],
+      "queries": ["EAU hybrid user simulator symbolic rules LLM responses"],
+      "fact": "EAU can revise a hybrid user simulator that combines symbolic rules and LLM responses."
+    },
+    {
+      "id": "environment",
+      "hop": 1,
+      "terms": ["environment feedback", "environment behavior"],
+      "queries": ["EAU environment feedback reward design"],
+      "fact": "EAU can adapt environment behavior and feedback during training."
+    },
+    {
+      "id": "reward",
+      "hop": 1,
+      "terms": ["reward design", "rewards"],
+      "queries": ["EAU reward design reinforcement learning"],
+      "fact": "EAU can revise reward design during reinforcement learning."
+    },
+    {
+      "id": "rl-configuration",
+      "hop": 1,
+      "terms": ["RL configuration", "reinforcement-learning configuration"],
+      "queries": ["EAU reinforcement learning configuration meta-agent"],
+      "fact": "EAU can change reinforcement-learning configuration during a run."
+    },
+    {
+      "id": "timescales",
+      "hop": 1,
+      "terms": ["within a run", "across runs"],
+      "queries": ["EAU within-run across-run adaptation"],
+      "fact": "EAU adapts within a training run and carries experience across runs."
+    },
+    {
+      "id": "benchmarks",
+      "hop": 1,
+      "terms": ["UserGym", "ColBench", "τ²-bench"],
+      "queries": ["EAU UserGym ColBench tau2-bench"],
+      "fact": "EAU is evaluated on UserGym, ColBench, and τ²-bench."
+    },
+    {
+      "id": "backbones",
+      "hop": 1,
+      "terms": ["Qwen3-4B", "Qwen2.5-7B-Instruct"],
+      "queries": ["EAU Qwen3-4B Qwen2.5-7B"],
+      "fact": "EAU is evaluated with Qwen3-4B and Qwen2.5-7B-Instruct policy backbones."
+    },
+    {
+      "id": "colbench-result",
+      "hop": 1,
+      "terms": ["0.600", "+36.7%"],
+      "queries": ["EAU ColBench 0.600 InfoPO"],
+      "fact": "On Qwen3-4B, EAU reports 0.600 ColBench task success, a 36.7% relative gain over InfoPO."
+    },
+    {
+      "id": "agent-environment-user-coevolution",
+      "hop": 2,
+      "kind": "topic",
+      "terms": ["agent-environment-user co-evolution", "environment agent user co-evolution"],
+      "via": ["user-simulator", "environment", "rl-configuration"],
+      "queries": [
+        "最近有什么 agent-environment co-evolution 的工作？",
+        "What are recent papers on agent-environment co-evolution for LLM agents?",
+        "Which recent methods co-evolve the training environment and agent policy, and how do they differ?",
+        "What work jointly adapts the environment, agent, and simulated user during multi-turn RL training?"
+      ],
+      "fact": "EAU jointly adapts the environment, agent training process, and simulated user."
+    },
+    {
+      "id": "multi-turn-rl",
+      "hop": 2,
+      "kind": "topic",
+      "terms": ["multi-turn reinforcement learning", "multi-turn RL"],
+      "via": ["reward", "benchmarks"],
+      "queries": ["multi-turn reinforcement learning user simulator environment adaptation"],
+      "fact": "EAU targets multi-turn reinforcement learning with simulated users and tools."
+    },
+    {
+      "id": "adaptive-training-system",
+      "hop": 2,
+      "kind": "topic",
+      "terms": ["adaptive training system", "editable training system"],
+      "via": ["meta-agent", "timescales"],
+      "queries": ["LLM agent editable adaptive training system meta-agent"],
+      "fact": "EAU treats the training system as editable and uses feedback to select interventions."
+    }
+  ],
+  "probes": [
+    {"query": "EAU Environment Agent User Co-evolution", "hop": 0},
+    {"query": "EAU arXiv 2610.16523", "hop": 0},
+    {"query": "EAU meta-agent user-centric agents", "hop": 0},
+    {"query": "EAU UserGym ColBench", "hop": 0},
+    {"query": "EAU project website environment agent user co-evolution", "hop": 0},
+    {"query": "framework jointly adapts simulated user environment rewards RL configuration", "hop": 1},
+    {"query": "user-centric agents co-evolve environment and user simulator", "hop": 1},
+    {"query": "meta-agent modifies training environment during multi-turn reinforcement learning", "hop": 1},
+    {"query": "adaptive user simulator reward design LLM agents", "hop": 1},
+    {"query": "within-run and across-run adaptation agent training", "hop": 1},
+    {"query": "recent agent environment co-evolution papers", "hop": 2},
+    {"query": "LLM agent training environment evolves with policy", "hop": 2},
+    {"query": "multi-turn reinforcement learning user simulation benchmarks", "hop": 2},
+    {"query": "editable training systems for tool-using agents", "hop": 2},
+    {"query": "methods improving user-centric agents with simulated users", "hop": 2}
+  ],
+  "questions": [
+    {"id": "q-name", "node": "identity", "q": "What does EAU stand for?", "answer_terms": ["Environment", "Agent", "User", "Co-evolution"]},
+    {"id": "q-purpose", "node": "purpose", "q": "What kind of agents does EAU train?", "answer_terms": ["user-centric"]},
+    {"id": "q-meta", "node": "meta-agent", "q": "What component diagnoses trajectories and proposes changes in EAU?", "answer_terms": ["meta-agent"]},
+    {"id": "q-paper", "node": "paper", "q": "What is the arXiv identifier for EAU?", "answer_terms": ["2610.16523"]},
+    {"id": "q-user", "node": "user-simulator", "q": "What parts of the simulated user can EAU revise?", "answer_terms": ["symbolic", "LLM"]},
+    {"id": "q-knobs", "node": "rl-configuration", "q": "Which parts of the training system can EAU adapt?", "answer_terms": ["user", "environment", "reward", "RL"]},
+    {"id": "q-timescales", "node": "timescales", "q": "At which two timescales does EAU adapt?", "answer_terms": ["within", "across"]},
+    {"id": "q-benchmarks", "node": "benchmarks", "q": "Which three interactive benchmarks evaluate EAU?", "answer_terms": ["UserGym", "ColBench", "τ²-bench"]},
+    {"id": "q-backbones", "node": "backbones", "q": "Which policy backbones are used to evaluate EAU?", "answer_terms": ["Qwen3-4B", "Qwen2.5-7B"]},
+    {"id": "q-colbench", "node": "colbench-result", "q": "What ColBench task-success score does EAU report with Qwen3-4B?", "answer_terms": ["0.600"]},
+    {"id": "q-coevolution", "node": "agent-environment-user-coevolution", "q": "Which work jointly adapts an environment, agent training, and simulated user?", "answer_terms": ["EAU"]},
+    {"id": "q-multiturn", "node": "multi-turn-rl", "q": "What training setting is EAU designed for?", "answer_terms": ["multi-turn", "reinforcement learning"]},
+    {"id": "q-url", "q": "What is the EAU project website URL?", "answer_terms": ["eau-meta-agent.github.io"]}
+  ],
+  "forbidden": [],
+  "limits": {
+    "max_visible_chars": 9000,
+    "attribution_terms": ["Environment-Agent-User", "meta-agent", "user-centric agents"],
+    "_note": "The limit leaves room for useful copy while preventing keyword padding."
+  },
+  "scoring": {
+    "version": 2,
+    "snippet_chars": 400,
+    "context_chars": 5000
+  }
+}
