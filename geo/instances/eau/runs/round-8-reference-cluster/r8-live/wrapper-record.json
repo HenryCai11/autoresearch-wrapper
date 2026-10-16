@@ -1,0 +1,7 @@
+{
+  "commit": "a2e3d0163fa55384c1f949b6da6c6fef1ea486fc",
+  "description": "R8 cross-module reference cluster; four served resources byte-verified; 60 frozen outer cells valid; compared with preserved R7 control",
+  "metric_value": 10.0,
+  "recorded_at": "2026-10-16T12:22:49+00:00",
+  "status": "discard"
+}

@@ -1,0 +1,14 @@
+{
+  "measurements": [
+    {
+      "label": "r7-live-reused-control",
+      "deployed_commit": "fbd9e100b6ae71704a0cf65b1a1b9b87dbdc4ef7",
+      "deployed_tree": "ab2d4d904e2227401ce1d23cf92f1d4a2bdd0b9a",
+      "measured_at": "2026-10-16T12:00:17+00:00",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "../round-7-static-mechanism-overview/r7-live/search-matrix.csv",
+      "matrix_sha256": "dae7a1ec81d24aa8958a660f5ee3741b5467cfc347437873d3262197248897d9",
+      "verification": "R7 served homepage bytes still equal the R7 checkout at R8 initialization."
+    }
+  ]
+}

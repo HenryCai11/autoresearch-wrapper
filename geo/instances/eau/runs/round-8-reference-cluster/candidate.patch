@@ -1,0 +1,52 @@
+diff --git a/llms.txt b/llms.txt
+index e3d0174..747ed46 100644
+--- a/llms.txt
++++ b/llms.txt
+@@ -20,0 +21,2 @@ EAU is a meta-agent framework for training user-centric LLM agents. It jointly a
++- Method summary: https://eau-meta-agent.github.io/method.html
++- Research context: https://eau-meta-agent.github.io/research-context.html
+@@ -29 +31 @@ EAU is evaluated on UserGym, ColBench, and tau2-bench with Qwen3-4B and Qwen2.5-
+-EAU contributes to agent-environment-user co-evolution for LLM agents. It targets multi-turn reinforcement learning with simulated users and tools, and treats the adaptive training system as editable rather than fixed. The environment, agent training process, and user simulator are jointly revised from training feedback. See https://eau-meta-agent.github.io/research-context.html for scope and comparisons.
++EAU contributes to agent-environment-user co-evolution for LLM agents. It targets multi-turn reinforcement learning with simulated users and tools, and treats the adaptive training system as editable rather than fixed. The environment, agent training process, and user simulator are jointly revised from training feedback. The research context entry above describes scope and comparisons.
+diff --git a/method.html b/method.html
+index 6996691..7b323f7 100644
+--- a/method.html
++++ b/method.html
+@@ -62,0 +63,9 @@
++  <footer class="wrap section-pad" aria-label="EAU project references">
++    <p class="mini-index">EAU project references</p>
++    <p>Official project site: <a class="text-link" href="https://eau-meta-agent.github.io/">eau-meta-agent.github.io</a>.</p>
++    <ul>
++      <li><a class="text-link" href="paper.html#evidence">Paper record and reported evidence</a></li>
++      <li><a class="text-link" href="research-context.html#scope">Research scope and context</a></li>
++      <li><a class="text-link" href="llms.txt">Plain-text project summary</a></li>
++    </ul>
++  </footer>
+diff --git a/paper.html b/paper.html
+index a8effd7..2ad1713 100644
+--- a/paper.html
++++ b/paper.html
+@@ -46,0 +47,9 @@
++  <footer class="wrap section-pad" aria-label="EAU project references">
++    <p class="mini-index">EAU project references</p>
++    <p>Official project site: <a class="text-link" href="https://eau-meta-agent.github.io/">eau-meta-agent.github.io</a>.</p>
++    <ul>
++      <li><a class="text-link" href="method.html#components">Editable components and adaptation</a></li>
++      <li><a class="text-link" href="research-context.html#scope">Research scope and context</a></li>
++      <li><a class="text-link" href="llms.txt">Plain-text project summary</a></li>
++    </ul>
++  </footer>
+diff --git a/research-context.html b/research-context.html
+index c4797f4..bcdfbd0 100644
+--- a/research-context.html
++++ b/research-context.html
+@@ -58,0 +59,9 @@
++  <footer class="wrap section-pad" aria-label="EAU project references">
++    <p class="mini-index">EAU project references</p>
++    <p>Official project site: <a class="text-link" href="https://eau-meta-agent.github.io/">eau-meta-agent.github.io</a>.</p>
++    <ul>
++      <li><a class="text-link" href="method.html#components">Editable components and adaptation</a></li>
++      <li><a class="text-link" href="paper.html#evidence">Paper record and reported evidence</a></li>
++      <li><a class="text-link" href="llms.txt">Plain-text project summary</a></li>
++    </ul>
++  </footer>
