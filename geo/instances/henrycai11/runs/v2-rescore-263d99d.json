@@ -1,0 +1,1002 @@
+{
+  "site": "/tmp/geo-site.DnaZY3",
+  "metric_version": 2,
+  "metric": 74.15,
+  "offline": 85.79,
+  "matrix_offline": 84.65,
+  "technical": {
+    "score": 87.5,
+    "categories": {
+      "structured_data": 1.0,
+      "crawler_files": 1.0,
+      "metadata": 1.0,
+      "hygiene": 1.0,
+      "scholarly": 0.5
+    },
+    "checks": [
+      {
+        "name": "person_jsonld",
+        "category": "structured_data",
+        "value": 1.0,
+        "detail": "JSON-LD Person for the entity"
+      },
+      {
+        "name": "jsonld_valid",
+        "category": "structured_data",
+        "value": 1.0,
+        "detail": "0 unparseable JSON-LD blocks"
+      },
+      {
+        "name": "person_alias",
+        "category": "structured_data",
+        "value": 1.0,
+        "detail": "alternateName lists an alias"
+      },
+      {
+        "name": "person_same_as",
+        "category": "structured_data",
+        "value": 1.0,
+        "detail": "3 sameAs profile links"
+      },
+      {
+        "name": "person_url",
+        "category": "structured_data",
+        "value": 1.0,
+        "detail": "url"
+      },
+      {
+        "name": "papers_typed",
+        "category": "structured_data",
+        "value": 1.0,
+        "detail": "9 ScholarlyArticle records"
+      },
+      {
+        "name": "llms_txt",
+        "category": "crawler_files",
+        "value": 1.0,
+        "detail": "llms.txt naming the entity"
+      },
+      {
+        "name": "robots_allows_ai",
+        "category": "crawler_files",
+        "value": 1.0,
+        "detail": "blocked: none"
+      },
+      {
+        "name": "robots_sitemap",
+        "category": "crawler_files",
+        "value": 1.0,
+        "detail": "Sitemap: line"
+      },
+      {
+        "name": "sitemap_xml",
+        "category": "crawler_files",
+        "value": 1.0,
+        "detail": "sitemap.xml with URLs"
+      },
+      {
+        "name": "title_names_entity",
+        "category": "metadata",
+        "value": 1.0,
+        "detail": "Min Cai"
+      },
+      {
+        "name": "meta_description",
+        "category": "metadata",
+        "value": 1.0,
+        "detail": "Min Cai (蔡旻) is a PhD student at the University of Alberta in Edmonton, Canada, supervised by Dr. Xi Ye. Research on LLM"
+      },
+      {
+        "name": "canonical",
+        "category": "metadata",
+        "value": 1.0,
+        "detail": "https://HenryCai11.github.io/"
+      },
+      {
+        "name": "open_graph",
+        "category": "metadata",
+        "value": 1.0,
+        "detail": "og:title / og:description"
+      },
+      {
+        "name": "no_forbidden_text",
+        "category": "hygiene",
+        "value": 1.0,
+        "detail": "present: none"
+      },
+      {
+        "name": "image_alt",
+        "category": "hygiene",
+        "value": 1.0,
+        "detail": "2/2 images with alt"
+      },
+      {
+        "name": "paper_pages",
+        "category": "scholarly",
+        "value": 0.0,
+        "detail": "0/9 papers have their own page"
+      },
+      {
+        "name": "scholar_meta",
+        "category": "scholarly",
+        "value": 0.0,
+        "detail": "0/9 papers with citation_title + citation_author tags"
+      },
+      {
+        "name": "llms_lists_papers",
+        "category": "scholarly",
+        "value": 1.0,
+        "detail": "9/9 papers in llms.txt"
+      },
+      {
+        "name": "identity_front_loaded",
+        "category": "scholarly",
+        "value": 1.0,
+        "detail": "4/4 core facts in the first 600 chars"
+      },
+      {
+        "name": "aliases_visible",
+        "category": "scholarly",
+        "value": 0.5,
+        "detail": "visible aliases: ['蔡旻']"
+      }
+    ],
+    "guardrail_violations": [],
+    "stats": {
+      "pages": 40,
+      "home_visible_chars": 3041,
+      "site_visible_chars": 26021
+    }
+  },
+  "llm": {
+    "score": 62.5,
+    "by_hop": {
+      "0": 1.0,
+      "1": 0.6,
+      "2": 0.2308
+    },
+    "answers": [
+      {
+        "id": "q-role",
+        "node": "role",
+        "hop": 0,
+        "q": "What is Min Cai's current academic position?",
+        "answer": "PhD student",
+        "correct": true
+      },
+      {
+        "id": "q-affiliation",
+        "node": "affiliation",
+        "hop": 0,
+        "q": "Which university is Min Cai currently at?",
+        "answer": "University of Alberta",
+        "correct": true
+      },
+      {
+        "id": "q-advisor",
+        "node": "advisor",
+        "hop": 0,
+        "q": "Who supervises Min Cai's PhD?",
+        "answer": "Dr. Xi Ye",
+        "correct": true
+      },
+      {
+        "id": "q-location",
+        "node": "location",
+        "hop": 0,
+        "q": "In which city is Min Cai currently based?",
+        "answer": "Edmonton, Canada",
+        "correct": true
+      },
+      {
+        "id": "q-ms",
+        "node": "ms-shenzhen",
+        "hop": 1,
+        "q": "Where did Min Cai earn an M.S. degree?",
+        "answer": "Shenzhen University",
+        "correct": true
+      },
+      {
+        "id": "q-ba",
+        "node": "ba-blcu",
+        "hop": 1,
+        "q": "Where did Min Cai earn a bachelor's degree, and in what subject?",
+        "answer": "Beijing Language and Culture University, B.A. in Translation",
+        "correct": true
+      },
+      {
+        "id": "q-baidu",
+        "node": "intern-baidu",
+        "hop": 1,
+        "q": "Which company did Min Cai intern at most recently?",
+        "answer": "Baidu",
+        "correct": true
+      },
+      {
+        "id": "q-zai",
+        "node": "intern-zai",
+        "hop": 1,
+        "q": "Where was Min Cai a research intern from August 2024 to July 2025?",
+        "answer": "Z.ai",
+        "correct": true
+      },
+      {
+        "id": "q-focus",
+        "node": "area-continual",
+        "hop": 1,
+        "q": "What is Min Cai's current research focus?",
+        "answer": "teaching LLMs to continually learn",
+        "correct": true
+      },
+      {
+        "id": "q-interp",
+        "node": "area-interpretability",
+        "hop": 1,
+        "q": "Which research area of Min Cai is about understanding the internals of language models?",
+        "answer": "mechanistic interpretability",
+        "correct": true
+      },
+      {
+        "id": "q-strategist",
+        "node": "strategist",
+        "hop": 1,
+        "q": "At which venue was Min Cai's paper Strategist published?",
+        "answer": "unknown",
+        "correct": false
+      },
+      {
+        "id": "q-tyler",
+        "node": "tyler",
+        "hop": 1,
+        "q": "Which conference accepted Min Cai's paper Tyler?",
+        "answer": "unknown",
+        "correct": false
+      },
+      {
+        "id": "q-posttraining",
+        "node": "post-training",
+        "hop": 1,
+        "q": "Which award did the paper 'How Post-Training Reshapes LLMs' receive?",
+        "answer": "unknown",
+        "correct": false
+      },
+      {
+        "id": "q-datascibench",
+        "node": "datascibench",
+        "hop": 1,
+        "q": "Which venue accepted DataSciBench?",
+        "answer": "unknown",
+        "correct": false
+      },
+      {
+        "id": "q-avalon",
+        "node": "social-deduction-games",
+        "hop": 2,
+        "q": "Which of Min Cai's papers involve LLMs playing the game Avalon?",
+        "answer": "unknown",
+        "correct": false
+      },
+      {
+        "id": "q-coevolution",
+        "node": "agent-coevolution",
+        "hop": 2,
+        "q": "Which of Min Cai's papers is about co-evolving environments, agents, and users?",
+        "answer": "unknown",
+        "correct": false
+      },
+      {
+        "id": "q-reward",
+        "node": "reward-modeling",
+        "hop": 2,
+        "q": "Which of Min Cai's papers proposes reward models based on temporal difference learning?",
+        "answer": "unknown",
+        "correct": false
+      },
+      {
+        "id": "q-datasci",
+        "node": "data-science-agents",
+        "hop": 2,
+        "q": "Which of Min Cai's papers evaluates LLM agents on data science tasks?",
+        "answer": "unknown",
+        "correct": false
+      },
+      {
+        "id": "q-latent",
+        "node": "latent-reasoning",
+        "hop": 2,
+        "q": "Which of Min Cai's papers is about latent reasoning?",
+        "answer": "unknown",
+        "correct": false
+      },
+      {
+        "id": "q-gradient",
+        "node": "gradient-conflicts",
+        "hop": 2,
+        "q": "Which of Min Cai's works addresses gradient conflicts when training across domains?",
+        "answer": "unknown",
+        "correct": false
+      },
+      {
+        "id": "q-control",
+        "node": "behavior-control",
+        "hop": 2,
+        "q": "Which of Min Cai's papers controls LLM behavior using suffix gradients?",
+        "answer": "unknown",
+        "correct": false
+      },
+      {
+        "id": "q-s-latent",
+        "node": "latent-reasoning",
+        "hop": 2,
+        "q": "Which University of Alberta PhD student works on typed latent reasoning for language models?",
+        "answer": "unknown",
+        "correct": false
+      },
+      {
+        "id": "q-s-coevolution",
+        "node": "agent-coevolution",
+        "hop": 2,
+        "q": "Which University of Alberta PhD student works on co-evolving environments, agents, and users to train LLM agents?",
+        "answer": "unknown",
+        "correct": false
+      },
+      {
+        "id": "q-s-posttraining",
+        "node": "post-training-mechanisms",
+        "hop": 2,
+        "q": "Which PhD student studies how post-training changes the internals of LLMs?",
+        "answer": "unknown",
+        "correct": false
+      },
+      {
+        "id": "q-s-avalon",
+        "node": "social-deduction-games",
+        "hop": 2,
+        "q": "Which PhD student supervised by Xi Ye has worked on LLM agents playing the game Avalon?",
+        "answer": "unknown",
+        "correct": false
+      },
+      {
+        "id": "q-s-gradient",
+        "node": "gradient-conflicts",
+        "hop": 2,
+        "q": "Who works on resolving gradient conflicts when training reasoning models across domains?",
+        "answer": "unknown",
+        "correct": false
+      },
+      {
+        "id": "q-s-reward",
+        "node": "reward-modeling",
+        "hop": 2,
+        "q": "Who works on temporal difference reward models for LLM reinforcement learning?",
+        "answer": "unknown",
+        "correct": false
+      },
+      {
+        "id": "q-homepage",
+        "node": null,
+        "hop": 0,
+        "q": "What is the URL of Min Cai's homepage?",
+        "answer": "https://henrycai11.github.io/",
+        "correct": true
+      }
+    ],
+    "model": "gpt-oss-120b"
+  },
+  "matrix": {
+    "columns": [
+      "site",
+      "snippet",
+      "schema",
+      "llms",
+      "llm",
+      "search"
+    ],
+    "summary": {
+      "site": {
+        "all": 1.0,
+        "hop0": 1.0,
+        "hop1": 1.0,
+        "hop2": 1.0
+      },
+      "snippet": {
+        "all": 0.386,
+        "hop0": 1.0,
+        "hop1": 0.2778,
+        "hop2": 0.0
+      },
+      "schema": {
+        "all": 1.0,
+        "hop0": 1.0,
+        "hop1": 1.0,
+        "hop2": 1.0
+      },
+      "llms": {
+        "all": 1.0,
+        "hop0": 1.0,
+        "hop1": 1.0,
+        "hop2": 1.0
+      },
+      "llm": {
+        "all": 0.6,
+        "hop0": 1.0,
+        "hop1": 0.6,
+        "hop2": 0.0
+      },
+      "search": {
+        "all": null,
+        "hop0": null,
+        "hop1": null,
+        "hop2": null
+      }
+    },
+    "rows": [
+      {
+        "node": "role",
+        "hop": 0,
+        "kind": "fact",
+        "keyword": "PhD student",
+        "weight": 3.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 1.0,
+          "search": null
+        },
+        "queries": [
+          "Min Cai PhD student"
+        ]
+      },
+      {
+        "node": "affiliation",
+        "hop": 0,
+        "kind": "fact",
+        "keyword": "University of Alberta",
+        "weight": 3.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 1.0,
+          "search": null
+        },
+        "queries": [
+          "Min Cai University of Alberta"
+        ]
+      },
+      {
+        "node": "advisor",
+        "hop": 0,
+        "kind": "fact",
+        "keyword": "Xi Ye",
+        "weight": 3.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 1.0,
+          "search": null
+        },
+        "queries": [
+          "Min Cai Xi Ye"
+        ]
+      },
+      {
+        "node": "location",
+        "hop": 0,
+        "kind": "fact",
+        "keyword": "Edmonton",
+        "weight": 3.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 1.0,
+          "search": null
+        },
+        "queries": [
+          "Min Cai Edmonton"
+        ]
+      },
+      {
+        "node": "ms-shenzhen",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "Shenzhen University",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 1.0,
+          "search": null
+        },
+        "queries": [
+          "Min Cai Shenzhen University"
+        ]
+      },
+      {
+        "node": "ba-blcu",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "Beijing Language and Culture University",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 1.0,
+          "search": null
+        },
+        "queries": [
+          "Min Cai Beijing Language and Culture University translation"
+        ]
+      },
+      {
+        "node": "collaborators",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "Ziniu Hu",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "Ziniu Hu Min Cai"
+        ]
+      },
+      {
+        "node": "intern-baidu",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "Baidu",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 1.0,
+          "search": null
+        },
+        "queries": [
+          "Min Cai Baidu research intern"
+        ]
+      },
+      {
+        "node": "intern-zai",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "Z.ai",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 1.0,
+          "search": null
+        },
+        "queries": [
+          "Min Cai Z.ai research intern"
+        ]
+      },
+      {
+        "node": "area-agents",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "LLM agents",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "LLM agents PhD student University of Alberta"
+        ]
+      },
+      {
+        "node": "area-interpretability",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "mechanistic interpretability",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 1.0,
+          "search": null
+        },
+        "queries": [
+          "mechanistic interpretability PhD student University of Alberta"
+        ]
+      },
+      {
+        "node": "area-reasoning",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "LLM reasoning",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "LLM reasoning PhD student University of Alberta"
+        ]
+      },
+      {
+        "node": "area-continual",
+        "hop": 1,
+        "kind": "fact",
+        "keyword": "continual learning",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 1.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 1.0,
+          "search": null
+        },
+        "queries": [
+          "continual learning for LLMs PhD student University of Alberta"
+        ]
+      },
+      {
+        "node": "avalonbench",
+        "hop": 1,
+        "kind": "paper",
+        "keyword": "AvalonBench",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "AvalonBench evaluating LLMs playing Avalon"
+        ]
+      },
+      {
+        "node": "datascibench",
+        "hop": 1,
+        "kind": "paper",
+        "keyword": "DataSciBench",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 0.0,
+          "search": null
+        },
+        "queries": [
+          "DataSciBench LLM agent benchmark data science"
+        ]
+      },
+      {
+        "node": "strategist",
+        "hop": 1,
+        "kind": "paper",
+        "keyword": "Strategist",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 0.0,
+          "search": null
+        },
+        "queries": [
+          "Strategist LLM bi-level tree search strategic skills"
+        ]
+      },
+      {
+        "node": "eau",
+        "hop": 1,
+        "kind": "paper",
+        "keyword": "EAU",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "EAU environment agent user co-evolution user-centric agents"
+        ]
+      },
+      {
+        "node": "post-training",
+        "hop": 1,
+        "kind": "paper",
+        "keyword": "How Post-Training Reshapes LLMs",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 0.0,
+          "search": null
+        },
+        "queries": [
+          "How Post-Training Reshapes LLMs mechanistic view"
+        ]
+      },
+      {
+        "node": "selfcontrol",
+        "hop": 1,
+        "kind": "paper",
+        "keyword": "SelfControl",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "Self-Control of LLM Behaviors suffix gradient prefix controller"
+        ]
+      },
+      {
+        "node": "tdrm",
+        "hop": 1,
+        "kind": "paper",
+        "keyword": "TDRM",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "TDRM smooth reward models temporal difference LLM"
+        ]
+      },
+      {
+        "node": "mgs",
+        "hop": 1,
+        "kind": "paper",
+        "keyword": "Modular Gradient Surgery",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "Modular Gradient Surgery general-purpose reasoning models"
+        ]
+      },
+      {
+        "node": "tyler",
+        "hop": 1,
+        "kind": "paper",
+        "keyword": "Tyler",
+        "weight": 2.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 0.0,
+          "search": null
+        },
+        "queries": [
+          "Tyler typed latent reasoning language models"
+        ]
+      },
+      {
+        "node": "social-deduction-games",
+        "hop": 2,
+        "kind": "topic",
+        "keyword": "social deduction game",
+        "weight": 1.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 0.0,
+          "search": null
+        },
+        "queries": [
+          "LLM agents playing Avalon social deduction game"
+        ]
+      },
+      {
+        "node": "strategic-reasoning",
+        "hop": 2,
+        "kind": "topic",
+        "keyword": "strategic reasoning",
+        "weight": 1.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": null,
+          "search": null
+        },
+        "queries": [
+          "LLM strategic reasoning with bi-level tree search"
+        ]
+      },
+      {
+        "node": "data-science-agents",
+        "hop": 2,
+        "kind": "topic",
+        "keyword": "data science agent",
+        "weight": 1.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 0.0,
+          "search": null
+        },
+        "queries": [
+          "benchmark for LLM data science agents"
+        ]
+      },
+      {
+        "node": "agent-coevolution",
+        "hop": 2,
+        "kind": "topic",
+        "keyword": "co-evolution",
+        "weight": 1.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 0.0,
+          "search": null
+        },
+        "queries": [
+          "co-evolving environments agents and users for training LLM agents"
+        ]
+      },
+      {
+        "node": "post-training-mechanisms",
+        "hop": 2,
+        "kind": "topic",
+        "keyword": "post-training",
+        "weight": 1.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 0.0,
+          "search": null
+        },
+        "queries": [
+          "how post-training changes LLM internals knowledge truthfulness refusal"
+        ]
+      },
+      {
+        "node": "behavior-control",
+        "hop": 2,
+        "kind": "topic",
+        "keyword": "suffix gradient",
+        "weight": 1.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 0.0,
+          "search": null
+        },
+        "queries": [
+          "controlling LLM behavior by compressing suffix gradients into a prefix controller"
+        ]
+      },
+      {
+        "node": "reward-modeling",
+        "hop": 2,
+        "kind": "topic",
+        "keyword": "reward model",
+        "weight": 1.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 0.0,
+          "search": null
+        },
+        "queries": [
+          "temporal difference reward models for LLM reinforcement learning"
+        ]
+      },
+      {
+        "node": "gradient-conflicts",
+        "hop": 2,
+        "kind": "topic",
+        "keyword": "gradient conflict",
+        "weight": 1.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 0.0,
+          "search": null
+        },
+        "queries": [
+          "resolving gradient conflicts across domains in reasoning model training"
+        ]
+      },
+      {
+        "node": "latent-reasoning",
+        "hop": 2,
+        "kind": "topic",
+        "keyword": "latent reasoning",
+        "weight": 1.0,
+        "cells": {
+          "site": 1.0,
+          "snippet": 0.0,
+          "schema": 1.0,
+          "llms": 1.0,
+          "llm": 0.0,
+          "search": null
+        },
+        "queries": [
+          "typed latent reasoning for language models"
+        ]
+      }
+    ]
+  },
+  "scoring": {
+    "offline": 0.5,
+    "llm": 0.5,
+    "matrix_share_of_offline": 0.6,
+    "version": 2.0,
+    "snippet_chars": 400.0,
+    "context_chars": 4000.0
+  }
+}

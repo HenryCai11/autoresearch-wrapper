@@ -162,7 +162,7 @@ python3 -m unittest -q
 | Doc | Contents |
 | --- | --- |
 | [DETAILS.md](./DETAILS.md) | Feature details, dependency graph notes, generated layout, typical workflow |
-| [GEO.md](./GEO.md) | Website component graph, worktree edits, and cross-platform observation gate |
+| [geo/README.md](./geo/README.md) | GEO eval matrix, discovery probes, Tavily/Exa search integration |
 | [CORE_FEATURES.md](./CORE_FEATURES.md) | Feature checklist (Chinese) |
 | [CONTRIBUTING.md](./CONTRIBUTING.md) | Development workflow, branch layout, verification |
 | [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) | Upstream attribution |

@@ -1225,13 +1225,14 @@ class AutoresearchWrapperTests(unittest.TestCase):
                 "--metric-goal", "minimize", "--no-interactive",
             ])
         create_run_id = self.active_run(repo)["run_id"]
-        time.sleep(1.1)  # run ids have one-second resolution
 
+        # Started within the same second as the create run: ids must still be distinct.
         with contextlib.redirect_stdout(io.StringIO()):
             main(["run", "--repo", str(repo), "--part", "module.py"])
         run = self.active_run(repo)
         self.assertNotEqual(run["run_id"], create_run_id)
         self.assertEqual(run["run_type"], "optimize")
+        self.assertEqual(load_state(repo)["runs"][create_run_id]["run_type"], "create")
 
     def test_metric_timeout_kills_command_and_auto_records_crash(self) -> None:
         repo = self.make_value_repo()
@@ -1750,6 +1751,57 @@ class AutoresearchWrapperTests(unittest.TestCase):
         state = load_state(repo)
         self.assertEqual(identify_affected_parts(state, ["a.py"]), ["b.py"])
         self.assertEqual(identify_affected_parts(state, ["b.py"]), ["a.py", "c.py"])
+
+    def test_non_code_file_can_be_an_explicit_target_and_survives_rescan(self) -> None:
+        repo = self.make_value_repo()
+        (repo / "about.md").write_text("# About\n")
+        self.commit_all(repo, "add page")
+        main([
+            "configure", "--repo", str(repo), "--part", "about.md", "--metric", "geo",
+            "--metric-command", self.value_metric_command(), "--metric-goal", "maximize",
+            "--mode", "sequential", "--rounds", "2", "--no-interactive",
+        ])
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["scan", "--repo", str(repo), "--no-interactive"])
+            main(["run", "--repo", str(repo), "--part", "about.md"])
+        state = load_state(repo)
+        part = next(p for p in state["parts"] if p["id"] == "about.md")
+        self.assertTrue(part["explicit"])
+        self.assertEqual(self.active_run(repo)["part_id"], "about.md")
+        with self.assertRaises(SystemExit):
+            main(["configure", "--repo", str(repo), "--part", "missing.md", "--metric", "x", "--no-interactive"])
+
+    def test_state_dir_is_kept_out_of_git_status(self) -> None:
+        repo = self.make_value_repo()
+        main(["status", "--repo", str(repo), "--json"])  # another write
+        status = self.git_out(repo, "status", "--porcelain", "--untracked-files=all")
+        self.assertNotIn(".autoresearch-wrapper", status)
+        exclude = (repo / ".git" / "info" / "exclude").read_text().splitlines()
+        self.assertEqual(exclude.count("/.autoresearch-wrapper/"), 1)
+
+    def test_new_runs_warn_about_uncommitted_changes(self) -> None:
+        repo = self.make_value_repo()
+        self.configure_module(repo, self.value_metric_command(), "--mode", "sequential", "--rounds", "2")
+        (repo / "value.txt").write_text("3\n")  # tracked, uncommitted
+
+        stderr = io.StringIO()
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(stderr):
+            main(["run", "--repo", str(repo), "--part", "module.py"])
+        self.assertIn("uncommitted changes (value.txt)", stderr.getvalue())
+        self.assertIn("does not include them", stderr.getvalue())
+
+        stderr = io.StringIO()
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(stderr):
+            self.start_create(repo, 1)
+        self.assertIn("uncommitted changes (value.txt)", stderr.getvalue())
+
+        # Resuming an existing run, or starting one from a clean checkout, stays quiet.
+        self.commit_all(repo, "take value")
+        stderr = io.StringIO()
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(stderr):
+            main(["run", "--repo", str(repo), "--part", "module.py"])
+            self.start_create(repo, 1)
+        self.assertEqual(stderr.getvalue(), "")
 
     def test_mkdir_lock_times_out_and_reclaims_stale_lock(self) -> None:
         lock_dir = Path(tempfile.mkdtemp(prefix="autoresearch-lock-")) / "state.lock.d"

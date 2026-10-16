@@ -1317,6 +1317,8 @@ def command_configure(args: argparse.Namespace) -> int:
     repo_root = detect_repo_root(Path(args.repo))
     state = ensure_scanned(repo_root)
     part = resolve_part(state, args.part)
+    if part is None and args.part:
+        part = register_explicit_part(repo_root, state, args.part)
     if part is None:
         raise SystemExit("unable to resolve part; run scan first or pass --part")
 
@@ -1453,6 +1455,7 @@ def start_or_resume_run(
 
     run = find_active_run(state, part["id"])
     if run is None:
+        warn_if_checkout_dirty(repo_root)
         run = create_run(repo_root, state, part, config)
     else:
         run["status"] = "running"
@@ -1750,6 +1753,11 @@ def refresh_repo_state(repo_root: Path) -> dict[str, Any]:
     state["repo_root"] = str(repo_root)
     state["git"] = git_metadata(repo_root)
     parts, dependency_graph = discover_parts(repo_root)
+    # Keep explicitly configured targets (e.g. non-code files) across rescans.
+    discovered = {part["id"] for part in parts}
+    for relative in state.get("explicit_parts", []):
+        if relative not in discovered and (repo_root / relative).is_file():
+            parts.append(explicit_part_record(relative))
     state["parts"] = parts
     state["dependency_graph"] = dependency_graph
     refresh_part_readiness(state)
@@ -1803,9 +1811,31 @@ def migrate_state(state: dict[str, Any], repo_root: Path) -> dict[str, Any]:
 def write_state(repo_root: Path, state: dict[str, Any]) -> None:
     target_dir = state_dir(repo_root)
     target_dir.mkdir(parents=True, exist_ok=True)
+    if not state.get("state_dir_excluded"):
+        state["state_dir_excluded"] = exclude_state_dir_from_git(repo_root)
     state["updated_at"] = now_iso()
     atomic_write_text(state_file(repo_root), json.dumps(state, indent=2, sort_keys=True) + "\n")
     atomic_write_text(status_file(repo_root), status_markdown(state))
+
+
+def exclude_state_dir_from_git(repo_root: Path) -> bool:
+    """Keep the state dir out of `git status` via .git/info/exclude (local, never committed)."""
+    completed = git_run(repo_root, ["rev-parse", "--git-path", "info/exclude"])
+    if completed.returncode != 0:
+        return False  # not a git repo (yet); try again on a later write
+    exclude = Path(completed.stdout.strip())
+    if not exclude.is_absolute():
+        exclude = repo_root / exclude
+    entry = f"/{STATE_DIRNAME}/"
+    try:
+        existing = exclude.read_text() if exclude.exists() else ""
+        if entry not in existing.splitlines():
+            exclude.parent.mkdir(parents=True, exist_ok=True)
+            prefix = "" if not existing or existing.endswith("\n") else "\n"
+            exclude.write_text(f"{existing}{prefix}{entry}\n")
+    except OSError:
+        return False
+    return True
 
 
 def atomic_write_text(path: Path, text: str) -> None:
@@ -2600,6 +2630,40 @@ def merge_part_notes(base_notes: str, dependency_summary: dict[str, Any]) -> str
         f"important_unresolved={dependency_summary['unresolved_count']}"
     )
     return f"{base_notes}; {summary_note}"
+
+
+def explicit_part_record(relative: str) -> dict[str, Any]:
+    """A part the user named directly: any repo file, including non-code (.md, .yml, .html)."""
+    part = {
+        "id": relative,
+        "path": relative,
+        "language": infer_file_language(Path(relative)) or "other",
+        "status": "probably optimizable",
+        "explicit": True,
+        "suggested_metric": {"name": "unknown", "goal": None},
+        "candidate_clarity": False,
+        "signals": [],
+        "dependencies": [],
+        "dependents": [],
+        "unresolved_dependencies": [],
+        "dependency_clarity": "clear",
+        "key_neighbors": [],
+        "notes": "explicit target (not discovered by scan); no dependency graph",
+    }
+    part["dependency_summary"] = build_dependency_summary(part)
+    return part
+
+
+def register_explicit_part(repo_root: Path, state: dict[str, Any], raw_path: str) -> dict[str, Any] | None:
+    relative = normalize_repo_relative_path(repo_root, raw_path)
+    if not (repo_root / relative).is_file():
+        return None
+    explicit = state.setdefault("explicit_parts", [])
+    if relative not in explicit:
+        explicit.append(relative)
+    part = explicit_part_record(relative)
+    state.setdefault("parts", []).append(part)
+    return part
 
 
 def dependency_run_blockers(part: dict[str, Any]) -> list[str]:
@@ -3409,7 +3473,7 @@ def resolve_run(state: dict[str, Any], run_id: str | None) -> dict[str, Any]:
 def create_run(
     repo_root: Path, state: dict[str, Any], part: dict[str, Any], config: dict[str, Any]
 ) -> dict[str, Any]:
-    run_id = build_run_id(part["id"])
+    run_id = build_run_id(part["id"], state, repo_root)
     worktree_root = default_worktree_root(repo_root) / run_id
     base_ref = git_stdout(repo_root, ["rev-parse", "HEAD"]).strip()
     seed = create_candidate_worktree(
@@ -3482,9 +3546,15 @@ def init_optimize_run(
     return run
 
 
-def build_run_id(part_id: str) -> str:
+def build_run_id(part_id: str, state: dict[str, Any], repo_root: Path) -> str:
+    """Timestamped id, made unique: two runs for one part can start within the same second."""
     timestamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    return f"{timestamp}-{slugify(part_id)}"
+    base = f"{timestamp}-{slugify(part_id)}"
+    taken = set(state.get("runs", {}))
+    run_id, suffix = base, 2
+    while run_id in taken or (runs_dir(repo_root) / run_id).exists():
+        run_id, suffix = f"{base}-{suffix}", suffix + 1
+    return run_id
 
 
 def slugify(value: str, limit: int = 48) -> str:
@@ -3652,6 +3722,22 @@ def append_result_row(run: dict[str, Any], candidate: dict[str, Any], metric_nam
     ]
     with Path(run["results_path"]).open("a") as handle:
         handle.write("\t".join(row) + "\n")
+
+
+def warn_if_checkout_dirty(repo_root: Path) -> None:
+    """New runs start from HEAD; say so when tracked changes would be left out."""
+    output = git_run(repo_root, ["status", "--porcelain", "--untracked-files=no"]).stdout
+    # Porcelain lines are "XY path"; don't strip the output, X may be a space.
+    files = [line[3:] for line in output.splitlines() if line.strip()]
+    if not files:
+        return
+    head = git_stdout(repo_root, ["rev-parse", "--short", "HEAD"]).strip()
+    shown = ", ".join(files[:5]) + (f", and {len(files) - 5} more" if len(files) > 5 else "")
+    print(
+        f"warning: the main checkout has uncommitted changes ({shown}). This run starts from "
+        f"HEAD ({head}) and does not include them; commit them first if they belong in the baseline.",
+        file=sys.stderr,
+    )
 
 
 def git_identity_args(cwd: Path) -> list[str]:
@@ -4269,7 +4355,8 @@ def create_comparison_run(
     create_info: dict[str, Any] | None = None,
     delete_info: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    run_id = build_run_id(part["id"])
+    warn_if_checkout_dirty(repo_root)
+    run_id = build_run_id(part["id"], state, repo_root)
     run_dir = runs_dir(repo_root) / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
     worktree_root = default_worktree_root(repo_root) / run_id

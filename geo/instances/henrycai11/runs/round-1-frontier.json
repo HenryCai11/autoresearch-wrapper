@@ -1,0 +1,806 @@
+{
+ "rounds": [
+  {
+   "round": 0,
+   "candidate": "seed",
+   "status": "keep",
+   "description": "baseline: master @ 7f95245",
+   "metric": 71.77,
+   "offline": 48.67,
+   "matrix": 50.0,
+   "technical": 46.67,
+   "llm": 94.87,
+   "columns": {
+    "site": 1.0,
+    "schema": 0.0,
+    "llms": 0.0,
+    "llm": 0.9487
+   },
+   "technical_categories": {
+    "structured_data": 0.3333,
+    "crawler_files": 0.75,
+    "metadata": 0.25,
+    "hygiene": 0.6667
+   },
+   "home_chars": 3041
+  },
+  {
+   "round": 1,
+   "candidate": "candidate-001",
+   "status": "keep",
+   "description": "metadata: real site description, stop publishing template sample papers, location Edmonton in config",
+   "metric": 73.52,
+   "offline": 52.16,
+   "matrix": 50.0,
+   "technical": 55.41,
+   "llm": 94.87,
+   "columns": {
+    "site": 1.0,
+    "schema": 0.0,
+    "llms": 0.0,
+    "llm": 0.9487
+   },
+   "technical_categories": {
+    "structured_data": 0.3333,
+    "crawler_files": 0.75,
+    "metadata": 0.5,
+    "hygiene": 0.8333
+   },
+   "home_chars": 3041
+  },
+  {
+   "round": 2,
+   "candidate": "candidate-002",
+   "status": "keep",
+   "description": "JSON-LD Person (name, aliases, role, affiliation, location, alumniOf, sameAs, knowsAbout) in new geo-head include",
+   "metric": 81.28,
+   "offline": 67.69,
+   "matrix": 64.21,
+   "technical": 72.91,
+   "llm": 94.87,
+   "columns": {
+    "site": 1.0,
+    "schema": 0.4737,
+    "llms": 0.0,
+    "llm": 0.9487
+   },
+   "technical_categories": {
+    "structured_data": 0.8333,
+    "crawler_files": 0.75,
+    "metadata": 0.5,
+    "hygiene": 0.8333
+   },
+   "home_chars": 3041
+  },
+  {
+   "round": 3,
+   "candidate": "candidate-003",
+   "status": "keep",
+   "description": "JSON-LD ScholarlyArticle for all 9 papers (title, venue, year, arXiv URL, topic keywords, award) on the homepage",
+   "metric": 86.23,
+   "offline": 77.6,
+   "matrix": 76.84,
+   "technical": 78.75,
+   "llm": 94.87,
+   "columns": {
+    "site": 1.0,
+    "schema": 0.8947,
+    "llms": 0.0,
+    "llm": 0.9487
+   },
+   "technical_categories": {
+    "structured_data": 1.0,
+    "crawler_files": 0.75,
+    "metadata": 0.5,
+    "hygiene": 0.8333
+   },
+   "home_chars": 3041
+  },
+  {
+   "round": 4,
+   "candidate": "candidate-004",
+   "status": "keep",
+   "description": "llms.txt: identity, background, and all 9 papers with venue, year, link, one-line summary",
+   "metric": 96.05,
+   "offline": 92.1,
+   "matrix": 96.84,
+   "technical": 85.0,
+   "llm": 100.0,
+   "columns": {
+    "site": 1.0,
+    "schema": 0.8947,
+    "llms": 1.0,
+    "llm": 1.0
+   },
+   "technical_categories": {
+    "structured_data": 1.0,
+    "crawler_files": 1.0,
+    "metadata": 0.5,
+    "hygiene": 0.8333
+   },
+   "home_chars": 3041
+  },
+  {
+   "round": 5,
+   "candidate": "candidate-005",
+   "status": "keep",
+   "description": "canonical URL, Open Graph and Twitter card tags on every page",
+   "metric": 98.55,
+   "offline": 97.1,
+   "matrix": 96.84,
+   "technical": 97.5,
+   "llm": 100.0,
+   "columns": {
+    "site": 1.0,
+    "schema": 0.8947,
+    "llms": 1.0,
+    "llm": 1.0
+   },
+   "technical_categories": {
+    "structured_data": 1.0,
+    "crawler_files": 1.0,
+    "metadata": 1.0,
+    "hygiene": 0.8333
+   },
+   "home_chars": 3041
+  },
+  {
+   "round": 6,
+   "candidate": "candidate-006",
+   "status": "keep",
+   "description": "exclude template sample publications (_publications) from the build",
+   "metric": 99.05,
+   "offline": 98.1,
+   "matrix": 96.84,
+   "technical": 100.0,
+   "llm": 100.0,
+   "columns": {
+    "site": 1.0,
+    "schema": 0.8947,
+    "llms": 1.0,
+    "llm": 1.0
+   },
+   "technical_categories": {
+    "structured_data": 1.0,
+    "crawler_files": 1.0,
+    "metadata": 1.0,
+    "hygiene": 1.0
+   },
+   "home_chars": 3041
+  },
+  {
+   "round": 7,
+   "candidate": "candidate-007",
+   "status": "keep",
+   "description": "JSON-LD: collaborators as colleague, Baidu and Z.ai internships as hasOccupation",
+   "metric": 100.0,
+   "offline": 100.0,
+   "matrix": 100.0,
+   "technical": 100.0,
+   "llm": 100.0,
+   "columns": {
+    "site": 1.0,
+    "schema": 1.0,
+    "llms": 1.0,
+    "llm": 1.0
+   },
+   "technical_categories": {
+    "structured_data": 1.0,
+    "crawler_files": 1.0,
+    "metadata": 1.0,
+    "hygiene": 1.0
+   },
+   "home_chars": 3041
+  }
+ ],
+ "matrix_before": [
+  {
+   "keyword": "PhD student",
+   "hop": 0,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "University of Alberta",
+   "hop": 0,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Xi Ye",
+   "hop": 0,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Edmonton",
+   "hop": 0,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Shenzhen University",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Beijing Language and Culture University",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Ziniu Hu",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": null
+  },
+  {
+   "keyword": "Baidu",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Z.ai",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "LLM agents",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": null
+  },
+  {
+   "keyword": "mechanistic interpretability",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "LLM reasoning",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": null
+  },
+  {
+   "keyword": "continual learning",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "AvalonBench",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": null
+  },
+  {
+   "keyword": "DataSciBench",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 0.0
+  },
+  {
+   "keyword": "Strategist",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "EAU",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": null
+  },
+  {
+   "keyword": "How Post-Training Reshapes LLMs",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "SelfControl",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": null
+  },
+  {
+   "keyword": "TDRM",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": null
+  },
+  {
+   "keyword": "Modular Gradient Surgery",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": null
+  },
+  {
+   "keyword": "Tyler",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "social deduction game",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "strategic reasoning",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": null
+  },
+  {
+   "keyword": "data science agent",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "co-evolution",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "post-training",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": null
+  },
+  {
+   "keyword": "suffix gradient",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "reward model",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "gradient conflict",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "latent reasoning",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 0.0,
+   "llms": 0.0,
+   "llm": 1.0
+  }
+ ],
+ "matrix_after": [
+  {
+   "keyword": "PhD student",
+   "hop": 0,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "University of Alberta",
+   "hop": 0,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Xi Ye",
+   "hop": 0,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Edmonton",
+   "hop": 0,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Shenzhen University",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Beijing Language and Culture University",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Ziniu Hu",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "Baidu",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Z.ai",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "LLM agents",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "mechanistic interpretability",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "LLM reasoning",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "continual learning",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "AvalonBench",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "DataSciBench",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Strategist",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "EAU",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "How Post-Training Reshapes LLMs",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "SelfControl",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "TDRM",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "Modular Gradient Surgery",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "Tyler",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "social deduction game",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "strategic reasoning",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "data science agent",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "co-evolution",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "post-training",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "suffix gradient",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "reward model",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "gradient conflict",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "latent reasoning",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  }
+ ],
+ "probes": [
+  {
+   "query": "Min Cai PhD student",
+   "found": false
+  },
+  {
+   "query": "Min Cai University of Alberta",
+   "found": false
+  },
+  {
+   "query": "Min Cai Xi Ye",
+   "found": false
+  },
+  {
+   "query": "Min Cai Edmonton",
+   "found": false
+  },
+  {
+   "query": "AvalonBench evaluating LLMs playing Avalon",
+   "found": false
+  },
+  {
+   "query": "DataSciBench LLM agent benchmark data science",
+   "found": false
+  },
+  {
+   "query": "Strategist LLM bi-level tree search strategic skills",
+   "found": false
+  },
+  {
+   "query": "EAU environment agent user co-evolution user-centric agents",
+   "found": false
+  },
+  {
+   "query": "How Post-Training Reshapes LLMs mechanistic view",
+   "found": false
+  },
+  {
+   "query": "Self-Control of LLM Behaviors suffix gradient prefix controller",
+   "found": false
+  },
+  {
+   "query": "TDRM smooth reward models temporal difference LLM",
+   "found": true
+  },
+  {
+   "query": "Modular Gradient Surgery general-purpose reasoning models",
+   "found": true
+  },
+  {
+   "query": "Tyler typed latent reasoning language models",
+   "found": false
+  },
+  {
+   "query": "LLM agents playing Avalon social deduction game",
+   "found": false
+  },
+  {
+   "query": "LLM strategic reasoning with bi-level tree search",
+   "found": false
+  },
+  {
+   "query": "benchmark for LLM data science agents",
+   "found": false
+  },
+  {
+   "query": "co-evolving environments agents and users for training LLM agents",
+   "found": false
+  },
+  {
+   "query": "how post-training changes LLM internals knowledge truthfulness refusal",
+   "found": false
+  },
+  {
+   "query": "controlling LLM behavior by compressing suffix gradients into a prefix controller",
+   "found": false
+  },
+  {
+   "query": "temporal difference reward models for LLM reinforcement learning",
+   "found": false
+  },
+  {
+   "query": "resolving gradient conflicts across domains in reasoning model training",
+   "found": false
+  },
+  {
+   "query": "typed latent reasoning for language models",
+   "found": false
+  }
+ ],
+ "ood": {
+  "recorded_at": "2026-10-15T17:00:00Z",
+  "window_days": 7,
+  "site": "henrycai11",
+  "total_visits": 1,
+  "ai_referred_visits": 0,
+  "ai_referrers": {},
+  "top_referrers": [
+   {
+    "name": "",
+    "count": 1
+   }
+  ],
+  "top_pages": [
+   {
+    "path": "/",
+    "count": 1
+   }
+  ]
+ }
+}

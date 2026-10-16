@@ -1,0 +1,59 @@
+# Instance: henrycai11.github.io
+
+Min Cai's academic homepage (Jekyll on GitHub Pages; site repo `/scratch/henrycai/HenryCai11.github.io`, deploys from `master`). Data and config only:
+
+- `map.json`: knowledge map, with facts taken from the site and confirmed by Min Cai (location: Edmonton)
+- `instance.env`: site paths, builder, editable files, GoatCounter code
+- `probes.jsonl`: search probes; `ood.jsonl`: GoatCounter snapshots
+
+## Baseline (2026-10-15, master @ 7f95245)
+
+| signal | value |
+| --- | --- |
+| METRIC | 71.77 |
+| matrix (offline columns) | 50.0: every keyword is on the site, none in JSON-LD, no `llms.txt` |
+| technical | 46.67: no Person/ScholarlyArticle JSON-LD, no `llms.txt`, placeholder meta description ("personal description"), no canonical/OG tags, template sample publications still built |
+| LLM comprehension | 94.87: one miss (DataSciBench venue answered as "ICLR 2025": venue labels and titles are ambiguous in plain text) |
+| search probes | 2/22 found (TDRM, MGS); name queries find nothing; papers name "Cai" without affiliation |
+| traffic (7 days) | 1 visit, 0 AI-referred |
+| homepage visible text | 3041 chars (limit set to 3950) |
+
+## Round 1 (2026-10-15, site branch `geo/round-1`)
+
+Sequential optimize run on `_pages/about.md`, 7 candidates, all kept; ended early once the local score hit its ceiling. Per-round data: `runs/round-1-frontier.json`. Dashboard: https://claude.ai/artifact/JhBDVhn6q2SAgQwyMYkQ1K
+
+| round | change | METRIC |
+| --- | --- | --- |
+| 0 | baseline | 71.77 |
+| 1 | real site description, drop template paper pages, location in config | 73.52 |
+| 2 | JSON-LD Person | 81.28 |
+| 3 | JSON-LD ScholarlyArticle for 9 papers | 86.23 |
+| 4 | `llms.txt` | 96.05 |
+| 5 | canonical + Open Graph/Twitter tags | 98.55 |
+| 6 | exclude `_publications` template samples | 99.05 |
+| 7 | JSON-LD colleagues and internships | 100.00 |
+
+Staged (not committed) in the site checkout: `_config.yml`, `_includes/geo-head.html` (new), `_layouts/default.html`, `llms.txt` (new). Live search probes and traffic need a deploy, then a re-probe after recrawl.
+
+## Deployed (2026-10-15, site master @ 263d99d)
+
+Live score of https://henrycai11.github.io/ right after deploy: METRIC 100.0 (matrix 100, technical 100, LLM 100), identical to the local build. Search column 0.10 still reflects the pre-deploy probes; re-probe and take a traffic snapshot after engines recrawl (about a week).
+
+## Metric v2 (2026-10-16)
+
+Round 1 saturated metric v1 (100), so the map now sets `"scoring": {"version": 2}`: the LLM test sees only search-snippet text (title, meta description, first 400 chars per page, first 800 chars of llms.txt; 4000 chars total), a `snippet` matrix column, searcher-style questions without the name, and scholarly checks (per-paper pages, Google Scholar citation tags, llms.txt lists papers, identity front-loaded, aliases visible). Re-scored: baseline 7f95245 32.37, round-1 site 263d99d 74.15 (`runs/v2-rescore-*.json`).
+
+## Round 2 (2026-10-16, site branch `geo/round-2`, metric v2)
+
+| round | change | METRIC v2 |
+| --- | --- | --- |
+| 0 | baseline (master @ 263d99d, all pages read) | 71.02 |
+| 1 | per-paper pages with page descriptions and Google Scholar tags (authors from arXiv) | 76.84 |
+| 2 | llms.txt: identity and papers with topics first | 84.12 |
+| 3 | stop building template samples, add /papers/ index (discarded: tie) | 84.12 |
+| 4 | llms.txt: all facts within the first 800 characters | 96.62 |
+| 5 | GitHub handle visible in the sidebar | 97.12 |
+| 6 | llms.txt: restore the Outstanding Paper award | 99.21 |
+| 7 | CV page description with education and internships | 100.00 |
+
+Staged (not committed) on `geo/round-2`: 14 files, +291/-18. Per-round data: `runs/round-2-frontier.json`.
