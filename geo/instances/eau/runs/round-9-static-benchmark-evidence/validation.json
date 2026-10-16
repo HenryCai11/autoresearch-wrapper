@@ -1,0 +1,29 @@
+{
+  "checks": {
+    "only_index_changed": true,
+    "only_results_section_changed": true,
+    "all_other_files_byte_identical": true,
+    "metadata_unchanged": true,
+    "local_links_and_unique_ids_valid": true,
+    "one_home_h1": true,
+    "jsonld_valid": true,
+    "visible_text_within_existing_limit": true,
+    "default_static_cards_equal_existing_js_renderer": true,
+    "default_static_table_equal_existing_js_renderer": true,
+    "default_caption_matches_renderer": true,
+    "both_runtime_models_and_switch_back_checked": true,
+    "headline_eau_numbers_match_existing_paper_page": true,
+    "default_model_and_client_bootstrap_unchanged": true
+  },
+  "errors": [],
+  "inner_score": "not computed",
+  "visible_home_chars_before": 5051,
+  "visible_home_chars_after": 5436,
+  "limit": 9000,
+  "renderer_test_scope": "Isolated unchanged renderResults function with a minimal DOM stub; not a full-browser test",
+  "source_js_sha256": "a9a6bc3c30dbb6db8e0714b30aa12dd146f9a07710a1e1ceac2999117c94d751",
+  "paper_sha256": "503b09b25ce5a69b6fbfaa0a024ed1df5ddc0dc75e17481117fe6cdd4ddc978b",
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+  "judge_sha256": "6bb1498e65e5cf065cc8e03e40007c73c32393e16f85a41d2395db76820613de",
+  "normalization_sha256": "8a2856dd9b69fe4b24c7b315f55ac6c98b7bcbd9063dd1093a11fba3e181d537"
+}

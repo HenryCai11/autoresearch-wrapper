@@ -1,0 +1,297 @@
+{
+  "scope": "Instance-level full-site reference graph; links are dependencies, not measured lift",
+  "nodes": [
+    {
+      "id": "file:index.html",
+      "path": "index.html",
+      "content_sha256": "e8c74c5ed002d414aeb421c5cf5d56a37dc933803a53f1e8629311198d8b2301"
+    },
+    {
+      "id": "file:method.html",
+      "path": "method.html",
+      "content_sha256": "e787e2152aa4aff1911ef5d411115376a777c247633dd38c287616a7d4317b85"
+    },
+    {
+      "id": "file:paper.html",
+      "path": "paper.html",
+      "content_sha256": "8760ee9f63115c157a3f105a8bd51b02dbd4137c275026f53d178f185a9c7b5c"
+    },
+    {
+      "id": "file:research-context.html",
+      "path": "research-context.html",
+      "content_sha256": "bdd1be4f5ccf3aba6b47dc87a381b30b37a1850066bbf3ad338ab1a95f8c91b9"
+    },
+    {
+      "id": "file:llms.txt",
+      "path": "llms.txt",
+      "content_sha256": "2f04ef5af802ce955b20a8a2c96432b50e5d3c81c5bc7855e3d2380e2695f91a"
+    },
+    {
+      "id": "file:README.md",
+      "path": "README.md",
+      "content_sha256": "cbfc1917acbc5daaa2b872631ee5507914821e244b0c851ec7f63ee9b9dc849b"
+    },
+    {
+      "id": "file:CITATION.cff",
+      "path": "CITATION.cff",
+      "content_sha256": "dbbe7a9f8336cca12ce13677420de2fd605596cc1f7075a31b40d52cc19d9c1f"
+    },
+    {
+      "id": "file:robots.txt",
+      "path": "robots.txt",
+      "content_sha256": "0e9a662f08193c1527b200952248aff7b12679ff84718f45110fe9f31024f441"
+    },
+    {
+      "id": "file:sitemap.xml",
+      "path": "sitemap.xml",
+      "content_sha256": "2399ca87664745ed0829b0844a5266bf263822bcb9268f313f6cf886b1870121"
+    },
+    {
+      "id": "file:styles.css",
+      "path": "styles.css",
+      "content_sha256": "c338776c58b8e60120f7f2be63fb2b1da0afda4eefd129fd32cf9145bd6db041"
+    },
+    {
+      "id": "file:script.js",
+      "path": "script.js",
+      "content_sha256": "a9a6bc3c30dbb6db8e0714b30aa12dd146f9a07710a1e1ceac2999117c94d751"
+    },
+    {
+      "id": "file:site-config.js",
+      "path": "site-config.js",
+      "content_sha256": "2069d8bd716a51deb171e2bb7f97270ce62356de50db6e14fd1342637e900073"
+    },
+    {
+      "id": "file:assets/favicon.svg",
+      "path": "assets/favicon.svg",
+      "content_sha256": "fffca6bee7efdb7062a32814b68d5a57fd71fd39166d8d3c15916b84457b0a85"
+    }
+  ],
+  "edges": [
+    {
+      "from": "CITATION.cff",
+      "to": "https://arxiv.org/abs/2610.16523",
+      "kind": "external-link"
+    },
+    {
+      "from": "CITATION.cff",
+      "to": "index.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "README.md",
+      "to": "https://arxiv.org/abs/2610.16523",
+      "kind": "external-link"
+    },
+    {
+      "from": "README.md",
+      "to": "https://arxiv.org/abs/2610.16523}",
+      "kind": "external-link"
+    },
+    {
+      "from": "README.md",
+      "to": "index.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "README.md",
+      "to": "llms.txt",
+      "kind": "local-reference"
+    },
+    {
+      "from": "README.md",
+      "to": "method.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "README.md",
+      "to": "paper.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "README.md",
+      "to": "research-context.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "index.html",
+      "to": "assets/eau_demo.webp",
+      "kind": "local-reference"
+    },
+    {
+      "from": "index.html",
+      "to": "assets/experience_analysis.webp",
+      "kind": "local-reference"
+    },
+    {
+      "from": "index.html",
+      "to": "assets/favicon.svg",
+      "kind": "local-reference"
+    },
+    {
+      "from": "index.html",
+      "to": "assets/usergym_progression.webp",
+      "kind": "local-reference"
+    },
+    {
+      "from": "index.html",
+      "to": "https://arxiv.org/abs/2610.16523",
+      "kind": "external-link"
+    },
+    {
+      "from": "index.html",
+      "to": "index.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "index.html",
+      "to": "method.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "index.html",
+      "to": "paper.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "index.html",
+      "to": "research-context.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "index.html",
+      "to": "script.js",
+      "kind": "local-reference"
+    },
+    {
+      "from": "index.html",
+      "to": "site-config.js",
+      "kind": "local-reference"
+    },
+    {
+      "from": "index.html",
+      "to": "styles.css",
+      "kind": "local-reference"
+    },
+    {
+      "from": "llms.txt",
+      "to": "https://arxiv.org/abs/2610.16523",
+      "kind": "external-link"
+    },
+    {
+      "from": "llms.txt",
+      "to": "index.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "llms.txt",
+      "to": "paper.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "llms.txt",
+      "to": "research-context.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "method.html",
+      "to": "https://arxiv.org/abs/2610.16523",
+      "kind": "external-link"
+    },
+    {
+      "from": "method.html",
+      "to": "index.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "method.html",
+      "to": "method.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "method.html",
+      "to": "styles.css",
+      "kind": "local-reference"
+    },
+    {
+      "from": "paper.html",
+      "to": "https://arxiv.org/abs/2610.16523",
+      "kind": "external-link"
+    },
+    {
+      "from": "paper.html",
+      "to": "index.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "paper.html",
+      "to": "paper.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "paper.html",
+      "to": "styles.css",
+      "kind": "local-reference"
+    },
+    {
+      "from": "research-context.html",
+      "to": "https://arxiv.org/abs/2610.16523",
+      "kind": "external-link"
+    },
+    {
+      "from": "research-context.html",
+      "to": "index.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "research-context.html",
+      "to": "method.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "research-context.html",
+      "to": "research-context.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "research-context.html",
+      "to": "styles.css",
+      "kind": "local-reference"
+    },
+    {
+      "from": "robots.txt",
+      "to": "sitemap.xml",
+      "kind": "local-reference"
+    },
+    {
+      "from": "sitemap.xml",
+      "to": "http://www.sitemaps.org/schemas/sitemap/0.9",
+      "kind": "external-link"
+    },
+    {
+      "from": "sitemap.xml",
+      "to": "index.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "sitemap.xml",
+      "to": "llms.txt",
+      "kind": "local-reference"
+    },
+    {
+      "from": "sitemap.xml",
+      "to": "method.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "sitemap.xml",
+      "to": "paper.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "sitemap.xml",
+      "to": "research-context.html",
+      "kind": "local-reference"
+    }
+  ]
+}

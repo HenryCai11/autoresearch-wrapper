@@ -1,0 +1,84 @@
+{
+  "round": 10,
+  "change_id": "r10-shared-scholarly-entity",
+  "pool_candidate_id": "shared-scholarly-entity",
+  "state": "deployed_and_measured",
+  "files": [
+    "index.html",
+    "method.html",
+    "paper.html",
+    "research-context.html"
+  ],
+  "graph_nodes": [
+    "meta:schema",
+    "file:method.html",
+    "file:paper.html",
+    "file:research-context.html"
+  ],
+  "base_production_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+  "base_production_tree": "5ebd5d1c28e00690d58caafa0edfe066ae5307d7",
+  "parents": [
+    "r1",
+    "r4",
+    "r8",
+    "r9"
+  ],
+  "hypothesis": "Use one scholarly entity @id and separate WebPage nodes without changing factual claims.",
+  "selection": {
+    "primary_metric": "live_project_citation_rate",
+    "goal": "maximize",
+    "definition": "100 * frozen geo_eval site_cited cells / 60; bare project-domain occurrences count under the existing judge.",
+    "engines": [
+      "gpt-web",
+      "codex-search",
+      "tavily-search",
+      "exa-search"
+    ],
+    "validity": "All 60 frozen query-engine cells must return valid responses for automatic ranking.",
+    "inner_metric": "not computed and not used",
+    "baseline": "Preserved R9 immediate live observation at 2026-10-16T13:09:24Z: 8/60 citations, 30.25 composite. This is reused, not a new R10 control search.",
+    "deployment": "Require explicit R10 publication approval, all four edited resources byte-verified, and real four-engine observations before candidate evaluation.",
+    "history": "Retain discarded candidates and queued combinations; measure combinations rather than infer their scores.",
+    "limitations": "A single immediate sample with a historical control cannot establish a causal effect; search variation and indexing lag remain possible."
+  },
+  "source_of_existing_data": {
+    "index.html": "30e3c2d8061e56b82cf57b7608e1cf73c0c3116f07281011231258ba7abe7bf2",
+    "method.html": "7fa40564ced1017e16d590e0645f2c1ea0f89cb99482320b08bbb6b4efcaf24c",
+    "paper.html": "503b09b25ce5a69b6fbfaa0a024ed1df5ddc0dc75e17481117fe6cdd4ddc978b",
+    "research-context.html": "22ad622b58523b091e46cc57808e6b13a81fb23197e4d00017111581b752392e"
+  },
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+  "unchanged": [
+    "all visible HTML and body bytes",
+    "R9 static benchmark results",
+    "all runtime JavaScript",
+    "styles",
+    "all non-JSON-LD metadata",
+    "other files",
+    "knowledge map",
+    "query set",
+    "judge",
+    "engine settings"
+  ],
+  "technical_references": [
+    "https://schema.org/mainEntity",
+    "https://schema.org/mainEntityOfPage",
+    "https://www.w3.org/TR/json-ld11/#node-identifiers"
+  ],
+  "candidate_commit": "04e7ea4d0b1a6be0c65301c2a297e401294a0b78",
+  "candidate_tree": "14fdd73cd91dc01843dbe6a57b8f172cd249ea98",
+  "wrapper_run_id": "20261016T132116Z-index-html",
+  "candidate": {
+    "based_on": "autoresearch/index-html/20261016T132116Z-index-html/seed",
+    "branch": "autoresearch/index-html/20261016T132116Z-index-html/candidate-001",
+    "candidate_id": "candidate-001",
+    "created_at": "2026-10-16T13:21:18+00:00",
+    "lifecycle": "allocated",
+    "missing": false,
+    "worktree_path": "/scratch/henrycai/eau-r10-20261016.autoresearch-worktrees/20261016T132116Z-index-html/candidate-001"
+  },
+  "production_merge_commit": "b70597085286d4ff4c2d3de78f25d95581835b98",
+  "outer_selection": "discard",
+  "selection_record": "r10-live/wrapper-record.json",
+  "authorization": "User explicitly approved publishing R10 and measuring it."
+}

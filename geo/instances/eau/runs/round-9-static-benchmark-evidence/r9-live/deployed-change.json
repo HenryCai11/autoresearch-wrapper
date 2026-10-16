@@ -1,0 +1,68 @@
+{
+  "round": 9,
+  "change_id": "r9-static-benchmark-evidence",
+  "pool_candidate_id": "static-benchmark-evidence",
+  "state": "deployed_and_measured",
+  "files": [
+    "index.html"
+  ],
+  "graph_nodes": [
+    "section:results"
+  ],
+  "base_production_commit": "4147abc262bbb69df7a170eb403bf1b6807869f4",
+  "base_production_tree": "b3d011a5256d81aac31840cc7183b8fb5fa7a405",
+  "parents": [
+    "r4",
+    "r7",
+    "r8"
+  ],
+  "hypothesis": "Expose already-reported default result data in static HTML while retaining the model switch and accurate evidence boundaries.",
+  "selection": {
+    "primary_metric": "live_project_citation_rate",
+    "goal": "maximize",
+    "definition": "100 * frozen geo_eval site_cited cells / 60; bare project-domain occurrences count under the existing judge.",
+    "engines": [
+      "gpt-web",
+      "codex-search",
+      "tavily-search",
+      "exa-search"
+    ],
+    "validity": "All 60 frozen query-engine cells must return valid responses for automatic ranking.",
+    "inner_metric": "not computed and not used",
+    "baseline": "Preserved R8 immediate live observation at 2026-10-16T12:22:48Z: 6/60 citations, 28.6389 composite. This is reused, not a new R9 control search.",
+    "deployment": "Require explicit R9 publication approval, verified served bytes, and real four-engine observations before candidate evaluation.",
+    "history": "Retain discarded candidates and queued combinations; measure combinations rather than infer their scores.",
+    "limitations": "A single immediate sample with a historical control cannot establish a causal effect; search variation and indexing lag remain possible."
+  },
+  "source_of_existing_data": {
+    "script.js": "a9a6bc3c30dbb6db8e0714b30aa12dd146f9a07710a1e1ceac2999117c94d751",
+    "paper.html": "503b09b25ce5a69b6fbfaa0a024ed1df5ddc0dc75e17481117fe6cdd4ddc978b"
+  },
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+  "unchanged": [
+    "all runtime JavaScript",
+    "styles",
+    "all other HTML pages",
+    "metadata",
+    "knowledge map",
+    "query set",
+    "judge",
+    "engine settings"
+  ],
+  "candidate_commit": "9bb531cc09d8b7dda5a3148c5df3c5e62107892b",
+  "candidate_tree": "5ebd5d1c28e00690d58caafa0edfe066ae5307d7",
+  "wrapper_run_id": "20261016T125445Z-index-html",
+  "candidate": {
+    "based_on": "autoresearch/index-html/20261016T125445Z-index-html/seed",
+    "branch": "autoresearch/index-html/20261016T125445Z-index-html/candidate-001",
+    "candidate_id": "candidate-001",
+    "created_at": "2026-10-16T12:56:54+00:00",
+    "lifecycle": "allocated",
+    "missing": false,
+    "worktree_path": "/scratch/henrycai/eau-r9-20261016.autoresearch-worktrees/20261016T125445Z-index-html/candidate-001"
+  },
+  "production_merge_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+  "outer_selection": "keep",
+  "selection_record": "r9-live/wrapper-record.json",
+  "authorization": "User explicitly approved publishing R9 and measuring it."
+}

@@ -1,0 +1,22 @@
+[autoresearch/index-html/20261016T132116Z-index-html/candidate-001 04e7ea4] R10: unify scholarly identity across project reference pages
+ 4 files changed, 434 insertions(+), 57 deletions(-)
+{
+  "run_id": "20261016T132116Z-index-html",
+  "candidate_commit": "04e7ea4d0b1a6be0c65301c2a297e401294a0b78",
+  "candidate_tree": "14fdd73cd91dc01843dbe6a57b8f172cd249ea98",
+  "validation_checks": 21,
+  "all_passed": true,
+  "outer_metric": "unmeasured until approved deployment"
+}
+{
+  "archive": "/project/aip-xiye17/henrycai/autoresearch-wrapper/geo/instances/eau/runs/round-10-shared-scholarly-entity",
+  "candidate_commit": "04e7ea4d0b1a6be0c65301c2a297e401294a0b78",
+  "validation_passed": true,
+  "outer_metric": "unmeasured",
+  "scope": [
+    "index.html",
+    "method.html",
+    "paper.html",
+    "research-context.html"
+  ]
+}

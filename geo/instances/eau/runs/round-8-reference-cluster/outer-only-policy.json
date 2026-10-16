@@ -1,0 +1,17 @@
+{
+  "primary_metric": "live_project_citation_rate",
+  "goal": "maximize",
+  "definition": "100 * existing geo_eval site_cited cells / 60; bare project-domain occurrences also count under the frozen judge.",
+  "engines": [
+    "gpt-web",
+    "codex-search",
+    "tavily-search",
+    "exa-search"
+  ],
+  "validity": "All 15 fixed queries and four engines must return valid responses before automatic ranking.",
+  "inner_metric": "not computed; not used for selection",
+  "baseline": "Reuse R7 live 60-cell measurement from 2026-10-16T12:00:17+00:00: 6/60, composite 29.4444.",
+  "deployment": "An unpublished tree is unmeasured. R8 production deployment requires explicit user approval.",
+  "history": "Preserve all historical candidates, including discard, with parent commits, module scope, and measurements.",
+  "limitations": "Cross-round observations are cumulative, not isolated module ablations; timing, indexing and tool failures differ. Do not rank combinations by adding old scores."
+}

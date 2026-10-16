@@ -1,0 +1,11 @@
+{
+  "experiment_id": "eau-live-geo-r9-2026-10",
+  "round": 9,
+  "change_id": "r9-static-benchmark-evidence",
+  "production_merge_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+  "production_tree": "5ebd5d1c28e00690d58caafa0edfe066ae5307d7",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "measured_at": "2026-10-16T13:09:24+00:00",
+  "measurement_phase": "immediate_post_deployment",
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce"
+}

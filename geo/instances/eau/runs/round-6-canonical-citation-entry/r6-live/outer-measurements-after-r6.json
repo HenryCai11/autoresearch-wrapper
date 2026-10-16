@@ -1,0 +1,20 @@
+{
+  "measurements": [
+    {
+      "label": "fresh-r5-control",
+      "deployed_commit": "edec9373f0c5d4fcc0eae9308678c582fb719416",
+      "deployed_tree": "2d7d98261420c49283d35e52bcf3fded97a2e3f0",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "r5-control/search-matrix.csv",
+      "verification": "Fetched production index.html SHA-256 equals the R5 checkout; origin/main is edec937."
+    },
+    {
+      "label": "r6-immediate-live",
+      "deployed_commit": "e6b74d333b09c30619d5c3c61c95fa066ee50188",
+      "deployed_tree": "2c5ccd372d770c9126062bb0d291d1147a81483c",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "r6-live/search-matrix.csv",
+      "verification": "Served homepage bytes equal the merged R6 checkout and candidate git tree."
+    }
+  ]
+}

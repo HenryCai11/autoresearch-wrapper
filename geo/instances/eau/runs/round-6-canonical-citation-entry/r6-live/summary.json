@@ -1,0 +1,148 @@
+{
+  "round": 6,
+  "experiment_id": "eau-live-geo-r6-2026-10",
+  "change_id": "r6-canonical-citation-entry",
+  "production_merge_commit": "e6b74d333b09c30619d5c3c61c95fa066ee50188",
+  "production_tree": "2c5ccd372d770c9126062bb0d291d1147a81483c",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "measured_at": "2026-10-16T11:36:43+00:00",
+  "measurement_phase": "immediate_post_deployment",
+  "query_count": 15,
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "selection_policy": "outer-only; primary project-domain citation rate; inner ignored",
+  "scheduled": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 7,
+    "mention_rate": 0.7333333333333333,
+    "found_rate": 0.65,
+    "citation_rate": 0.11666666666666667,
+    "attribution_rate": 0.65,
+    "mrr": 0.03611111111111111,
+    "score": 29.555555555555557
+  },
+  "valid_response": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 7,
+    "mention_rate": 0.7333333333333333,
+    "found_rate": 0.65,
+    "citation_rate": 0.11666666666666667,
+    "attribution_rate": 0.65,
+    "mrr": 0.03611111111111111,
+    "score": 29.555555555555557
+  },
+  "by_engine": {
+    "gpt-web": {
+      "n": 15,
+      "valid_responses": 15,
+      "project_citations": 0,
+      "mention_rate": 0.7333333333333333,
+      "found_rate": 0.7333333333333333,
+      "citation_rate": 0.0,
+      "attribution_rate": 0.7333333333333333,
+      "mrr": 0.0,
+      "score": 25.666666666666664
+    },
+    "codex-search": {
+      "n": 15,
+      "valid_responses": 15,
+      "project_citations": 4,
+      "mention_rate": 0.7333333333333333,
+      "found_rate": 0.6666666666666666,
+      "citation_rate": 0.26666666666666666,
+      "attribution_rate": 0.6666666666666666,
+      "mrr": 0.14444444444444443,
+      "score": 38.88888888888889
+    },
+    "tavily-search": {
+      "n": 15,
+      "valid_responses": 15,
+      "project_citations": 0,
+      "mention_rate": 0.5333333333333333,
+      "found_rate": 0.4,
+      "citation_rate": 0.0,
+      "attribution_rate": 0.4,
+      "mrr": 0.0,
+      "score": 15.333333333333336
+    },
+    "exa-search": {
+      "n": 15,
+      "valid_responses": 15,
+      "project_citations": 3,
+      "mention_rate": 0.9333333333333333,
+      "found_rate": 0.8,
+      "citation_rate": 0.2,
+      "attribution_rate": 0.8,
+      "mrr": 0.0,
+      "score": 38.333333333333336
+    }
+  },
+  "by_tier": {
+    "exact": {
+      "n": 20,
+      "valid_responses": 20,
+      "project_citations": 5,
+      "mention_rate": 1.0,
+      "found_rate": 0.95,
+      "citation_rate": 0.25,
+      "attribution_rate": 0.95,
+      "mrr": 0.08333333333333333,
+      "score": 46.666666666666664
+    },
+    "fuzzy": {
+      "n": 20,
+      "valid_responses": 20,
+      "project_citations": 1,
+      "mention_rate": 0.7,
+      "found_rate": 0.65,
+      "citation_rate": 0.05,
+      "attribution_rate": 0.65,
+      "mrr": 0.025,
+      "score": 26.0
+    },
+    "broad": {
+      "n": 20,
+      "valid_responses": 20,
+      "project_citations": 1,
+      "mention_rate": 0.5,
+      "found_rate": 0.35,
+      "citation_rate": 0.05,
+      "attribution_rate": 0.35,
+      "mrr": 0.0,
+      "score": 16.0
+    }
+  },
+  "matched_valid_comparison": {
+    "baseline": {
+      "n": 60,
+      "valid_responses": 60,
+      "project_citations": 7,
+      "mention_rate": 0.7333333333333333,
+      "found_rate": 0.65,
+      "citation_rate": 0.11666666666666667,
+      "attribution_rate": 0.65,
+      "mrr": 0.03888888888888889,
+      "score": 29.61111111111111
+    },
+    "r6": {
+      "n": 60,
+      "valid_responses": 60,
+      "project_citations": 7,
+      "mention_rate": 0.7333333333333333,
+      "found_rate": 0.65,
+      "citation_rate": 0.11666666666666667,
+      "attribution_rate": 0.65,
+      "mrr": 0.03611111111111111,
+      "score": 29.555555555555557
+    },
+    "citation_delta": 0.0,
+    "composite_delta": -0.05555555555555358
+  },
+  "decision": "discard",
+  "limitations": [
+    "An immediate single-sample search observation does not establish causal lift.",
+    "Search engines may still serve pre-deployment indexed copies; repeat after recrawling.",
+    "Provider/tool outputs are not directly interchangeable with consumer chat-app products."
+  ]
+}

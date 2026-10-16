@@ -1,0 +1,15 @@
+{
+  "sha256": {
+    "queries.txt": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+    "search-map.json": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+    "search-matrix.csv": "6319f5661457edc0c3a567d143b9ff110fcacadf03faf7743c842b216786359f",
+    "gpt-web-answers.jsonl": "c13b9f9fc1667c1727d12e75c0b6fa34b021bf19a7640e4a2095c095a0e9f539",
+    "codex-answers-complete.jsonl": "d8414fc59bc3f75d19bd387e91fca3a91f262fa6c28cdb22343888fc6bde6c30",
+    "tavily-answers.jsonl": "9042fa67bf9165b357defcc68599a1404bec327cff4528cfced878643dc273ee",
+    "exa-answers.jsonl": "26f0648d7bf72b8853599bac110753d0dcb5559d7a6096f74d3529a300234f79"
+  },
+  "judge_sha256": "6bb1498e65e5cf065cc8e03e40007c73c32393e16f85a41d2395db76820613de",
+  "normalization_sha256": "8a2856dd9b69fe4b24c7b315f55ac6c98b7bcbd9063dd1093a11fba3e181d537",
+  "baseline_matrix_sha256": "c2d6e2d3d094c1e4ebce1c62dd094de8b65d2cc34457f5869f4056ad37b777a9",
+  "baseline_matrix": "/project/aip-xiye17/henrycai/autoresearch-wrapper/geo/instances/eau/runs/round-6-canonical-citation-entry/r6-live/search-matrix.csv"
+}

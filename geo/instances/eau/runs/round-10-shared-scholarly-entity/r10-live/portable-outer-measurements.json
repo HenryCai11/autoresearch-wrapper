@@ -1,0 +1,23 @@
+{
+  "measurements": [
+    {
+      "label": "r9-live-reused-control",
+      "deployed_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "deployed_tree": "5ebd5d1c28e00690d58caafa0edfe066ae5307d7",
+      "measured_at": "2026-10-16T13:09:24+00:00",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "../round-9-static-benchmark-evidence/r9-live/search-matrix.csv",
+      "matrix_sha256": "deebdf85fe8751eb8d7e53f9256a539fe50101ea3403550df06c7ce05a55b577",
+      "verification": "Current production main is still R9; homepage bytes equal the R9 checkout. Original deployment proof is preserved with the control."
+    },
+    {
+      "label": "r10-immediate-live",
+      "deployed_commit": "b70597085286d4ff4c2d3de78f25d95581835b98",
+      "deployed_tree": "14fdd73cd91dc01843dbe6a57b8f172cd249ea98",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "r10-live/search-matrix.csv",
+      "matrix_sha256": "8928065c2f55b10a2c77cf253b947683004675bd7044b7f0461d931586914398",
+      "verification": "Before/after all four edited pages equal the merged R10 checkout and candidate tree."
+    }
+  ]
+}

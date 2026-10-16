@@ -1,0 +1,7 @@
+{
+  "commit": "4147abc262bbb69df7a170eb403bf1b6807869f4",
+  "description": "Preserved R8 live outer baseline: 6/60 citations; 60 valid cells; inner ignored",
+  "metric_value": 10.0,
+  "recorded_at": "2026-10-16T12:56:54+00:00",
+  "status": "keep"
+}

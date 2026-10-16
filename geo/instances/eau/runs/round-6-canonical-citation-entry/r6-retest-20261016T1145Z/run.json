@@ -1,0 +1,12 @@
+{
+  "round": 6,
+  "measurement_phase": "delayed_repeat",
+  "collection_started_at": "2026-10-16T11:45:24Z",
+  "summarized_at": "2026-10-16T11:49:03+00:00",
+  "first_verified_served_at": "2026-10-16T11:32:16Z",
+  "production_commit_before": "e6b74d333b09c30619d5c3c61c95fa066ee50188",
+  "production_tree": "2c5ccd372d770c9126062bb0d291d1147a81483c",
+  "homepage_sha256": "12d90835c10df51c4d661c029d3cd1b791d3da4c31e4f36d853d71122b891a3a",
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "wait_since_first_verified_served_minutes": 13.133333333333333
+}

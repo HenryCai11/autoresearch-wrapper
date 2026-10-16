@@ -1,0 +1,16 @@
+{
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "sha256": {
+    "gpt-web-answers.jsonl": "7ab6701c9a987bf4882c4c8068b27304e4662a575816486fdf35045c57adb05f",
+    "codex-answers-complete.jsonl": "c6d55ee731b2342841a7c96871c82e745dda2ac06d66ae2cbe5a3cfc90bd6fd0",
+    "tavily-answers.jsonl": "fd9d4f3c9dc82e67fd5c7f42d699b5472f0ac98101a10d890886377e1fb63db7",
+    "exa-answers.jsonl": "744be986aa817ac5d75948cfa390e56b29cbe9c36b7f0c6fddc774a1c80c7be5",
+    "search-matrix.csv": "deebdf85fe8751eb8d7e53f9256a539fe50101ea3403550df06c7ce05a55b577",
+    "search-map.json": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+    "raw-api-responses.jsonl": "ad988ec32bcce93c84ec055f3c4d821e00135b3beb9799db4ca35b8ba243e407"
+  },
+  "baseline_matrix_sha256": "6e2aed8100a519ed03c6f9f9bad767ab96cd4eee04bfdce6211a65f8eb0ee677",
+  "served_resources_sha256": {
+    "index.html": "30e3c2d8061e56b82cf57b7608e1cf73c0c3116f07281011231258ba7abe7bf2"
+  }
+}

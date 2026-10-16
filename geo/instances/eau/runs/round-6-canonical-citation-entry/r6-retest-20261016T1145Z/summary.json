@@ -1,0 +1,239 @@
+{
+  "round": 6,
+  "measurement_phase": "delayed_repeat",
+  "requested_by_user": "Retest R6 to check whether deployment needs time before measuring",
+  "collection_started_at": "2026-10-16T11:45:24Z",
+  "first_verified_served_at": "2026-10-16T11:32:16Z",
+  "production_commit_before": "e6b74d333b09c30619d5c3c61c95fa066ee50188",
+  "production_tree": "2c5ccd372d770c9126062bb0d291d1147a81483c",
+  "homepage_sha256": "12d90835c10df51c4d661c029d3cd1b791d3da4c31e4f36d853d71122b891a3a",
+  "query_count": 15,
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "engines": [
+    "gpt-web",
+    "codex-search",
+    "tavily-search",
+    "exa-search"
+  ],
+  "settings": {
+    "gpt-web": {
+      "independent_calls": true,
+      "response_length": "long"
+    },
+    "codex-search": {
+      "workers": 2,
+      "timeout_seconds": 90,
+      "reasoning_effort": "low"
+    },
+    "tavily-search": {
+      "search_depth": "basic",
+      "max_results": 10,
+      "include_answer": false
+    },
+    "exa-search": {
+      "type": "auto",
+      "numResults": 10,
+      "contents": {
+        "highlights": true
+      }
+    }
+  },
+  "selection_policy": "outer-only; no inner score; append-only repeat, not an R7 content experiment",
+  "r7": "preparation paused; no candidate or deployment published",
+  "summarized_at": "2026-10-16T11:49:03+00:00",
+  "wait_since_first_verified_served_minutes": 13.133333333333333,
+  "scheduled": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 7,
+    "mention_rate": 0.75,
+    "found_rate": 0.65,
+    "citation_rate": 0.11666666666666667,
+    "attribution_rate": 0.65,
+    "mrr": 0.03194444444444444,
+    "score": 29.638888888888893
+  },
+  "valid_response": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 7,
+    "mention_rate": 0.75,
+    "found_rate": 0.65,
+    "citation_rate": 0.11666666666666667,
+    "attribution_rate": 0.65,
+    "mrr": 0.03194444444444444,
+    "score": 29.638888888888893
+  },
+  "by_engine": {
+    "gpt-web": {
+      "n": 15,
+      "valid_responses": 15,
+      "project_citations": 0,
+      "mention_rate": 0.7333333333333333,
+      "found_rate": 0.7333333333333333,
+      "citation_rate": 0.0,
+      "attribution_rate": 0.7333333333333333,
+      "mrr": 0.0,
+      "score": 25.666666666666664
+    },
+    "codex-search": {
+      "n": 15,
+      "valid_responses": 15,
+      "project_citations": 4,
+      "mention_rate": 0.7333333333333333,
+      "found_rate": 0.6666666666666666,
+      "citation_rate": 0.26666666666666666,
+      "attribution_rate": 0.6666666666666666,
+      "mrr": 0.12777777777777777,
+      "score": 38.55555555555556
+    },
+    "tavily-search": {
+      "n": 15,
+      "valid_responses": 15,
+      "project_citations": 0,
+      "mention_rate": 0.6,
+      "found_rate": 0.4,
+      "citation_rate": 0.0,
+      "attribution_rate": 0.4,
+      "mrr": 0.0,
+      "score": 16.0
+    },
+    "exa-search": {
+      "n": 15,
+      "valid_responses": 15,
+      "project_citations": 3,
+      "mention_rate": 0.9333333333333333,
+      "found_rate": 0.8,
+      "citation_rate": 0.2,
+      "attribution_rate": 0.8,
+      "mrr": 0.0,
+      "score": 38.333333333333336
+    }
+  },
+  "by_tier": {
+    "exact": {
+      "n": 20,
+      "valid_responses": 20,
+      "project_citations": 5,
+      "mention_rate": 1.0,
+      "found_rate": 0.95,
+      "citation_rate": 0.25,
+      "attribution_rate": 0.95,
+      "mrr": 0.07916666666666666,
+      "score": 46.58333333333333
+    },
+    "fuzzy": {
+      "n": 20,
+      "valid_responses": 20,
+      "project_citations": 1,
+      "mention_rate": 0.75,
+      "found_rate": 0.65,
+      "citation_rate": 0.05,
+      "attribution_rate": 0.65,
+      "mrr": 0.016666666666666666,
+      "score": 26.333333333333332
+    },
+    "broad": {
+      "n": 20,
+      "valid_responses": 20,
+      "project_citations": 1,
+      "mention_rate": 0.5,
+      "found_rate": 0.35,
+      "citation_rate": 0.05,
+      "attribution_rate": 0.35,
+      "mrr": 0.0,
+      "score": 16.0
+    }
+  },
+  "matched_valid_comparison": {
+    "matched_valid_cells": 60,
+    "before": {
+      "n": 60,
+      "valid_responses": 60,
+      "project_citations": 7,
+      "mention_rate": 0.7333333333333333,
+      "found_rate": 0.65,
+      "citation_rate": 0.11666666666666667,
+      "attribution_rate": 0.65,
+      "mrr": 0.03611111111111111,
+      "score": 29.555555555555557
+    },
+    "after": {
+      "n": 60,
+      "valid_responses": 60,
+      "project_citations": 7,
+      "mention_rate": 0.75,
+      "found_rate": 0.65,
+      "citation_rate": 0.11666666666666667,
+      "attribution_rate": 0.65,
+      "mrr": 0.03194444444444444,
+      "score": 29.638888888888893
+    },
+    "citation_delta_pp": 0.0,
+    "composite_delta": 0.0833333333333357,
+    "citation_gains": 1,
+    "citation_losses": 1,
+    "cell_changes": [
+      {
+        "query": "EAU meta-agent user-centric agents",
+        "engine": "codex-search",
+        "fields": {
+          "rank": {
+            "before": 3,
+            "after": 4
+          }
+        }
+      },
+      {
+        "query": "framework jointly adapts simulated user environment rewards RL configuration",
+        "engine": "codex-search",
+        "fields": {
+          "site_cited": {
+            "before": false,
+            "after": true
+          },
+          "rank": {
+            "before": null,
+            "after": 3
+          },
+          "url": {
+            "before": null,
+            "after": "https://eau-meta-agent.github.io/"
+          }
+        }
+      },
+      {
+        "query": "user-centric agents co-evolve environment and user simulator",
+        "engine": "codex-search",
+        "fields": {
+          "site_cited": {
+            "before": true,
+            "after": false
+          },
+          "rank": {
+            "before": 2,
+            "after": null
+          },
+          "url": {
+            "before": "https://eau-meta-agent.github.io/",
+            "after": null
+          }
+        }
+      },
+      {
+        "query": "within-run and across-run adaptation agent training",
+        "engine": "tavily-search",
+        "fields": {
+          "mention": {
+            "before": false,
+            "after": true
+          }
+        }
+      }
+    ]
+  },
+  "explicit_project_url_cells": 4,
+  "complete": true,
+  "interpretation": "A time-repeat of unchanged content, not a new candidate or causal estimate of waiting. A 13-minute wait is not a controlled recrawl experiment.",
+  "original_run_unchanged": true
+}

@@ -1,0 +1,7 @@
+{
+  "commit": "fbd9e100b6ae71704a0cf65b1a1b9b87dbdc4ef7",
+  "description": "Reuse verified R7 live control: 6/60 citations, all 60 valid; no inner metric",
+  "metric_value": 10.0,
+  "recorded_at": "2026-10-16T12:09:30+00:00",
+  "status": "keep"
+}

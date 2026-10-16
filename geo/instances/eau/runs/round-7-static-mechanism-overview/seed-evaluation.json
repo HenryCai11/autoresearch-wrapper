@@ -1,0 +1,10 @@
+{
+  "command": "/home/henrycai/scratch/miniconda3/bin/python3 /scratch/henrycai/geo-runs/eau-r7-20261016/outer_metric.py",
+  "commit": "e6b74d333b09c30619d5c3c61c95fa066ee50188",
+  "exit_code": 0,
+  "log_path": "/scratch/henrycai/eau-r7-20261016/.autoresearch-wrapper/runs/20261016T115137Z-index-html/logs/seed-20261016T115254Z.log",
+  "metric_value": 11.666666666666666,
+  "recorded_at": "2026-10-16T11:52:54+00:00",
+  "regex": "METRIC\\s*=\\s*(?P<value>[-+]?\\d+(?:\\.\\d+)?(?:[eE][-+]?\\d+)?)",
+  "timed_out": false
+}

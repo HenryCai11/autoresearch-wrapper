@@ -1,0 +1,154 @@
+{
+  "node_version": "v20.16.0",
+  "method": "Isolated unchanged renderResults function with a minimal DOM stub; not a full-browser test",
+  "renderer_switch_checks_passed": true,
+  "default_model": "qwen3",
+  "qwen3": {
+    "charts": "<article class=\"chart-card\" aria-label=\"Qwen3-4B, UserGym Average score: InfoPO 0.559, eau 0.623, relative gain 11.4 percent.\">\n      <div class=\"chart-top\"><h3>UserGym</h3><span class=\"gain\">+11.4%</span></div>\n      <p class=\"chart-subtitle\">Average score</p>\n      <div class=\"bar-plot\" aria-hidden=\"true\"><div class=\"bar-column\"><span class=\"bar-value\">0.559</span><div class=\"bar\" style=\"height:57.30%\"></div></div><div class=\"bar-column eau\"><span class=\"bar-value\">0.623</span><div class=\"bar\" style=\"height:63.86%\"></div></div></div>\n      <div class=\"bar-labels\" aria-hidden=\"true\"><span>InfoPO</span><span>eau</span></div>\n    </article><article class=\"chart-card\" aria-label=\"Qwen3-4B, ColBench Successful task completion: InfoPO 0.439, eau 0.600, relative gain 36.7 percent.\">\n      <div class=\"chart-top\"><h3>ColBench</h3><span class=\"gain\">+36.7%</span></div>\n      <p class=\"chart-subtitle\">Successful task completion</p>\n      <div class=\"bar-plot\" aria-hidden=\"true\"><div class=\"bar-column\"><span class=\"bar-value\">0.439</span><div class=\"bar\" style=\"height:45.00%\"></div></div><div class=\"bar-column eau\"><span class=\"bar-value\">0.600</span><div class=\"bar\" style=\"height:61.50%\"></div></div></div>\n      <div class=\"bar-labels\" aria-hidden=\"true\"><span>InfoPO</span><span>eau</span></div>\n    </article><article class=\"chart-card\" aria-label=\"Qwen3-4B, Overall UserGym + ColBench: InfoPO 0.545, eau 0.627, relative gain 15.0 percent.\">\n      <div class=\"chart-top\"><h3>Overall</h3><span class=\"gain\">+15.0%</span></div>\n      <p class=\"chart-subtitle\">UserGym + ColBench</p>\n      <div class=\"bar-plot\" aria-hidden=\"true\"><div class=\"bar-column\"><span class=\"bar-value\">0.545</span><div class=\"bar\" style=\"height:55.86%\"></div></div><div class=\"bar-column eau\"><span class=\"bar-value\">0.627</span><div class=\"bar\" style=\"height:64.27%\"></div></div></div>\n      <div class=\"bar-labels\" aria-hidden=\"true\"><span>InfoPO</span><span>eau</span></div>\n    </article>",
+    "table": "<tr><th scope=\"row\">Backbone</th><td>0.426</td><td>0.272</td><td>0.153</td><td>0.378</td></tr><tr><th scope=\"row\">ReAct</th><td>0.457</td><td>0.269</td><td>0.145</td><td>0.401</td></tr><tr><th scope=\"row\">Reflexion</th><td>0.455</td><td>0.303</td><td>0.184</td><td>0.408</td></tr><tr><th scope=\"row\">RAGEN</th><td>0.468</td><td>0.479</td><td>0.361</td><td>0.457</td></tr><tr><th scope=\"row\">Search-R1</th><td>0.472</td><td>0.467</td><td>0.355</td><td>0.459</td></tr><tr><th scope=\"row\">UserRL</th><td>0.509</td><td>0.468</td><td>0.342</td><td>0.486</td></tr><tr><th scope=\"row\">InfoPO</th><td>0.559</td><td>0.553</td><td>0.439</td><td>0.545</td></tr><tr><th scope=\"row\">PPO</th><td>0.522</td><td>0.284</td><td>0.200</td><td>0.462</td></tr><tr class=\"ours\"><th scope=\"row\">eau</th><td>0.623</td><td>0.685</td><td>0.600</td><td>0.627</td></tr>",
+    "caption": "Qwen3-4B · UserGym and ColBench"
+  },
+  "qwen25": {
+    "charts": "<article class=\"chart-card\" aria-label=\"Qwen2.5-7B-Instruct, UserGym Average score: InfoPO 0.563, eau 0.632, relative gain 12.3 percent.\">\n      <div class=\"chart-top\"><h3>UserGym</h3><span class=\"gain\">+12.3%</span></div>\n      <p class=\"chart-subtitle\">Average score</p>\n      <div class=\"bar-plot\" aria-hidden=\"true\"><div class=\"bar-column\"><span class=\"bar-value\">0.563</span><div class=\"bar\" style=\"height:57.71%\"></div></div><div class=\"bar-column eau\"><span class=\"bar-value\">0.632</span><div class=\"bar\" style=\"height:64.78%\"></div></div></div>\n      <div class=\"bar-labels\" aria-hidden=\"true\"><span>InfoPO</span><span>eau</span></div>\n    </article><article class=\"chart-card\" aria-label=\"Qwen2.5-7B-Instruct, ColBench Successful task completion: InfoPO 0.426, eau 0.533, relative gain 25.1 percent.\">\n      <div class=\"chart-top\"><h3>ColBench</h3><span class=\"gain\">+25.1%</span></div>\n      <p class=\"chart-subtitle\">Successful task completion</p>\n      <div class=\"bar-plot\" aria-hidden=\"true\"><div class=\"bar-column\"><span class=\"bar-value\">0.426</span><div class=\"bar\" style=\"height:43.66%\"></div></div><div class=\"bar-column eau\"><span class=\"bar-value\">0.533</span><div class=\"bar\" style=\"height:54.63%\"></div></div></div>\n      <div class=\"bar-labels\" aria-hidden=\"true\"><span>InfoPO</span><span>eau</span></div>\n    </article><article class=\"chart-card\" aria-label=\"Qwen2.5-7B-Instruct, Overall UserGym + ColBench: InfoPO 0.544, eau 0.615, relative gain 13.1 percent.\">\n      <div class=\"chart-top\"><h3>Overall</h3><span class=\"gain\">+13.1%</span></div>\n      <p class=\"chart-subtitle\">UserGym + ColBench</p>\n      <div class=\"bar-plot\" aria-hidden=\"true\"><div class=\"bar-column\"><span class=\"bar-value\">0.544</span><div class=\"bar\" style=\"height:55.76%\"></div></div><div class=\"bar-column eau\"><span class=\"bar-value\">0.615</span><div class=\"bar\" style=\"height:63.04%\"></div></div></div>\n      <div class=\"bar-labels\" aria-hidden=\"true\"><span>InfoPO</span><span>eau</span></div>\n    </article>",
+    "table": "<tr><th scope=\"row\">Backbone</th><td>0.338</td><td>0.242</td><td>0.140</td><td>0.305</td></tr><tr><th scope=\"row\">ReAct</th><td>0.379</td><td>0.238</td><td>0.135</td><td>0.336</td></tr><tr><th scope=\"row\">Reflexion</th><td>0.361</td><td>0.276</td><td>0.168</td><td>0.330</td></tr><tr><th scope=\"row\">RAGEN</th><td>0.513</td><td>0.449</td><td>0.348</td><td>0.487</td></tr><tr><th scope=\"row\">Search-R1</th><td>0.501</td><td>0.457</td><td>0.352</td><td>0.480</td></tr><tr><th scope=\"row\">UserRL</th><td>0.508</td><td>0.436</td><td>0.327</td><td>0.480</td></tr><tr><th scope=\"row\">InfoPO</th><td>0.563</td><td>0.534</td><td>0.426</td><td>0.544</td></tr><tr><th scope=\"row\">PPO</th><td>0.568</td><td>0.356</td><td>0.240</td><td>0.508</td></tr><tr class=\"ours\"><th scope=\"row\">eau</th><td>0.632</td><td>0.659</td><td>0.533</td><td>0.615</td></tr>",
+    "caption": "Qwen2.5-7B-Instruct · UserGym and ColBench"
+  },
+  "source_data": {
+    "qwen3": {
+      "label": "Qwen3-4B",
+      "rows": [
+        [
+          "Backbone",
+          0.426,
+          0.272,
+          0.153,
+          0.378
+        ],
+        [
+          "ReAct",
+          0.457,
+          0.269,
+          0.145,
+          0.401
+        ],
+        [
+          "Reflexion",
+          0.455,
+          0.303,
+          0.184,
+          0.408
+        ],
+        [
+          "RAGEN",
+          0.468,
+          0.479,
+          0.361,
+          0.457
+        ],
+        [
+          "Search-R1",
+          0.472,
+          0.467,
+          0.355,
+          0.459
+        ],
+        [
+          "UserRL",
+          0.509,
+          0.468,
+          0.342,
+          0.486
+        ],
+        [
+          "InfoPO",
+          0.559,
+          0.553,
+          0.439,
+          0.545
+        ],
+        [
+          "PPO",
+          0.522,
+          0.284,
+          0.2,
+          0.462
+        ],
+        [
+          "eau",
+          0.623,
+          0.685,
+          0.6,
+          0.627
+        ]
+      ]
+    },
+    "qwen25": {
+      "label": "Qwen2.5-7B-Instruct",
+      "rows": [
+        [
+          "Backbone",
+          0.338,
+          0.242,
+          0.14,
+          0.305
+        ],
+        [
+          "ReAct",
+          0.379,
+          0.238,
+          0.135,
+          0.336
+        ],
+        [
+          "Reflexion",
+          0.361,
+          0.276,
+          0.168,
+          0.33
+        ],
+        [
+          "RAGEN",
+          0.513,
+          0.449,
+          0.348,
+          0.487
+        ],
+        [
+          "Search-R1",
+          0.501,
+          0.457,
+          0.352,
+          0.48
+        ],
+        [
+          "UserRL",
+          0.508,
+          0.436,
+          0.327,
+          0.48
+        ],
+        [
+          "InfoPO",
+          0.563,
+          0.534,
+          0.426,
+          0.544
+        ],
+        [
+          "PPO",
+          0.568,
+          0.356,
+          0.24,
+          0.508
+        ],
+        [
+          "eau",
+          0.632,
+          0.659,
+          0.533,
+          0.615
+        ]
+      ]
+    }
+  }
+}

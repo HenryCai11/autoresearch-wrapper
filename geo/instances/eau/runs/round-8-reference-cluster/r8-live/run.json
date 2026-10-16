@@ -1,0 +1,11 @@
+{
+  "experiment_id": "eau-live-geo-r8-2026-10",
+  "round": 8,
+  "change_id": "r8-reference-cluster",
+  "production_merge_commit": "4147abc262bbb69df7a170eb403bf1b6807869f4",
+  "production_tree": "b3d011a5256d81aac31840cc7183b8fb5fa7a405",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "measured_at": "2026-10-16T12:22:48+00:00",
+  "measurement_phase": "immediate_post_deployment",
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce"
+}

@@ -1,0 +1,50 @@
+{
+  "added_edges": [
+    {
+      "from": "llms.txt",
+      "to": "method.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "method.html",
+      "to": "llms.txt",
+      "kind": "local-reference"
+    },
+    {
+      "from": "method.html",
+      "to": "paper.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "method.html",
+      "to": "research-context.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "paper.html",
+      "to": "llms.txt",
+      "kind": "local-reference"
+    },
+    {
+      "from": "paper.html",
+      "to": "method.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "paper.html",
+      "to": "research-context.html",
+      "kind": "local-reference"
+    },
+    {
+      "from": "research-context.html",
+      "to": "llms.txt",
+      "kind": "local-reference"
+    },
+    {
+      "from": "research-context.html",
+      "to": "paper.html",
+      "kind": "local-reference"
+    }
+  ],
+  "claim": "Observed local links only; no retrieval or citation lift implied"
+}

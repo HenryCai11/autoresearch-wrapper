@@ -1,0 +1,11 @@
+{
+  "experiment_id": "eau-live-geo-r10-2026-10",
+  "round": 10,
+  "change_id": "r10-shared-scholarly-entity",
+  "production_merge_commit": "b70597085286d4ff4c2d3de78f25d95581835b98",
+  "production_tree": "14fdd73cd91dc01843dbe6a57b8f172cd249ea98",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "measured_at": "2026-10-16T13:53:25+00:00",
+  "measurement_phase": "immediate_post_deployment",
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce"
+}

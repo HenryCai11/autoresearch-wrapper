@@ -1,0 +1,21 @@
+{
+  "round": 6,
+  "measurement_phase": "delayed_repeat",
+  "requested_by_user": "Retest R6 to check whether deployment needs time before measuring",
+  "collection_started_at": "2026-10-16T11:45:24Z",
+  "first_verified_served_at": "2026-10-16T11:32:16Z",
+  "production_commit_before": "e6b74d333b09c30619d5c3c61c95fa066ee50188",
+  "production_tree": "2c5ccd372d770c9126062bb0d291d1147a81483c",
+  "homepage_sha256": "12d90835c10df51c4d661c029d3cd1b791d3da4c31e4f36d853d71122b891a3a",
+  "query_count": 15,
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "engines": ["gpt-web", "codex-search", "tavily-search", "exa-search"],
+  "settings": {
+    "gpt-web": {"independent_calls": true, "response_length": "long"},
+    "codex-search": {"workers": 2, "timeout_seconds": 90, "reasoning_effort": "low"},
+    "tavily-search": {"search_depth": "basic", "max_results": 10, "include_answer": false},
+    "exa-search": {"type": "auto", "numResults": 10, "contents": {"highlights": true}}
+  },
+  "selection_policy": "outer-only; no inner score; append-only repeat, not an R7 content experiment",
+  "r7": "preparation paused; no candidate or deployment published"
+}

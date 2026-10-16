@@ -1,0 +1,7 @@
+{
+  "commit": "9bb531cc09d8b7dda5a3148c5df3c5e62107892b",
+  "description": "R9 static default benchmark evidence; served homepage byte-verified; 60 frozen outer cells valid; compared with preserved R8 control",
+  "metric_value": 13.333333333333334,
+  "recorded_at": "2026-10-16T13:09:24+00:00",
+  "status": "keep"
+}

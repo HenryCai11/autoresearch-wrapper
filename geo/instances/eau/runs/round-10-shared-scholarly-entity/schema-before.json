@@ -1,0 +1,216 @@
+{
+  "index.html": {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "name": "EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents",
+    "alternateName": [
+      "EAU",
+      "Environment-Agent-User Co-evolution"
+    ],
+    "url": "https://eau-meta-agent.github.io/",
+    "sameAs": "https://arxiv.org/abs/2610.16523",
+    "identifier": "arXiv:2610.16523",
+    "description": "EAU is a meta-agent framework that jointly adapts the environment, agent, and simulated user while training user-centric agents.",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Min Cai",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "University of Alberta"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Dan Zhang",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "National University of Singapore"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Gao Xing",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Kuaishou Technology"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Libin Ma",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Kuaishou Technology"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Zhaohui Xu",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Independent Researcher"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Xi Ye",
+        "affiliation": [
+          {
+            "@type": "Organization",
+            "name": "University of Alberta"
+          },
+          {
+            "@type": "Organization",
+            "name": "Amii"
+          }
+        ]
+      }
+    ],
+    "keywords": [
+      "environment-agent-user co-evolution",
+      "meta-agent",
+      "user-centric agents",
+      "UserGym",
+      "ColBench",
+      "multi-turn reinforcement learning"
+    ]
+  },
+  "method.html": {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "name": "EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents",
+    "url": "https://eau-meta-agent.github.io/method.html",
+    "sameAs": "https://arxiv.org/abs/2610.16523",
+    "identifier": "arXiv:2610.16523",
+    "description": "EAU jointly adapts a hybrid simulated user, environment feedback, reward design, and reinforcement-learning configuration within and across training runs.",
+    "keywords": [
+      "hybrid user simulator",
+      "simulated user",
+      "environment feedback",
+      "reward design",
+      "RL configuration",
+      "within a run",
+      "across runs",
+      "UserGym",
+      "ColBench",
+      "tau2-bench",
+      "Qwen3-4B",
+      "Qwen2.5-7B-Instruct"
+    ]
+  },
+  "paper.html": {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents",
+    "name": "EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents",
+    "url": "https://eau-meta-agent.github.io/paper.html",
+    "mainEntityOfPage": "https://eau-meta-agent.github.io/",
+    "sameAs": "https://arxiv.org/abs/2610.16523",
+    "identifier": "arXiv:2610.16523",
+    "datePublished": "2026",
+    "description": "EAU is a meta-agent framework for user-centric agents that can revise a hybrid user simulator, environment feedback, reward design, and RL configuration within and across runs.",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Min Cai",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "University of Alberta"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Dan Zhang",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "National University of Singapore"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Gao Xing",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Kuaishou Technology"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Libin Ma",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Kuaishou Technology"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Zhaohui Xu",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Independent Researcher"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Xi Ye",
+        "affiliation": [
+          {
+            "@type": "Organization",
+            "name": "University of Alberta"
+          },
+          {
+            "@type": "Organization",
+            "name": "Amii"
+          }
+        ]
+      }
+    ],
+    "about": [
+      "UserGym",
+      "ColBench",
+      "tau2-bench",
+      "Qwen3-4B",
+      "Qwen2.5-7B-Instruct",
+      "hybrid user simulator",
+      "environment feedback",
+      "reward design",
+      "RL configuration"
+    ]
+  },
+  "research-context.html": {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "name": "EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents",
+    "url": "https://eau-meta-agent.github.io/research-context.html",
+    "sameAs": "https://arxiv.org/abs/2610.16523",
+    "identifier": "arXiv:2610.16523",
+    "description": "EAU studies agent-environment-user co-evolution for multi-turn reinforcement learning and treats the adaptive training system as editable.",
+    "about": [
+      {
+        "@type": "DefinedTerm",
+        "name": "agent-environment-user co-evolution"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "multi-turn reinforcement learning"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "adaptive training system"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "editable training system"
+      }
+    ],
+    "keywords": [
+      "agent-environment co-evolution",
+      "LLM agents",
+      "multi-turn RL",
+      "simulated users",
+      "adaptive training system",
+      "editable training system"
+    ]
+  }
+}

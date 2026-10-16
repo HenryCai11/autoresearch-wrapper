@@ -1,0 +1,2 @@
+timestamp	run_id	candidate_id	status	metric_name	metric_value	goal	commit	branch	worktree	description
+2026-10-16T12:56:54+00:00	20261016T125445Z-index-html	seed	keep	live_project_citation_rate	10.0	maximize	4147abc262bbb69df7a170eb403bf1b6807869f4	autoresearch/index-html/20261016T125445Z-index-html/seed	/scratch/henrycai/eau-r9-20261016.autoresearch-worktrees/20261016T125445Z-index-html/seed	Preserved R8 live outer baseline: 6/60 citations; 60 valid cells; inner ignored

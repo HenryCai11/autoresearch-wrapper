@@ -1,0 +1,9 @@
+{
+  "state": "deployed_and_measured",
+  "production_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+  "decision": "keep",
+  "primary_citations": "8/60",
+  "report": "r9-live/REPORT.md",
+  "preparation_snapshot": "change.json",
+  "live_change": "r9-live/deployed-change.json"
+}

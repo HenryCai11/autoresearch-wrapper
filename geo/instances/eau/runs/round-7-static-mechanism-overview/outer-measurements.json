@@ -1,0 +1,23 @@
+{
+  "measurements": [
+    {
+      "label": "r6-latest-retest-reused-control",
+      "deployed_commit": "e6b74d333b09c30619d5c3c61c95fa066ee50188",
+      "deployed_tree": "2c5ccd372d770c9126062bb0d291d1147a81483c",
+      "measured_at": "2026-10-16T11:49:03+00:00",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "../round-6-canonical-citation-entry/r6-retest-20261016T1145Z/search-matrix.csv",
+      "matrix_sha256": "6319f5661457edc0c3a567d143b9ff110fcacadf03faf7743c842b216786359f",
+      "verification": "Production homepage bytes still equal R6 at R7 initialization; source matrix and query hashes are frozen."
+    },
+    {
+      "label": "r7-immediate-live",
+      "deployed_commit": "fbd9e100b6ae71704a0cf65b1a1b9b87dbdc4ef7",
+      "deployed_tree": "ab2d4d904e2227401ce1d23cf92f1d4a2bdd0b9a",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "r7-live/search-matrix.csv",
+      "matrix_sha256": "dae7a1ec81d24aa8958a660f5ee3741b5467cfc347437873d3262197248897d9",
+      "verification": "Before/after served homepage bytes equal merged R7 checkout and candidate git tree."
+    }
+  ]
+}

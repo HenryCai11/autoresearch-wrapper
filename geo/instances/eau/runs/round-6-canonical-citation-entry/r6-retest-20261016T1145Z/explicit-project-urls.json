@@ -1,0 +1,30 @@
+[
+  {
+    "query": "EAU Environment Agent User Co-evolution",
+    "engine": "codex-search",
+    "urls": [
+      "https://eau-meta-agent.github.io/"
+    ]
+  },
+  {
+    "query": "EAU meta-agent user-centric agents",
+    "engine": "codex-search",
+    "urls": [
+      "https://eau-meta-agent.github.io/"
+    ]
+  },
+  {
+    "query": "EAU project website environment agent user co-evolution",
+    "engine": "codex-search",
+    "urls": [
+      "https://eau-meta-agent.github.io/"
+    ]
+  },
+  {
+    "query": "framework jointly adapts simulated user environment rewards RL configuration",
+    "engine": "codex-search",
+    "urls": [
+      "https://eau-meta-agent.github.io/"
+    ]
+  }
+]

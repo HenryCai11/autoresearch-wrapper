@@ -1,0 +1,29 @@
+{
+  "execution": "Explicit apply_patch in the allocated worktree; generic geo-apply cannot mutate these support-page nodes.",
+  "operations": [
+    {
+      "op": "scoped-reference-navigation-patch",
+      "node": "file:llms.txt",
+      "before_sha256": "2f04ef5af802ce955b20a8a2c96432b50e5d3c81c5bc7855e3d2380e2695f91a",
+      "after_sha256": "50390a4441a74b6eeac3e4bb5c873ddf11ef76963f843e7053f9d5a49037502a"
+    },
+    {
+      "op": "scoped-reference-navigation-patch",
+      "node": "file:method.html",
+      "before_sha256": "e787e2152aa4aff1911ef5d411115376a777c247633dd38c287616a7d4317b85",
+      "after_sha256": "7fa40564ced1017e16d590e0645f2c1ea0f89cb99482320b08bbb6b4efcaf24c"
+    },
+    {
+      "op": "scoped-reference-navigation-patch",
+      "node": "file:paper.html",
+      "before_sha256": "8760ee9f63115c157a3f105a8bd51b02dbd4137c275026f53d178f185a9c7b5c",
+      "after_sha256": "503b09b25ce5a69b6fbfaa0a024ed1df5ddc0dc75e17481117fe6cdd4ddc978b"
+    },
+    {
+      "op": "scoped-reference-navigation-patch",
+      "node": "file:research-context.html",
+      "before_sha256": "bdd1be4f5ccf3aba6b47dc87a381b30b37a1850066bbf3ad338ab1a95f8c91b9",
+      "after_sha256": "22ad622b58523b091e46cc57808e6b13a81fb23197e4d00017111581b752392e"
+    }
+  ]
+}

@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f2eb">
+  <meta name="description" content="Official EAU project website for arXiv:2610.16523. A meta-agent framework that adapts environments, simulated users, rewards, and RL configuration for user-centric agents.">
+  <link rel="canonical" href="https://eau-meta-agent.github.io/">
+  <meta name="citation_title" content="EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents">
+  <meta name="citation_author" content="Min Cai">
+  <meta name="citation_author" content="Dan Zhang">
+  <meta name="citation_author" content="Gao Xing">
+  <meta name="citation_author" content="Libin Ma">
+  <meta name="citation_author" content="Zhaohui Xu">
+  <meta name="citation_author" content="Xi Ye">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_arxiv_id" content="2610.16523">
+  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2610.16523">
+  <meta property="og:title" content="EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents">
+  <meta property="og:description" content="Official EAU project website for arXiv:2610.16523. A meta-agent framework that adapts environments, simulated users, rewards, and RL configuration for user-centric agents.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://eau-meta-agent.github.io/">
+  <meta property="og:image" content="https://eau-meta-agent.github.io/assets/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "name": "EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents",
+    "alternateName": ["EAU", "Environment-Agent-User Co-evolution"],
+    "url": "https://eau-meta-agent.github.io/",
+    "sameAs": "https://arxiv.org/abs/2610.16523",
+    "identifier": "arXiv:2610.16523",
+    "description": "EAU is a meta-agent framework that jointly adapts the environment, agent, and simulated user while training user-centric agents.",
+    "author": [
+      {"@type": "Person", "name": "Min Cai", "affiliation": {"@type": "Organization", "name": "University of Alberta"}},
+      {"@type": "Person", "name": "Dan Zhang", "affiliation": {"@type": "Organization", "name": "National University of Singapore"}},
+      {"@type": "Person", "name": "Gao Xing", "affiliation": {"@type": "Organization", "name": "Kuaishou Technology"}},
+      {"@type": "Person", "name": "Libin Ma", "affiliation": {"@type": "Organization", "name": "Kuaishou Technology"}},
+      {"@type": "Person", "name": "Zhaohui Xu", "affiliation": {"@type": "Organization", "name": "Independent Researcher"}},
+      {"@type": "Person", "name": "Xi Ye", "affiliation": [{"@type": "Organization", "name": "University of Alberta"}, {"@type": "Organization", "name": "Amii"}]}
+    ],
+    "keywords": ["environment-agent-user co-evolution", "meta-agent", "user-centric agents", "UserGym", "ColBench", "multi-turn reinforcement learning"]
+  }
+  </script>
+  <script src="site-config.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="wordmark" href="#" aria-label="EAU home">eau<span class="wordmark-dot">.</span></a>
+    <nav aria-label="Main navigation">
+      <a href="#overview">The idea</a><a href="#framework">Framework</a><a href="#results">Results</a><a href="method.html">Method summary</a><a href="research-context.html">Research context</a><a href="paper.html">Paper details</a>
+    </nav>
+    <a class="header-link" href="#resources">Research materials <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="hero-description" id="project-reference">Official EAU project website: <a href="https://eau-meta-agent.github.io/">eau-meta-agent.github.io</a> · <a href="https://arxiv.org/abs/2610.16523">arXiv:2610.16523</a>.</p>
+        <h1 id="hero-title">Learning to<br>evolve, <em>together.</em></h1>
+        <p class="hero-subtitle">Environment–Agent–User Co-evolution<br>for Training User-Centric Agents</p>
+        <p class="hero-description"><strong>EAU is a meta-agent framework</strong> that evolves the environment, the agent, and the simulated user together while training user-centric agents.</p>
+        <div class="hero-actions">
+          <a class="button button-dark" href="#overview">Explore the research <span aria-hidden="true">↗</span></a>
+          <a class="button button-dark" href="https://arxiv.org/abs/2610.16523" target="_blank" rel="noopener">arXiv <span aria-hidden="true">↗</span></a>
+          <a class="text-link" data-code-link hidden href="#">Code <span aria-hidden="true">↗</span></a><span class="resource-status" data-code-status>Code · coming soon (under review)</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <svg class="evolution-art" viewBox="0 0 540 530" role="img" aria-labelledby="art-title art-description">
+          <title id="art-title">Three parts. One evolving system.</title>
+          <desc id="art-description">Environment, agent, and user form a connected cycle around a meta-agent. Feedback from training informs the next intervention.</desc>
+          <defs>
+            <pattern id="dot-grid" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.65" fill="#d6d0c5"/></pattern>
+            <marker id="arrow-clay" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#b45c43"/></marker>
+          </defs>
+          <rect x="10" y="10" width="520" height="510" fill="url(#dot-grid)"/>
+          <g class="art-orbits" fill="none" stroke="#c1baad" stroke-width="1">
+            <ellipse cx="270" cy="265" rx="204" ry="161" transform="rotate(-29 270 265)"/>
+            <ellipse cx="270" cy="265" rx="190" ry="174" transform="rotate(28 270 265)"/>
+            <ellipse cx="270" cy="265" rx="177" ry="190" transform="rotate(5 270 265)"/>
+          </g>
+          <path d="M283 109 C401 108 463 230 409 324 M359 400 C278 462 131 417 108 311 M108 215 C110 165 158 115 207 105" fill="none" stroke="#b45c43" stroke-width="1.6" marker-end="url(#arrow-clay)"/>
+          <g stroke="#aaa18e" stroke-dasharray="3 6" fill="none"><path d="M270 155V216 M161 323L229 286 M379 323L311 286"/></g>
+          <g class="art-node environment-node">
+            <circle cx="270" cy="111" r="55" fill="#dfe2d4"/>
+            <g fill="none" stroke="#626c50" stroke-width="1.7"><path d="M246 126V101l24-14 24 14v25l-24 14z M246 101l24 14 24-14 M270 115v25 M258 94l24 14v24"/></g>
+            <text x="270" y="190" text-anchor="middle" class="art-label">Environment</text>
+          </g>
+          <g class="art-node agent-node">
+            <circle cx="141" cy="343" r="55" fill="#d8a38d"/>
+            <g fill="none" stroke="#6e382b" stroke-width="1.8"><path d="M122 326h38v32h-38z M131 326v-8h20v8 M131 338h2 M149 338h2 M132 349h18 M115 336v12 M167 336v12" stroke-linecap="round"/><circle cx="141" cy="313" r="3"/></g>
+            <text x="141" y="422" text-anchor="middle" class="art-label">Agent</text>
+          </g>
+          <g class="art-node user-node">
+            <circle cx="399" cy="343" r="55" fill="#e6d8bc"/>
+            <g fill="none" stroke="#806e47" stroke-width="1.8"><circle cx="399" cy="329" r="11"/><path d="M379 367v-8a20 20 0 0 1 40 0v8 M388 364h22" stroke-linecap="round"/></g>
+            <text x="399" y="422" text-anchor="middle" class="art-label">User</text>
+          </g>
+          <circle cx="270" cy="265" r="49" fill="#f5f2eb" stroke="#b45c43" stroke-width="1.2"/>
+          <g transform="translate(270 253)" stroke="#b45c43" stroke-width="2"><path d="M-15 0h30 M0-15v30 M-11-11l22 22 M-11 11l22-22"/></g>
+          <text x="270" y="287" text-anchor="middle" class="art-meta">META-AGENT</text>
+          <text x="270" y="490" text-anchor="middle" class="art-footnote">Observe. Adapt. Learn. Repeat.</text>
+          <path d="M25 35h16 M33 27v16 M499 474h16 M507 466v16" stroke="#b45c43" stroke-width="1"/>
+        </svg>
+        <div class="figure-index"><span>Fig. 01</span><span>Three parts. One evolving system.</span></div>
+      </div>
+    </section>
+
+    <section class="authors wrap" aria-label="Research team">
+      <p class="author-names"><span>Min Cai<sup>1,*</sup></span><span>Dan Zhang<sup>2,*</sup></span><span>Gao Xing<sup>3</sup></span><span>Libin Ma<sup>3</sup></span><span>Zhaohui Xu<sup>4</sup></span><span>Xi Ye<sup>1,5</sup></span></p>
+      <p class="affiliations"><span><sup>1</sup> University of Alberta</span><span><sup>2</sup> National University of Singapore</span><span><sup>3</sup> Kuaishou Technology</span><span><sup>4</sup> Independent Researcher</span><span><sup>5</sup> Amii</span></p>
+      <p class="equal-contribution">* Equal contribution</p>
+    </section>
+
+    <section class="overview section-pad" id="overview" aria-labelledby="overview-title">
+      <div class="wrap overview-grid">
+        <div><p class="eyebrow section-number">01 / The idea</p><h2 id="overview-title">What does EAU<br><em>adapt?</em></h2></div>
+        <div class="overview-copy">
+          <p class="lead">EAU co-evolves the environment, agent, and simulated user to train user-centric LLM agents.</p>
+          <p>For multi-turn reinforcement learning with users and tools, its meta-agent reads trajectories, tool traces, and training statistics. It proposes and validates changes to the hybrid user simulator, environment feedback, reward design, and reinforcement-learning configuration.</p>
+          <p><strong>Within a run</strong>, supported updates take effect while the agent policy learns. <strong>Across runs</strong>, an experience pool carries findings into later training attempts. Final-test feedback stays outside the adaptation loop.</p>
+          <p>EAU is evaluated on UserGym, ColBench, and τ²-bench with Qwen3-4B and Qwen2.5-7B-Instruct. The reported results describe these benchmark settings, not a guarantee for every agent environment.</p>
+          <a class="text-link" href="#framework">See how co-evolution works <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <div class="wrap findings-strip">
+        <div><strong>+36.7<span>%</span></strong><p>Relative gain in ColBench task success<small>Qwen3-4B · vs. InfoPO</small></p></div>
+        <div><strong>+15.0<span>%</span></strong><p>Relative gain in overall score<small>Qwen3-4B · UserGym + ColBench</small></p></div>
+        <div><strong>3 <span>/</span> 2</strong><p>Interactive benchmarks / policy backbones<small>Qwen3-4B · Qwen2.5-7B-Instruct</small></p></div>
+      </div>
+    </section>
+
+    <section class="framework wrap section-pad" id="framework" aria-labelledby="framework-title">
+      <div class="section-heading"><div><p class="eyebrow section-number">02 / The framework</p><h2 id="framework-title">A feedback loop.<br><em>With room to change.</em></h2></div><p>The policy learns through reinforcement learning.<br>The meta-agent adapts the experience it learns from.</p></div>
+      <div class="framework-explorer">
+        <div class="framework-controls">
+          <div class="component-tabs" role="tablist" aria-label="Explore co-evolving components">
+            <button id="tab-user" role="tab" aria-selected="true" aria-controls="component-panel" data-component="user" tabindex="0"><span>01</span> Evolving user <span aria-hidden="true">↗</span></button>
+            <button id="tab-environment" role="tab" aria-selected="false" aria-controls="component-panel" data-component="environment" tabindex="-1"><span>02</span> Evolving environment <span aria-hidden="true">↗</span></button>
+            <button id="tab-agent" role="tab" aria-selected="false" aria-controls="component-panel" data-component="agent" tabindex="-1"><span>03</span> Evolving agent <span aria-hidden="true">↗</span></button>
+          </div>
+          <div id="component-panel" role="tabpanel" aria-labelledby="tab-user" tabindex="0">
+            <h3 id="component-title">More controllable conversations.</h3>
+            <p id="component-description">Combine explicit symbolic rules with natural LLM responses. The meta-agent can revise disclosure rules, persona instructions, generation settings, and the mixture between the two simulators.</p>
+            <div class="knob-list" id="component-knobs"><span>Symbolic rules</span><span>Mixing coefficient ε</span><span>User persona</span></div>
+          </div>
+        </div>
+        <div class="system-diagram" data-active="user">
+          <div class="diagram-label">THE TRAINING SYSTEM</div>
+          <div class="system-components"><div data-node="environment"><span class="node-symbol" aria-hidden="true">◇</span>Environment<small>Tools & rewards</small></div><span class="connector" aria-hidden="true">↔</span><div data-node="agent"><span class="node-symbol" aria-hidden="true">✳</span>Agent<small>Neural policy</small></div><span class="connector" aria-hidden="true">↔</span><div data-node="user" class="is-active"><span class="node-symbol" aria-hidden="true">◯</span>User<small>Hybrid simulator</small></div></div>
+          <div class="feedback-bridge"><span>Trajectories & statistics</span><span aria-hidden="true">↓ &nbsp; ↑</span><span>Validated interventions</span></div>
+          <div class="meta-agent-box"><span class="little-star" aria-hidden="true">✳</span><div><strong>eau meta-agent</strong><small>Observe → diagnose → intervene</small></div><span class="experience-pool">Experience<br>across runs ↗</span></div>
+          <p class="diagram-note">Training feedback guides adaptation.<br>Final-test feedback stays outside the loop.</p>
+        </div>
+      </div>
+      <div class="timescales"><article><span class="mini-index">Within a run</span><h3>Adapt in the moment.</h3><p>Hot-swap supported user rules, reward designs, and training settings as the policy changes.</p></article><article><span class="mini-index">Across runs</span><h3>Keep what you learn.</h3><p>Consolidate findings in an experience pool. Restart when needed and build on earlier discoveries.</p></article></div>
+      <details class="paper-figure"><summary>View the framework figure from the paper <span aria-hidden="true">+</span></summary><figure><a href="assets/eau_demo.webp" target="_blank" rel="noopener"><img src="assets/eau_demo.webp" width="1844" height="768" loading="lazy" alt="EAU framework from the manuscript, showing meta-agent interventions on environment, agent, and user knobs during and across training runs."></a><figcaption>The meta-agent controls editable knobs and carries experience between runs. Figure from the supplied manuscript.</figcaption></figure></details>
+    </section>
+
+    <section class="results section-pad" id="results" aria-labelledby="results-title">
+      <div class="wrap">
+        <div class="section-heading"><div><p class="eyebrow section-number">03 / The evidence</p><h2 id="results-title">Better interactions.<br><em>Stronger agents.</em></h2></div><p>Evaluated on UserGym, ColBench, and τ²-bench.<br>Explore the results across two policy backbones.</p></div>
+        <div class="results-toolbar"><div class="model-switch" role="group" aria-label="Policy backbone"><button data-model="qwen3" aria-pressed="true">Qwen3-4B</button><button data-model="qwen25" aria-pressed="false">Qwen2.5-7B</button></div><span class="results-key"><i class="legend-baseline"></i> InfoPO <i class="legend-eau"></i> eau</span></div>
+        <div class="chart-grid" id="result-charts" aria-live="polite"><article class="chart-card" aria-label="Qwen3-4B, UserGym Average score: InfoPO 0.559, eau 0.623, relative gain 11.4 percent.">
+      <div class="chart-top"><h3>UserGym</h3><span class="gain">+11.4%</span></div>
+      <p class="chart-subtitle">Average score</p>
+      <div class="bar-plot" aria-hidden="true"><div class="bar-column"><span class="bar-value">0.559</span><div class="bar" style="height:57.30%"></div></div><div class="bar-column eau"><span class="bar-value">0.623</span><div class="bar" style="height:63.86%"></div></div></div>
+      <div class="bar-labels" aria-hidden="true"><span>InfoPO</span><span>eau</span></div>
+    </article><article class="chart-card" aria-label="Qwen3-4B, ColBench Successful task completion: InfoPO 0.439, eau 0.600, relative gain 36.7 percent.">
+      <div class="chart-top"><h3>ColBench</h3><span class="gain">+36.7%</span></div>
+      <p class="chart-subtitle">Successful task completion</p>
+      <div class="bar-plot" aria-hidden="true"><div class="bar-column"><span class="bar-value">0.439</span><div class="bar" style="height:45.00%"></div></div><div class="bar-column eau"><span class="bar-value">0.600</span><div class="bar" style="height:61.50%"></div></div></div>
+      <div class="bar-labels" aria-hidden="true"><span>InfoPO</span><span>eau</span></div>
+    </article><article class="chart-card" aria-label="Qwen3-4B, Overall UserGym + ColBench: InfoPO 0.545, eau 0.627, relative gain 15.0 percent.">
+      <div class="chart-top"><h3>Overall</h3><span class="gain">+15.0%</span></div>
+      <p class="chart-subtitle">UserGym + ColBench</p>
+      <div class="bar-plot" aria-hidden="true"><div class="bar-column"><span class="bar-value">0.545</span><div class="bar" style="height:55.86%"></div></div><div class="bar-column eau"><span class="bar-value">0.627</span><div class="bar" style="height:64.27%"></div></div></div>
+      <div class="bar-labels" aria-hidden="true"><span>InfoPO</span><span>eau</span></div>
+    </article></div>
+        <noscript><p>Showing the Qwen3-4B results. Enable JavaScript to switch the policy backbone. The source tables are included in the downloadable manuscript.</p></noscript>
+        <p class="results-note">Higher is better. Relative gains compare eau with InfoPO. Overall scores aggregate UserGym and ColBench under the paper’s evaluation protocol.</p>
+        <details class="result-table-details"><summary>Compare all reported methods <span aria-hidden="true">+</span></summary><div class="table-scroll"><table><caption id="table-caption">Qwen3-4B · UserGym and ColBench</caption><thead><tr><th scope="col">Method</th><th scope="col">UserGym avg.</th><th scope="col">ColBench pass</th><th scope="col">ColBench success</th><th scope="col">Overall</th></tr></thead><tbody id="results-table-body"><tr><th scope="row">Backbone</th><td>0.426</td><td>0.272</td><td>0.153</td><td>0.378</td></tr><tr><th scope="row">ReAct</th><td>0.457</td><td>0.269</td><td>0.145</td><td>0.401</td></tr><tr><th scope="row">Reflexion</th><td>0.455</td><td>0.303</td><td>0.184</td><td>0.408</td></tr><tr><th scope="row">RAGEN</th><td>0.468</td><td>0.479</td><td>0.361</td><td>0.457</td></tr><tr><th scope="row">Search-R1</th><td>0.472</td><td>0.467</td><td>0.355</td><td>0.459</td></tr><tr><th scope="row">UserRL</th><td>0.509</td><td>0.468</td><td>0.342</td><td>0.486</td></tr><tr><th scope="row">InfoPO</th><td>0.559</td><td>0.553</td><td>0.439</td><td>0.545</td></tr><tr><th scope="row">PPO</th><td>0.522</td><td>0.284</td><td>0.200</td><td>0.462</td></tr><tr class="ours"><th scope="row">eau</th><td>0.623</td><td>0.685</td><td>0.600</td><td>0.627</td></tr></tbody></table></div></details>
+        <div class="tau-result"><div><span class="mini-index">Another interactive setting</span><h3>Generalizing to τ²-bench.</h3><p>On Qwen3-4B, eau reaches an aggregate score of <strong>21.5</strong>, compared with <strong>18.5</strong> for PPO. It leads on Airline and Telecom; InfoPO leads on Retail.</p></div><div class="tau-score"><strong>21.5</strong><span>vs. 18.5 PPO<br>+16.2% relative gain</span></div></div>
+      </div>
+    </section>
+
+    <section class="insights wrap section-pad" aria-labelledby="insights-title">
+      <div class="section-heading"><div><p class="eyebrow section-number">04 / A closer look</p><h2 id="insights-title">Experience becomes<br><em>part of the system.</em></h2></div></div>
+      <div class="insight-grid">
+        <article><figure><a href="assets/experience_analysis.webp" target="_blank" rel="noopener"><img src="assets/experience_analysis.webp" width="634" height="518" loading="lazy" alt="ColBench best-score frontier: EAU reaches pass mean 0.685, compared with 0.317 for a generic meta-agent, over five runs."></a></figure><span class="mini-index">01 / Learning from interventions</span><h3>Every run leaves something useful.</h3><p>After diagnosing severe issues and restarting early runs, eau explores interventions within a run and carries the findings forward. The resulting frontier improves beyond the generic meta-agent in this experiment.</p></article>
+        <article><figure><a href="assets/usergym_progression.webp" target="_blank" rel="noopener"><img src="assets/usergym_progression.webp" width="634" height="518" loading="lazy" alt="UserGym progression: with shared experience from the first four runs, adding intra-run intervention reaches 0.623 versus 0.577 with inter-run adaptation alone."></a></figure><span class="mini-index">02 / Adapting at two timescales</span><h3>Timing is part of the method.</h3><p>Starting from the same first four runs of experience, adding within-run intervention reaches <strong>0.623</strong> on UserGym, compared with <strong>0.577</strong> for between-run adaptation alone.</p></article>
+      </div>
+      <p class="insights-note">These curves show progression by run count, rather than a comparison under matched total compute. Evaluation conditions remain fixed while the training system evolves.</p>
+    </section>
+
+    <section class="resources section-pad" id="resources" aria-labelledby="resources-title">
+      <div class="wrap resources-grid"><div><p class="eyebrow section-number">05 / Continue exploring</p><h2 id="resources-title">Read, reproduce,<br><em>build on it.</em></h2><p>Environment–Agent–User Co-evolution<br>for Training User-Centric Agents</p><div class="resource-links"><a class="button button-dark" href="https://arxiv.org/abs/2610.16523" target="_blank" rel="noopener">Read on arXiv <span aria-hidden="true">↗</span></a><a id="code-link" class="text-link" data-code-link hidden href="#">Code on GitHub <span aria-hidden="true">↗</span></a><span id="code-status" class="resource-status" data-code-status>Code · coming soon (under review)</span></div></div>
+      <div class="citation-box"><div class="citation-heading"><span class="mini-index">Cite this work</span><button id="copy-citation" aria-label="Copy BibTeX citation">Copy BibTeX <span aria-hidden="true">↗</span></button></div><pre><code id="citation">@misc{cai2026eauenvironmentagentusercoevolutiontraining,
+  title = {EAU: Environment-Agent-User
+    Co-evolution for Training
+    User-Centric Agents},
+  author = {Min Cai and Dan Zhang and
+    Gao Xing and Libin Ma and
+    Zhaohui Xu and Xi Ye},
+  year = {2026},
+  eprint = {2610.16523},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.AI},
+  url = {https://arxiv.org/abs/2610.16523}
+}</code></pre><p id="copy-status" class="copy-status" role="status" aria-live="polite"></p></div></div>
+    </section>
+  </main>
+  <footer class="wrap site-footer"><a class="wordmark" href="#" aria-label="Back to top">eau<span class="wordmark-dot">.</span></a><p>Environment. Agent. User.<br>Learning to evolve, together.</p><a class="text-link" href="#main">Back to top <span aria-hidden="true">↑</span></a></footer>
+</body>
+</html>

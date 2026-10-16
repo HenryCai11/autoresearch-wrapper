@@ -1,0 +1,31 @@
+# EAU — Environment-Agent-User Co-evolution
+
+> Official project page for “EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents” (arXiv:2610.16523).
+
+EAU is a meta-agent framework for training user-centric LLM agents. It jointly adapts the training environment, the agent policy, and a simulated user. The meta-agent uses trajectories, tool traces, and training statistics to revise environment feedback, reward design, user simulation, and reinforcement-learning configuration within and across training runs.
+
+## Training components
+
+- Hybrid user simulator: combines symbolic rules with LLM responses and can be revised during training.
+- Environment feedback: the meta-agent can change environment behavior and feedback.
+- Reward design: rewards can be revised as the policy learns.
+- RL configuration: reinforcement-learning configuration can change within a run.
+- Two timescales: EAU intervenes within a run and carries experience across runs.
+- Benchmarks and backbones: UserGym, ColBench, tau2-bench, Qwen3-4B, and Qwen2.5-7B-Instruct.
+
+## Canonical resources
+
+- Project: https://eau-meta-agent.github.io/
+- Paper: https://arxiv.org/abs/2610.16523
+- Bibliographic details: https://eau-meta-agent.github.io/paper.html
+- Method summary: https://eau-meta-agent.github.io/method.html
+- Research context: https://eau-meta-agent.github.io/research-context.html
+- Authors: Min Cai, Dan Zhang, Gao Xing, Libin Ma, Zhaohui Xu, Xi Ye
+
+## Evaluation
+
+EAU is evaluated on UserGym, ColBench, and tau2-bench with Qwen3-4B and Qwen2.5-7B-Instruct policy backbones. The reported Qwen3-4B results include 0.623 on UserGym, 0.600 ColBench task success, and 0.627 overall.
+
+## Research context
+
+EAU contributes to agent-environment-user co-evolution for LLM agents. It targets multi-turn reinforcement learning with simulated users and tools, and treats the adaptive training system as editable rather than fixed. The environment, agent training process, and user simulator are jointly revised from training feedback. The research context entry above describes scope and comparisons.

@@ -1,0 +1,50 @@
+{
+  "checks": {
+    "exact_four_file_scope_and_no_untracked_files": true,
+    "exactly_one_jsonld_block_per_page": true,
+    "only_jsonld_changed": true,
+    "all_body_bytes_unchanged_including_r9_static_results": true,
+    "visible_text_and_hidden_text_unchanged": true,
+    "non_jsonld_metadata_titles_canonicals_links_unchanged": true,
+    "all_jsonld_parses": true,
+    "schema_objects_match_prepared_contract": true,
+    "one_article_and_one_webpage_per_document": true,
+    "one_identical_scholarly_entity_across_four_documents": true,
+    "four_distinct_webpage_ids_with_own_canonical_urls": true,
+    "webpage_names_equal_document_head_titles_not_svg_titles": true,
+    "webpage_mainentity_points_to_shared_article": true,
+    "article_mainentityofpage_points_to_canonical_homepage": true,
+    "all_entity_references_resolve_across_document_set": true,
+    "all_original_home_article_facts_preserved": true,
+    "only_existing_paper_date_and_headline_added_to_article": true,
+    "page_descriptions_topics_keywords_preserved": true,
+    "existing_visible_text_limit_respected": true,
+    "frozen_map_judge_and_normalizer_unchanged": true,
+    "query_set_unchanged": true
+  },
+  "inner_score": "not computed",
+  "visible_home_chars_before": 5436,
+  "visible_home_chars_after": 5436,
+  "limit": 9000,
+  "files": {
+    "index.html": {
+      "before_sha256": "30e3c2d8061e56b82cf57b7608e1cf73c0c3116f07281011231258ba7abe7bf2",
+      "after_sha256": "6487388d2194fd77ada8cb0117d39e2303378dedb220b2e25699a0d750ac24ea"
+    },
+    "method.html": {
+      "before_sha256": "7fa40564ced1017e16d590e0645f2c1ea0f89cb99482320b08bbb6b4efcaf24c",
+      "after_sha256": "6966b3fa3792522ccc2a679fde5e09bb1041923f14234fc3efbeab6de1ff40dd"
+    },
+    "paper.html": {
+      "before_sha256": "503b09b25ce5a69b6fbfaa0a024ed1df5ddc0dc75e17481117fe6cdd4ddc978b",
+      "after_sha256": "34d58ed8dd2b937cff30dc0fb68c2ee06f8559b40ff662e70c34c19290192957"
+    },
+    "research-context.html": {
+      "before_sha256": "22ad622b58523b091e46cc57808e6b13a81fb23197e4d00017111581b752392e",
+      "after_sha256": "36bc3fa04ebeb671fe664a217df01f1eeabbf2dd56e2a41561747fd97d4bcb2c"
+    }
+  },
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+  "judge_sha256": "6bb1498e65e5cf065cc8e03e40007c73c32393e16f85a41d2395db76820613de",
+  "normalization_sha256": "8a2856dd9b69fe4b24c7b315f55ac6c98b7bcbd9063dd1093a11fba3e181d537"
+}

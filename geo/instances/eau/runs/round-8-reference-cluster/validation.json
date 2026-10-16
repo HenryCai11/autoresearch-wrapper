@@ -1,0 +1,25 @@
+{
+  "checks": {
+    "exact_four_file_scope": true,
+    "all_local_links_and_fragments_resolve": true,
+    "all_pages_have_one_h1": true,
+    "main_content_and_metadata_unchanged": true,
+    "homepage_and_all_other_files_byte_identical": true,
+    "jsonld_still_valid": true,
+    "one_visible_reference_footer_per_support_page": true,
+    "hidden_text_unchanged": true,
+    "homepage_within_existing_size_limit": true,
+    "text_summary_routes_cover_reference_pages": true
+  },
+  "errors": [],
+  "inner_score": "not computed",
+  "homepage_visible_chars": 5051,
+  "support_page_visible_chars": {
+    "method.html": 1580,
+    "paper.html": 1119,
+    "research-context.html": 1475
+  },
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+  "judge_sha256": "6bb1498e65e5cf065cc8e03e40007c73c32393e16f85a41d2395db76820613de",
+  "normalization_sha256": "8a2856dd9b69fe4b24c7b315f55ac6c98b7bcbd9063dd1093a11fba3e181d537"
+}

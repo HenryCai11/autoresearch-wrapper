@@ -1,0 +1,65 @@
+{
+  "query_count": 15,
+  "source_domains": [
+    [
+      "en.wikipedia.org",
+      70
+    ],
+    [
+      "arxiv.org",
+      64
+    ],
+    [
+      "www.reddit.com",
+      40
+    ],
+    [
+      "github.com",
+      29
+    ],
+    [
+      "pith.science",
+      16
+    ],
+    [
+      "openreview.net",
+      15
+    ],
+    [
+      "arxiv-troller.com",
+      13
+    ],
+    [
+      "huggingface.co",
+      12
+    ],
+    [
+      "doi.org",
+      11
+    ],
+    [
+      "www.alphaxiv.org",
+      10
+    ],
+    [
+      "arxiv.deeppaper.ai",
+      7
+    ],
+    [
+      "thelatestinai.com",
+      7
+    ]
+  ],
+  "paper_returned_project_absent_query_ids": [
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q05",
+    "Q06",
+    "Q07",
+    "Q12",
+    "Q15"
+  ],
+  "baseline_citation_rate": 0.11666666666666667,
+  "interpretation": "Evidence identifies source visibility only, not intervention effect. The local static-overview candidate is an unranked controlled fallback, not a source-priority winner."
+}

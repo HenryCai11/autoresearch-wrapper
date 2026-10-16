@@ -1,0 +1,11 @@
+{
+  "experiment_id": "eau-live-geo-r7-2026-10",
+  "round": 7,
+  "change_id": "r7-static-mechanism-overview",
+  "production_merge_commit": "fbd9e100b6ae71704a0cf65b1a1b9b87dbdc4ef7",
+  "production_tree": "ab2d4d904e2227401ce1d23cf92f1d4a2bdd0b9a",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "measured_at": "2026-10-16T12:00:17+00:00",
+  "measurement_phase": "immediate_post_deployment",
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce"
+}

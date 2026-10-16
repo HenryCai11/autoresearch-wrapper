@@ -1,0 +1,9 @@
+{
+  "based_on": "autoresearch/index-html/20261016T132116Z-index-html/seed",
+  "branch": "autoresearch/index-html/20261016T132116Z-index-html/candidate-001",
+  "candidate_id": "candidate-001",
+  "created_at": "2026-10-16T13:21:18+00:00",
+  "lifecycle": "allocated",
+  "missing": false,
+  "worktree_path": "/scratch/henrycai/eau-r10-20261016.autoresearch-worktrees/20261016T132116Z-index-html/candidate-001"
+}

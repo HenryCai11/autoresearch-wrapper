@@ -1,0 +1,7 @@
+{
+  "commit": "e6b74d333b09c30619d5c3c61c95fa066ee50188",
+  "description": "R6 latest retest reused as baseline; 60 valid frozen cells; no inner metric",
+  "metric_value": 11.666666666666666,
+  "recorded_at": "2026-10-16T11:52:54+00:00",
+  "status": "keep"
+}
