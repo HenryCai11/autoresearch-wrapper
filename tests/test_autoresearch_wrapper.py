@@ -114,7 +114,7 @@ class AutoresearchWrapperTests(unittest.TestCase):
                 "--metric",
                 "runtime_seconds",
                 "--metric-command",
-                "python -c \"print('METRIC=1.0')\"",
+                "python3 -c \"print('METRIC=1.0')\"",
                 "--metric-goal",
                 "minimize",
                 "--mode",
@@ -147,7 +147,7 @@ class AutoresearchWrapperTests(unittest.TestCase):
                 "--metric",
                 "runtime_seconds",
                 "--metric-command",
-                "python -c \"print('METRIC=1.0')\"",
+                "python3 -c \"print('METRIC=1.0')\"",
                 "--metric-goal",
                 "minimize",
                 "--mode",
@@ -233,7 +233,7 @@ class AutoresearchWrapperTests(unittest.TestCase):
                 "--metric",
                 "runtime_seconds",
                 "--metric-command",
-                "python -c \"print('METRIC=1.0')\"",
+                "python3 -c \"print('METRIC=1.0')\"",
                 "--metric-goal",
                 "minimize",
                 "--mode",
@@ -320,7 +320,7 @@ class AutoresearchWrapperTests(unittest.TestCase):
                 "--metric",
                 "latency_ms",
                 "--metric-command",
-                "python -c \"print('METRIC=1.0')\"",
+                "python3 -c \"print('METRIC=1.0')\"",
                 "--metric-goal",
                 "minimize",
                 "--mode",
@@ -454,7 +454,7 @@ class AutoresearchWrapperTests(unittest.TestCase):
         main([
             "configure", "--repo", str(repo), "--part", "module.py",
             "--metric", "runtime_seconds",
-            "--metric-command", "python -c \"print('METRIC=1.0')\"",
+            "--metric-command", "python3 -c \"print('METRIC=1.0')\"",
             "--metric-goal", "minimize", "--mode", "sequential",
             "--rounds", "10", "--early-exit-patience", "2",
         ])
@@ -492,7 +492,7 @@ class AutoresearchWrapperTests(unittest.TestCase):
         main([
             "configure", "--repo", str(repo), "--part", "module.py",
             "--metric", "runtime_seconds",
-            "--metric-command", "python -c \"print('METRIC=1.0')\"",
+            "--metric-command", "python3 -c \"print('METRIC=1.0')\"",
             "--metric-goal", "minimize", "--mode", "sequential",
             "--rounds", "5", "--early-exit-patience", "2",
         ])
@@ -550,7 +550,7 @@ class AutoresearchWrapperTests(unittest.TestCase):
         main([
             "configure", "--repo", str(repo), "--part", "module.py",
             "--metric", "runtime_seconds",
-            "--metric-command", "python -c \"print('METRIC=1.0')\"",
+            "--metric-command", "python3 -c \"print('METRIC=1.0')\"",
             "--metric-goal", "minimize", "--mode", "wild", "--rounds", "3",
         ])
 
@@ -587,7 +587,7 @@ class AutoresearchWrapperTests(unittest.TestCase):
             "create", "--repo", str(repo), "--part", "module.py",
             "--feature", "add caching", "--candidates", "2",
             "--metric", "runtime_seconds",
-            "--metric-command", "python -c \"print('METRIC=1.0')\"",
+            "--metric-command", "python3 -c \"print('METRIC=1.0')\"",
             "--metric-goal", "minimize", "--no-interactive",
         ])
 
@@ -631,7 +631,7 @@ class AutoresearchWrapperTests(unittest.TestCase):
         main([
             "delete", "--repo", str(repo), "--part", "helper.py",
             "--metric", "runtime_seconds",
-            "--metric-command", "python -c \"print('METRIC=1.0')\"",
+            "--metric-command", "python3 -c \"print('METRIC=1.0')\"",
             "--metric-goal", "minimize", "--no-interactive",
         ])
 
@@ -874,7 +874,7 @@ class AutoresearchWrapperTests(unittest.TestCase):
 
         def fake_input(label: str, default: str | None = None) -> str:
             if label == "Metric command":
-                return "python -c \"print('METRIC=1.0')\""
+                return "python3 -c \"print('METRIC=1.0')\""
             return default or "runtime_seconds"
 
         def fake_int(label: str, default: int | None = None) -> int:
@@ -1138,7 +1138,7 @@ class AutoresearchWrapperTests(unittest.TestCase):
     def test_create_keeps_existing_part_config_and_uses_run_metric(self) -> None:
         repo = self.make_value_repo()
         self.configure_module(
-            repo, "python -c \"print('METRIC=1.0')\"", "--mode", "sequential", "--rounds", "2"
+            repo, "python3 -c \"print('METRIC=1.0')\"", "--mode", "sequential", "--rounds", "2"
         )
         before = load_state(repo)["part_configs"]["module.py"]
 

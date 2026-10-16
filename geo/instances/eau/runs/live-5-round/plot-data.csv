@@ -1,0 +1,6 @@
+round,label,change_id,inner_score,matrix_offline,technical,outer_score,answer_success_rate,mention_rate,attribution_rate,citation_rate,mrr,exact_citation_rate,fuzzy_citation_rate,broad_citation_rate,production_merge_commit
+0,pre-geo-baseline,r0-restore-e0cc480,43.43,30.17,63.33,27.97,0.9167,0.65,0.5833,0.1333,0.0444,0.3,0.05,0.05,82ea530ccfc503cd587bd0cf38be52188b66fbff
+1,exact-identity,r1-machine-readable-identity,74.43,60.17,95.83,28.08,0.9,0.65,0.5833,0.1333,0.05,0.35,0.0,0.05,be9625b01cfb277f6aab9c05dee45d7e5a8a891b
+2,fuzzy-capability,r2-capability-landing-page,86.83,80.83,95.83,28.25,0.9,0.65,0.5833,0.1333,0.0583,0.35,0.0,0.05,e49def194b9a475dd354975a8453a134f0d4ccd1
+3,broad-domain,r3-research-context-page,92.33,90.0,95.83,27.5,0.8667,0.6833,0.5833,0.1167,0.0417,0.25,0.05,0.05,808ea364b0df9d103b014d5e973a45a3b813eeca
+4,authority-entity-relations,r4-bibliographic-entity-graph,99.0,98.33,100.0,25.42,0.8333,0.6333,0.55,0.1,0.0417,0.2,0.05,0.05,18ad3f754d52e2b0bbbee3b95883b384ffcdb8a8

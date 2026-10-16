@@ -1,0 +1,15 @@
+exa-search	found	EAU Environment Agent User Co-evolution
+exa-search	found	EAU meta-agent user-centric agents
+exa-search	found	EAU arXiv 2610.16523
+exa-search	found	meta-agent modifies training environment during multi-turn reinforcement learning
+exa-search	found	user-centric agents co-evolve environment and user simulator
+exa-search	found	adaptive user simulator reward design LLM agents
+exa-search	found	framework jointly adapts simulated user environment rewards RL configuration
+exa-search	found	within-run and across-run adaptation agent training
+exa-search	not found	multi-turn reinforcement learning user simulation benchmarks
+exa-search	found	recent agent environment co-evolution papers
+exa-search	found	LLM agent training environment evolves with policy
+exa-search	found	EAU UserGym ColBench
+exa-search	found	EAU project website environment agent user co-evolution
+exa-search	not found	editable training systems for tool-using agents
+exa-search	not found	methods improving user-centric agents with simulated users

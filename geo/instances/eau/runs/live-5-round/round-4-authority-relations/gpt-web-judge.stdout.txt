@@ -1,0 +1,15 @@
+gpt-web	found	EAU Environment Agent User Co-evolution
+gpt-web	found	EAU arXiv 2610.16523
+gpt-web	found	EAU meta-agent user-centric agents
+gpt-web	found	EAU UserGym ColBench
+gpt-web	found	EAU project website environment agent user co-evolution
+gpt-web	found	framework jointly adapts simulated user environment rewards RL configuration
+gpt-web	found	user-centric agents co-evolve environment and user simulator
+gpt-web	found	meta-agent modifies training environment during multi-turn reinforcement learning
+gpt-web	not found	adaptive user simulator reward design LLM agents
+gpt-web	found	within-run and across-run adaptation agent training
+gpt-web	not found	recent agent environment co-evolution papers
+gpt-web	found	LLM agent training environment evolves with policy
+gpt-web	not found	multi-turn reinforcement learning user simulation benchmarks
+gpt-web	not found	editable training systems for tool-using agents
+gpt-web	found	methods improving user-centric agents with simulated users

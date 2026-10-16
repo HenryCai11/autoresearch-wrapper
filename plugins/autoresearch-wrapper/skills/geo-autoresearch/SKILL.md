@@ -62,6 +62,7 @@ For Jekyll, set up the build once:
 This is the foundation, and it is data. Write `<instance>/map.json` (format in `geo_eval/kmap.py`):
 
 1. **Hop 0, core identity:** name and aliases (other-language names, handles), role, affiliation, advisor or team, location. These must be stated on the homepage.
+   Set `entity.schema_types` to the JSON-LD types that represent the target. It defaults to `["Person"]`; a research project page can use `["ScholarlyArticle", "Article"]`.
 2. **Hop 1, directly connected:** each paper or product (with venue and URL), research areas, past affiliations, collaborators, employers or internships.
 3. **Hop 2, query territory:** the topics behind each hop-1 node, phrased the way someone would search without knowing the name ("LLM agents playing Avalon social deduction game"). Link them with `via`.
 4. **Questions:** at least one per hop-0 node, per paper, and per hop-2 topic, each with `answer_terms` that a correct answer must contain.

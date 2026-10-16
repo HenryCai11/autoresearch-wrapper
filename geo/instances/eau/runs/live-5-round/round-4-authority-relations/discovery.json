@@ -1,0 +1,464 @@
+{
+  "engines": [
+    "codex-search",
+    "exa-search",
+    "gpt-web",
+    "tavily-search"
+  ],
+  "summary": {
+    "codex-search": {
+      "all": 0.3667,
+      "hop0": 0.6,
+      "hop1": 0.2,
+      "hop2": 0.0,
+      "found": 4,
+      "probed": 15
+    },
+    "exa-search": {
+      "all": 0.9,
+      "hop0": 1.0,
+      "hop1": 1.0,
+      "hop2": 0.4,
+      "found": 12,
+      "probed": 15
+    },
+    "gpt-web": {
+      "all": 0.8333,
+      "hop0": 1.0,
+      "hop1": 0.8,
+      "hop2": 0.4,
+      "found": 11,
+      "probed": 15
+    },
+    "tavily-search": {
+      "all": 0.5667,
+      "hop0": 1.0,
+      "hop1": 0.2,
+      "hop2": 0.0,
+      "found": 6,
+      "probed": 15
+    }
+  },
+  "rows": [
+    {
+      "node": "identity",
+      "hop": 0,
+      "keyword": "Environment-Agent-User Co-evolution",
+      "query": "EAU Environment Agent User Co-evolution",
+      "cells": {
+        "codex-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "gpt-web": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "meta-agent",
+      "hop": 0,
+      "keyword": "meta-agent framework",
+      "query": "EAU meta-agent user-centric agents",
+      "cells": {
+        "codex-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://eau-meta-agent.github.io/"
+        },
+        "exa-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "gpt-web": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "purpose",
+      "hop": 0,
+      "keyword": "user-centric agents",
+      "query": "EAU arXiv 2610.16523",
+      "cells": {
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "gpt-web": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "backbones",
+      "hop": 1,
+      "keyword": "Qwen3-4B",
+      "query": "meta-agent modifies training environment during multi-turn reinforcement learning",
+      "cells": {
+        "codex-search": {
+          "found": true,
+          "rank": 2,
+          "url": "https://eau-meta-agent.github.io/"
+        },
+        "exa-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "gpt-web": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "benchmarks",
+      "hop": 1,
+      "keyword": "UserGym",
+      "query": "user-centric agents co-evolve environment and user simulator",
+      "cells": {
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "gpt-web": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "colbench-result",
+      "hop": 1,
+      "keyword": "0.600",
+      "query": "adaptive user simulator reward design LLM agents",
+      "cells": {
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "gpt-web": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "paper",
+      "hop": 1,
+      "keyword": "arXiv:2610.16523",
+      "query": "framework jointly adapts simulated user environment rewards RL configuration",
+      "cells": {
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "gpt-web": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "rl-configuration",
+      "hop": 1,
+      "keyword": "RL configuration",
+      "query": "within-run and across-run adaptation agent training",
+      "cells": {
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "gpt-web": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "adaptive-training-system",
+      "hop": 2,
+      "keyword": "adaptive training system",
+      "query": "multi-turn reinforcement learning user simulation benchmarks",
+      "cells": {
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "gpt-web": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "agent-environment-user-coevolution",
+      "hop": 2,
+      "keyword": "agent-environment-user co-evolution",
+      "query": "recent agent environment co-evolution papers",
+      "cells": {
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "gpt-web": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "multi-turn-rl",
+      "hop": 2,
+      "keyword": "multi-turn reinforcement learning",
+      "query": "LLM agent training environment evolves with policy",
+      "cells": {
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "gpt-web": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": null,
+      "hop": 0,
+      "keyword": "EAU UserGym ColBench",
+      "query": "EAU UserGym ColBench",
+      "cells": {
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "gpt-web": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": null,
+      "hop": 0,
+      "keyword": "EAU project website environment agent user co-evolution",
+      "query": "EAU project website environment agent user co-evolution",
+      "cells": {
+        "codex-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://eau-meta-agent.github.io/"
+        },
+        "exa-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "gpt-web": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": null,
+      "hop": 2,
+      "keyword": "editable training systems for tool-using agents",
+      "query": "editable training systems for tool-using agents",
+      "cells": {
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "gpt-web": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": null,
+      "hop": 2,
+      "keyword": "methods improving user-centric agents with simulated users",
+      "query": "methods improving user-centric agents with simulated users",
+      "cells": {
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "gpt-web": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    }
+  ]
+}

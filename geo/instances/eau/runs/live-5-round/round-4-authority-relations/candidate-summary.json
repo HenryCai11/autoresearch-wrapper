@@ -1,0 +1,18 @@
+{
+  "experiment_id": "eau-live-geo-5-round-2026-10",
+  "round": 4,
+  "label": "authority-entity-relations",
+  "change_id": "r4-bibliographic-entity-graph",
+  "phase": "pre_merge_candidate",
+  "candidate_commit": "99fd970",
+  "pull_request": 13,
+  "inner_loop": {
+    "score": 99.0,
+    "matrix_offline": 98.33,
+    "technical": 100.0,
+    "delta_vs_round_3": 6.67,
+    "delta_vs_round_0": 55.57
+  },
+  "outer_loop": null,
+  "outer_status": "awaiting_merge_and_production_probe"
+}

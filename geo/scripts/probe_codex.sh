@@ -7,6 +7,7 @@ set -uo pipefail
 QUERIES="${1:?usage: probe_codex.sh <queries.txt> <out.jsonl>}"
 OUT="${2:?out.jsonl}"
 WORK="$(mktemp -d)"
+SEARCH_TIMEOUT="${CODEX_SEARCH_TIMEOUT:-300}"
 trap 'rm -rf "$WORK"' EXIT
 : > "$OUT"
 n=0
@@ -17,7 +18,7 @@ while IFS= read -r query; do
 
 Report what you find as a search assistant would: a short numbered list of the most relevant results, each with the people involved and their affiliations, and the URL. Do not run any commands."
   # </dev/null: codex reads stdin, which would otherwise swallow the rest of the query list.
-  if (cd "$WORK" && timeout 300 codex --search exec --skip-git-repo-check -s read-only -o "$WORK/answer.txt" "$prompt" < /dev/null > "$WORK/log.txt" 2>&1); then
+  if (cd "$WORK" && timeout "$SEARCH_TIMEOUT" codex --search exec --skip-git-repo-check -s read-only -o "$WORK/answer.txt" "$prompt" < /dev/null > "$WORK/log.txt" 2>&1); then
     text="$(cat "$WORK/answer.txt")"
   else
     text=""

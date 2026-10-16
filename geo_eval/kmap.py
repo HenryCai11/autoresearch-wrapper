@@ -3,7 +3,8 @@
 A map is a JSON file:
 
 {
-  "entity": {"name": "Min Cai", "aliases": ["蔡旻"], "url": "https://example.github.io/"},
+  "entity": {"name": "Min Cai", "aliases": ["蔡旻"], "url": "https://example.github.io/",
+             "schema_types": ["Person"]},
   "nodes": [
     {"id": "affiliation", "hop": 0, "kind": "fact",
      "terms": ["University of Alberta"], "fact": "Min Cai is a PhD student at the University of Alberta."},
@@ -67,6 +68,7 @@ class KnowledgeMap:
     name: str
     aliases: list[str]
     url: str | None
+    schema_types: list[str]
     nodes: list[Node]
     questions: list[Question]
     probes: list[dict[str, Any]]
@@ -169,6 +171,7 @@ def parse_map(raw: dict[str, Any]) -> KnowledgeMap:
         name=entity["name"],
         aliases=list(entity.get("aliases", [])),
         url=entity.get("url"),
+        schema_types=list(entity.get("schema_types", ["Person"])),
         nodes=nodes,
         questions=questions,
         probes=list(raw.get("probes", [])),

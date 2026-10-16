@@ -1,0 +1,15 @@
+{
+  "round": 1,
+  "change_id": "r1-machine-readable-identity",
+  "vs_round": 0,
+  "inner_delta": 31.0,
+  "outer_delta": 0.11,
+  "metric_deltas": {
+    "citation_rate": 0.0,
+    "attribution_rate": 0.0,
+    "mention_rate": 0.0,
+    "mrr": 0.0056,
+    "answer_success_rate": -0.0167
+  },
+  "interpretation": "Immediate post-deploy measurement; search indexes may still reflect the prior crawl."
+}

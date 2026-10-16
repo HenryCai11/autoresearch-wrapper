@@ -116,17 +116,24 @@ def probe_record(query: str, engine: str, judgement: Judgement, note: str = "", 
 
 
 def all_queries(kmap: KnowledgeMap, max_hop: int | None = None) -> list[dict[str, Any]]:
-    rows = [
+    candidates = [
         {"node": node.id, "hop": node.hop, "keyword": node.terms[0], "query": query}
         for node in sorted(kmap.nodes, key=lambda n: (n.hop, n.id))
         if max_hop is None or node.hop <= max_hop
         for query in kmap.queries_for(node)
     ]
-    rows += [
+    candidates += [
         {"node": None, "hop": probe.get("hop", 1), "keyword": probe["query"], "query": probe["query"]}
         for probe in kmap.probes
         if max_hop is None or probe.get("hop", 1) <= max_hop
     ]
+    rows: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for row in candidates:
+        key = row["query"].strip().lower()
+        if key not in seen:
+            rows.append(row)
+            seen.add(key)
     return rows
 
 

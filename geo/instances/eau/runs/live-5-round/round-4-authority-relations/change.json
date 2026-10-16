@@ -1,0 +1,19 @@
+{
+  "change_id": "r4-bibliographic-entity-graph",
+  "objective": "Strengthen the citable paper entity, author-affiliation relations, and verified evidence record.",
+  "files": [
+    "paper.html",
+    "CITATION.cff",
+    "index.html",
+    "llms.txt",
+    "sitemap.xml"
+  ],
+  "signals_targeted": [
+    "snippet",
+    "schema",
+    "scholarly",
+    "authority"
+  ],
+  "query_tier": "all",
+  "outer_loop_hypothesis": "Increase correct attribution, project citation, and MRR across engines without sacrificing broad recall."
+}

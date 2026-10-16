@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How EAU adapts users, environments, rewards, and RL configuration</title>
+  <meta name="description" content="Method summary for EAU: a meta-agent jointly adapts a hybrid simulated user, environment feedback, reward design, and reinforcement-learning configuration within and across training runs.">
+  <link rel="canonical" href="https://eau-meta-agent.github.io/method.html">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "name": "EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents",
+    "url": "https://eau-meta-agent.github.io/method.html",
+    "sameAs": "https://arxiv.org/abs/2610.16523",
+    "identifier": "arXiv:2610.16523",
+    "description": "EAU jointly adapts a hybrid simulated user, environment feedback, reward design, and reinforcement-learning configuration within and across training runs.",
+    "keywords": [
+      "hybrid user simulator", "simulated user", "environment feedback",
+      "reward design", "RL configuration", "within a run", "across runs",
+      "UserGym", "ColBench", "tau2-bench", "Qwen3-4B", "Qwen2.5-7B-Instruct"
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="wordmark" href="index.html" aria-label="EAU home">eau<span class="wordmark-dot">.</span></a>
+    <nav aria-label="Method navigation"><a href="#components">Components</a><a href="#timescales">Timescales</a><a href="#evaluation">Evaluation</a></nav>
+    <a class="header-link" href="https://arxiv.org/abs/2610.16523">Paper <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="main">
+    <section class="overview section-pad">
+      <div class="wrap overview-grid">
+        <div><p class="eyebrow section-number">Method summary</p><h1>What does EAU<br><em>adapt?</em></h1></div>
+        <div class="overview-copy">
+          <p class="lead">EAU is a meta-agent framework that jointly adapts a hybrid simulated user, environment feedback, reward design, and reinforcement-learning configuration while training user-centric agents.</p>
+          <p>It uses trajectories, tool traces, and training statistics to diagnose the interaction system and validate changes before applying them.</p>
+        </div>
+      </div>
+    </section>
+    <section class="wrap section-pad" id="components">
+      <p class="eyebrow section-number">01 / Editable components</p>
+      <h2>The training system becomes<br><em>part of the optimization.</em></h2>
+      <div class="timescales">
+        <article><h3>Hybrid user simulator</h3><p>Combines symbolic rules with natural LLM responses. EAU can revise disclosure rules, user personas, generation settings, and simulator mixing.</p></article>
+        <article><h3>Environment feedback</h3><p>EAU can revise environment behavior, tool interaction feedback, and the information returned to the policy.</p></article>
+        <article><h3>Reward design and RL configuration</h3><p>Rewards and reinforcement-learning configuration can change as the policy and its failure modes change.</p></article>
+      </div>
+    </section>
+    <section class="overview section-pad" id="timescales">
+      <div class="wrap overview-grid"><div><p class="eyebrow section-number">02 / Timescales</p><h2>Within a run.<br><em>Across runs.</em></h2></div><div class="overview-copy"><p>Within a run, supported interventions can be applied while training continues. Across runs, validated experience is consolidated and reused in later training attempts.</p></div></div>
+    </section>
+    <section class="wrap section-pad" id="evaluation">
+      <p class="eyebrow section-number">03 / Evaluation</p>
+      <h2>Interactive benchmarks and<br><em>two policy backbones.</em></h2>
+      <p>EAU is evaluated on UserGym, ColBench, and τ²-bench with Qwen3-4B and Qwen2.5-7B-Instruct. On Qwen3-4B, it reports 0.600 ColBench task success, a 36.7% relative gain over InfoPO.</p>
+      <p><a class="text-link" href="index.html#results">Explore the reported results <span aria-hidden="true">→</span></a></p>
+    </section>
+  </main>
+</body>
+</html>

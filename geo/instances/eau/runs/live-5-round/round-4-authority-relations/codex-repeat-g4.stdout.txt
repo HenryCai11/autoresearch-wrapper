@@ -1,0 +1,2 @@
+[1] within-run and across-run adaptation agent training
+[2] recent agent environment co-evolution papers

@@ -1,0 +1,21 @@
+{
+  "experiment_id": "eau-live-geo-5-round-2026-10",
+  "round": 1,
+  "label": "exact-identity",
+  "change_id": "r1-machine-readable-identity",
+  "base_production_commit": "82ea530ccfc503cd587bd0cf38be52188b66fbff",
+  "candidate_branch": "codex/geo-live-round-1",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "query_count": 15,
+  "query_set_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "measurement_phase": "post_merge_production",
+  "outer_status": "complete",
+  "candidate_commit": "4eb20df",
+  "pull_request": 10,
+  "inner_candidate_score": 74.43,
+  "inner_baseline_score": 43.43,
+  "inner_delta": 31.0,
+  "production_merge_commit": "be9625b01cfb277f6aab9c05dee45d7e5a8a891b",
+  "merged_at": "2026-10-16T09:13:13Z",
+  "deployment_status": "built"
+}
