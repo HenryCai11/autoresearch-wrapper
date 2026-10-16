@@ -42,6 +42,18 @@ class GeoTests(unittest.TestCase):
         self.config["interventions"] = [{"id": "edit-home", "nodes": ["section:one"], "cost": 1}]
         self.assertIn("outcome:Doubao:answer", prioritize(graph, self.config)[0]["reachable_outcomes"])
 
+    def test_graph_tracks_node_content_when_topology_is_unchanged(self) -> None:
+        before = build_graph(self.repo, self.config)
+        before_nodes = {node["id"]: node for node in before["nodes"]}
+        (self.repo / "README.md").write_text("A clearer project summary", encoding="utf-8")
+        after = build_graph(self.repo, self.config)
+        after_nodes = {node["id"]: node for node in after["nodes"]}
+        self.assertEqual(before["edges"], after["edges"])
+        self.assertNotEqual(before_nodes["file:README.md"]["content_sha256"],
+                            after_nodes["file:README.md"]["content_sha256"])
+        self.assertEqual(before_nodes["file:index.html"]["content_sha256"],
+                         after_nodes["file:index.html"]["content_sha256"])
+
     def test_scoped_add_edit_move_and_local_score(self) -> None:
         before = readiness(self.repo, self.config)["score"]
         dry = apply_operations(self.repo, self.config, [

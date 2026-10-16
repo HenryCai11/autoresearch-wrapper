@@ -73,6 +73,11 @@ def _add(nodes: dict[str, dict[str, Any]], node_id: str, kind: str, *, path: str
                       "operations": operations or [], **details}
 
 
+def _content_sha256(data: bytes | str) -> str:
+    """Capture node content without embedding page text or binary assets in the graph."""
+    return hashlib.sha256(data.encode("utf-8") if isinstance(data, str) else data).hexdigest()
+
+
 def build_graph(repo: Path, config: dict[str, Any]) -> dict[str, Any]:
     nodes: dict[str, dict[str, Any]] = {}
     edges: set[tuple[str, str, str]] = set()
@@ -81,7 +86,7 @@ def build_graph(repo: Path, config: dict[str, Any]) -> dict[str, Any]:
     for name in files:
         if (repo / name).is_file():
             _add(nodes, f"file:{name}", "file", path=name, mutable=True,
-                 operations=["replace_text"])
+                 operations=["replace_text"], content_sha256=_content_sha256((repo / name).read_bytes()))
     home = (repo / "index.html").read_text(encoding="utf-8") if (repo / "index.html").is_file() else ""
     parser = SectionParser(home)
     parser.feed(home)
@@ -89,7 +94,7 @@ def build_graph(repo: Path, config: dict[str, Any]) -> dict[str, Any]:
         node_id = f"section:{section_id}"
         _add(nodes, node_id, "html-section", path="index.html", mutable=True,
              operations=["add_after", "edit", "move_after", "remove"],
-             span=[start, end])
+             span=[start, end], content_sha256=_content_sha256(home[start:end]))
         edges.add(("file:index.html", node_id, "contains"))
     for name, pattern in {
         "title": r"<title\b[^>]*>.*?</title>",
@@ -101,7 +106,8 @@ def build_graph(repo: Path, config: dict[str, Any]) -> dict[str, Any]:
         if match:
             node_id = f"meta:{name}"
             _add(nodes, node_id, "html-metadata", path="index.html", mutable=True,
-                 operations=["replace_text"], span=[match.start(), match.end()])
+                 operations=["replace_text"], span=[match.start(), match.end()],
+                 content_sha256=_content_sha256(match.group(0)))
             edges.add(("file:index.html", node_id, "contains"))
     local_refs: set[str] = set()
     external_refs: set[str] = set()
@@ -118,7 +124,8 @@ def build_graph(repo: Path, config: dict[str, Any]) -> dict[str, Any]:
         node_id = f"file:{path}"
         if node_id not in nodes:
             _add(nodes, node_id, "asset", path=path, mutable=True,
-                 operations=["replace_text"] if (repo / path).suffix in {".svg", ".css", ".js"} else [])
+                 operations=["replace_text"] if (repo / path).suffix in {".svg", ".css", ".js"} else [],
+                 content_sha256=_content_sha256((repo / path).read_bytes()))
         edges.add(("file:index.html", node_id, "references"))
     for target in sorted(external_refs):
         if target == config["paper_url"]:

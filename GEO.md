@@ -2,7 +2,7 @@
 
 The GEO commands extend this wrapper's existing worktree loop. They address three separate questions:
 
-1. `geo-graph` discovers files, HTML metadata, individual `<section id="...">` nodes, assets, external sources, and per-platform retrieval/answer outcomes. Edges state dependencies, not proven causal effects.
+1. `geo-graph` discovers files, HTML metadata, individual `<section id="...">` nodes, assets, external sources, and per-platform retrieval/answer outcomes. Local nodes include SHA-256 content fingerprints, so a text edit remains visible even when the graph topology is unchanged. Edges state dependencies, not proven causal effects.
 2. `geo-apply` previews or applies an operation manifest against named graph nodes. `edit`, `add_after`, `move_after`, and `remove` target HTML sections; `replace_text` targets text files. `--apply` is restricted to a Git worktree. Run it inside a candidate allocated by the wrapper; `evaluate` snapshots and measures that candidate.
 3. `geo-prioritize` orders open interventions by graph reach and cost as **hypotheses**. If paired platform observations exist for a candidate, `geo-compare` checks the weighted global effect and measured regressions. Unknown observations remain unknown. A local score cannot certify search exposure.
 
