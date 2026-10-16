@@ -495,6 +495,7 @@ def explore(repo: Path, config: dict[str, Any], search_evidence: dict[str, Any],
 
 def render_explorer_html(tree: dict[str, Any]) -> str:
     """Render a self-contained, browser-readable experiment tree without external assets."""
+    embedded_data = json.dumps(tree, ensure_ascii=False).replace("<", "\\u003c")
     def tag(label: str, value: Any, kind: str = "") -> str:
         return f'<span class="badge {kind}">{escape(label)}: {escape(str(value))}</span>'
 
@@ -557,6 +558,141 @@ def render_explorer_html(tree: dict[str, Any]) -> str:
     funnel = tree["observed_funnel"]
     header = (tag("搜索工具", tree["tool"]) + tag("项目页出现", funnel["project_returned"]) +
               tag("论文出现", funnel["paper_returned"]) + tag("仓库出现", funnel["repo_returned"]))
+    visual_script = r"""
+<script id="tree-data" type="application/json">""" + embedded_data + r"""</script>
+<script>
+(() => {
+  const data = JSON.parse(document.getElementById('tree-data').textContent);
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.getElementById('tree-svg');
+  const viewport = document.getElementById('tree-viewport');
+  const label = document.getElementById('tree-count');
+  const make = (title, subtitle, type, children = [], collapsed = false) =>
+    ({title, subtitle, type, children, collapsed});
+  function intervention(item, observed) {
+    const outcome = item.experiment.status === 'unmeasured' ? '真实效果未测' :
+      `覆盖 ${item.experiment.observed_weight} · ${item.experiment.verdict}`;
+    const nodes = item.nodes.map(n => make(n.id, n.mutable_in_repo ?
+      `可改 · ${n.operations.join(', ')}` : `外部操作 · ${n.operations.join(', ')}`, 'node'));
+    const platforms = item.platforms_to_check.map(name => {
+      const value = item.experiment.platforms?.[name];
+      return make(name, value?.coverage ? `覆盖 ${value.coverage} · 增量 ${value.delta_known_cells}` :
+        '前后数据未测', value?.coverage ? 'measured' : 'unknown');
+    });
+    return make(item.id, `${item.change_kind} · ${outcome}`, observed ? 'candidate' : 'dormant',
+      [make('改动节点', `${nodes.length} 个`, 'group', nodes),
+       make('跨平台评测', outcome, 'group', platforms)], true);
+  }
+  const queries = data.queries.map(q => make(q.id, q.text, 'query',
+    q.sources.length ? q.sources.map(s => make(new URL(s.url).hostname,
+      s.url, 'source', s.interventions.map(i => intervention(i, true)))) :
+      [make('无可见入口', '本次返回中未找到已配置入口', 'unknown')], false));
+  const unseen = data.unobserved_entry_points.map(i => intervention(i, false));
+  const other = data.unmapped_nodes.map(n => make(n.id, n.kind, 'node'));
+  const root = make('EAU 项目页曝光', data.objective, 'root', [
+    make(data.tool, '实际返回的来源 URL', 'tool', queries),
+    make(`未观测入口 (${unseen.length})`, '不能按本次搜索效果排序', 'dormant', unseen, true),
+    make(`其余图节点 (${other.length})`, '未映射到干预方案', 'group', other, true)
+  ]);
+  const colors = {root:'#264b3a', tool:'#39745a', query:'#4a6579', source:'#4c7f74',
+    candidate:'#a0582d', dormant:'#886b51', group:'#6c7282', node:'#657d67',
+    unknown:'#9b7d38', measured:'#39745a'};
+  const boxW = 214, boxH = 58, stepX = 252, stepY = 82;
+  let scale = 1, width = 1000, height = 600, visible = [];
+  function layout() {
+    visible = [];
+    let leaf = 0, maxDepth = 0;
+    function place(n, depth) {
+      n.x = 22 + depth * stepX;
+      maxDepth = Math.max(maxDepth, depth);
+      visible.push(n);
+      const children = n.collapsed ? [] : n.children;
+      if (!children.length) n.y = 28 + leaf++ * stepY;
+      else {
+        children.forEach(child => place(child, depth + 1));
+        n.y = (children[0].y + children[children.length - 1].y) / 2;
+      }
+    }
+    place(root, 0);
+    width = 44 + maxDepth * stepX + boxW;
+    height = Math.max(450, 56 + leaf * stepY);
+  }
+  function element(tag, attrs = {}) {
+    const e = document.createElementNS(ns, tag);
+    for (const [key, value] of Object.entries(attrs)) e.setAttribute(key, value);
+    return e;
+  }
+  function draw() {
+    layout();
+    svg.replaceChildren();
+    svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+    svg.style.width = `${Math.round(width * scale)}px`;
+    svg.style.height = `${Math.round(height * scale)}px`;
+    function edge(n) {
+      for (const c of n.collapsed ? [] : n.children) {
+        const x1 = n.x + boxW, y1 = n.y + boxH / 2, x2 = c.x, y2 = c.y + boxH / 2;
+        const mid = (x1 + x2) / 2;
+        svg.appendChild(element('path', {d:`M${x1},${y1} H${mid} V${y2} H${x2}`,
+          fill:'none', stroke:'#a4b5a7', 'stroke-width':'2'}));
+        edge(c);
+      }
+    }
+    edge(root);
+    for (const n of visible) {
+      const g = element('g', {transform:`translate(${n.x},${n.y})`, class:'tree-node',
+        tabindex:'0', role:'button', 'aria-label':`${n.title}; ${n.subtitle}; ${n.children.length ? '点击展开或收起' : ''}`});
+      g.appendChild(element('rect', {width:boxW, height:boxH, rx:9,
+        fill:colors[n.type] || colors.node}));
+      const title = element('text', {x:12, y:23, fill:'#fff', 'font-size':'14', 'font-weight':'700'});
+      title.textContent = n.title.length > 24 ? n.title.slice(0, 23) + '…' : n.title;
+      g.appendChild(title);
+      const subtitle = element('text', {x:12, y:43, fill:'#edf4ef', 'font-size':'11'});
+      subtitle.textContent = n.subtitle.length > 32 ? n.subtitle.slice(0, 31) + '…' : n.subtitle;
+      g.appendChild(subtitle);
+      if (n.children.length) {
+        const circle = element('circle', {cx:boxW-14, cy:14, r:10, fill:'#ffffff44'});
+        g.appendChild(circle);
+        const symbol = element('text', {x:boxW-14, y:18, 'text-anchor':'middle',
+          fill:'#fff', 'font-size':'13'});
+        symbol.textContent = n.collapsed ? '+' : '−';
+        g.appendChild(symbol);
+        const toggle = () => { n.collapsed = !n.collapsed; draw(); };
+        g.addEventListener('click', toggle);
+        g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault(); toggle(); }});
+      }
+      const tooltip = element('title');
+      tooltip.textContent = `${n.title}\n${n.subtitle}`;
+      g.appendChild(tooltip);
+      svg.appendChild(g);
+    }
+    label.textContent = `当前显示 ${visible.length} 个节点 · 完整依赖图 ${data.graph_node_count} 个节点`;
+  }
+  document.getElementById('tree-zoom-in').onclick = () => { scale = Math.min(2, scale * 1.2); draw(); };
+  document.getElementById('tree-zoom-out').onclick = () => { scale = Math.max(0.35, scale / 1.2); draw(); };
+  document.getElementById('tree-reset').onclick = () => {
+    scale = Math.min(1, (viewport.clientWidth - 20) / width);
+    draw(); viewport.scrollTo(0, 0);
+  };
+  let dragging = false, previousX = 0, previousY = 0;
+  viewport.addEventListener('pointerdown', e => {
+    if (e.target.closest('.tree-node')) return;
+    dragging = true; previousX = e.clientX; previousY = e.clientY;
+    viewport.setPointerCapture(e.pointerId);
+  });
+  viewport.addEventListener('pointermove', e => {
+    if (!dragging) return;
+    viewport.scrollLeft -= e.clientX - previousX;
+    viewport.scrollTop -= e.clientY - previousY;
+    previousX = e.clientX; previousY = e.clientY;
+  });
+  viewport.addEventListener('pointerup', () => { dragging = false; });
+  draw();
+  scale = Math.min(1, (viewport.clientWidth - 20) / width);
+  draw();
+})();
+</script>
+"""
     return """<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GEO 实验探索树</title><style>
-body{font:16px/1.55 system-ui,sans-serif;background:#f6f5f1;color:#24312b;max-width:1100px;margin:32px auto;padding:0 20px}h1{margin-bottom:6px}p{max-width:85ch}.muted{color:#647168}details{border-left:2px solid #9fb5a6;margin:10px 0 10px 16px;padding:5px 0 5px 15px;background:#fff;border-radius:0 8px 8px 0}summary{cursor:pointer;font-weight:650;overflow-wrap:anywhere}.children{padding:9px 0 2px}.badge{display:inline-block;background:#e9eee9;border-radius:5px;padding:2px 7px;margin:3px 6px 3px 0;font-size:13px}.unknown{background:#fff0cf}.measured{background:#d6eee0}.order{font-size:12px;color:#426b53}.note{background:#fff6e2;border-left:3px solid #d4a74f;padding:10px 14px}button{border:1px solid #718f7c;background:white;border-radius:6px;padding:5px 10px;cursor:pointer;margin-right:8px}
-</style></head><body><h1>GEO 实验探索树</h1><p>目标项目页：<a href=""" + escape(tree["objective"], quote=True) + """">""" + escape(tree["objective"]) + """</a></p><p>层级：真实搜索工具 → 查询 → 已返回的入口 URL → 干预方案 → 图节点。点击分支展开。</p><div>""" + header + tag("依赖图节点", tree["graph_node_count"]) + """</div><p class="note">""" + escape(tree["warning"]) + """</p><p><button onclick="document.querySelectorAll('details').forEach(x=>x.open=true)">全部展开</button><button onclick="document.querySelectorAll('details').forEach(x=>x.open=false)">全部收起</button></p>""" + "".join(query_html) + dormant + unmapped + """</body></html>"""
+body{font:16px/1.55 system-ui,sans-serif;background:#f6f5f1;color:#24312b;max-width:1200px;margin:32px auto;padding:0 20px}h1{margin-bottom:6px}p{max-width:85ch}.muted{color:#647168}details{border-left:2px solid #9fb5a6;margin:10px 0 10px 16px;padding:5px 0 5px 15px;background:#fff;border-radius:0 8px 8px 0}summary{cursor:pointer;font-weight:650;overflow-wrap:anywhere}.children{padding:9px 0 2px}.badge{display:inline-block;background:#e9eee9;border-radius:5px;padding:2px 7px;margin:3px 6px 3px 0;font-size:13px}.unknown{background:#fff0cf}.measured{background:#d6eee0}.order{font-size:12px;color:#426b53}.note{background:#fff6e2;border-left:3px solid #d4a74f;padding:10px 14px}button{border:1px solid #718f7c;background:white;border-radius:6px;padding:5px 10px;cursor:pointer;margin:4px 6px 4px 0}.visual{background:#fff;border:1px solid #d7e2d8;border-radius:12px;padding:14px;margin:24px 0}.visual h2{margin:0 0 6px}.tree-viewport{height:620px;overflow:auto;border:1px solid #e2e9e3;border-radius:8px;background:#fafcf9;cursor:grab}.tree-viewport:active{cursor:grabbing}.tree-node{cursor:pointer}.tree-node:focus rect{stroke:#ffcf74;stroke-width:4}.legend{font-size:13px;color:#526258}.tree-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.tree-toolbar span{font-size:13px;color:#526258}
+</style></head><body><h1>GEO 实验探索树</h1><p>目标项目页：<a href=""" + escape(tree["objective"], quote=True) + """">""" + escape(tree["objective"]) + """</a></p><p>层级：真实搜索工具 → 查询 → 已返回的入口 URL → 干预方案 → 图节点及评测。</p><div>""" + header + tag("依赖图节点", tree["graph_node_count"]) + """</div><p class="note">""" + escape(tree["warning"]) + """</p><section class="visual"><h2>可交互树状图</h2><p class="legend">有连线的节点才属于同一条探索路径。点击卡片右上角的 + / − 展开或收起；拖动空白处平移。</p><div class="tree-toolbar"><button id="tree-zoom-in">放大</button><button id="tree-zoom-out">缩小</button><button id="tree-reset">适合窗口</button><span id="tree-count"></span></div><div id="tree-viewport" class="tree-viewport"><svg id="tree-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="GEO 实验探索树状图"></svg></div></section><h2>分支详情与证据</h2><p><button onclick="document.querySelectorAll('details').forEach(x=>x.open=true)">全部展开</button><button onclick="document.querySelectorAll('details').forEach(x=>x.open=false)">全部收起</button></p>""" + "".join(query_html) + dormant + unmapped + visual_script + """</body></html>"""

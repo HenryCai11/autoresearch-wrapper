@@ -54,6 +54,8 @@ class GeoTests(unittest.TestCase):
         html = render_explorer_html(tree)
         self.assertIn("evidence/q1.txt", html)
         self.assertIn("未观测到入口", html)
+        self.assertIn('id="tree-svg"', html)
+        self.assertIn("stroke-width':'2'", html)
 
     def test_graph_exposes_internal_sections_and_outcomes(self) -> None:
         graph = build_graph(self.repo, self.config)
