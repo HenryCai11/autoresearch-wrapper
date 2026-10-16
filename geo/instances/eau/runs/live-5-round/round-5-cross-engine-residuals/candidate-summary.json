@@ -1,0 +1,15 @@
+{
+  "experiment_id": "eau-live-geo-5-round-2026-10",
+  "round": 5,
+  "label": "cross-engine-residuals",
+  "change_id": "r5-github-authority-bridge",
+  "candidate_commit": "e0e9a68",
+  "inner_loop": {
+    "score": 99.0,
+    "matrix_offline": 98.33,
+    "technical": 100.0,
+    "decision_role": "eligibility_only"
+  },
+  "outer_loop": null,
+  "outer_status": "awaiting_merge_and_production_probe"
+}

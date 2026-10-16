@@ -1,0 +1,17 @@
+{
+  "experiment_id": "eau-live-geo-5-round-2026-10",
+  "round": 5,
+  "label": "cross-engine-residuals",
+  "change_id": "r5-github-authority-bridge",
+  "base_production_commit": "18ad3f754d52e2b0bbbee3b95883b384ffcdb8a8",
+  "candidate_branch": "codex/geo-live-round-5",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "query_count": 15,
+  "measurement_phase": "candidate",
+  "outer_status": "awaiting_merge",
+  "candidate_commit": "e0e9a68",
+  "inner_candidate_score": 99.0,
+  "inner_previous_score": 99.0,
+  "inner_delta": 0.0,
+  "inner_role": "eligibility_only"
+}

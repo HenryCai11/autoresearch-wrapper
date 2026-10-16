@@ -1,0 +1,453 @@
+EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents (https://arxiv.org/abs/2610.16523)
+citeturn166academia12 [wordlim: 200] Published: 3 days ago; Title: EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents ... We instead introduce EAU, a meta-agent framework for environment--agent--user co-evolution.
+Title: EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents
+Authors: Min Cai, Dan Zhang, Gao Xing, Libin Ma, Zhaohui Xu, Xi Ye
+Date: Mon Oct 12 10:11:38 2026
+
+Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. Simulated users can be stochastic or inconsistent, while environments may contain unreliable tools, incomplete state coverage, and incorrect verifiers. Prior work mainly addresses the resulting instability through reward shaping or denser supervision, while treating these components as fixed. We instead introduce EAU, a meta-agent framework for environment--agent--user co-evolution. During training, EAU monitors trajectories, tool traces, rewards, and training statistics; diagnoses failures and uninformative interactions; and proposes targeted modifications to the user simulator, environment, reward design, and RL configuration. Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy. These adaptations also persist across runs, so later training can build on previously discovered improvements rather than restarting from a fixed setup. We enable this process through an editable symbolic representation of user and environment dynamics, while the agent remains a neural LLM optimized with RL. Across three interactive-agent benchmarks and two backbone models, EAU consistently outperforms prior RL methods, improving the overall score over the strongest baseline by 14.7--15.0% and increasing successful task completion on ColBench by up to 36.7%, showing that co-evolving the training system with the policy can substantially improve multi-turn RL.--------------------------------------------------------------------------------
+Muse: Meta's personal AI agent, features & capabilities (https://ai.meta.com/muse/)
+citeturn166search0 [wordlim: 200] Crawled: last month; # Your personal AI agent that gets things done ... Eligible purchases are covered by Link’s purchase protections, a first for AI agents, and your conversations are not shared with Meta's ad systems. ... Muse is built with automated protections, agentic AI security standards, and user controls designed to prevent harmful content and unauthorized actions.
+
+## Introducing Muse
+
+# Your personal AI agent that gets things done
+
+Image
+
+## Introducing Muse
+
+# Your personal AI agent that gets things done
+
+## Introducing Muse
+
+# Your personal AI agent that gets things done
+
+Scroll to explore
+
+## Take the busywork off your plate
+
+Muse gets to know you and your goals, working across all aspects of life, so you can focus on the things that matter. It comes with strong privacy and security built in, so you stay in control.
+
+
+### A secure computer with its own browser
+
+Muse Secure VM runs on a persistent, dedicated virtual machine equipped with a state-of-the-art browser to navigate the web. It books appointments, fills out forms and handles customer service.
+
+Muse Secure VM runs on a persistent, dedicated virtual machine equipped with a state-of-the-art browser to navigate the web.
+It books appointments, fills out forms and handles customer service.
+
+
+### Designed to feel like a conversation
+
+Chat with your Muse in the same way you message with other people, using the Muse app or directly in WhatsApp. It learns and gets sharper, coming back with ideas and suggestions built around what you need, ready to act on them under your direction.
+
+
+### Works with your apps and builds its own tools
+
+Connect your email, calendar, Instagram and more apps you use daily. If a task needs a tool that doesn't exist, Muse builds it for you.
+
+## PRODUCT WALKTHROUGH
+
+### Get the most out of Muse
+
+Watch how to hand off more to your agent, connect what matters and keep progress moving.
+
+Try Muse
+
+0:00 / 0:00
+
+
+## TRY MUSE
+
+### Ready to get more done with Muse?
+
+Get started
+
+## FREQUENTLY ASKED QUESTIONS
+
+* * *
+
+### What can Muse do?
+
+  * Muse can answer questions, complete tasks, browse the web, make purchases, generate images, create documents, and connect with your favorite apps and services via Connectors. It can also set reminders, track goals, and monitor things you care about, all working in the background on your behalf.
+
+A chatbot responds to one question at a time. An AI assistant can handle more complex conversations and generate content. A personal AI agent like Muse goes further: it can take real actions across the web and connected apps, work through multi-step tasks on its own, and keep running in the background even after you close the app.
+
+* * *
+
+### What can a personal AI agent help with?
+
+A personal AI agent can help with everyday tasks like booking reservations, monitoring prices, managing reminders, creating documents, generating images, and researching topics. It can also connect to third-party apps and services to take actions on your behalf, like sending emails or completing online purchases. See more agentic AI examples.
+
+
+## Explore Meta AI products
+
+Image: Meta AI personal assistant on mobile device
+
+### Meta AI Assistant
+
+#### Get more done with Meta AI, your personal AI assistant.
+
+Try Meta AI
+
+Learn more
+
+Image: Meta AI media generation output cards
+
+### Image Generation
+
+#### Explore fun presets, make precise edits and visualize your ideas.
+
+Start generating--------------------------------------------------------------------------------
+EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents · Pith (https://pith.science/paper/2610.16523)
+citeturn166search1 [wordlim: 200] Published: 4 days ago; Crawled: yesterday; "EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents." arXiv:2610.16523 (2026). https://pith.science/paper/EBSLUJDR ... The paper shows that co-evolving the user simulator, environment, and training configuration alongside the policy, mediated by a meta-agent, leads to substantial performance gains in multi-turn RL for user-centric agents.
+
+# EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents
+
+PaperPDF from arXiv
+
+data files
+
+ReviewThe objections and verdict, as JSON Paper breakdownThe authors' claims, conditions and measurements, as JSON Signed receiptProof this review has not been altered
+
+Min Cai, Dan Zhang, Gao Xing, Libin Ma, Zhaohui Xu, Xi Ye
+
+Artificial Intelligence · Submitted 12 Oct 2026 · 24 references
+
+Pith's verdict: EAU proposes a meta-agent framework for co-evolving training components in interactive RL, with impressive empirical gains — but the comparison lacks matched compute budgets, making the headline improvements hard to attribute.
+
+T0 · AI review ▾
+
+How this review was made: An AI referee (deepseek/deepseek-v4-flash) read the paper on October 14, 2026 and answered a fixed list of questions about it. T0 is the starting level every paper gets. The levels describe how deeply Pith has checked the paper, never the authors.
+### The paper claims
+
+Co-evolving the training system with the policy substantially improves multi-turn RL for user-centric agents.
+
+### The reading
+
+Training large language model agents to interact with users over multiple turns is hard because the learning signal depends on the user simulator and environment, which are usually fixed and can be noisy, inconsistent, or uninformative. The paper argues that instead of only improving the policy's reward signal, one should also adapt the simulator, environment, and training configuration during training. It introduces EAU, a meta-agent framework that monitors ongoing RL training, diagnoses failures, and proposes targeted modifications to these components, which are then hot-swapped into the live run. Across three benchmarks and two backbone models, EAU consistently outperforms prior RL methods, improving overall scores by 14.7–15.0% and increasing successful task completion on ColBench by up to 36.7%.
+
+### What carries the argument
+
+EAU (Environment-Agent-User Co-Evolution) — a meta-agent framework where a frontier coding agent acts as a meta-controller that continuously monitors RL training, diagnoses issues in the user simulator, environment, and training dynamics, and proposes programmatic modifications via editable symbolic interfaces. The symbolic user simulator provides deterministic control over information disclosure, mixed with an LLM simulator via an epsilon-greedy strategy. Interventions occur both intra-run (hot-swapped without restart) and inter-run (carried across training runs).
+
+Extended reading notes
+
+### Core claim
+
+The paper shows that co-evolving the user simulator, environment, and training configuration alongside the policy, mediated by a meta-agent, leads to substantial performance gains in multi-turn RL for user-centric agents. The meta-agent observes training trajectories, tool traces, rewards, and statistics; proposes modifications to the user simulator (including a symbolic user with tunable rules), reward design, episode limits, and RL hyperparameters; and validates and hot-swaps these changes into the ongoing training loop. This enables the training system itself to adapt as the policy improves, overcoming instabilities from fixed simulators and environments.
+
+### Load-bearing premise
+
+The meta-agent (a frontier coding model) can reliably diagnose training problems from logs and propose beneficial modifications, even though the integrity gates only constrain writes and do not guarantee improvement.
+
+Editorial extensions
+
+### If this is right
+
+  * If EAU is sound, the standard practice of fixing the simulator and environment during interactive-agent RL training should be replaced by adaptive co-evolution.
+  * Meta-agent-guided adaptation could reduce the manual effort of debugging simulators, reward functions, and hyperparameters for multi-turn agent tasks.
+  * The observed gains (up to 36.7% on ColBench) suggest that training-system adaptation may be as important as policy optimization in achieving high performance.
+  * The method is compatible with multiple RL algorithms (PPO, UserRL, InfoPO) and meta-agent backbones (Claude Opus, Codex), indicating broad applicability.
+  * Performance improvements transfer to held-out environments (e.g., Inten. in UserGym), suggesting that co-evolution fosters generalizable agent behaviors.
+
+Simulated users can be stochastic or inconsistent, while environments may contain unreliable tools, incomplete state coverage, and incorrect verifiers. Prior work mainly addresses the resulting instability through reward shaping or denser supervision, while treating these components as fixed. We instead introduce EAU, a meta-agent framework for environment--agent--user co-evolution. During training, EAU monitors trajectories, tool traces, rewards, and training statistics; diagnoses failures and uninformative interactions; and proposes targeted modifications to the user simulator, environment, reward design, and RL configuration. Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy. These adaptations also persist across runs, so later training can build on previously discovered improvements rather than restarting from a fixed setup. We enable this process through an editable symbolic representation of user and environment dynamics, while the agent remains a neural LLM optimized with RL. Across three interactive-agent benchmarks and two backbone models, EAU consistently outperforms prior RL methods, improving the overall score over the strongest baseline by 14.7--15.0% and increasing successful task completion on ColBench by up to 36.7%, showing that co-evolving the training system with the policy can substantially improve multi-turn RL.
+
+Figures
+
+Image: Figure 1 Figure 1. Illustration of how our meta-agent, EAU, manages RL training runs. EAU surpasses the prior SOTA on ColBench. Left: For the first three runs, EAU proactively restarts when it identifies issues that can only be resolved with offline patches. Middle: Run 4 and 5 displayed in blue and red are two full runs. Dashed lines indicate online, intra-run modifications. Run 4 explored individual modifications through local perturbations, whereas Run 5 used endpoint interventions followed by replication, reversal, and interaction tests. 1 arXiv:2610.16523v1 [cs.AI] 12 Oct 2026 Image: Figure 2 Figure 2. Illustration of a user￾centric agentic task. Thus, we have Ttool : (stool, atool) 7→ (s ′ tool, ztool) and Tuser : (suser,… Image: Figure 4 Figure 4. Illustration of symbolic user simulator. Image: Figure 5 Figure 5. Illustration of environment evolution by Image: Figure 7 Figure 7. Run-level progression on UserGym with Qwen3-4B. The two conditions share ex￾perience from the first four runs; in run 5, one uses inter-run adaptation only, while the other additionally permits intra-run intervention. 6 CONCLUSION We introduced EAU, a meta-agent framework that jointly evolves the environment, agent, and user during training. We show that a frontier coding agent can effectively manage and adapt these com￾ponents based solely on training feedback, including trajectories and optimization logs. To provide finer control over user behavior, we introduce a symbolic user… Image: Figure 8 Figure 8. Experience flow from UserGym, Qwen3-4B to ColBench, Qwen2.5-7B. For RL training, we consider RAGEN (Wang et al., 2025b), a general multi-turn agent RL frame￾work; Search-R1 (Jin et al., 2025), which trains agents through reinforcement learning over multi￾step search trajectories; UserRL (Qian et al., 2025b), which targets interactive user-centric agents; and InfoPO (Kong et al., 2026), which introduces information-driven optimization for user-agent interaction. We additionally include vanilla PPO as a standard RL baseline to isolate the gains from our co-evolution framework. For…
+
+--------------------------------------------------------------------------------
+Be There for Every Customer With Meta Business Agent (https://about.fb.com/news/2026/06/meta-business-agent?trk=article-ssr-frontend-pulse_x-social-details_comments-action_comment-text)
+citeturn166search2 [wordlim: 200] Published: 4 months ago; Crawled: 4 days ago;   * We’re introducing Meta Business Agent, which lets businesses of all sizes increase their output and deliver personalized experiences for customers using AI. ...   * We’re also introducing the Meta Business Agent Platform, which gives businesses the infrastructure to build, customize, and deploy their Business Agents at scale.
+
+Back to Newsroom
+
+Meta
+
+# Be There for Every Customer With Meta Business Agent
+
+June 3, 2026June 3, 2026
+
+Listen to Article 10 Pause 10
+
+[Select]
+
+Image
+
+## Takeaways
+
+  * We’re introducing Meta Business Agent, which lets businesses of all sizes increase their output and deliver personalized experiences for customers using AI.
+  * Business Agent also doubles as a partner to deliver a morning briefing to catch you up on chats you missed overnight and provide insights on your threads.
+  * We’re also introducing the Meta Business Agent Platform, which gives businesses the infrastructure to build, customize, and deploy their Business Agents at scale.
+
+Today, we’re introducing Meta Business Agent – AI that lets every business show up for every customer as if they had an infinite team behind them. Business Agent can be set up in minutes or plugged directly into your existing enterprise infrastructure so you can 10X or 100X output.
+
+ 
+
+More than one million businesses are already using a Meta Business Agent on WhatsApp and Messenger to respond to customers around the clock. 
+## An AI Agent That Works for You
+
+Because the Meta Business Agent responds to customers, it doubles as a partner that can deliver a morning briefing to catch you up on chats you missed overnight and provide insights on your threads. We’re starting with a select number of businesses on the WhatsApp Business app, Instagram Pro, Messenger, and Meta Business Suite, and in the future we’ll expand its capabilities to help fully run all your daily operations — like conducting market research, surfacing product insights, connecting with the tools to manage your calendar and providing competitive intelligence. You can join the waitlist here.
+
+## Personalizing Customer Experiences
+
+We’re also introducing the Meta Business Agent Platform: a new agentic platform that gives businesses the infrastructure to build, customize, and deploy their Business Agent at scale. It lets businesses connect to a growing suite of hundreds of systems like Shopify, Zendesk, and Shopee giving Business Agents the ability to take action on behalf of the business. --------------------------------------------------------------------------------
+meta-agent/README.md at main · canvas-org/meta-agent · GitHub (https://github.com/canvas-org/meta-agent/blob/main/README.md)
+citeturn166search3 [wordlim: 200] Crawled: 3 weeks ago;             messages=[{"role": "user", "content": str(ctx.task)}], ... For detailed experiments, see Meta-Agent: Continual Learning for Agents. ...     @software{sleiman_meta_agent_2026,
+
+# Meta-Agent
+
+Continual learning for agents, without weight updates.
+
+Meta-Agent turns execution traces into persistent improvements to the system around a language model. It learns at two timescales:
+
+  * a fast loop improves the task-facing harness, including prompts, tools, hooks, stopping criteria, subagents, and control flow;
+  * an experimental slow loop improves the proposer skill that diagnoses failures and generates future harness changes.
+
+The base model remains frozen. Meta-Agent keeps what it learns in harness code and versioned proposer instructions, backed by an on-disk experience store.
+
+> Research question: Can an agent improve both its harness and the process used to improve that harness?
+
+Read the technical report →
+
+Method · Result · Quickstart
+
+## Overview
+
+An agent is more than its model. The harness decides what context the model sees, which tools it can call, how it tracks state, when it checks its output, and when it stops.
+--------------------------------------------------------------------------------
+Agents API - Meta Agents Research Environments (https://facebookresearch.github.io/meta-agents-research-environments/api_reference/agents.html)
+citeturn166search4 [wordlim: 200] Crawled: last month; Agents in Meta Agents Research Environments are responsible for: ... The environment event reaction loop (handling user messages, notifications, and the overall agent lifecycle) is implemented in are/simulation/agents/default_agent/are_simulation_main.py.
+
+# Agents API¶
+
+Agents are the AI entities that interact with the Agents Research Environments to complete tasks. This section documents the core Agent API and related classes for creating and customizing agent behavior.
+
+## Overview¶
+
+Agents in Meta Agents Research Environments are responsible for:
+
+  * Task Execution: Understanding and completing assigned tasks
+
+  * Tool Usage: Interacting with apps through their exposed APIs
+
+  * Reasoning: Making decisions based on available information
+
+  * Learning: Adapting behavior based on feedback and results
+
+The agent system is built around a ReAct (Reasoning + Acting) framework that allows agents to think, act, and observe in iterative cycles.
+
+## Creating Custom Agents¶
+
+Agents used on the CLI are built through are/simulation/agents/default_agent/agent_factory.py. The `BaseAgent` class describes the “inner loop” of the agent - the core reasoning and action execution logic. The environment event reaction loop (handling user messages, notifications, and the overall agent lifecycle) is implemented in are/simulation/agents/default_agent/are_simulation_main.py.
+--------------------------------------------------------------------------------
+meta-agents-research-environments/docs/foundations/index.rst at main · facebookresearch/meta-agents-research-environments · GitHub (https://github.com/facebookresearch/meta-agents-research-environments/blob/main/docs/foundations/index.rst?plain=true)
+citeturn166search5 [wordlim: 200] Crawled: 3 weeks ago; Meta Agents Research Environments is designed to address these gaps by offering strong foundations and abstractions that are general enough to support a wide range of tasks and benchmarks. ... - **Apps**: Similar to a desktop or mobile phone, the environment can support a set of apps that users use in their daily life, which the agent can interact with. ... In ARE, everything is an event, meaning any action the user, the agent takes or even external events generated by the environment itself, are events.
+
+* **Tool Usage**: Interacting with apps through their exposed APIs
+
+* **Reasoning**: Making decisions based on available information and context
+
+* **Learning**: Adapting behavior based on feedback and results
+
+* **Communication**: Sending messages to users and logging progress
+
+.. admonition:: Getting Started with Agents
+
+For most use cases, we recommend using the default agent by specifying the ``--agent default``
+
+parameter when running CLI commands. This provides:
+
+* Robust ReAct loop implementation
+
+* Comprehensive logging and error handling
+
+* Flexible tool integration
+
+* Customizable system prompts and behavior
+
+The default agent will automatically handle the event-based interactions with the environment, logging all actions and observations for later analysis.
+
+For more details about the default agent implementation, see the ``ARE_react_json_agent`` function in ``ARE/agents/default_agent/agent_factory.py``.
+
+You can also learn more about customizing agents in :doc:`../api_reference/agents` and explore practical examples in the tutorials.
+
+.. dropdown:: :octicon:`infinity` Universes
+
+:animate: fade-in
+
+**Universes** represent distinct, fully-populated instantiations of the simulated environment, each reflecting a specific user's digital world.
+
+They provide the realistic foundation from which scenarios emerge, containing comprehensive synthetic data that mirrors authentic usage patterns.
+
+**Core Concept**
+
+Universes embody a data-first approach to scenario development:
+
+* **Rich Environmental Foundation**: Each universe contains realistic application content including message histories, email threads, calendar events, and contacts
+
+* **Persona-Driven**: Built around detailed user personas that ensure coherence across all applications and data
+
+--------------------------------------------------------------------------------
+The Zenera Platform | Zenera (https://zenera.ai/platform)
+citeturn166search6 [wordlim: 200] Crawled: last week; At the center of Zenera sits the Meta-Agent - the user's single point of interaction for designing, building, and evolving agentic systems. ... The Meta-Agent decomposes the problem into specialized agents, defines their roles, selects appropriate models, and wires the entire system:
+
+Platform
+
+# The Zenera Platform
+
+An AI that builds AI systems - and proves they work before they run.
+
+Table of contents
+
+  * The Meta-Agent
+  * From Problem to Production
+  * Always-On: The Event-Reactive System
+  * Why Multi-Agent Systems Need a Meta-Agent
+  * Failure Modes of Human-Designed Agent Systems
+  * Why These Problems Scale Exponentially
+  * The Meta-Agent as Compiler, Linter, and Profiler
+  * Modification Safety: Change Without Fear
+  * Agent Certification
+  * Key Properties of Generated Systems
+
+## The Meta-Agent
+
+At the center of Zenera sits the Meta-Agent - the user's single point of interaction for designing, building, and evolving agentic systems.
+
+The Meta-Agent is not a chatbot. It is not a code generator. It is an AI system architect that translates business requirements into complete, verified, production-ready multi-agent systems.
+
+## From Problem to Production
+
+1
+
+### Describe the Problem
+--------------------------------------------------------------------------------
+Apps - Meta Agents Research Environments (https://facebookresearch.github.io/meta-agents-research-environments/foundations/apps.html)
+citeturn166search7 [wordlim: 200] Crawled: last month; A first env we introduce primarily aims at training agents capable of evolving in environments similar to those of operating systems such as iOS, Android, Meta RayBan OS, QuestOS, etc. ... The Agent-User Interface (AUI) app is a required component in every environment, serving as the communication bridge between users and AI agents.
+
+Non-exhaustive list of apps native to the Agents Research Environments
+
+  * Contacts
+
+  * EmailClient
+
+  * Messaging
+
+  * FileSystem
+
+  * Calendar
+
+  * Shopping
+
+  * Cab
+
+  * City
+
+  * ApartmentListing
+
+Among these apps, a couple play a crucial role in the execution of the environment.
+
+Some apps in the initial environment play a crucial role in the execution of scenarios. We give more details below about the most important ones, giving a glimpse of the possibilities offered by the platform. Thanks to the high flexibility of the system, it is also possible to integrate MCP interfaces ( MCPApp - Model Context Protocol) and any other interface as long as they are wrapped to match the platform’s standards. For instance, some recent efforts have integrated SQL databases to test agents’ compatibility with different search strategies.
+
+Agent-User Interface
+
+The Agent-User Interface (AUI) app is a required component in every environment, serving as the communication bridge between users and AI agents. Unlike traditional chat models where interaction happens through direct messaging, our system models user-agent communication through a dedicated ARE application.
+
+This design requires the agent to make specific tool calls when reporting information to the user, rather than simply generating responses. When users send messages to the agent through the AUI, their content is automatically injected into the agent’s memory for processing. We highlight that this is the current implementation choice and that better alternatives may exist, like using the Notification System to surface user messages to the agent (see Notifications).
+
+This tool-based communication model provides several advantages:
+
+  * It allows precise control over when the agent should communicate with the user versus when it should continue working silently on tasks
+
+  * It enables users to interact with the agent even while the agent is actively engaged in completing other objectives
+
+The AUI thus creates a more realistic interaction pattern that mirrors how people actually work with digital assistants in complex, multi-tasking environments.
+--------------------------------------------------------------------------------
+EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents | The Latest in AI (https://thelatestinai.com/papers/2610.16523)
+citeturn166search8 [wordlim: 200] Published: 4 days ago; Crawled: yesterday; # EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents ... We instead introduce EAU, a meta-agent framework for environment--agent--user co-evolution.
+
+cs.AI·2610.16523 Copy arXiv ID·Oct 12, 2026
+
+Save
+
+# EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents
+
+Authors: Min Cai, Dan Zhang, Gao Xing, Libin Ma, Zhaohui Xu, Xi Ye
+
+Organizations: University of Alberta · National University of Singapore · Kuaishou Technology · Independent Researcher · Alberta Machine Intelligence Institute (Amii)
+
+## Abstract
+
+Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. Simulated users can be stochastic or inconsistent, while environments may contain unreliable tools, incomplete state coverage, and incorrect verifiers. Prior work mainly addresses the resulting instability through reward shaping or denser supervision, while treating these components as fixed. We instead introduce EAU, a meta-agent framework for environment--agent--user co-evolution. During training, EAU monitors trajectories, tool traces, rewards, and training statistics; diagnoses failures and uninformative interactions; and proposes targeted modifications to the user simulator, environment, reward design, and RL configuration. --------------------------------------------------------------------------------
+Launching Meta Enterprise Platform (https://about.fb.com/news/2026/09/launching-meta-enterprise-platform/)
+citeturn166search9 [wordlim: 200] Published: 2 weeks ago; Crawled: today; Meta Enterprise Platform will use our strengths that few other companies have: advanced models, leading agents, large-scale infrastructure, and years of working closely with many businesses.Initially, we will focus on bringing our full technology stack, including the Muse agent, Meta Business Agent, Muse API, Muse Code, and more to businesses and developers to help them grow.
+
+Back to Newsroom
+
+Meta
+
+# Launching Meta Enterprise Platform
+
+September 28, 2026September 28, 2026
+
+Listen to Article 10 Pause 10
+
+[Select]
+
+Meta founder and CEO Mark Zuckerberg shared the following: 
+
+We believe superintelligence will create significant new opportunities for all people and businesses. Meta already serves billions of people at scale and helps hundreds of millions of businesses reach customers. Today we are starting the next major pillar of our business, Meta Enterprise Platform, to help businesses use AI to grow and transform in new ways as well. 
+
+Meta Enterprise Platform will use our strengths that few other companies have: advanced models, leading agents, large-scale infrastructure, and years of working closely with many businesses. Initially, we will focus on bringing our full technology stack, including the Muse agent, Meta Business Agent, Muse API, Muse Code, and more to businesses and developers to help them grow.
+
+To lead this effort, I’m excited that Chirantan “CJ” Desai will join Meta as Chief Enterprise Platform Officer, reporting directly to me. --------------------------------------------------------------------------------
+arXiv Troller (https://arxiv-troller.com/?q=paper%3A+2609.11636)
+citeturn166search10 [wordlim: 200] Crawled: today; EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents ... We instead introduce EAU, a meta-agent framework for environment--agent--user co-evolution.
+EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents
+
+Min Cai, Dan Zhang, Gao Xing et al.
+
+arXiv:2610.16523
+
+Authors: Min Cai, Dan Zhang, Gao Xing, Libin Ma, Zhaohui Xu, Xi Ye
+
+Submitted: Oct 2026 | Updated: Oct 2026
+
+Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. Simulated users can be stochastic or inconsistent, while environments may contain unreliable tools, incomplete state coverage, and incorrect verifiers. Prior work mainly addresses the resulting instability through reward shaping or denser supervision, while treating these components as fixed. We instead introduce EAU, a meta-agent framework for environment--agent--user co-evolution. During training, EAU monitors trajectories, tool traces, rewards, and training statistics; diagnoses failures and uninformative interactions; and proposes targeted modifications to the user simulator, environment, reward design, and RL configuration. Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy. These adaptations also persist across runs, so later training can build on previously discovered improvements rather than restarting from a fixed setup. We enable this process through an editable symbolic representation of user and environment dynamics, while the agent remains a neural LLM optimized with RL. Across three interactive-agent benchmarks and two backbone models, EAU consistently outperforms prior RL methods, improving the overall score over the strongest baseline by 14.7--15.0% and increasing successful task completion on ColBench by up to 36.7%, showing that co-evolving the training system with the policy can substantially improve multi-turn RL.--------------------------------------------------------------------------------
+User-Centric Agent: Design & Evaluation (https://www.emergentmind.com/topics/user-centric-agent)
+citeturn166search11 [wordlim: 200] Crawled: last month; Unlike platform-centric or agent-centric agents, which optimize for system-driven objectives or agent behaviors, user-centric agents treat the user as both principal and partner: they align their policies to maximize utility as defined by user-specified goals, support proactive and adaptive interaction, and maintain transparency, privacy, and user autonomy as first-class principles (Eskenazi et al., 2019, Zhang et al., 17 Feb 2026).
+--------------------------------------------------------------------------------
+Meta-Agent: From Task Descriptions to Verified Multi-Agent Systems (https://arxiv.org/abs/2605.25233)
+citeturn166academia13 [wordlim: 200] Published: 4 months ago; AI agents are increasingly used to solve complex, multi-step tasks, but existing multi-agent frameworks remain brittle as workflows grow in scale and depth. ... We present Meta-Agent, a two-phase framework that automatically constructs and executes specialized multi-agent systems from natural-language task descriptions.
+--------------------------------------------------------------------------------
+Eureka: Task-Conditioned Meta-Agent Orchestration for Scientific Discovery (https://arxiv.org/abs/2608.19047)
+citeturn166academia14 [wordlim: 200] Published: last month; Title: Eureka: Task-Conditioned Meta-Agent Orchestration for Scientific Discovery ... During execution, Eureka forms Macro-Agents with specialized state, memory, operators, tools, verifiers, and local topology via receding-horizon planning, architecture promotion, and minimal-sufficient compilation.
+--------------------------------------------------------------------------------
+Unified Software Engineering Agent as AI Software Engineer (https://www.cs.purdue.edu/homes/lintan/publications/USEagent-icse26.pdf)
+citeturn166search15 [wordlim: 200] Published: 10 months ago; Meta-Agent and the actions together form a unified software engi- ... for unified software engineering agents in Section 4.1.
+--------------------------------------------------------------------------------
+The Meta-Agent Challenge: Are Current Agents Capable of Autonomous Agent Development? (https://arxiv.org/abs/2606.04455)
+citeturn166academia16 [wordlim: 200] Published: 4 months ago; Title: The Meta-Agent Challenge: Are Current Agents Capable of Autonomous Agent Development? ... Benchmark is publicly available at: https://github.com/ant-research/meta-agent-challenge.
+--------------------------------------------------------------------------------
+Proceedings of META’2018 (https://www.mage.fst.uha.fr/brevilliers/book_meta2018_en.pdf)
+citeturn166search17 [wordlim: 200] Published: 7 months ago; Agent A Agent B Agent B Agent C Agent Runtime Service Agent Runtime Service Notification Discovery Agent Discovery Agent of context Management Deployment Management Deployment Notification Service Service Service Service of context Runtime System Runtime System Context Information Manager (CIM) Java Virtual Machine TCP Java Virtual Machine session Transport Protocol Transport Protocol OS/ Sensing Hardware systems OS/Hardware OS/Hardware |  |  |  |  |  | ... The system only maintains per-user proﬁle information within those agents that are bound to the user. ... sciencesconf.org:meta2018:206436
+--------------------------------------------------------------------------------
+User-Centric Service Brokerage in a Personal Multi-Agent (https://citeseerx.ist.psu.edu/document?doi=29e41c18de51dac40d0157a2072f7f68428d822e&repid=rep1&type=pdf)
+citeturn166search18 [wordlim: 200] Published: 8 months ago; User-Centric Service Brokerage in a Personal Multi-Agent ... THE USER-CENTRIC BROKER AGENT
+--------------------------------------------------------------------------------
+Inefficiencies of Meta Agents for Agent Design (https://aclanthology.org/2025.findings-emnlp.1135.pdf)
+citeturn166search19 [wordlim: 200] Published: last year; Inefficiencies of Meta Agents for Agent Design ... Recent works began to automate the design of agentic systems using meta-agents that propose and iteratively refine new agent architectures.
+--------------------------------------------------------------------------------
+ (https://cs.uwaterloo.ca/research/tr/2010/CS-2010-05.pdf)
+citeturn166search20 [wordlim: 200] Published: 16.6 years ago; Attitude Meta-goal | Example I want to drink red wine, but spending less money as possible (so I might choose plan B).Table 1: User Preferences and their roles into agent architectures. ... high-level end-user language, and users are able to conﬁgure and adapt their agents by means of
+--------------------------------------------------------------------------------
+Software agent (https://en.wikipedia.org/wiki/Software_agent)
+citeturn166search21 [wordlim: 200] Crawled: 6 months ago; In computer science, a software agent is a computer program that acts for a user or another program in a relationship of agency. ... When users start relying on their software agents more, especially for communication activities, they may lose contact with other human users and look at the world with the eyes of their agents. ... * Buyer Agent - As of 2025, advanced AI agents enable agentic commerce, autonomously handling product discovery, price comparison, and transactions in platforms like OpenAI integrations.* Mail transfer agent - For serving E-mail, such as Microsoft Outlook.
+--------------------------------------------------------------------------------
+JACK Intelligent Agents (https://en.wikipedia.org/wiki/JACK_Intelligent_Agents)
+citeturn166search22 [wordlim: 200] Crawled: 5 months ago; * Belief–Desire–Intention Model: In addition to a classical (non-BDI) agent model, the platform realizes the BDI software model, where beliefs are managed by beliefsets encapsulated within agents, desires are the goal states an agent is aspiring to achieve, and intentions are the meta-reasoning and plan-based reasoning the JACK agents use to achieve the current goal. ... * JACK Development Environment: Multi-agent systems can be written in Java code and the JACK plan language in a standard IDE, although the platform provides an agent-centric IDE called the JACK Development Environment or JDE.
+--------------------------------------------------------------------------------
+Mobile agent (https://en.wikipedia.org/wiki/Mobile_agent)
+citeturn166search23 [wordlim: 200] Crawled: 8 months ago; In computer science, a mobile agent is a piece of software agent combined with data that is able to migrate from one computer to another autonomously and continue its execution on the destination with the ability to interact with other agents there.

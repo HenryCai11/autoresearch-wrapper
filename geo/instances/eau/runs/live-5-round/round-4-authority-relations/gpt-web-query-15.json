@@ -1,0 +1,212 @@
+UserRL: Training Interactive User-Centric Agent via Reinforcement Learning (https://arxiv.org/abs/2509.19736)
+citeturn178academia12 [wordlim: 200] Published: 1.1 years ago; Title: UserRL: Training Interactive User-Centric Agent via Reinforcement Learning ... In this work, we propose UserRL, a unified framework for training and evaluating user-centric abilities through standardized gym environments paired with simulated users. ... Together, these results highlight that careful design of reward shaping and user simulation choice is as crucial as model scale, and establish UserRL as a practical pathway for developing robust user-centric agentic models.All codes and data are public for future research.
+Title: UserRL: Training Interactive User-Centric Agent via Reinforcement Learning
+Authors: Cheng Qian, Zuxin Liu, Akshara Prabhakar, Jielin Qiu, Zhiwei Liu, Haolin Chen, Shirley Kokane, Heng Ji, Weiran Yao, Shelby Heinecke, Silvio Savarese, Caiming Xiong, Huan Wang
+Date: Wed Sep 24 03:33:20 2025
+
+Reinforcement learning (RL) has shown promise in training agentic models that move beyond static benchmarks to engage in dynamic, multi-turn interactions. Yet, the ultimate value of such agents lies in their ability to assist users, a setting where diversity and dynamics of user interaction pose challenges. In this work, we propose UserRL, a unified framework for training and evaluating user-centric abilities through standardized gym environments paired with simulated users. We systematically vary turn-level reward assignment and trajectory-level score calculation to analyze how different formulations affect learning under the GRPO algorithm. Our experiments across Qwen3 models reveal three key findings: (i) SFT cold start is critical for unlocking initial interaction ability and enabling sustained RL improvements; (ii) deliberate trajectory scoring yields more efficient and effective multi-turn interactions; and (iii) while stronger simulated users (e.g., GPT-4o) facilitates training, open-source simulators (e.g., Qwen3-32B) remain a cost-effective and transferable option. Together, these results highlight that careful design of reward shaping and user simulation choice is as crucial as model scale, and establish UserRL as a practical pathway for developing robust user-centric agentic models. All codes and data are public for future research.--------------------------------------------------------------------------------
+UserRL: Training Interactive User-Centric Agent via Reinforcement Learning (https://lifelongagent.github.io/Project-Lifelong-Agent/UserRL/index.html)
+citeturn178search0 [wordlim: 200] Crawled: 2 weeks ago; # UserRL: Training Interactive User-Centric Agent via Reinforcement Learning ... ^{1}University of Illinois Urbana-Champaign  ·  ^{2}Salesforce AI Research ... UserRL proposes a unified framework for training and evaluating user-centric agents through standardized gym environments paired with simulated users.
+Part of Project Lifelong Agents
+
+# UserRL: Training Interactive User-Centric Agent via Reinforcement Learning
+
+A unified framework for training and evaluating user-centric LLM agents through standardized gym environments, simulated users, and carefully designed RL rewards.
+
+Cheng Qian^{1}, Zuxin Liu^{2}, Akshara Prabhakar^{2}, Jielin Qiu^{2}, Zhiwei Liu^{2}, Haolin Chen^{2}, Shirley Kokane^{2}, Heng Ji^{1}, Weiran Yao^{2}, Shelby Heinecke^{2}, Silvio Savarese^{2}, Caiming Xiong^{2}, Huan Wang^{2}
+
+^{1}University of Illinois Urbana-Champaign  ·  ^{2}Salesforce AI Research
+
+📄 Paper 📊 UserBench 🙌 Cite ♾️ Project Lifelong Agent
+
+Abstract
+
+## TL;DR
+
+Reinforcement learning has shown promise in training agentic models for dynamic, multi-turn interactions — but most existing frameworks optimize for task completion, not user satisfaction. The diversity and dynamics of real user interactions pose fundamentally different challenges.
+
+UserRL proposes a unified framework for training and evaluating user-centric agents through standardized gym environments paired with simulated users. By systematically varying turn-level reward assignment and trajectory-level score calculation, UserRL reveals how different reward formulations affect learning under GRPO — establishing a practical pathway for building robust, user-serving agentic models.
+
+0.565
+
+Best avg. score
+(Qwen3-8B trained)
+
++81%
+
+Over raw open-source
+Qwen3 models
+
++20%
+
+Over best closed-source
+(Gemini-2.5-Pro)
+
+8 Gyms
+
+Diverse user-centric
+evaluation environments
+
+Core Framework
+
+## UserRL: Gym Environments × Simulated Users × RL
+
+🏋️
+
+Gym Environments
+
+Standardized multi-turn interaction environments built on UserBench — covering diverse user-assistance tasks with reproducible evaluation protocols.
+
+🎭
+
+Simulated Users
+
+LLM-based user proxies (GPT-4o or Qwen3-32B) that generate realistic requests, respond to agent clarifications, and provide feedback signals for reward computation.
+
+🎯
+
+Reward Design
+
+Systematic variation of turn-level reward assignment and trajectory-level score calculation — analyzed for impact on GRPO learning stability and final performance.
+
+UserRL builds upon UserBench — a comprehensive benchmark for evaluating user-centric agent capabilities across 15 task types and multiple interaction modes.
+
+Approach
+
+--------------------------------------------------------------------------------
+An Evaluation Methodology for Interactive Reinforcement Learning with Simulated Users - PMC (https://pmc.ncbi.nlm.nih.gov/articles/PMC7985787/)
+citeturn178search1 [wordlim: 200] Published: 5.7 years ago; Crawled: 2 months ago; Previous work has shown that human advice could significantly improve learning agents’ performance. ... They offer a quantitative method for representing and simulating humans for the evaluation and training of machine learning methods [17,18]. ... Both areas of research suffer from the same issues as IntRL: human testing is expensive and time-consuming, and controlled experiments and comparisons are difficult [33,42]. ...   * Probabilistic model: it uses a data-driven approach for representing the intended user of the system [44,45]. ... The purpose of the methodology is to describe a method for using simulated users to interact with an agent so that information can be collected showing how different levels of the human-interaction characteristics (accuracy, availability, etc.) affect the agents learning and performance.
+## Abstract
+
+Interactive reinforcement learning methods utilise an external information source to evaluate decisions and accelerate learning. Previous work has shown that human advice could significantly improve learning agents’ performance. When evaluating reinforcement learning algorithms, it is common to repeat experiments as parameters are altered or to gain a sufficient sample size. In this regard, to require human interaction every time an experiment is restarted is undesirable, particularly when the expense in doing so can be considerable. Additionally, reusing the same people for the experiment introduces bias, as they will learn the behaviour of the agent and the dynamics of the environment. This paper presents a methodology for evaluating interactive reinforcement learning agents by employing simulated users. Simulated users allow human knowledge, bias, and interaction to be simulated. The use of simulated users allows the development and testing of reinforcement learning agents, and can provide indicative results of agent performance under defined human constraints. While simulated users are no replacement for actual humans, they do offer an affordable and fast alternative for evaluative assisted agents. We introduce a method for performing a preliminary evaluation utilising simulated users to show how performance changes depending on the type of user assisting the agent. Moreover, we describe how human interaction may be simulated, and present an experiment illustrating the applicability of simulating users in evaluating agent performance when assisted by different types of trainers. Experimental results show that the use of this methodology allows for greater insight into the performance of interactive reinforcement learning agents when advised by different users. The use of simulated users with varying characteristics allows for evaluation of the impact of those characteristics on the behaviour of the learning agent.
+
+## 1. Introduction
+
+Reinforcement learning (RL) is a machine learning technique that allows artificial intelligence to learn from experience. RL agents attempt to refine their behaviour through interaction with the environment [1]. ## 3. Simulated Users
+
+A simulated user is an automated entity designed to replicate the functions of a human user. The purpose is to allow rapid and controlled training and testing. Instead of relying on human assistance, the agent relies on a simulated user whose source of expertise is defined ahead of time. They offer a quantitative method for representing and simulating humans for the evaluation and training of machine learning methods [17,18].
+
+Simulated users are not a replacement for actual humans, however, they do offer a suitable method for gathering indicative results regarding agent performance when assisted. Simulated users are not a method for acquiring new information about the behaviour or a problem, instead, they require an existing solution or collection of pertinent information to be of use to the agent. As such, simulated users are limited to the testing and evaluation of agents on existing problems and not against new domains. Nevertheless, simulated users can address concerns regarding human involvement: expense, time, variability, and repeatability.
+## 4. Evaluative Methodology Using Simulated Users in Interactive Reinforcement Learning
+
+The primary contribution of this paper is a methodology for evaluating IntRL agents by employing simulated users. Simulated users offer a method for interacting with an RL agent in place of an actual human, speeding up testing and development, and removing the need for human trials. The use of simulated users as an analogue for human advisors leads to rapid development and for producing indicative results.
+
+The application of simulated users enables a methodical and empirical approach to develop IntRL techniques. This approach is faster and cheaper than using human users, particularly when a broad evaluation of human characteristics is to be tested. Additionally, the use of simulated users does not require human trials or ethics approval, both of which are time-consuming and potentially expensive. Moreover, simulated users provide control over the characteristics of human-sourced information such as accuracy and knowledge level. Simulated users can be modelled to represent a variety of different human users. This ability to model intended users and use them to assess IntRL agents provides insight into how an agent will perform under different conditions. These conditions reflect the characteristics of human-sourced information. For example, these evaluations can demonstrate how an agent performs with increasing amounts of inaccurate information, or how the number of interactions affects performance. Additionally, these assessments of IntRL can be performed very rapidly, and with considerably more control, compared to using human users.
+
+### Proposed Methodology
+
+A general methodology for employing simulated users for the evaluation of IntRL techniques is described here. The purpose of the methodology is to describe a method for using simulated users to interact with an agent so that information can be collected showing how different levels of the human-interaction characteristics (accuracy, availability, etc.) affect the agents learning and performance. The methodology for implementing a simulated user is straightforward, consisting of three phases: construction of the interactive model, implementation of the interactive agent, and evaluation of the interactive approach.
+
+During the first phase, construction of the interactive model, requirements of the analogue are identified, and the user model is created. The model used to represent the simulated user depends on the interaction characteristic being replicated, as some models are better suited to some characteristics than others. Accuracy, for example, may be best represented using a probabilistic model, allowing the level of accuracy to be quickly and easily altered. However, knowledge level may be represented heuristically, as a set of rules can be used to generalise a solution for a large state space. Simulated users may be models from results collected from human trials, generated from datasets, or reverse engineered from environment dynamics. Alternatively, multiple models may be generated to cover a range of possible values for a characteristic. --------------------------------------------------------------------------------
+EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents (https://arxiv.org/abs/2610.16523)
+citeturn178academia13 [wordlim: 200] Published: 3 days ago; Title: EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents ... Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. ... Across three interactive-agent benchmarks and two backbone models, EAU consistently outperforms prior RL methods, improving the overall score over the strongest baseline by 14.7--15.0% and increasing successful task completion on ColBench by up to 36.7%, showing that co-evolving the training system with the policy can substantially improve multi-turn RL.
+Title: EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents
+Authors: Min Cai, Dan Zhang, Gao Xing, Libin Ma, Zhaohui Xu, Xi Ye
+Date: Mon Oct 12 10:11:38 2026
+
+Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. Simulated users can be stochastic or inconsistent, while environments may contain unreliable tools, incomplete state coverage, and incorrect verifiers. Prior work mainly addresses the resulting instability through reward shaping or denser supervision, while treating these components as fixed. We instead introduce EAU, a meta-agent framework for environment--agent--user co-evolution. During training, EAU monitors trajectories, tool traces, rewards, and training statistics; diagnoses failures and uninformative interactions; and proposes targeted modifications to the user simulator, environment, reward design, and RL configuration. Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy. These adaptations also persist across runs, so later training can build on previously discovered improvements rather than restarting from a fixed setup. We enable this process through an editable symbolic representation of user and environment dynamics, while the agent remains a neural LLM optimized with RL. Across three interactive-agent benchmarks and two backbone models, EAU consistently outperforms prior RL methods, improving the overall score over the strongest baseline by 14.7--15.0% and increasing successful task completion on ColBench by up to 36.7%, showing that co-evolving the training system with the policy can substantially improve multi-turn RL.--------------------------------------------------------------------------------
+User simulation - Amazon Bedrock AgentCore (https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/user-simulation.html)
+citeturn178search2 [wordlim: 200] Crawled: yesterday; User simulation uses an LLM-backed actor to play the role of an end user interacting with your agent. ...   * Evaluate open-ended conversations: For agents that handle free-form dialogue (customer support, tutoring, advisory), simulated scenarios better reflect real user behavior than fixed turn sequences.
+
+User simulation - Amazon Bedrock AgentCore
+
+# User simulation
+
+User simulation uses an LLM-backed actor to play the role of an end user interacting with your agent. You define the actor’s profile and goal, and the actor drives a multi-turn conversation with your agent until the goal is met or the turn limit is reached.
+
+###### Note
+
+User simulation invokes Amazon Bedrock models on the SDK side to generate the actor’s responses. Standard Amazon Bedrock model invocation charges apply for these calls. For details, see the AgentCore pricing page.
+
+This is useful when you want to:
+
+  * Test with realistic variation: The actor generates different phrasings, follow-up questions, and conversation paths each run, exposing edge cases that hand-authored scenarios miss.
+
+  * Evaluate open-ended conversations: For agents that handle free-form dialogue (customer support, tutoring, advisory), simulated scenarios better reflect real user behavior than fixed turn sequences.
+
+  * Scale scenario coverage: Instead of writing dozens of multi-turn scripts by hand, define actor profiles with different personas and goals and let the actor generate the conversations.
+--------------------------------------------------------------------------------
+Simulate agent behavior  |  Gemini Enterprise Agent Platform  |  Google Cloud Documentation (https://docs.cloud.google.com/gemini-enterprise-agent-platform/optimize/evaluation/evaluate-simulated)
+citeturn178search3 [wordlim: 200] Crawled: yesterday;   * Initialize the SDK: If you plan to run simulation programmatically, install the Agent Platform SDK and initialize the client as described in Evaluate your agents.Simulation allows you to build a comprehensive evaluation suite from scratch, even without existing production data. ... Simulate Sessions: Execute those specs by having a simulated user interact with your agent to produce behavior traces. ... In the Google Cloud console, navigate to the Agent Platform > Agents > Evaluation page. ...         instruction='You are a travel expert, help users to find flights, book flights with flight ID',
+
+  2. Simulate Sessions: Execute those specs by having a simulated user interact with your agent to produce behavior traces. A trace is a factual, immutable record of the agent's behavior, including model inputs, responses, and tool calls.
+
+In the first step, the system creates eval cases. An eval case is a specification that defines an agent's task. Each case consists of two elements:
+
+  * Starting Prompt: The first message a user sends to the agent.
+  * Conversation Plan: A hidden "instruction" for the simulated user, describing their goals and how they should react if the agent asks certain questions.
+
+In the second step, the system generates list of agent behaviors in canonical agent data format.
+
+### Generate scenarios in the console
+
+  1. In the Google Cloud console, navigate to the Agent Platform > Agents > Evaluation page.
+
+Go to Evaluation
+
+  2. Click New evaluation and select Simulate sessions.
+
+  3. Enter a Generation instruction to guide the scenarios (for example, "Generate scenarios where the user tries to book a flight but then changes their mind").
+--------------------------------------------------------------------------------
+An Evaluation Methodology for Interactive Reinforcement Learning with Simulated Users (https://www.mdpi.com/2313-7673/6/1/13)
+citeturn178search4 [wordlim: 200] Published: 5.7 years ago; Crawled: last week; Reinforcement learning (RL) is a machine learning technique that allows artificial intelligence to learn from experience. ... Additionally, the use of a simulated user allows characteristics such as accuracy to be specifically set, providing insight into how these characteristics alter agent performance. ... Additionally, participants become increasingly biased as they familiarise themselves with the processes and dynamics of the experiment or become tired or uninterested, making the comparison of methods/agents difficult. ... In this regard, simulated users may offer a consistent, reliable, and quantifiable method for replicating human interactions to a degree suitable for providing indicative results.
+--------------------------------------------------------------------------------
+UserSim/docs/methodology.md at main · NVIDIA-NeMo/UserSim · GitHub (https://git.mitgai.net/NVIDIA-NeMo/UserSim/blob/main/docs/methodology.md)
+citeturn178search5 [wordlim: 200] Crawled: 2 days ago; You need realistic user traffic to evaluate and improve your model, but you don't have traffic until the model is live. ... English-centric evaluation and training pipelines cannot help here.Multilingual, culturally grounded user simulation is not a nice-to-have for sovereign AI; it is a prerequisite. ... NeMo User Sim takes a different path: simulate a statistically representative population of users interacting with your LLM, sampled from persona datasets (e.g., census-grounded; see personas.md), producing structured evaluation signals and training data automatically, with controllable coverage over languages, demographics, interaction styles, and probe complexity. ... Waymo leaned heavily on simulation early on (long before they had a large fleet), running billions of simulated miles grounded in real driving distributions to test rare scenarios and iterate faster than road data alone would allow. ...   * Reactive frustration: when the assistant is judged inadequate, the user agent receives escalating frustration prompts (pushing back, repeating requests, threatening to leave).
+--------------------------------------------------------------------------------
+Simulated Users for Agent Evaluation: Journeys, Adversarial Prompts and Tool Outcomes | Amestris (https://amestris.com.au/blog/agent-evaluation-simulated-users)
+citeturn178search6 [wordlim: 200] Crawled: 2 weeks ago; # Simulated Users for Agent Evaluation: Journeys, Adversarial Prompts and Tool OutcomesAmestris · AI consulting & adoption · 2 min read ... Simulated users are not about replacing real user testing. ... How to evaluate agents with simulated user journeys that test tool use, recovery, safety and end-to-end task success.
+--------------------------------------------------------------------------------
+Faithful LLM User Simulation | Zhuoyun Du (https://xiaodu-flying.github.io/posts/faithful-llm-user-simulation/index.html)
+citeturn178search7 [wordlim: 200] Published: 3 months ago; Crawled: today; ## Faithful LLM User Simulation: Closing the Gap Between Synthetic Users and Real People ... Interactive agents are difficult to improve without interaction data. ... These advantages explain why simulation is becoming part of the infrastructure around agent development. ...   * Building Realistic Multi-Turn Tests for AI Agents — studies the ALMA testing pipeline, which converts procedures into dialogue graphs and injects interruptions and detours. ... The papers in this area suggest that a useful simulator should be treated as a system with five interacting layers. ... Policy  | How does the user react to the agent and environment?
+--------------------------------------------------------------------------------
+[2610.16523] EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents (https://borowiecki.dev/abs/2610.16523)
+citeturn178search8 [wordlim: 200] Published: 4 days ago; Crawled: 2 days ago; View a PDF of the paper titled EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents, by Min Cai and Dan Zhang and Gao Xing and Libin Ma and Zhaohui Xu and Xi Ye ... > Abstract:Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. ... Across three interactive-agent benchmarks and two backbone models, EAU consistently outperforms prior RL methods, improving the overall score over the strongest baseline by 14.7--15.0% and increasing successful task completion on ColBench by up to 36.7%, showing that co-evolving the training system with the policy can substantially improve multi-turn RL.Subjects:  | Artificial Intelligence (cs.AI); Computation and Language (cs.CL); Machine Learning (cs.LG)
+--------------------------------------------------------------------------------
+SAGE : A Top-Down Bottom-Up Knowledge-Grounded User Simulator for Multi-turn Agent Evaluation - ACL Anthology (https://aclanthology.org/2026.findings-eacl.147/)
+citeturn178search9 [wordlim: 200] Published: 7 months ago; Crawled: today; Evaluation with simulated users has been introduced as an alternative, however existing approaches typically model generic users and overlook the domain-specific principles required to capture realistic behavior.We propose SAGE, a novel user Simulation framework for multi-turn AGent Evaluation that integrates knowledge from business contexts. ... Through empirical evaluation, we find that this approach produces interactions that are more realistic and diverse, while also identifying up to 33% more agent errors, highlighting its effectiveness as an evaluation tool to support bug-finding and iterative agent improvement.
+--------------------------------------------------------------------------------
+Paper page - Beyond Cooperative Simulators: Generating Realistic User Personas for Robust Evaluation of LLM Agents (https://huggingface.co/papers/2605.12894)
+citeturn178search10 [wordlim: 200] Crawled: 3 weeks ago; LLM-based user simulators with evolved behavioral variations demonstrate improved realism and agent robustness in diverse interaction scenarios. ... However, collecting real interaction data at scale remains expensive. ... As a result, agents that appear strong in simulation often fail under the unseen, diverse communication patterns of real users. ... Agents trained with PPol are more robust to challenging, out-of-distribution behaviors, improving task success by +17% relative to training only on existing simulated interactions.
+--------------------------------------------------------------------------------
+SimUser: Generating Usability Feedback by Simulating Various Users Interacting with Mobile Applications | Proceedings of the 2024 CHI Conference on Human Factors in Computing Systems (https://doi.org/10.1145/3613904.3642481)
+citeturn178search11 [wordlim: 200] Published: 2.4 years ago; Crawled: last week; To help LLMs reduce toxicity in persona generation [17], more user data from online analytics and web technologies which liberate static personas via interactive user interfaces are utilized to improve LLMs’ ability of in-context learning [9]. ... Current user modeling research provides methods to assist LLM in representing user characteristics during simulation. ... Simulated users must be capable of understanding and interacting with the interface for assessment of mobile application usability through user flow simulation. ... To simulate the interaction between users and applications, we segment SimUser into two distinct LLM sub-agents: the Mobile Application Agent (MA) and the User Agent (UA), which is inspired by ReAct [93]. ... We realize that LLM agents often adopt a machine-like logic to understand interfaces, such as skipping the browsing process but directly locating the target widget.
+--------------------------------------------------------------------------------
+USimAgent: Large Language Models for Simulating Search Users (https://arxiv.org/abs/2403.09142)
+citeturn178academia14 [wordlim: 200] Published: 2.6 years ago; Due to the advantages in the cost-efficiency and reproducibility, user simulation has become a promising solution to the user-centric evaluation of information retrieval systems.Nonetheless, accurately simulating user search behaviors has long been a challenge, because users' actions in search are highly complex and driven by intricate cognitive processes such as learning, reasoning, and planning. ... Empirical investigation on a real user behavior dataset shows that the proposed simulator outperforms existing methods in query generation and is comparable to traditional methods in predicting user clicks and stopping behaviors. ... The code and data are accessible at https://github.com/Meow-E/USimAgent.
+--------------------------------------------------------------------------------
+Simulating User Agents for Embodied Conversational-AI (https://arxiv.org/abs/2410.23535)
+citeturn178academia15 [wordlim: 200] Published: 2.0 years ago; Embodied agents designed to assist users with tasks must engage in natural language interactions, interpret instructions, execute actions, and communicate effectively to resolve issues. ... Such a user agent assists in improving the scalability and efficiency of embodied dialogues dataset generation and is critical for enhancing and evaluating the robot's interaction and task completion ability, as well as for research in reinforcement learning using AI feedback.We evaluate our user agent's ability to generate human-like behaviors by comparing its simulated dialogues with the TEACh dataset.
+--------------------------------------------------------------------------------
+A User Simulator Architecture for Socially-Aware (https://articulab.hcii.cs.cmu.edu/wordpress/wp-content/uploads/2018/11/IVA2018.pdf)
+citeturn178search16 [wordlim: 200] Published: 2.2 years ago; the method of choice for data-driven dialog management. ... agents, that combine task and social functions. ... matics; Reinforcement learning; Modeling and simulation; ... User simulator, dialog system, conversational agent, rapport ... assistants such as Apple Siri, Amazon Echo, Microsoft Cortanaand Google Home focus on users’ propositional goals by getting a ... or interpersonal closeness with a user to improve the effectiveness ... an agent should not recommend something to its users before ask-
+--------------------------------------------------------------------------------
+Simple task-actor protocol (https://en.wikipedia.org/wiki/Simple_task-actor_protocol)
+citeturn178search17 [wordlim: 200] Crawled: 11 months ago; STAP enables symmetric user-interface access for AI and human users. ... Humans aren't enough: Providing access for simulated participants to behavioral experiment software. ... In its focus to make human software usable by machine agents, STAP aims to eliminate non-task-essential design choices (e.g. font type/size may be irrelevant for many task types), leaving those to be optionally specified via customizable templates (e.g. ... * cross-platform, web-friendly ... * consistent cross-task API, allowing computational agents to interact with the same sw that that human users interact with ... * scalable (i.e., core API is minimal, additional UI feature handlers can be added to agent framework on a per-task basis)
+--------------------------------------------------------------------------------
+nism. Our platform allows simulated user actions such as liking, reviewing, or purchasing items to dynamically update item attributes in real time. Furthermore, we introduce *Merchant Agents* capable of replying to users, further enriching the dynamic nature of the simulated ecosystem. To achieve high-fidelity simulations, we integrate three components. Firstly, a *Multidimensional User Profiling* module to construct detailed user profiles from historical data. Secondly, our platform’s *User Agents* are engineered with *sophisticated memory systems* (encompassing both perceptual and cognitive faculties) and advanced action selection mechanisms to more accurately emulate human decision-making processes. Thirdly, a *Behavior Simulation Training* pipeline is employed to fine-tune the LLM-based agents using high-quality, CoT enriched interaction data. (https://aclanthology.org/2025.emnlp-main.956.pdf)
+citeturn178search18 [wordlim: 200] Published: last year; Furthermore, we introduce *Merchant Agents* capable of replying to users, further enriching the dynamic nature of the simulated ecosystem. ... Thirdly, a *Behavior Simulation Training* pipeline is employed to fine-tune the LLM-based agents using high-quality, CoT enriched interaction data. ... - Through Multidimensional User Profiling, Advanced Agent Architecture and Behavior Simulation Training, we achieve a higher authentication of simulated user behaviors, significantly surpassing previous methods. ... The SANDBOX framework (Liu et al., 2023) explores social issues through multi-agent interaction to support LLM alignment with ethical norms, while WereWolf and AgentSims (Xu et al., 2023; Lin et al., 2023) use game-like environments to examine complex group dynamics. ... Building on these advancements, our research explores how user feedback and merchant replies dynamically influence item attributes, enabling more
+--------------------------------------------------------------------------------
+Simulating User Agents for Embodied (https://openreview.net/attachment?id=xcok2UNQvB&name=pdf)
+citeturn178search19 [wordlim: 200] Published: 2.0 years ago; Embodied agents designed to assist users with tasks must possess the ability ... user agent that can simulate user behavior during interactions with an embodied ... agent assists in improving the scalability and efficiency of embodied dialogues ... and task completion ability, as well as for future research, such as reinforcementlearning using AI feedback. ... like behaviors by comparing its simulated dialogues with the benchmark TEACh
+--------------------------------------------------------------------------------
+management. (https://aclanthology.org/2025.findings-acl.729.pdf)
+citeturn178search20 [wordlim: 200] Published: 1.3 years ago; Although some of our demonstrations relied on access to the coaching agents’ internal user model, the simulated interactions generated by our framework can be evaluated in a way that is agnostic to the design of the agent, so the framework can be applied to any conversational agents. ... The ultimate goal of performing this evaluation is to improve the coaching agent itself using the metrics and signals derived from this work, which is left for future research. ... We hope that grounded, rich, and diverse personas of synthetic users we developed in this work will significantly support the process of evaluating and improving personalized agents adapting to evolving user behaviors and needs.
+--------------------------------------------------------------------------------
+Simulating User Agents for Embodied (https://openreview.net/pdf/5710d879b4f077c39199d79f3bff3dc5213e27a9.pdf)
+citeturn178search21 [wordlim: 200] Published: 1.3 years ago; The simulated user agent can interact with the embodied agent to synthesize dialogue datasets, ... However, in the case of embodied AI, users ... interacting with embodied agents, thereby enhancing the capabilities of embodied conversational AI ... user in user simulation. ... Many previous studies proposed methods for building user simulators for TODS [Schatzmann and
+--------------------------------------------------------------------------------
+AI as Synthetic Users in Human-Centred Design: (https://docs.mipro-proceedings.com/hci/08_16881_hci.pdf)
+citeturn178search22 [wordlim: 200] Published: last year; synthetic usage data for a prototype mobile health app in ... artificial but human-like activity patterns, improving the ... simulator using GPT-3 that could chat with another chatbot ... ChatGPT as a simulated user to perform low-cost ... During prototyping, AI 'simulated users' can provide ... apps, other forms of user simulation have been explored. ... agents, each configured with different user profiles and ... interface and logs any points where an agent gets 'stuck' or ... researchers have used AI planning and computer vision ... Perhaps the most active area of synthetic user research
+--------------------------------------------------------------------------------
+Crowd simulation (https://en.wikipedia.org/wiki/Crowd_simulation)
+citeturn178search23 [wordlim: 200] Crawled: 9 months ago; Simulations that use this model often do so to research crowd dynamics such as jamming and flocking. ... ACM Transactions on Modeling and Computer Simulation. ... One set of techniques for AI-based crowd simulation is to model crowd behavior by advanced simulation of individual agent motivations and decision-making. ... Each agent may have certain aspects of their personality tuned based on a formula that associates aspects such as aggressiveness or impulsiveness with variables that govern the agents' behavior. ... For non-spatial situations, the character is affected only once the user assigns the situation to the character. ... A Decision Network Framework for the Behavioral Animation of Virtual Humans. ... There are a wide variety of machine learning algorithms that can be applied to crowd simulations. ... After calculating this data, it is then stored in the agent's knowledge and the agent proceeds to act from there.
+--------------------------------------------------------------------------------
+Reinforcement learning from human feedback (https://en.wikipedia.org/wiki/Reinforcement_learning_from_human_feedback)
+citeturn178search24 [wordlim: 200] Crawled: 5 months ago; This model then serves as a reward function to improve an agent's policy through an optimization algorithm like proximal policy optimization.RLHF has applications in various domains in machine learning, including natural language processing tasks such as text summarization and conversational agents, computer vision tasks like text-to-image model s, and the development of video game bot s. ... Human-Centered AI: An Illustrated Scientific Quest (Human-Computer Interaction Series). ... While ranking outputs is the most widely adopted form of feedback, recent research has explored other forms, such as numerical feedback, natural language feedback, and prompting for direct edits to the model's output. ... This improvement is expected as long as the comparisons it learns from are based on a consistent and simple rule.Both offline data collection models, where the model is learning by interacting with a static dataset and updating its policy in batches, as well as online data collection models, where the model directly interacts with the dynamic environment and updates its policy immediately, have been mathematically studied proving sample complexity bounds for RLHF under different feedback models.
+--------------------------------------------------------------------------------
+Algorithm aversion (https://en.wikipedia.org/wiki/Algorithm_aversion)
+citeturn178search25 [wordlim: 200] Crawled: today; This method is particularly effective in domains where human intuition and context are critical, such as recruitment, education, and financial planning. ... Explainable AI (XAI) methods, such as visualizations of decision pathways or feature importance metrics, make these explanations accessible and comprehensible, allowing users to make informed decisions about whether to trust the algorithm. ... Customization features, such as the ability to prioritize certain factors (e.g., cost or sustainability in product recommendations), further enhance user satisfaction by aligning outputs with their unique needs.
+--------------------------------------------------------------------------------
+Language model benchmark (https://en.wikipedia.org/wiki/Language_model_benchmark)
+citeturn178search26 [wordlim: 200] Crawled: 5 months ago; The user is simulated by a language model. ... Tasks are synthesized by LLM-generated product requirements document, agent database schema, agent tools, and user environments ("mocked phone"). ... * WebArena: 241 mo...

@@ -59,17 +59,28 @@
     {
       "round": 4,
       "label": "authority-entity-relations",
-      "status": "awaiting_merge",
+      "status": "complete_inconclusive",
       "pr": 13,
       "candidate_commit": "99fd970",
       "inner_candidate_score": 99.0,
       "inner_delta_vs_round_3": 6.67,
-      "candidate_summary": "round-4-authority-relations/candidate-summary.json"
+      "candidate_summary": "round-4-authority-relations/candidate-summary.json",
+      "production_merge_commit": "18ad3f754d52e2b0bbbee3b95883b384ffcdb8a8",
+      "outer_score": 25.42,
+      "outer_delta_vs_round_3": -2.08,
+      "paired_outer_score": 29.69,
+      "paired_delta_vs_round_3": -1.15,
+      "summary": "round-4-authority-relations/summary.json"
     },
     {
       "round": 5,
       "label": "cross-engine-residuals",
-      "status": "planned"
+      "status": "awaiting_merge",
+      "pr": 14,
+      "candidate_commit": "e0e9a68",
+      "inner_candidate_score": 99.0,
+      "inner_delta_vs_round_4": 0.0,
+      "candidate_summary": "round-5-cross-engine-residuals/candidate-summary.json"
     }
   ],
   "plot_contract": {
@@ -91,5 +102,10 @@
       "tavily-search",
       "exa-search"
     ]
+  },
+  "decision_policy": {
+    "inner_loop": "eligibility proxy only; must not regress or violate guardrails",
+    "outer_loop": "final promotion criterion",
+    "failure_handling": "report all scheduled cells, valid-response cells, and matched valid pairs separately"
   }
 }

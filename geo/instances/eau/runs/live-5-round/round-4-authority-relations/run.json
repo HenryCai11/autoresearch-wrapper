@@ -8,8 +8,8 @@
   "production_url": "https://eau-meta-agent.github.io/",
   "query_count": 15,
   "query_set_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
-  "measurement_phase": "pre_merge_candidate",
-  "outer_status": "awaiting_merge",
+  "measurement_phase": "post_merge_production",
+  "outer_status": "complete_inconclusive",
   "candidate_commit": "99fd970",
   "pull_request": 13,
   "inner_candidate_score": 99.0,
@@ -24,5 +24,14 @@
       "version": "v2",
       "score": 99.0
     }
-  ]
+  ],
+  "production_merge_commit": "18ad3f754d52e2b0bbbee3b95883b384ffcdb8a8",
+  "merged_at": "2026-10-16T09:48:06Z",
+  "deployment_status": "built",
+  "outer_score": 25.42,
+  "outer_delta_vs_round_3": -2.08,
+  "outer_answer_success_rate": 0.8333,
+  "paired_outer_score": 29.6875,
+  "paired_delta_vs_round_3": -1.1458,
+  "repeat_status": "partially_completed_then_interrupted_for_speed"
 }

@@ -1,0 +1,44 @@
+{
+  "round3_all": {
+    "mention_rate": 0.6833,
+    "attribution_rate": 0.5833,
+    "citation_rate": 0.1167,
+    "mrr": 0.0417,
+    "score": 27.5,
+    "n": 60
+  },
+  "round4_all": {
+    "mention_rate": 0.6333,
+    "attribution_rate": 0.55,
+    "citation_rate": 0.1,
+    "mrr": 0.0417,
+    "score": 25.4167,
+    "n": 60
+  },
+  "round4_valid_only": {
+    "mention_rate": 0.76,
+    "attribution_rate": 0.66,
+    "citation_rate": 0.12,
+    "mrr": 0.05,
+    "score": 30.5,
+    "n": 50
+  },
+  "paired_n": 48,
+  "round3_paired": {
+    "mention_rate": 0.7708,
+    "attribution_rate": 0.6667,
+    "citation_rate": 0.125,
+    "mrr": 0.0417,
+    "score": 30.8333,
+    "n": 48
+  },
+  "round4_paired": {
+    "mention_rate": 0.7708,
+    "attribution_rate": 0.6667,
+    "citation_rate": 0.1042,
+    "mrr": 0.0312,
+    "score": 29.6875,
+    "n": 48
+  },
+  "paired_delta": -1.1458
+}
