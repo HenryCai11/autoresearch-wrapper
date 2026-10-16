@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "operation": "Read-only patch applicability check; no deployment performed",
+  "checked_production_commit": "b70597085286d4ff4c2d3de78f25d95581835b98",
+  "target_candidate_commit": "8e9ed309a7a60fb31cef6649f12374ad801f2a4b",
+  "target_tree": "ccf91bf07379aae81ec4ba3c698803d0bd69368c",
+  "patch": "production-to-candidate.patch",
+  "check": "git apply --check --unidiff-zero production-to-candidate.patch",
+  "note": "This is a zero-context patch. A plain git apply --check rejects it; --unidiff-zero passes. Use apply_patch for actual file edits in an isolated deploy branch after approval, then verify the full target tree. Do not blindly merge the R9-based feature branch into R10.",
+  "current_production_unchanged": true,
+  "requires_new_publication_approval": true
+}

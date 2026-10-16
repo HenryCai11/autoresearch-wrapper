@@ -1,0 +1,84 @@
+{
+  "round": 11,
+  "change_id": "r11-reference-cluster-without-r7",
+  "pool_candidate_id": "reference-cluster-without-r7",
+  "state": "deployed_and_measured",
+  "files": [
+    "index.html"
+  ],
+  "graph_nodes": [
+    "section:overview"
+  ],
+  "base_production_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+  "base_production_tree": "5ebd5d1c28e00690d58caafa0edfe066ae5307d7",
+  "base_role": "historical best seed, NOT current production",
+  "current_production_commit": "b70597085286d4ff4c2d3de78f25d95581835b98",
+  "current_production_tree": "14fdd73cd91dc01843dbe6a57b8f172cd249ea98",
+  "parents": [
+    "r2",
+    "r3",
+    "r4",
+    "r6",
+    "r8",
+    "r9"
+  ],
+  "restore_overview_from": "e6b74d333b09c30619d5c3c61c95fa066ee50188",
+  "hypothesis": "Test the retained R8 reference cluster and R9 static evidence with the pre-R7 overview; do not infer a combination score from historical results.",
+  "selection": {
+    "primary_metric": "live_project_citation_rate",
+    "goal": "maximize",
+    "definition": "100 * frozen geo_eval site_cited cells / 60; bare project-domain occurrences count under the existing judge.",
+    "engines": [
+      "gpt-web",
+      "codex-search",
+      "tavily-search",
+      "exa-search"
+    ],
+    "validity": "All 60 frozen query-engine cells must return valid responses for automatic ranking.",
+    "inner_metric": "not computed and not used",
+    "baseline": "Best fully observed R9 seed: preserved 2026-10-16T13:09:24Z observation, 8/60 citations, composite 30.25; reused historical control, not new searches.",
+    "current_production": "R10 is still deployed and had 6/60, composite 28.0556; contextual only, not the R11 keep threshold.",
+    "deployment": "Require explicit R11 publication approval, all four resources differing from current R10 byte-verified, and real 60-cell observations before evaluating the candidate.",
+    "history": "Retain all discarded candidates and queued proposals; never add parent metrics to rank a combination.",
+    "limitations": "Historical single samples do not establish causal effects or exclude indexing lag. No automatic deployment or rollback."
+  },
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+  "unchanged_vs_seed": [
+    "R8 reference cluster",
+    "R9 static results",
+    "all other sections and files",
+    "scripts",
+    "styles",
+    "metadata",
+    "knowledge map",
+    "queries",
+    "judge",
+    "engine settings"
+  ],
+  "excluded_unkept_delta": "R10 shared scholarly identity is not in the R9 seed; its branch and observations remain preserved.",
+  "deployment_plan": "Do not blindly merge this R9-based candidate onto R10: that would retain R10 metadata. After explicit approval, use an isolated deploy branch based on current main, apply the saved production-to-candidate patch, verify exact candidate tree, then merge and publish. All four changed pages need served-byte proof.",
+  "candidate_commit": "8e9ed309a7a60fb31cef6649f12374ad801f2a4b",
+  "candidate_tree": "ccf91bf07379aae81ec4ba3c698803d0bd69368c",
+  "wrapper_run_id": "20261016T140844Z-index-html",
+  "candidate": {
+    "based_on": "autoresearch/index-html/20261016T140844Z-index-html/seed",
+    "branch": "autoresearch/index-html/20261016T140844Z-index-html/candidate-001",
+    "candidate_id": "candidate-001",
+    "created_at": "2026-10-16T14:08:45+00:00",
+    "lifecycle": "allocated",
+    "missing": false,
+    "worktree_path": "/scratch/henrycai/eau-r11-20261016.autoresearch-worktrees/20261016T140844Z-index-html/candidate-001"
+  },
+  "production_changed_files": [
+    "index.html",
+    "method.html",
+    "paper.html",
+    "research-context.html"
+  ],
+  "selection_seed_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+  "selection_seed_tree": "5ebd5d1c28e00690d58caafa0edfe066ae5307d7",
+  "production_merge_commit": "c744ba125108d003ea61e8b89807e274ffaa6e4e",
+  "outer_selection": "discard",
+  "selection_record": "r11-live/wrapper-record.json",
+  "authorization": "User explicitly approved publishing R11 and measuring it."
+}

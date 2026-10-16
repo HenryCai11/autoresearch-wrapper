@@ -1,0 +1,23 @@
+{
+  "measurements": [
+    {
+      "label": "r9-best-reused-control",
+      "deployed_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "deployed_tree": "5ebd5d1c28e00690d58caafa0edfe066ae5307d7",
+      "measured_at": "2026-10-16T13:09:24+00:00",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "r9-control/search-matrix.csv",
+      "matrix_sha256": "deebdf85fe8751eb8d7e53f9256a539fe50101ea3403550df06c7ce05a55b577",
+      "verification": "Reused exact R9 deployed tree with preserved complete live evidence; R9 is selection seed, not current production."
+    },
+    {
+      "label": "r11-immediate-live",
+      "deployed_commit": "c744ba125108d003ea61e8b89807e274ffaa6e4e",
+      "deployed_tree": "ccf91bf07379aae81ec4ba3c698803d0bd69368c",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "r11-live/search-matrix.csv",
+      "matrix_sha256": "d4febc65cb52bc1f18b35b71fa073cb00b75c099890a1abdfc13ce8cd1749c05",
+      "verification": "Before/after all four deployed pages equal the merged R11 checkout and exact candidate tree."
+    }
+  ]
+}

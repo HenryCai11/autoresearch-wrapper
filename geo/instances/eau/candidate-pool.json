@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "site_url": "https://eau-meta-agent.github.io/",
-  "updated_at": "2026-10-16T13:53:26+00:00",
-  "current_round": 10,
+  "updated_at": "2026-10-16T14:23:19+00:00",
+  "current_round": 11,
   "maintenance": "Site-specific ledger maintained by the agent when starting or recording a round; not an automatic scheduler or a new wrapper-core search algorithm.",
   "policy": {
     "primary_metric": "live_project_citation_rate",
@@ -16,10 +16,11 @@
     ],
     "validity": "All 60 frozen query-engine cells must return valid responses for automatic ranking.",
     "inner_metric": "not computed and not used",
-    "baseline": "Preserved R9 immediate live observation at 2026-10-16T13:09:24Z: 8/60 citations, 30.25 composite. This is reused, not a new R10 control search.",
-    "deployment": "Require explicit R10 publication approval, all four edited resources byte-verified, and real four-engine observations before candidate evaluation.",
-    "history": "Retain discarded candidates and queued combinations; measure combinations rather than infer their scores.",
-    "limitations": "A single immediate sample with a historical control cannot establish a causal effect; search variation and indexing lag remain possible."
+    "baseline": "Best fully observed R9 seed: preserved 2026-10-16T13:09:24Z observation, 8/60 citations, composite 30.25; reused historical control, not new searches.",
+    "current_production": "R10 is still deployed and had 6/60, composite 28.0556; contextual only, not the R11 keep threshold.",
+    "deployment": "Require explicit R11 publication approval, all four resources differing from current R10 byte-verified, and real 60-cell observations before evaluating the candidate.",
+    "history": "Retain all discarded candidates and queued proposals; never add parent metrics to rank a combination.",
+    "limitations": "Historical single samples do not establish causal effects or exclude indexing lag. No automatic deployment or rollback."
   },
   "modules": [
     {
@@ -908,6 +909,47 @@
       "artifact_dir": "runs/round-10-shared-scholarly-entity",
       "retain_for_combinations": true,
       "status": "measured_bundle_not_isolated_module_effect"
+    },
+    {
+      "id": "r11",
+      "round": 11,
+      "change_id": "r11-reference-cluster-without-r7",
+      "files": [
+        "index.html"
+      ],
+      "parents": [
+        "r2",
+        "r3",
+        "r4",
+        "r6",
+        "r8",
+        "r9"
+      ],
+      "candidate_commit": "8e9ed309a7a60fb31cef6649f12374ad801f2a4b",
+      "production_commit": "c744ba125108d003ea61e8b89807e274ffaa6e4e",
+      "branch": "codex/geo-live-round-11-deploy",
+      "production_changed_files": [
+        "index.html",
+        "method.html",
+        "paper.html",
+        "research-context.html"
+      ],
+      "selection_seed_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 7,
+        "mention_rate": 0.7166666666666667,
+        "found_rate": 0.6333333333333333,
+        "citation_rate": 0.11666666666666667,
+        "attribution_rate": 0.6333333333333333,
+        "mrr": 0.03611111111111111,
+        "score": 28.97222222222222
+      },
+      "decision": "discard",
+      "artifact_dir": "runs/round-11-reference-cluster-without-r7",
+      "retain_for_combinations": true,
+      "status": "measured_bundle_not_isolated_module_effect"
     }
   ],
   "proposals": [
@@ -1027,21 +1069,82 @@
     },
     {
       "id": "reference-cluster-without-r7",
-      "status": "queued_unmeasured",
+      "status": "discard",
+      "deployment_status": "live",
+      "production_commit": "c744ba125108d003ea61e8b89807e274ffaa6e4e",
       "parents": [
         "r2",
         "r3",
         "r4",
-        "r6"
+        "r6",
+        "r8",
+        "r9"
       ],
       "modules": [
+        "homepage-identity",
         "method-reference",
         "research-context",
         "paper-authority",
-        "machine-readable-summary"
+        "presentation"
       ],
-      "base_commit": "e6b74d333b09c30619d5c3c61c95fa066ee50188",
-      "hypothesis": "Test the cluster on R6 to assess interaction with the R7 overview; requires its own approved deployment and comparable control."
+      "base_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "hypothesis": "Test the retained R8 reference cluster and R9 static evidence with the pre-R7 overview; do not infer a combination score from historical results.",
+      "round": 11,
+      "change_id": "r11-reference-cluster-without-r7",
+      "measured": true,
+      "original_proposal": {
+        "id": "reference-cluster-without-r7",
+        "status": "queued_unmeasured",
+        "parents": [
+          "r2",
+          "r3",
+          "r4",
+          "r6"
+        ],
+        "modules": [
+          "method-reference",
+          "research-context",
+          "paper-authority",
+          "machine-readable-summary"
+        ],
+        "base_commit": "e6b74d333b09c30619d5c3c61c95fa066ee50188",
+        "hypothesis": "Test the cluster on R6 to assess interaction with the R7 overview; requires its own approved deployment and comparable control."
+      },
+      "files": [
+        "index.html"
+      ],
+      "module_dependencies": [
+        "R6: exact pre-R7 overview source",
+        "R8: retained cross-module reference routes",
+        "R9: retained static benchmark results"
+      ],
+      "scope": "Restore only section:overview from R6 on the R9 seed. Keep every other R9 byte unchanged.",
+      "reuse_kind": "Rebase the existing no-R7 reference-cluster proposal onto the stronger R9 seed, preserving R9 static evidence instead of resetting to the older R6 tree.",
+      "reason_selected": "R10 did not beat R9. Resume from the best fully observed seed and test an already queued historical combination, rather than carry an unkept metadata edit forward automatically.",
+      "alternatives_deferred": [
+        "external-paper-link-audit",
+        "new visible-identity headline experiment",
+        "R10 shared identity recombination"
+      ],
+      "interpretation": "Measured immediate post-deployment observation against preserved R9; not an isolated causal module effect. Retain for future combinations.",
+      "retain_for_combinations": true,
+      "candidate_commit": "8e9ed309a7a60fb31cef6649f12374ad801f2a4b",
+      "candidate_tree": "ccf91bf07379aae81ec4ba3c698803d0bd69368c",
+      "wrapper_run_id": "20261016T140844Z-index-html",
+      "branch": "autoresearch/index-html/20261016T140844Z-index-html/candidate-001",
+      "measured_at": "2026-10-16T14:23:17+00:00",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 7,
+        "mention_rate": 0.7166666666666667,
+        "found_rate": 0.6333333333333333,
+        "citation_rate": 0.11666666666666667,
+        "attribution_rate": 0.6333333333333333,
+        "mrr": 0.03611111111111111,
+        "score": 28.97222222222222
+      },
+      "measurement_artifact_dir": "runs/round-11-reference-cluster-without-r7/r11-live"
     },
     {
       "id": "static-benchmark-evidence",
@@ -1111,5 +1214,5 @@
       "hypothesis": "Inspect the returned paper entry independently before proposing any author-controlled backlink change."
     }
   ],
-  "selected_candidate_id": "shared-scholarly-entity"
+  "selected_candidate_id": "reference-cluster-without-r7"
 }
