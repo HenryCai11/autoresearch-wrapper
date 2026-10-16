@@ -119,6 +119,11 @@ class GeoEvalTests(unittest.TestCase):
         self.assertEqual({item["@type"] for item in page.json_ld}, {"Person", "ScholarlyArticle"})
         self.assertEqual((page.images, page.images_with_alt), (2, 1))
 
+    def test_load_dir_reads_every_page_of_a_large_site(self) -> None:
+        extras = {f"p{i}/index.html": f"<html><head><title>Page {i}</title></head><body>x</body></html>" for i in range(80)}
+        site = load_site(str(write_site(self.tmp / "big", extras=extras)))
+        self.assertEqual(len(site.pages), 81)
+
     def test_load_dir_requires_built_site(self) -> None:
         with self.assertRaises(FileNotFoundError):
             load_site(str(self.tmp / "empty"))
@@ -139,7 +144,36 @@ class GeoEvalTests(unittest.TestCase):
         self.assertIsNone(row["notes"].cells["search"])
         self.assertGreater(matrix.offline_score(), 80)
         self.assertIn("| Analytical Society | 0 |", matrix.to_markdown())
-        self.assertIn("node,keyword,hop,kind,site,schema,llms,llm,search", matrix.to_csv())
+        self.assertIn("node,keyword,hop,kind,site,snippet,schema,llms,llm,search", matrix.to_csv())
+        self.assertIsNone(row["affiliation"].cells["snippet"])  # v1: not measured
+
+    def test_metric_v2_snippets_and_scholarly_checks(self) -> None:
+        # A paper page with Google Scholar tags, and a homepage whose opening text is short.
+        paper_page = (
+            '<html><head><title>Notes on the Analytical Engine</title>'
+            '<meta name="citation_title" content="Notes on the Analytical Engine">'
+            '<meta name="citation_author" content="Ada Lovelace"></head><body><p>1843 notes.</p></body></html>'
+        )
+        site = load_site(str(full_site(self.tmp / "v2")))
+        technical_v1 = score_technical(site, self.kmap)
+        technical_v2 = score_technical(site, self.kmap, version=2)
+        self.assertNotIn("scholarly", technical_v1.categories)
+        checks = {c.name: c.value for c in technical_v2.checks}
+        self.assertEqual(checks["paper_pages"], 0.0)  # /papers/ is titled "Papers", not the paper
+        self.assertEqual(checks["scholar_meta"], 0.0)
+        tagged = load_site(str(write_site(self.tmp / "v2b", extras={"notes/index.html": paper_page})))
+        checks = {c.name: c.value for c in score_technical(tagged, self.kmap, version=2).checks}
+        self.assertEqual(checks["paper_pages"], 1.0)
+        self.assertEqual(checks["scholar_meta"], 1.0)
+        self.assertEqual(checks["identity_front_loaded"], 1.0)
+
+        # Snippet column: only title, description and the opening text count.
+        matrix = build_matrix(site, self.kmap, snippet_chars=40)
+        cells = {r.node: r.cells for r in matrix.rows}
+        self.assertEqual(cells["affiliation"]["snippet"], 1.0)  # in the meta description
+        self.assertEqual(cells["programming"]["snippet"], 0.0)  # only deep in the page
+        self.assertEqual(cells["programming"]["site"], 1.0)
+        self.assertNotIn("first computer program", build_context(site, 4000, snippet_chars=40).split("[file /llms.txt]")[0])
 
     def test_hop0_must_be_on_homepage(self) -> None:
         home = GOOD_HOME.replace("in the Analytical Society", "").replace("of the Analytical Society", "")

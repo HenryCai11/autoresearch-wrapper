@@ -25,9 +25,11 @@ from .kmap import KnowledgeMap, Node, contains_any
 from .llm import LLMResult
 from .site import Site
 
-COLUMNS = ["site", "schema", "llms", "llm", "search"]
-# Columns that can be computed from a local build, and their weights.
+COLUMNS = ["site", "snippet", "schema", "llms", "llm", "search"]
+# Columns that can be computed from a local build, and their weights. `snippet`
+# (metric v2) is the keyword appearing where a search result would show it.
 OFFLINE_COLUMNS = {"site": 0.5, "schema": 0.3, "llms": 0.2}
+OFFLINE_COLUMNS_V2 = {"site": 0.3, "snippet": 0.25, "schema": 0.25, "llms": 0.2}
 
 
 @dataclass
@@ -58,7 +60,8 @@ class Matrix:
 
     def offline_score(self) -> float:
         """0-100 score over the locally computable columns."""
-        parts = [(weight, self.column_score(column)) for column, weight in OFFLINE_COLUMNS.items()]
+        weights = OFFLINE_COLUMNS_V2 if self.column_score("snippet") is not None else OFFLINE_COLUMNS
+        parts = [(weight, self.column_score(column)) for column, weight in weights.items()]
         measured = [(weight, value) for weight, value in parts if value is not None]
         if not measured:
             return 0.0
@@ -117,8 +120,11 @@ def build_matrix(
     kmap: KnowledgeMap,
     llm: LLMResult | None = None,
     probes: list[dict[str, Any]] | None = None,
+    snippet_chars: int | None = None,
 ) -> Matrix:
     home_text = site.home.visible_text if site.home else ""
+    home_snippet = site.home.snippet(snippet_chars) if site.home and snippet_chars else ""
+    site_snippets = " ".join(page.snippet(snippet_chars) for page in site.pages.values()) if snippet_chars else ""
     site_text = site.all_visible_text()
     schema_text = json.dumps(site.all_json_ld(), ensure_ascii=False)
     llms_text = site.llms_txt or ""
@@ -136,6 +142,11 @@ def build_matrix(
                 queries=kmap.queries_for(node),
                 cells={
                     "site": float(contains_any(home_text if node.hop == 0 else site_text, node.terms)),
+                    "snippet": (
+                        float(contains_any(home_snippet if node.hop == 0 else site_snippets, node.terms))
+                        if snippet_chars
+                        else None
+                    ),
                     "schema": float(contains_any(schema_text, node.terms)),
                     "llms": float(contains_any(llms_text, node.terms)) if site.llms_txt is not None else 0.0,
                     "llm": _llm_cell(node, llm),

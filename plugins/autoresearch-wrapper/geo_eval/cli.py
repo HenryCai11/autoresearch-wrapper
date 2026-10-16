@@ -124,11 +124,17 @@ def cmd_validate(args: argparse.Namespace) -> int:
 def cmd_matrix(args: argparse.Namespace) -> int:
     kmap = load_map(args.map)
     site = load_site(args.site)
-    technical = score_technical(site, kmap)
-    llm = None if args.no_llm else score_llm(site, kmap, model=args.model, samples=args.samples)
-    matrix = build_matrix(site, kmap, llm=llm, probes=load_probes(args.probes))
-
     scoring = {**DEFAULT_SCORING, **kmap.scoring}
+    version = int(scoring.get("version", 1))
+    # Metric v2 reads pages the way search results show them (title, description, opening).
+    snippet_chars = int(scoring.get("snippet_chars", 400)) if version >= 2 else None
+    context_chars = int(scoring.get("context_chars", 4000 if version >= 2 else 14000))
+    technical = score_technical(site, kmap, version=version)
+    llm = None if args.no_llm else score_llm(
+        site, kmap, model=args.model, samples=args.samples, snippet_chars=snippet_chars, context_chars=context_chars
+    )
+    matrix = build_matrix(site, kmap, llm=llm, probes=load_probes(args.probes), snippet_chars=snippet_chars)
+
     share = scoring["matrix_share_of_offline"]
     offline = round(share * matrix.offline_score() + (1 - share) * technical.score, 2)
     if llm is None:
@@ -139,6 +145,7 @@ def cmd_matrix(args: argparse.Namespace) -> int:
 
     report = {
         "site": site.source,
+        "metric_version": version,
         "metric": metric,
         "offline": offline,
         "matrix_offline": matrix.offline_score(),

@@ -15,7 +15,9 @@ SKIP_TAGS = {"script", "style", "noscript", "template", "svg", "head"}
 VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
 HIDDEN_STYLE = re.compile(r"display\s*:\s*none|visibility\s*:\s*hidden|font-size\s*:\s*0(?![.\d])")
 USER_AGENT = "geo-eval/0.1 (+https://github.com/HenryCai11/autoresearch-wrapper)"
-MAX_PAGES = 40
+# A built directory costs nothing to read; a live crawl makes one request per page.
+MAX_DIR_PAGES = 500
+MAX_CRAWL_PAGES = 60
 
 
 @dataclass
@@ -31,6 +33,10 @@ class Page:
     images: int = 0
     images_with_alt: int = 0
     links: list[str] = field(default_factory=list)
+
+    def snippet(self, chars: int) -> str:
+        """What a search result shows: title, meta description, and the opening text."""
+        return " ".join(part for part in (self.title, self.meta.get("description", ""), self.visible_text[:chars]) if part)
 
 
 class _PageParser(HTMLParser):
@@ -149,10 +155,10 @@ class Site:
         return [item for page in self.pages.values() for item in page.json_ld]
 
 
-def load_site(source: str, max_pages: int = MAX_PAGES) -> Site:
+def load_site(source: str, max_pages: int | None = None) -> Site:
     if re.match(r"^https?://", source):
-        return _load_url(source, max_pages)
-    return _load_dir(Path(source), max_pages)
+        return _load_url(source, max_pages or MAX_CRAWL_PAGES)
+    return _load_dir(Path(source), max_pages or MAX_DIR_PAGES)
 
 
 def _url_path_for(file: Path, root: Path) -> str:

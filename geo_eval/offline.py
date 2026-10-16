@@ -20,6 +20,9 @@ from .site import Page, Site
 AI_CRAWLERS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "PerplexityBot", "Google-Extended", "CCBot"]
 
 WEIGHTS = {"structured_data": 0.35, "crawler_files": 0.25, "metadata": 0.25, "hygiene": 0.15}
+# Metric v2 adds scholarly checks: per-paper pages, Google Scholar tags, front-loaded identity.
+WEIGHTS_V2 = {"structured_data": 0.25, "crawler_files": 0.2, "metadata": 0.2, "hygiene": 0.1, "scholarly": 0.25}
+FRONT_CHARS = 600
 
 
 @dataclass
@@ -48,20 +51,24 @@ class TechnicalResult:
         }
 
 
-def score_technical(site: Site, kmap: KnowledgeMap) -> TechnicalResult:
+def score_technical(site: Site, kmap: KnowledgeMap, version: int = 1) -> TechnicalResult:
     home = site.home or Page(path="/")
     checks: list[Check] = []
     checks += _structured_data_checks(site, kmap)
     checks += _crawler_file_checks(site, kmap)
     checks += _metadata_checks(home, kmap)
     checks += _hygiene_checks(site, home, kmap)
+    weights = WEIGHTS
+    if version >= 2:
+        checks += _scholarly_checks(site, home, kmap)
+        weights = WEIGHTS_V2
 
     categories: dict[str, float] = {}
-    for category in WEIGHTS:
+    for category in weights:
         values = [check.value for check in checks if check.category == category]
         categories[category] = round(sum(values) / len(values), 4) if values else 0.0
     return TechnicalResult(
-        score=round(100 * sum(WEIGHTS[c] * v for c, v in categories.items()), 2),
+        score=round(100 * sum(weights[c] * v for c, v in categories.items()), 2),
         categories=categories,
         checks=checks,
         guardrail_violations=guardrails(site, kmap),
@@ -178,6 +185,36 @@ def _metadata_checks(home: Page, kmap: KnowledgeMap) -> list[Check]:
             "og:title / og:description",
         ),
     ]
+
+
+def _scholarly_checks(site: Site, home: Page, kmap: KnowledgeMap) -> list[Check]:
+    """Metric v2: what lets scholarly search and answer engines index and attribute work."""
+    checks = []
+    papers = kmap.papers()
+    if papers:
+        subpages = [page for path, page in site.pages.items() if path != "/"]
+        with_page = [p.id for p in papers if any(contains_any(page.title, p.terms) for page in subpages)]
+        checks.append(Check("paper_pages", "scholarly", len(with_page) / len(papers), f"{len(with_page)}/{len(papers)} papers have their own page"))
+        tagged = [
+            p.id
+            for p in papers
+            if any(
+                contains_any(page.meta.get("citation_title", ""), p.terms) and page.meta.get("citation_author")
+                for page in site.pages.values()
+            )
+        ]
+        checks.append(Check("scholar_meta", "scholarly", len(tagged) / len(papers), f"{len(tagged)}/{len(papers)} papers with citation_title + citation_author tags"))
+        listed = [p.id for p in papers if site.llms_txt and contains_any(site.llms_txt, p.terms)]
+        checks.append(Check("llms_lists_papers", "scholarly", len(listed) / len(papers), f"{len(listed)}/{len(papers)} papers in llms.txt"))
+    hop0 = kmap.by_hop(0)
+    if hop0:
+        front = home.visible_text[:FRONT_CHARS]
+        early = [node.id for node in hop0 if contains_any(front, node.terms)]
+        checks.append(Check("identity_front_loaded", "scholarly", len(early) / len(hop0), f"{len(early)}/{len(hop0)} core facts in the first {FRONT_CHARS} chars"))
+    if kmap.aliases:
+        shown = [alias for alias in kmap.aliases if contains_term(home.visible_text, alias)]
+        checks.append(Check("aliases_visible", "scholarly", len(shown) / len(kmap.aliases), f"visible aliases: {shown or 'none'}"))
+    return checks
 
 
 def _hygiene_checks(site: Site, home: Page, kmap: KnowledgeMap) -> list[Check]:

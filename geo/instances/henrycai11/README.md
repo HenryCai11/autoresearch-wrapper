@@ -38,3 +38,22 @@ Staged (not committed) in the site checkout: `_config.yml`, `_includes/geo-head.
 ## Deployed (2026-10-15, site master @ 263d99d)
 
 Live score of https://henrycai11.github.io/ right after deploy: METRIC 100.0 (matrix 100, technical 100, LLM 100), identical to the local build. Search column 0.10 still reflects the pre-deploy probes; re-probe and take a traffic snapshot after engines recrawl (about a week).
+
+## Metric v2 (2026-10-16)
+
+Round 1 saturated metric v1 (100), so the map now sets `"scoring": {"version": 2}`: the LLM test sees only search-snippet text (title, meta description, first 400 chars per page, first 800 chars of llms.txt; 4000 chars total), a `snippet` matrix column, searcher-style questions without the name, and scholarly checks (per-paper pages, Google Scholar citation tags, llms.txt lists papers, identity front-loaded, aliases visible). Re-scored: baseline 7f95245 32.37, round-1 site 263d99d 74.15 (`runs/v2-rescore-*.json`).
+
+## Round 2 (2026-10-16, site branch `geo/round-2`, metric v2)
+
+| round | change | METRIC v2 |
+| --- | --- | --- |
+| 0 | baseline (master @ 263d99d, all pages read) | 71.02 |
+| 1 | per-paper pages with page descriptions and Google Scholar tags (authors from arXiv) | 76.84 |
+| 2 | llms.txt: identity and papers with topics first | 84.12 |
+| 3 | stop building template samples, add /papers/ index (discarded: tie) | 84.12 |
+| 4 | llms.txt: all facts within the first 800 characters | 96.62 |
+| 5 | GitHub handle visible in the sidebar | 97.12 |
+| 6 | llms.txt: restore the Outstanding Paper award | 99.21 |
+| 7 | CV page description with education and internships | 100.00 |
+
+Staged (not committed) on `geo/round-2`: 14 files, +291/-18. Per-round data: `runs/round-2-frontier.json`.

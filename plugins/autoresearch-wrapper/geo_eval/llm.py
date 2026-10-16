@@ -48,16 +48,30 @@ class LLMResult:
         return {"score": self.score, "by_hop": self.by_hop, "answers": self.answers, "model": self.model}
 
 
-def build_context(site: Site, budget: int = CONTEXT_CHARS) -> str:
-    """Homepage first, then llms.txt, then other pages, as an answer engine would weigh them."""
+def build_context(site: Site, budget: int = CONTEXT_CHARS, snippet_chars: int | None = None) -> str:
+    """Homepage first, then llms.txt, then other pages, as an answer engine would weigh them.
+
+    With `snippet_chars`, each page contributes only what a search result shows (title,
+    meta description, opening text) and llms.txt only its opening, so facts buried deep
+    in a page are not available (metric v2).
+    """
     blocks: list[str] = []
-    if site.home:
-        blocks.append(f"[page {site.source.rstrip('/')}/]\n{site.home.title}\n{site.home.visible_text}")
-    if site.llms_txt:
-        blocks.append(f"[file /llms.txt]\n{site.llms_txt}")
-    for path, page in site.pages.items():
-        if path != "/":
-            blocks.append(f"[page {path}]\n{page.title}\n{page.visible_text}")
+    if snippet_chars:
+        if site.home:
+            blocks.append(f"[page {site.source.rstrip('/')}/]\n{site.home.snippet(snippet_chars)}")
+        if site.llms_txt:
+            blocks.append(f"[file /llms.txt]\n{site.llms_txt[: 2 * snippet_chars]}")
+        for path, page in site.pages.items():
+            if path != "/":
+                blocks.append(f"[page {path}]\n{page.snippet(snippet_chars)}")
+    else:
+        if site.home:
+            blocks.append(f"[page {site.source.rstrip('/')}/]\n{site.home.title}\n{site.home.visible_text}")
+        if site.llms_txt:
+            blocks.append(f"[file /llms.txt]\n{site.llms_txt}")
+        for path, page in site.pages.items():
+            if path != "/":
+                blocks.append(f"[page {path}]\n{page.title}\n{page.visible_text}")
     context, used = [], 0
     for block in blocks:
         if used >= budget:
@@ -170,6 +184,8 @@ def score_llm(
     base_url: str | None = None,
     samples: int = 1,
     ask: Callable[[str], str] | None = None,
+    snippet_chars: int | None = None,
+    context_chars: int = CONTEXT_CHARS,
 ) -> LLMResult:
     """Score comprehension; `samples` > 1 averages several replies to damp model noise."""
     if not kmap.questions:
@@ -179,7 +195,7 @@ def score_llm(
         base = base_url or os.environ.get("GEO_LLM_BASE_URL", DEFAULT_BASE_URL)
         key = load_api_key()
         ask = lambda prompt: chat(prompt, model=model, base_url=base, api_key=key)  # noqa: E731
-    prompt = build_prompt(kmap, build_context(site))
+    prompt = build_prompt(kmap, build_context(site, context_chars, snippet_chars))
     results = [grade(kmap, parse_answers(ask(prompt)), model) for _ in range(max(1, samples))]
     if len(results) == 1:
         return results[0]
