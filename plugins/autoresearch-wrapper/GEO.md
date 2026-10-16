@@ -6,6 +6,7 @@ The GEO commands extend this wrapper's existing worktree loop. They address thre
 2. `geo-apply` previews or applies an operation manifest against named graph nodes. `edit`, `add_after`, `move_after`, and `remove` target HTML sections; `replace_text` targets text files. `--apply` is restricted to a Git worktree. Run it inside a candidate allocated by the wrapper; `evaluate` snapshots and measures that candidate.
 3. `geo-prioritize` reads **actual returned source URLs** from a saved search-tool response and orders only visible source-to-missing-project entry points for the next test. It does not use hypothetical graph reach, hand-entered gap flags, or costs, and it cannot certify lift. If paired platform observations exist for a candidate, `geo-compare` separately checks weighted global effect and measured regressions. Unknown observations remain unknown.
 4. `geo-explore` turns those observations into a query → returned source → intervention → graph node tree. It keeps interventions with no observed source in a separate unranked branch. Optional paired CSV results appear on their candidate branches; missing results display as unmeasured. `--html-out` writes a standalone HTML view with an SVG node-and-edge tree, click-to-expand branches, zoom/pan, and a detailed evidence list below.
+5. `geo-decide` builds a **conditional decision tree**: each diamond asks a yes/no/unknown question, follows only the evidence-supported route, and ends at a concrete next test. An intervention may declare `link_state` as `present`, `absent`, or `unknown`; unknown is the default until the source page is independently inspected. `present` can describe a documented multi-hop path from the returned source to the target; use `link_evidence_url` for the page that actually contains the target link. `--svg-out` writes a standalone SVG with the current route highlighted. This is different from the component/evidence hierarchy produced by `geo-explore`.
 
 The configuration below is an example, not a claim that any platform has been measured:
 
@@ -33,6 +34,9 @@ python3 "$WRAPPER" geo-explore --repo . --config geo/config.json \
   --search-evidence geo/gpt-web-search-observations.json \
   --observations geo/pending_agent_observations.csv \
   --html-out geo/figures/geo-exploration-tree.html > geo/exploration-tree.json
+python3 "$WRAPPER" geo-decide --repo . --config geo/config.json \
+  --search-evidence geo/gpt-web-search-observations.json \
+  --svg-out geo/figures/geo-decision-tree.svg > geo/decision-tree.json
 python3 "$WRAPPER" geo-score --repo . --config geo/config.json
 python3 "$WRAPPER" scan --repo . --no-interactive
 python3 "$WRAPPER" configure --repo . --part README.md --metric geo_readiness \

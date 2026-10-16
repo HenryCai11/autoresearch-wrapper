@@ -91,6 +91,7 @@ CLI_COMMANDS = {
     "geo-compare",
     "geo-prioritize",
     "geo-explore",
+    "geo-decide",
 }
 
 IGNORED_DIRS = {
@@ -270,6 +271,7 @@ def build_parser() -> argparse.ArgumentParser:
         ("geo-compare", "Compare paired platform observations with global regression guards."),
         ("geo-prioritize", "Order next link tests from observed returned source URLs only."),
         ("geo-explore", "Build an evidence-linked GEO experiment tree and HTML explorer."),
+        ("geo-decide", "Build a conditional GEO next-action decision tree from real evidence."),
     ):
         geo_parser = subparsers.add_parser(name, help=help_text)
         add_repo_arg(geo_parser)
@@ -280,11 +282,13 @@ def build_parser() -> argparse.ArgumentParser:
         if name == "geo-compare":
             geo_parser.add_argument("--observations", default="geo/observations.csv")
             geo_parser.add_argument("--candidate")
-        if name in {"geo-prioritize", "geo-explore"}:
+        if name in {"geo-prioritize", "geo-explore", "geo-decide"}:
             geo_parser.add_argument("--search-evidence", required=True)
         if name == "geo-explore":
             geo_parser.add_argument("--observations", help="Optional paired before/after CSV.")
             geo_parser.add_argument("--html-out", help="Write an interactive standalone HTML tree.")
+        if name == "geo-decide":
+            geo_parser.add_argument("--svg-out", help="Write a standalone SVG decision tree.")
         geo_parser.set_defaults(func=command_geo)
 
     wrap = subparsers.add_parser(
@@ -1041,6 +1045,15 @@ def command_geo(args: argparse.Namespace) -> int:
                 raise SystemExit("--html-out must be inside the repo")
             destination.parent.mkdir(parents=True, exist_ok=True)
             destination.write_text(geo.render_explorer_html(result), encoding="utf-8")
+    elif args.command == "geo-decide":
+        evidence = geo.load_search_evidence((repo_root / args.search_evidence).resolve())
+        result = geo.decide(config, evidence)
+        if args.svg_out:
+            destination = (repo_root / args.svg_out).resolve()
+            if not destination.is_relative_to(repo_root):
+                raise SystemExit("--svg-out must be inside the repo")
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(geo.render_decision_svg(result), encoding="utf-8")
     elif args.command == "geo-apply":
         manifest = json.loads(Path(args.operations).read_text(encoding="utf-8"))
         if args.apply:

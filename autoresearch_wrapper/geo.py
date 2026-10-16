@@ -426,6 +426,159 @@ def prioritize(config: dict[str, Any], search_evidence: dict[str, Any]) -> dict[
             "warning": "This orders entry points for a next test using returned URLs only; it does not measure intervention lift, platform reachability, ranking, or citation."}
 
 
+def decide(config: dict[str, Any], search_evidence: dict[str, Any]) -> dict[str, Any]:
+    """Choose the next *test*, with explicit yes/no/unknown decision branches.
+
+    A source URL is an observed entry point, never a proven causal backlink.
+    Link state must be supplied by independent inspection of that source.
+    """
+    ranked = prioritize(config, search_evidence)
+    query_count = ranked["query_count"]
+    project_count = ranked["observed_funnel"]["project_returned"]
+    visible = [item for item in ranked["interventions"] if item["observed_opportunity_count"]]
+    selected = visible[0] if visible else None
+    spec = next((item for item in config.get("interventions", [])
+                 if selected and item["id"] == selected["id"]), None)
+    link_state = (spec or {}).get("link_state", "unknown")
+    if link_state not in {"present", "absent", "unknown"}:
+        raise ValueError("link_state must be present, absent, or unknown")
+    link_evidence_url = (
+        (spec or {}).get("link_evidence_url") or selected["source_url"]
+    ) if selected else None
+    project_route = "unknown" if not query_count else "yes" if project_count else "no"
+    source_route = "yes" if selected else "no"
+
+    def action(node_id: str, label: str, *, current: bool = False) -> dict[str, Any]:
+        return {"id": node_id, "kind": "action", "label": label,
+                "current": current, "branches": []}
+
+    def choice(label: str, child: dict[str, Any], active: bool = False) -> dict[str, Any]:
+        return {"label": label, "active": active, "child": child}
+
+    link_decision = {
+        "id": "link_verified", "kind": "decision",
+        "label": "可见入口有到项目页的路径吗？",
+        "evidence": link_evidence_url or "无可见入口",
+        "current": project_route == "no" and source_route == "yes",
+        "branches": [
+            choice("有", action("test_existing_link", "记录已有路径；固定查询复测曝光", current=project_route == "no" and source_route == "yes" and link_state == "present"), link_state == "present"),
+            choice("无", action("add_link", "由入口负责人加链接；记录时间并复测"), link_state == "absent"),
+            choice("未知", action("verify_link", "先检查入口页面与编辑权限", current=project_route == "no" and source_route == "yes" and link_state == "unknown"), link_state == "unknown"),
+        ],
+    }
+    source_decision = {
+        "id": "visible_source", "kind": "decision",
+        "label": "有真实返回的可测试入口吗？",
+        "evidence": (f'{selected["id"]}: {selected["observed_opportunity_count"]}/{query_count}'
+                     if selected else f'0/{query_count}'),
+        "current": project_route == "no",
+        "branches": [
+            choice("有", link_decision, source_route == "yes"),
+            choice("无", action("audit_discovery", "检查站点可达性、抓取入口和查询匹配", current=project_route == "no" and source_route == "no"), source_route == "no"),
+            choice("未知", action("save_sources", "先保存真实来源列表")),
+        ],
+    }
+    answer_decision = {
+        "id": "answer_citation", "kind": "decision",
+        "label": "最终答案引用项目页吗？", "evidence": "当前来源 URL 记录不含最终答案",
+        "current": project_route == "yes",
+        "branches": [
+            choice("有", action("measure_impression", "量引用份额、位置与事实准确性")),
+            choice("无", action("test_content", "固定来源测试内容候选，并核对事实")),
+            choice("未知", action("collect_answers", "收集完整答案及逐句引用", current=project_route == "yes"), project_route == "yes"),
+        ],
+    }
+    root = {
+        "id": "project_returned", "kind": "decision",
+        "label": "项目页出现在真实搜索来源中吗？",
+        "evidence": f'{project_count}/{query_count}；工具：{search_evidence["tool"]}',
+        "current": True,
+        "branches": [
+            choice("有", answer_decision, project_route == "yes"),
+            choice("无", source_decision, project_route == "no"),
+            choice("未知", action("collect_search", "先运行并保存真实搜索结果", current=project_route == "unknown"), project_route == "unknown"),
+        ],
+    }
+    next_action = ("collect_search" if project_route == "unknown" else
+                   "collect_answers" if project_route == "yes" else
+                   "audit_discovery" if source_route == "no" else
+                   {"present": "test_existing_link", "absent": "add_link", "unknown": "verify_link"}[link_state])
+    return {"objective": config["site_url"], "tool": search_evidence["tool"],
+            "selected_entry_point": selected["id"] if selected else None,
+            "link_state": link_state if selected else None,
+            "link_evidence_url": (spec or {}).get("link_evidence_url") if selected else None,
+            "next_action": next_action, "tree": root,
+            "warning": "An active branch identifies the next test from observed URLs and explicitly supplied link state. It does not estimate exposure lift. After any intervention, collect paired before/after results and use geo-compare."}
+
+
+def render_decision_svg(decision: dict[str, Any]) -> str:
+    """Render a real condition/action tree; highlight only the observed route."""
+    root = decision["tree"]
+    nodes: list[dict[str, Any]] = []
+    edges: list[tuple[dict[str, Any], dict[str, Any], dict[str, Any]]] = []
+    leaf = 0
+    max_depth = 0
+    box_w, box_h, step_x, step_y = 250, 84, 310, 112
+
+    def place(node: dict[str, Any], depth: int) -> None:
+        nonlocal leaf, max_depth
+        node["x"] = 25 + depth * step_x
+        max_depth = max(max_depth, depth)
+        nodes.append(node)
+        if not node["branches"]:
+            node["y"] = 105 + leaf * step_y
+            leaf += 1
+            return
+        for branch in node["branches"]:
+            child = branch["child"]
+            place(child, depth + 1)
+            edges.append((node, child, branch))
+        node["y"] = (node["branches"][0]["child"]["y"] +
+                     node["branches"][-1]["child"]["y"]) / 2
+
+    place(root, 0)
+    width = 60 + max_depth * step_x + box_w
+    height = 180 + leaf * step_y
+    parts = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" '
+             'role="img" aria-label="GEO 条件决策树">',
+             '<rect width="100%" height="100%" fill="#f7f6f2"/>',
+             '<text x="25" y="39" style="font:700 25px system-ui,sans-serif;fill:#243d31">GEO 下一步决策树</text>',
+             '<text x="25" y="64" style="font:13px system-ui,sans-serif;fill:#5b6d60">蓝绿线：当前已知路径；灰线：条件未满足；“未知”必须先补证据。</text>']
+    for parent, child, branch in edges:
+        x1, y1 = parent["x"] + box_w, parent["y"] + box_h / 2
+        x2, y2 = child["x"], child["y"] + box_h / 2
+        middle = (x1 + x2) / 2
+        color = "#34745d" if parent["current"] and branch["active"] else "#b8c1b9"
+        parts.append(f'<path d="M{x1} {y1} H{middle} V{y2} H{x2}" fill="none" '
+                     f'stroke="{color}" stroke-width="{3 if branch["active"] else 2}"/>')
+        parts.append(f'<text x="{x1 + 9}" y="{y2 - 7}" style="font:700 13px system-ui,sans-serif;fill:{color}">{escape(branch["label"])}</text>')
+    for node in nodes:
+        x, y = node["x"], node["y"]
+        current = node["current"]
+        fill = ("#2c6d55" if node["kind"] == "decision" else "#a36433") if current else "#dce2dc"
+        ink = "#fff" if current else "#304239"
+        if node["kind"] == "decision":
+            mid_x, mid_y = x + box_w / 2, y + box_h / 2
+            shape = f'<path d="M{mid_x} {y} L{x + box_w} {mid_y} L{mid_x} {y + box_h} L{x} {mid_y} Z" fill="{fill}"/>'
+        else:
+            shape = f'<rect x="{x}" y="{y}" width="{box_w}" height="{box_h}" rx="12" fill="{fill}"/>'
+        label = node["label"]
+        if len(label) > 19:
+            label = label[:18] + "…"
+        evidence = node.get("evidence", "")
+        if len(evidence) > 28:
+            evidence = evidence[:27] + "…"
+        parts.append(shape)
+        parts.append(f'<text x="{x + box_w / 2}" y="{y + 36}" text-anchor="middle" '
+                     f'style="font:700 14px system-ui,sans-serif;fill:{ink}">{escape(label)}</text>')
+        if evidence:
+            parts.append(f'<text x="{x + box_w / 2}" y="{y + 57}" text-anchor="middle" '
+                         f'style="font:11px system-ui,sans-serif;fill:{ink}">{escape(evidence)}</text>')
+    parts.append(f'<text x="25" y="{height - 30}" style="font:13px system-ui,sans-serif;fill:#5b6d60">当前下一动作：{escape(decision["next_action"])}。所有曝光效果仍需真实前后配对评测。</text>')
+    parts.append("</svg>")
+    return "".join(parts)
+
+
 def explore(repo: Path, config: dict[str, Any], search_evidence: dict[str, Any],
             rows: list[dict[str, str]] | None = None) -> dict[str, Any]:
     """Build an auditable query -> source -> intervention -> node experiment tree."""

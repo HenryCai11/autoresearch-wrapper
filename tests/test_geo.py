@@ -5,7 +5,8 @@ import unittest
 from pathlib import Path
 
 from autoresearch_wrapper.geo import (apply_operations, build_graph, compare_platforms,
-                                     explore, prioritize, readiness, render_explorer_html)
+                                     decide, explore, prioritize, readiness,
+                                     render_decision_svg, render_explorer_html)
 
 
 class GeoTests(unittest.TestCase):
@@ -58,6 +59,29 @@ class GeoTests(unittest.TestCase):
         self.assertIn("未观测到入口", html)
         self.assertIn('id="tree-svg"', html)
         self.assertIn("stroke-width':'2'", html)
+
+    def test_decision_tree_uses_observed_route_and_explicit_link_state(self) -> None:
+        self.config["queries"] = [{"id": "Q1", "text": "recent agent co-evolution"}]
+        self.config["interventions"] = [{"id": "paper_link", "source_url": self.config["paper_url"],
+                                         "nodes": ["external:paper-backlink"], "link_state": "unknown"}]
+        evidence = {"tool": "actual search", "observations": [
+            {"query_id": "Q1", "result_urls": [self.config["paper_url"]]}]}
+        result = decide(self.config, evidence)
+        self.assertEqual(result["next_action"], "verify_link")
+        self.assertTrue(result["tree"]["branches"][1]["active"])
+        self.assertIn("可见入口有到项目页的路径吗", render_decision_svg(result))
+        self.config["interventions"][0]["link_state"] = "absent"
+        self.assertEqual(decide(self.config, evidence)["next_action"], "add_link")
+        self.config["interventions"][0]["link_state"] = "present"
+        self.config["interventions"][0]["link_evidence_url"] = "https://arxiv.org/html/example"
+        present = decide(self.config, evidence)
+        self.assertEqual(present["next_action"], "test_existing_link")
+        self.assertEqual(present["link_evidence_url"], "https://arxiv.org/html/example")
+        self.assertTrue(present["tree"]["branches"][1]["child"]["branches"][0]["child"]["branches"][0]["active"])
+        evidence["observations"][0]["result_urls"] = [self.config["site_url"]]
+        self.assertEqual(decide(self.config, evidence)["next_action"], "collect_answers")
+        evidence["observations"][0]["result_urls"] = []
+        self.assertEqual(decide(self.config, evidence)["next_action"], "audit_discovery")
 
     def test_graph_exposes_internal_sections_and_outcomes(self) -> None:
         graph = build_graph(self.repo, self.config)
