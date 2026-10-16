@@ -22,6 +22,14 @@ from geo_eval.llm import LLMError, build_context, chat, grade, load_api_key, par
 from geo_eval.matrix import build_matrix
 from geo_eval.offline import robots_blocks, score_technical
 from geo_eval.ood import classify_referrer
+from geo_eval.search_api import (
+    EXA_ENDPOINT,
+    TAVILY_ENDPOINT,
+    SearchAPIError,
+    load_search_api_key,
+    search_exa,
+    search_tavily,
+)
 from geo_eval.site import load_site, parse_html
 
 MAP = {
@@ -190,6 +198,15 @@ class GeoEvalTests(unittest.TestCase):
         cells = {r.node: r.cells for r in build_matrix(site, self.kmap, probes=probes).rows}
         self.assertEqual(cells["programming"]["search"], 1.0)
 
+    def test_search_column_ignores_memory_models(self) -> None:
+        site = load_site(str(full_site(self.tmp / "site")))
+        probes = [
+            {"query": "first computer program", "found": False, "recorded_at": "2026-02-01T00:00:00", "engine": "web"},
+            {"query": "first computer program", "found": True, "recorded_at": "2026-02-01T00:00:00", "engine": "memory:m"},
+        ]
+        cells = {r.node: r.cells for r in build_matrix(site, self.kmap, probes=probes).rows}
+        self.assertEqual(cells["programming"]["search"], 0.0)
+
     def test_technical_full_vs_bare_site(self) -> None:
         good = score_technical(load_site(str(full_site(self.tmp / "good"))), self.kmap)
         bare = score_technical(load_site(str(write_site(self.tmp / "bare", "<html><body><p>Lorem ipsum</p></body></html>"))), self.kmap)
@@ -263,6 +280,84 @@ class GeoEvalTests(unittest.TestCase):
         self.assertIn("HTTP 503", str(exc.exception))
         self.assertNotIn("secret-value", str(exc.exception))
 
+    # -- hosted search APIs -------------------------------------------------
+
+    def test_search_api_key_lookup_uses_env_or_explicit_file(self) -> None:
+        key_file = self.tmp / "exa-key"
+        key_file.write_text("EXA_API_KEY='file-key'\n")
+        with mock.patch.dict(os.environ, {"TAVILY_API_KEY": "env-key"}, clear=True):
+            self.assertEqual(load_search_api_key("tavily"), "env-key")
+        with mock.patch.dict(os.environ, {"EXA_API_KEY": "stale-env-key"}, clear=True):
+            self.assertEqual(load_search_api_key("exa", str(key_file)), "file-key")
+        with mock.patch.dict(os.environ, {}, clear=True):
+            with self.assertRaises(SearchAPIError):
+                load_search_api_key("tavily")
+
+    def test_tavily_and_exa_search_format_ranked_results(self) -> None:
+        class Response:
+            def __init__(self, payload: dict) -> None:
+                self.payload = payload
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *_args) -> None:
+                return None
+
+            def read(self) -> bytes:
+                return json.dumps(self.payload).encode()
+
+        calls: list[tuple[str, dict, dict]] = []
+
+        def tavily_open(request, timeout: int):
+            calls.append((request.full_url, dict(request.header_items()), json.loads(request.data)))
+            self.assertEqual(timeout, 12)
+            return Response({"results": [
+                {"title": "Babbage", "url": "https://babbage.example/", "content": "Other result"},
+                {"title": "Ada", "url": "https://ada.example/", "content": "Analytical Society"},
+            ]})
+
+        tavily_text = search_tavily(
+            "Ada", api_key="tavily-test-key", search_depth="basic", max_results=2,
+            timeout=12, open_url=tavily_open,
+        )
+        self.assertIn("1. Babbage", tavily_text)
+        self.assertIn("2. Ada", tavily_text)
+        self.assertEqual(judge_answer(tavily_text, self.kmap).rank, 2)
+        self.assertEqual(calls[0][0], TAVILY_ENDPOINT)
+        self.assertEqual({k.lower(): v for k, v in calls[0][1].items()}["authorization"], "Bearer tavily-test-key")
+        self.assertEqual(calls[0][2]["include_answer"], False)
+
+        def exa_open(request, timeout: int):
+            calls.append((request.full_url, dict(request.header_items()), json.loads(request.data)))
+            self.assertEqual(timeout, 13)
+            return Response({"results": [
+                {"title": "Ada", "url": "https://ada.example/", "highlights": ["Analytical Society"]},
+            ]})
+
+        exa_text = search_exa(
+            "Ada", api_key="exa-test-key", search_type="auto", max_results=3,
+            timeout=13, open_url=exa_open,
+        )
+        self.assertIn("Analytical Society", exa_text)
+        self.assertEqual(judge_answer(exa_text, self.kmap).rank, 1)
+        self.assertEqual(calls[1][0], EXA_ENDPOINT)
+        self.assertEqual({k.lower(): v for k, v in calls[1][1].items()}["x-api-key"], "exa-test-key")
+        self.assertEqual(calls[1][2], {
+            "query": "Ada", "type": "auto", "numResults": 3, "contents": {"highlights": True},
+        })
+
+    def test_search_api_errors_do_not_leak_keys(self) -> None:
+        import urllib.error
+
+        error = urllib.error.HTTPError("u", 401, "unauthorised", {}, None)
+        with self.assertRaises(SearchAPIError) as exc:
+            search_tavily(
+                "Ada", api_key="never-print-this", open_url=mock.Mock(side_effect=error), sleep=lambda _seconds: None,
+            )
+        self.assertIn("HTTP 401", str(exc.exception))
+        self.assertNotIn("never-print-this", str(exc.exception))
+
     # -- CLI ----------------------------------------------------------------
 
     def run_cli(self, *args: str) -> tuple[int, str]:
@@ -305,6 +400,45 @@ class GeoEvalTests(unittest.TestCase):
         report = json.loads(out[: out.rindex("}") + 1])
         rows = {row["node"]: row for row in report["matrix"]["rows"]}
         self.assertEqual(rows["programming"]["cells"]["search"], 1.0)
+
+    def test_cli_tavily_and_exa_probes_share_discovery_judging(self) -> None:
+        map_path = self.tmp / "map.json"
+        map_path.write_text(json.dumps(MAP))
+        probes = self.tmp / "probes.jsonl"
+        tavily_answers = self.tmp / "tavily.jsonl"
+        exa_answers = self.tmp / "exa.jsonl"
+
+        def fake_search(query: str, **_kwargs) -> str:
+            if query == "Ada Lovelace Analytical Society":
+                return "1. Ada Lovelace\nhttps://ada.example/\nAnalytical Society"
+            return "1. No relevant result\nhttps://unrelated.example/"
+
+        with mock.patch("geo_eval.cli.load_search_api_key", return_value="runtime-only-key"), mock.patch(
+            "geo_eval.cli.search_tavily", side_effect=fake_search
+        ) as tavily:
+            code, out = self.run_cli(
+                "probe-tavily", "--map", str(map_path), "--probes", str(probes),
+                "--answers", str(tavily_answers), "--max-results", "5",
+            )
+        self.assertEqual(code, 0)
+        self.assertEqual(tavily.call_count, 5)
+        self.assertIn("tavily-search\tfound (rank 1)\tAda Lovelace Analytical Society", out)
+
+        with mock.patch("geo_eval.cli.load_search_api_key", return_value="runtime-only-key"), mock.patch(
+            "geo_eval.cli.search_exa", side_effect=fake_search
+        ) as exa:
+            code, out = self.run_cli(
+                "probe-exa", "--map", str(map_path), "--probes", str(probes),
+                "--answers", str(exa_answers), "--search-type", "fast",
+            )
+        self.assertEqual(code, 0)
+        self.assertEqual(exa.call_count, 5)
+        self.assertIn("exa-search\tfound (rank 1)\tAda Lovelace Analytical Society", out)
+
+        records = [json.loads(line) for line in probes.read_text().splitlines()]
+        self.assertEqual(len(records), 10)
+        self.assertEqual({record["engine"] for record in records}, {"tavily-search", "exa-search"})
+        self.assertNotIn("runtime-only-key", probes.read_text() + tavily_answers.read_text() + exa_answers.read_text())
 
     def test_instance_map_is_valid(self) -> None:
         code, out = self.run_cli("validate", "--map", str(REPO_ROOT / "geo" / "instances" / "henrycai11" / "map.json"))
@@ -376,14 +510,14 @@ class GeoEvalTests(unittest.TestCase):
             {"query": "an extra query", "engine": "web", "found": False, "rank": None, "recorded_at": "2026-02-01T00:00:00"},
         ]
         matrix = build_discovery(self.kmap, probes)
-        self.assertEqual(matrix.engines, ["memory:m", "web"])
+        self.assertEqual(matrix.engines, ["web"])
         self.assertEqual(matrix.cells[("first computer program", "web")], {"found": True, "rank": 2, "url": None})
         self.assertNotIn(("first computer program", "memory:m"), matrix.cells)
         self.assertIn("an extra query", [row["query"] for row in matrix.rows])
         summary = matrix.summary()
         self.assertEqual((summary["web"]["found"], summary["web"]["probed"]), (1, 2))
-        self.assertEqual(summary["memory:m"]["hop0"], 1.0)
-        self.assertIn("| first computer program | 2 | - | ✓2 |", matrix.to_markdown())
+        self.assertNotIn("memory:m", summary)
+        self.assertIn("| first computer program | 2 | ✓2 |", matrix.to_markdown())
 
     def test_cli_probe_judge_and_discovery(self) -> None:
         map_path = self.tmp / "map.json"
@@ -401,35 +535,6 @@ class GeoEvalTests(unittest.TestCase):
         self.assertEqual([r["found"] for r in records], [True, False])
         code, out = self.run_cli("discovery", "--map", str(map_path), "--probes", str(probes))
         self.assertIn("ENGINE codex-search: found 1/2", out)
-
-    def test_cli_probe_memory_uses_no_system_prompt_and_judges(self) -> None:
-        map_path = self.tmp / "map.json"
-        map_path.write_text(json.dumps(MAP))
-        probes = self.tmp / "probes.jsonl"
-        calls: list[dict] = []
-
-        def fake_chat(prompt: str, **kwargs) -> str:
-            calls.append(kwargs)
-            if "Analytical Society" in prompt:
-                return "Ada Lovelace (Analytical Society), collaborator of Charles Babbage."
-            if "Charles Babbage" in prompt:
-                return "Ada Lovelace (Analytical Society), professor of botany."  # echo + invention
-            return "I do not know."
-
-        answers_dir = self.tmp / "answers"
-        with mock.patch("geo_eval.cli.chat", side_effect=fake_chat), mock.patch("geo_eval.cli.load_api_key", return_value="k"):
-            code, out = self.run_cli(
-                "probe-memory", "--map", str(map_path), "--probes", str(probes), "--model", "m1", "--answers-dir", str(answers_dir)
-            )
-        self.assertEqual(code, 0)
-        self.assertTrue(all(call["system"] is None for call in calls))
-        records = [json.loads(line) for line in probes.read_text().splitlines()]
-        self.assertEqual(len(records), 5)
-        self.assertEqual({r["engine"] for r in records}, {"memory:m1"})
-        found = {r["query"] for r in records if r["found"]}
-        self.assertEqual(found, {"Ada Lovelace Analytical Society"})
-        saved = (answers_dir / "memory-m1.jsonl").read_text().splitlines()
-        self.assertEqual(len(saved), 5)
 
     def test_geo_launcher_finds_toolkit_through_symlink(self) -> None:
         home = Path(tempfile.mkdtemp(prefix="geo-home-"))

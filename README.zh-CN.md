@@ -165,6 +165,7 @@ python3 -m unittest -q
 | 文档 | 内容 |
 | --- | --- |
 | [DETAILS.md](./DETAILS.md) | 功能细节、依赖图说明、生成目录结构、典型工作流 |
+| [geo/README.md](./geo/README.md) | GEO 评测矩阵、搜索发现探针与 Tavily/Exa 接入 |
 | [CORE_FEATURES.md](./CORE_FEATURES.md) | 功能清单 |
 | [CONTRIBUTING.md](./CONTRIBUTING.md) | 开发工作流、分支布局、验证 |
 | [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) | 上游归属声明 |

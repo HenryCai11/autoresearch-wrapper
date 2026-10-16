@@ -21,6 +21,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from .discovery import is_search_engine
 from .kmap import KnowledgeMap, Node, contains_any
 from .llm import LLMResult
 from .site import Site
@@ -170,7 +171,9 @@ def _index_probes(probes: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]
     """Latest result per (query, engine)."""
     latest: dict[tuple[str, str], dict[str, Any]] = {}
     for record in sorted(probes, key=lambda r: r.get("recorded_at", "")):
-        latest[(record["query"].strip().lower(), record.get("engine", ""))] = record
+        engine = record.get("engine", "")
+        if is_search_engine(engine):
+            latest[(record["query"].strip().lower(), engine)] = record
     index: dict[str, list[dict[str, Any]]] = {}
     for (query, _engine), record in latest.items():
         index.setdefault(query, []).append(record)

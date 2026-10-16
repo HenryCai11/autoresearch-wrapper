@@ -1,8 +1,8 @@
 """The discovery matrix: does each engine surface the entity for each keyword's query?
 
-Rows are knowledge-map queries; columns are engines (web search tools, answer
-engines, or models answering from memory alone). Every answer, from any engine,
-is judged by the same rule, so the columns are comparable:
+Rows are knowledge-map queries; columns are search engines and search-enabled
+answer engines. Every answer is judged by the same rule, so the columns are
+comparable:
 
   found      the answer cites the entity's own site, or names the entity (name or
              alias) together with an attribution term (e.g. its affiliation) in
@@ -10,9 +10,8 @@ is judged by the same rule, so the columns are comparable:
   rank       position of the entity's site among the distinct URLs the answer
              cites, when it is cited at all
 
-Answers come in as text: collected by any means (a search tool, a CLI agent, a
-human pasting results) and judged here, or produced directly by an LLM asked from
-memory (probe_llm_memory).
+Answers come in as text, collected by any means (a search tool, a CLI agent, or a
+human pasting results), and are judged here.
 """
 
 from __future__ import annotations
@@ -22,17 +21,11 @@ import json
 import re
 import urllib.parse
 from dataclasses import dataclass, field
-from typing import Any, Callable
+from typing import Any
 
 from .kmap import HOP_WEIGHTS, KnowledgeMap, contains_any
 
 URL_RE = re.compile(r"https?://[^\s<>()\[\]\"'`]+")
-MEMORY_PROMPT = (
-    "You are a search assistant with NO web access. A user searches for:\n\n"
-    "  {query}\n\n"
-    "From your own knowledge only, list the most relevant people (with their affiliations), "
-    "papers, and websites for this search, as a short numbered list. If you do not know, say so."
-)
 
 
 @dataclass
@@ -137,22 +130,9 @@ def all_queries(kmap: KnowledgeMap, max_hop: int | None = None) -> list[dict[str
     return rows
 
 
-def probe_llm_memory(
-    kmap: KnowledgeMap,
-    queries: list[str],
-    *,
-    model: str,
-    ask: Callable[[str], str],
-) -> tuple[list[dict[str, Any]], list[dict[str, str]]]:
-    """Ask a model with no web access, from memory; return judged records and the full answers."""
-    records, answers = [], []
-    for query in queries:
-        answer = ask(MEMORY_PROMPT.format(query=query))
-        answers.append({"query": query, "text": answer})
-        records.append(
-            probe_record(query, f"memory:{model}", judge_answer(answer, kmap, query), "answer from model memory, no web", answer)
-        )
-    return records, answers
+def is_search_engine(engine: str | None) -> bool:
+    """Memory-only model answers are not search-engine observations."""
+    return not (engine or "").startswith("memory:")
 
 
 @dataclass
@@ -225,7 +205,9 @@ def build_discovery(kmap: KnowledgeMap, probes: list[dict[str, Any]]) -> Discove
     known = {row["query"].strip().lower() for row in rows}
     latest: dict[tuple[str, str], dict[str, Any]] = {}
     for record in sorted(probes, key=lambda r: r.get("recorded_at", "")):
-        latest[(record["query"].strip().lower(), record.get("engine") or "unspecified")] = record
+        engine = record.get("engine") or "unspecified"
+        if is_search_engine(engine):
+            latest[(record["query"].strip().lower(), engine)] = record
     for (query, _engine), record in latest.items():
         if query not in known:
             rows.append({"node": None, "hop": 1, "keyword": record["query"], "query": record["query"]})

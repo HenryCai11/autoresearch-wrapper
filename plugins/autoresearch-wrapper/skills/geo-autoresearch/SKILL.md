@@ -37,7 +37,7 @@ GEO="$(dirname "$AUTORESEARCH_RUNNER")/geo.sh"
 ```
 
 - `bash "$AUTORESEARCH_RUNNER" <command>` runs the autoresearch-wrapper CLI.
-- `bash "$GEO" eval <command>` runs the geo_eval toolkit (`validate`, `matrix`, `queries`, `probe-record`, `ood`).
+- `bash "$GEO" eval <command>` runs the geo_eval toolkit (`validate`, `matrix`, `queries`, `probe-record`, `probe-tavily`, `probe-exa`, `ood`).
 - `bash "$GEO" score <instance-dir>` builds the site in the current directory and scores it. This is the loop's metric command.
 - `bash "$GEO" build | stage-gems | setup-jekyll | root` cover building, one-time Jekyll setup, and printing the toolkit root.
 
@@ -80,8 +80,11 @@ Take facts only from the site and the user. Never invent affiliations, awards, o
      bash "$GEO" eval probe-judge --map <instance>/map.json --probes <instance>/probes.jsonl --engine <tool>-search --answers answers.jsonl
      ```
    - **Codex web search** (OpenAI search through the local ChatGPT login, no API key): `bash "$(bash "$GEO" root)/geo/scripts/probe_codex.sh" queries.txt answers.jsonl`, then `probe-judge --engine codex-search`. It needs internet, so run it where there is some (a login node is fine: it compiles nothing).
-   - **LLMs from memory, with no web access** (e.g. Aleph models): `bash "$GEO" eval probe-memory --map ... --probes ... --model <id> [--model <id> ...]`. Run this through the scheduler. It changes only when models are retrained, so it's the slowest signal.
+   - **Tavily Search API:** set `TAVILY_API_KEY` or `TAVILY_API_KEY_FILE`, then run `bash "$GEO" eval probe-tavily --map ... --probes ... [--answers tavily.jsonl]`. The default is `basic`, 10 ranked results, and engine `tavily-search`.
+   - **Exa Search API:** set `EXA_API_KEY` or `EXA_API_KEY_FILE`, then run `bash "$GEO" eval probe-exa --map ... --probes ... [--answers exa.jsonl]`. The default is `auto` with highlights, 10 ranked results, and engine `exa-search`.
    - **Anything else** (a human search, another API): `probe-record --engine <name>`, or save the answers and `probe-judge` them.
+
+   Only search-enabled engines belong in the discovery matrix. Historical `memory:*` records may stay in the JSONL log for auditability, but the scorer ignores them. Never put provider keys in the repo, `instance.env`, a command argument, or a Slurm script. Keep a rotated key in an environment variable or a permission-protected file outside the repo; pass only the file path with `--api-key-file`. On a shared cluster, run `probe-tavily` and `probe-exa` through Slurm because they invoke Python; compute-node proxy variables are injected by the cluster.
 
    View the matrix with `bash "$GEO" eval discovery --map ... --probes ... [--since <ISO time>]`.
 3. **Traffic snapshot:** `bash "$GEO" eval ood --goatcounter <code> --token-file <file> --log <instance>/ood.jsonl`. Never print the token. Where the machine that runs Python can't reach GoatCounter (e.g. compute nodes behind a proxy), fetch with curl where there is internet, then summarise offline:

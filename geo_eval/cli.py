@@ -4,6 +4,8 @@
   geo_eval matrix   --map map.json --site _site/ [--no-llm] [--probes probes.jsonl] [--report out.json]
   geo_eval queries  --map map.json
   geo_eval probe-record --probes probes.jsonl --query "..." --found|--not-found [--rank N] [--engine NAME]
+  geo_eval probe-tavily --map map.json --probes probes.jsonl [--api-key-file FILE]
+  geo_eval probe-exa    --map map.json --probes probes.jsonl [--api-key-file FILE]
   geo_eval ood      --goatcounter CODE --token-file FILE [--days 7] [--log ood.jsonl]
 
 `matrix` prints the eval matrix and ends with METRIC=<0-100>, the line
@@ -16,16 +18,17 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
-import os
 import sys
 from pathlib import Path
+from typing import Callable
 
-from .discovery import all_queries, build_discovery, judge_answers_file, probe_llm_memory
-from .kmap import MapError, load_map
-from .llm import DEFAULT_BASE_URL, LLMError, chat, load_api_key, score_llm
+from .discovery import all_queries, build_discovery, judge_answers_file
+from .kmap import KnowledgeMap, MapError, load_map
+from .llm import LLMError, score_llm
 from .matrix import build_matrix, load_probes
 from .offline import score_technical
 from .ood import OODError, goatcounter_snapshot, snapshot_from_dir
+from .search_api import SearchAPIError, load_search_api_key, search_exa, search_tavily
 from .site import load_site
 
 DEFAULT_SCORING = {"offline": 0.5, "llm": 0.5, "matrix_share_of_offline": 0.6}
@@ -76,12 +79,29 @@ def main(argv: list[str] | None = None) -> int:
     judge.add_argument("--note", default="")
     judge.set_defaults(func=cmd_probe_judge)
 
-    memory = sub.add_parser("probe-memory", help="Ask LLMs with no web access, from memory, for every map query.")
-    memory.add_argument("--map", required=True)
-    memory.add_argument("--probes", required=True)
-    memory.add_argument("--model", action="append", required=True, help="Model id; repeat for several.")
-    memory.add_argument("--answers-dir", help="Save each model's full answers here as <engine>.jsonl, for re-judging.")
-    memory.set_defaults(func=cmd_probe_memory)
+    tavily = sub.add_parser("probe-tavily", help="Run every map query through Tavily Search and judge it.")
+    tavily.add_argument("--map", required=True)
+    tavily.add_argument("--probes", required=True, help="Probe log to append judged records to.")
+    tavily.add_argument("--answers", help="Optional JSONL path for the provider's full ranked answers.")
+    tavily.add_argument("--api-key-file", help="Raw key or TAVILY_API_KEY=... file; never pass the key itself.")
+    tavily.add_argument("--engine", default="tavily-search")
+    tavily.add_argument("--search-depth", choices=("basic", "advanced"), default="basic")
+    tavily.add_argument("--max-results", type=int, default=10)
+    tavily.add_argument("--timeout", type=int, default=60)
+    tavily.add_argument("--note", default="")
+    tavily.set_defaults(func=cmd_probe_tavily)
+
+    exa = sub.add_parser("probe-exa", help="Run every map query through Exa Search and judge it.")
+    exa.add_argument("--map", required=True)
+    exa.add_argument("--probes", required=True, help="Probe log to append judged records to.")
+    exa.add_argument("--answers", help="Optional JSONL path for the provider's full ranked answers.")
+    exa.add_argument("--api-key-file", help="Raw key or EXA_API_KEY=... file; never pass the key itself.")
+    exa.add_argument("--engine", default="exa-search")
+    exa.add_argument("--search-type", choices=("instant", "fast", "auto"), default="auto")
+    exa.add_argument("--max-results", type=int, default=10)
+    exa.add_argument("--timeout", type=int, default=60)
+    exa.add_argument("--note", default="")
+    exa.set_defaults(func=cmd_probe_exa)
 
     discovery = sub.add_parser("discovery", help="Discovery matrix: query × engine.")
     discovery.add_argument("--map", required=True)
@@ -105,7 +125,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     try:
         return args.func(args)
-    except (MapError, LLMError, OODError, FileNotFoundError, ConnectionError) as exc:
+    except (MapError, LLMError, OODError, SearchAPIError, FileNotFoundError, ConnectionError) as exc:
         print(f"geo_eval: {exc}", file=sys.stderr)
         return 2
 
@@ -236,27 +256,78 @@ def cmd_probe_judge(args: argparse.Namespace) -> int:
     return 0
 
 
-def cmd_probe_memory(args: argparse.Namespace) -> int:
-    kmap = load_map(args.map)
-    queries = [row["query"] for row in all_queries(kmap)]
-    key = load_api_key()
-    base = os.environ.get("GEO_LLM_BASE_URL", DEFAULT_BASE_URL)
+def _run_search_probe(
+    *,
+    kmap: KnowledgeMap,
+    probes: str,
+    answers_path: str | None,
+    engine: str,
+    note: str,
+    search: Callable[[str], str],
+) -> int:
+    answers: list[dict[str, str]] = []
     failures = 0
-    for model in args.model:
+    for row in all_queries(kmap):
+        query = row["query"]
         try:
-            records, answers = probe_llm_memory(
-                kmap, queries, model=model,
-                ask=lambda prompt, m=model: chat(prompt, model=m, base_url=base, api_key=key, system=None),
-            )
-        except LLMError as exc:
-            print(f"geo_eval: memory:{model}: {exc}", file=sys.stderr)
+            answers.append({"query": query, "text": search(query)})
+        except SearchAPIError as exc:
+            print(f"geo_eval: {engine}: {query}: {exc}", file=sys.stderr)
             failures += 1
-            continue
-        if args.answers_dir:
-            _append(str(Path(args.answers_dir) / f"memory-{model}.jsonl"), answers)
-        _append(args.probes, records)
+    records = judge_answers_file(
+        kmap,
+        [json.dumps(answer, ensure_ascii=False) for answer in answers],
+        engine,
+        note,
+    )
+    if answers_path and answers:
+        _append(answers_path, answers)
+    if records:
+        _append(probes, records)
         _print_judged(records)
-    return 2 if failures == len(args.model) else 0
+    if failures:
+        print(f"geo_eval: {engine}: {failures}/{len(answers) + failures} queries failed", file=sys.stderr)
+    return 2 if failures else 0
+
+
+def cmd_probe_tavily(args: argparse.Namespace) -> int:
+    kmap = load_map(args.map)
+    key = load_search_api_key("tavily", args.api_key_file)
+    note = args.note or f"Tavily Search API ({args.search_depth}, max_results={args.max_results})"
+    return _run_search_probe(
+        kmap=kmap,
+        probes=args.probes,
+        answers_path=args.answers,
+        engine=args.engine,
+        note=note,
+        search=lambda query: search_tavily(
+            query,
+            api_key=key,
+            search_depth=args.search_depth,
+            max_results=args.max_results,
+            timeout=args.timeout,
+        ),
+    )
+
+
+def cmd_probe_exa(args: argparse.Namespace) -> int:
+    kmap = load_map(args.map)
+    key = load_search_api_key("exa", args.api_key_file)
+    note = args.note or f"Exa Search API ({args.search_type}, max_results={args.max_results})"
+    return _run_search_probe(
+        kmap=kmap,
+        probes=args.probes,
+        answers_path=args.answers,
+        engine=args.engine,
+        note=note,
+        search=lambda query: search_exa(
+            query,
+            api_key=key,
+            search_type=args.search_type,
+            max_results=args.max_results,
+            timeout=args.timeout,
+        ),
+    )
 
 
 def cmd_discovery(args: argparse.Namespace) -> int:

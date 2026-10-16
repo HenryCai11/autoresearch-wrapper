@@ -32,8 +32,20 @@ The `search` column above is an average across engines. `geo_eval discovery` sho
 | --- | --- | --- |
 | an agent's own web search tool | the agent searches, saves `{query, text}` answers, `probe-judge` | the agent |
 | `codex-search` | `geo/scripts/probe_codex.sh` (Codex CLI `--search`, OpenAI web search) then `probe-judge` | a logged-in Codex CLI and internet |
-| `memory:<model>` | `geo_eval probe-memory`: the model answers from memory, no web | any OpenAI-compatible endpoint (Aleph on Vulcan) |
+| `tavily-search` | `geo_eval probe-tavily`; Tavily `basic` search with 10 ranked results by default | `TAVILY_API_KEY` or `TAVILY_API_KEY_FILE` |
+| `exa-search` | `geo_eval probe-exa`; Exa `auto` search with highlighted content and 10 ranked results by default | `EXA_API_KEY` or `EXA_API_KEY_FILE` |
 | anything else | `probe-record` or `probe-judge` with your own answers | — |
+
+Only search-enabled engines belong in this matrix. Historical `memory:*` probe
+records are retained in JSONL logs for auditability, but are ignored by both the
+discovery matrix and the eval matrix's `search` column.
+
+Tavily and Exa keys are read only at runtime. Never put a key in this repo, an
+`instance.env`, a command argument, or a Slurm script. Use a rotated key in the
+provider's environment variable, or keep it in a permission-protected file outside
+the repo and set `TAVILY_API_KEY_FILE` / `EXA_API_KEY_FILE` (or pass that path with
+`--api-key-file`). Provider errors report only the HTTP status and never response
+headers or credentials.
 
 ## Quick start
 
@@ -42,4 +54,6 @@ python3 scripts/geo_eval.py validate --map geo/instances/<name>/map.json
 geo/scripts/stage_gems.sh <site-repo>        # Jekyll sites, once, needs internet
 sbatch ... geo/scripts/setup_jekyll.sh       # offline install on a compute node
 cd <site-repo> && srun ... ../path/to/geo/scripts/score.sh geo/instances/<name>
+srun ... bash skills/geo-autoresearch/geo.sh eval probe-tavily --map <map> --probes <probes>
+srun ... bash skills/geo-autoresearch/geo.sh eval probe-exa --map <map> --probes <probes>
 ```
