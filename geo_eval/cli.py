@@ -16,11 +16,13 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import os
 import sys
 from pathlib import Path
 
+from .discovery import all_queries, build_discovery, judge_answers_file, probe_llm_memory
 from .kmap import MapError, load_map
-from .llm import LLMError, score_llm
+from .llm import DEFAULT_BASE_URL, LLMError, chat, load_api_key, score_llm
 from .matrix import build_matrix, load_probes
 from .offline import score_technical
 from .ood import OODError, goatcounter_snapshot, snapshot_from_dir
@@ -65,6 +67,29 @@ def main(argv: list[str] | None = None) -> int:
     record.add_argument("--url", help="The result URL that surfaced, if any.")
     record.add_argument("--note", default="")
     record.set_defaults(func=cmd_probe_record)
+
+    judge = sub.add_parser("probe-judge", help="Judge collected answers ({query, text} JSONL) from any engine.")
+    judge.add_argument("--map", required=True)
+    judge.add_argument("--probes", required=True, help="Probe log to append judged records to.")
+    judge.add_argument("--answers", required=True, help="JSONL with one {\"query\", \"text\"} object per line.")
+    judge.add_argument("--engine", required=True, help="Engine name for the column, e.g. codex-search.")
+    judge.add_argument("--note", default="")
+    judge.set_defaults(func=cmd_probe_judge)
+
+    memory = sub.add_parser("probe-memory", help="Ask LLMs with no web access, from memory, for every map query.")
+    memory.add_argument("--map", required=True)
+    memory.add_argument("--probes", required=True)
+    memory.add_argument("--model", action="append", required=True, help="Model id; repeat for several.")
+    memory.add_argument("--answers-dir", help="Save each model's full answers here as <engine>.jsonl, for re-judging.")
+    memory.set_defaults(func=cmd_probe_memory)
+
+    discovery = sub.add_parser("discovery", help="Discovery matrix: query × engine.")
+    discovery.add_argument("--map", required=True)
+    discovery.add_argument("--probes", required=True)
+    discovery.add_argument("--since", help="Only use probes recorded at or after this ISO time.")
+    discovery.add_argument("--format", choices=("markdown", "json"), default="markdown")
+    discovery.add_argument("--report", help="Write the JSON matrix here.")
+    discovery.set_defaults(func=cmd_discovery)
 
     ood = sub.add_parser("ood", help="Log a real-traffic snapshot (GoatCounter).")
     ood.add_argument("--goatcounter", required=True, help="GoatCounter site code.")
@@ -179,6 +204,68 @@ def cmd_probe_record(args: argparse.Namespace) -> int:
     with path.open("a") as handle:
         handle.write(json.dumps(record, ensure_ascii=False) + "\n")
     print(json.dumps(record, ensure_ascii=False))
+    return 0
+
+
+def _append(path: str, records: list[dict]) -> None:
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    with target.open("a") as handle:
+        for record in records:
+            handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+
+
+def _print_judged(records: list[dict]) -> None:
+    for record in records:
+        mark = f"found (rank {record['rank']})" if record["found"] and record["rank"] else ("found" if record["found"] else "not found")
+        print(f"{record['engine']}\t{mark}\t{record['query']}")
+
+
+def cmd_probe_judge(args: argparse.Namespace) -> int:
+    kmap = load_map(args.map)
+    records = judge_answers_file(kmap, Path(args.answers).read_text().splitlines(), args.engine, args.note)
+    _append(args.probes, records)
+    _print_judged(records)
+    return 0
+
+
+def cmd_probe_memory(args: argparse.Namespace) -> int:
+    kmap = load_map(args.map)
+    queries = [row["query"] for row in all_queries(kmap)]
+    key = load_api_key()
+    base = os.environ.get("GEO_LLM_BASE_URL", DEFAULT_BASE_URL)
+    failures = 0
+    for model in args.model:
+        try:
+            records, answers = probe_llm_memory(
+                kmap, queries, model=model,
+                ask=lambda prompt, m=model: chat(prompt, model=m, base_url=base, api_key=key, system=None),
+            )
+        except LLMError as exc:
+            print(f"geo_eval: memory:{model}: {exc}", file=sys.stderr)
+            failures += 1
+            continue
+        if args.answers_dir:
+            _append(str(Path(args.answers_dir) / f"memory-{model}.jsonl"), answers)
+        _append(args.probes, records)
+        _print_judged(records)
+    return 2 if failures == len(args.model) else 0
+
+
+def cmd_discovery(args: argparse.Namespace) -> int:
+    kmap = load_map(args.map)
+    probes = load_probes(args.probes)
+    if args.since:
+        probes = [p for p in probes if p.get("recorded_at", "") >= args.since]
+    matrix = build_discovery(kmap, probes)
+    if args.report:
+        Path(args.report).write_text(json.dumps(matrix.to_dict(), indent=2, ensure_ascii=False) + "\n")
+    if args.format == "json":
+        print(json.dumps(matrix.to_dict(), indent=2, ensure_ascii=False))
+    else:
+        print(matrix.to_markdown())
+        for engine, stats in matrix.summary().items():
+            print(f"ENGINE {engine}: found {stats['found']}/{stats['probed']}, weighted {stats['all']}")
     return 0
 
 

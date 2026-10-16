@@ -24,6 +24,17 @@ One row per knowledge-map keyword (hop 0 = core identity, hop 1 = papers/areas/o
 
 `search` and real traffic (`ood`) lag by days and are noisy; they confirm gains out of distribution and never drive a round.
 
+## The discovery matrix
+
+The `search` column above is an average across engines. `geo_eval discovery` shows the full **query × engine** matrix: one cell per (query, engine), found or not and the rank of the entity's site. Every engine's answer is judged by the same rule (`geo_eval/discovery.py`): found if the answer cites the site, or names the entity with an attribution term (the affiliation) in the same sentence. Engines so far:
+
+| engine | how | needs |
+| --- | --- | --- |
+| an agent's own web search tool | the agent searches, saves `{query, text}` answers, `probe-judge` | the agent |
+| `codex-search` | `geo/scripts/probe_codex.sh` (Codex CLI `--search`, OpenAI web search) then `probe-judge` | a logged-in Codex CLI and internet |
+| `memory:<model>` | `geo_eval probe-memory`: the model answers from memory, no web | any OpenAI-compatible endpoint (Aleph on Vulcan) |
+| anything else | `probe-record` or `probe-judge` with your own answers | — |
+
 ## Quick start
 
 ```bash

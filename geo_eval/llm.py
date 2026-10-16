@@ -129,16 +129,15 @@ def chat(
     retries: int = 3,
     timeout: int = 180,
     sleep: Callable[[float], None] = time.sleep,
+    system: str | None = SYSTEM_PROMPT,
 ) -> str:
-    body = json.dumps(
-        {
-            "model": model,
-            "messages": [{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": prompt}],
-            "temperature": 0,
-            "max_tokens": 4096,
-            "reasoning_effort": "low",
-        }
-    ).encode()
+    messages = [{"role": "user", "content": prompt}]
+    if system:
+        messages.insert(0, {"role": "system", "content": system})
+    request_body: dict[str, Any] = {"model": model, "messages": messages, "temperature": 0, "max_tokens": 4096}
+    if model.startswith("gpt-oss"):
+        request_body["reasoning_effort"] = "low"  # gpt-oss specific; other servers may reject it
+    body = json.dumps(request_body).encode()
     last_error = ""
     for attempt in range(retries):
         request = urllib.request.Request(

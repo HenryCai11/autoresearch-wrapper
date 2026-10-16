@@ -16,6 +16,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from geo_eval import cli
+from geo_eval.discovery import build_discovery, judge_answer
 from geo_eval.kmap import MapError, contains_term, parse_map
 from geo_eval.llm import LLMError, build_context, chat, grade, load_api_key, parse_answers, score_llm
 from geo_eval.matrix import build_matrix
@@ -300,6 +301,98 @@ class GeoEvalTests(unittest.TestCase):
         self.assertEqual(snapshot["ai_referred_visits"], 3)
         self.assertEqual(snapshot["ai_referrers"], {"ChatGPT": 2, "Perplexity": 1})
         self.assertEqual(snapshot["top_pages"][0], {"path": "/", "count": 5})
+
+    # -- discovery matrix ----------------------------------------------------
+
+    def test_judge_ranks_cited_site_and_requires_same_sentence_attribution(self) -> None:
+        cited = judge_answer(
+            "1. Babbage page https://babbage.example/x\n2. **Ada Lovelace**, see https://www.ada.example/notes.",
+            self.kmap,
+        )
+        self.assertTrue(cited.found and cited.site_cited)
+        self.assertEqual(cited.rank, 2)
+        self.assertEqual(cited.url, "https://www.ada.example/notes")
+
+        attributed = judge_answer(
+            "Ada Lovelace is a member of the Analytical Society. She worked with Charles Babbage.", self.kmap
+        )
+        self.assertTrue(attributed.found and attributed.attributed and not attributed.site_cited)
+
+        # Echoing the query's affiliation and inventing the rest is not finding the entity.
+        query = "Ada Lovelace Analytical Society"
+        hallucinated = judge_answer("Ada Lovelace, Analytical Society: professor of chemistry and botany.", self.kmap, query)
+        self.assertFalse(hallucinated.found)
+        # A true fact the query did not contain corroborates it.
+        corroborated = judge_answer("Ada Lovelace, Analytical Society; wrote the first computer program.", self.kmap, query)
+        self.assertTrue(corroborated.found)
+
+        split = judge_answer("Ada Lovelace wrote notes.\nThe Analytical Society met in London.", self.kmap)
+        self.assertFalse(split.found)
+        similar = judge_answer("Ada Byron-King of the Analytical Society.", self.kmap)
+        self.assertFalse(similar.found)
+
+    def test_discovery_matrix_uses_latest_record_per_engine(self) -> None:
+        probes = [
+            {"query": "first computer program", "engine": "web", "found": False, "rank": None, "recorded_at": "2026-01-01T00:00:00"},
+            {"query": "first computer program", "engine": "web", "found": True, "rank": 2, "recorded_at": "2026-02-01T00:00:00"},
+            {"query": "Ada Lovelace Analytical Society", "engine": "memory:m", "found": True, "rank": None, "recorded_at": "2026-02-01T00:00:00"},
+            {"query": "an extra query", "engine": "web", "found": False, "rank": None, "recorded_at": "2026-02-01T00:00:00"},
+        ]
+        matrix = build_discovery(self.kmap, probes)
+        self.assertEqual(matrix.engines, ["memory:m", "web"])
+        self.assertEqual(matrix.cells[("first computer program", "web")], {"found": True, "rank": 2, "url": None})
+        self.assertNotIn(("first computer program", "memory:m"), matrix.cells)
+        self.assertIn("an extra query", [row["query"] for row in matrix.rows])
+        summary = matrix.summary()
+        self.assertEqual((summary["web"]["found"], summary["web"]["probed"]), (1, 2))
+        self.assertEqual(summary["memory:m"]["hop0"], 1.0)
+        self.assertIn("| first computer program | 2 | - | ✓2 |", matrix.to_markdown())
+
+    def test_cli_probe_judge_and_discovery(self) -> None:
+        map_path = self.tmp / "map.json"
+        map_path.write_text(json.dumps(MAP))
+        answers = self.tmp / "answers.jsonl"
+        answers.write_text(
+            json.dumps({"query": "first computer program", "text": "1. https://ada.example/ - Ada Lovelace"}) + "\n"
+            + json.dumps({"query": "Charles Babbage", "text": "Charles Babbage, mathematician."}) + "\n"
+        )
+        probes = self.tmp / "probes.jsonl"
+        code, out = self.run_cli("probe-judge", "--map", str(map_path), "--probes", str(probes), "--answers", str(answers), "--engine", "codex-search")
+        self.assertEqual(code, 0)
+        self.assertIn("found (rank 1)", out)
+        records = [json.loads(line) for line in probes.read_text().splitlines()]
+        self.assertEqual([r["found"] for r in records], [True, False])
+        code, out = self.run_cli("discovery", "--map", str(map_path), "--probes", str(probes))
+        self.assertIn("ENGINE codex-search: found 1/2", out)
+
+    def test_cli_probe_memory_uses_no_system_prompt_and_judges(self) -> None:
+        map_path = self.tmp / "map.json"
+        map_path.write_text(json.dumps(MAP))
+        probes = self.tmp / "probes.jsonl"
+        calls: list[dict] = []
+
+        def fake_chat(prompt: str, **kwargs) -> str:
+            calls.append(kwargs)
+            if "Analytical Society" in prompt:
+                return "Ada Lovelace (Analytical Society), collaborator of Charles Babbage."
+            if "Charles Babbage" in prompt:
+                return "Ada Lovelace (Analytical Society), professor of botany."  # echo + invention
+            return "I do not know."
+
+        answers_dir = self.tmp / "answers"
+        with mock.patch("geo_eval.cli.chat", side_effect=fake_chat), mock.patch("geo_eval.cli.load_api_key", return_value="k"):
+            code, out = self.run_cli(
+                "probe-memory", "--map", str(map_path), "--probes", str(probes), "--model", "m1", "--answers-dir", str(answers_dir)
+            )
+        self.assertEqual(code, 0)
+        self.assertTrue(all(call["system"] is None for call in calls))
+        records = [json.loads(line) for line in probes.read_text().splitlines()]
+        self.assertEqual(len(records), 5)
+        self.assertEqual({r["engine"] for r in records}, {"memory:m1"})
+        found = {r["query"] for r in records if r["found"]}
+        self.assertEqual(found, {"Ada Lovelace Analytical Society"})
+        saved = (answers_dir / "memory-m1.jsonl").read_text().splitlines()
+        self.assertEqual(len(saved), 5)
 
     def test_geo_launcher_finds_toolkit_through_symlink(self) -> None:
         home = Path(tempfile.mkdtemp(prefix="geo-home-"))

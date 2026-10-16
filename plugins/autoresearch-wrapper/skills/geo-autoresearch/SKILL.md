@@ -74,10 +74,16 @@ Take facts only from the site and the user. Never invent affiliations, awards, o
 ## 3. Baseline
 
 1. **Local score:** `cd <site-repo> && bash "$GEO" score <instance> --report <file>`, through the scheduler. Show the user the matrix, the lost technical checks, and wrong LLM answers.
-2. **Search probes:** `bash "$GEO" eval queries --map <instance>/map.json` lists one query per keyword. Search each one with your web search tool. Count a probe as `--found` only if the result surfaces the entity's own site, or names the entity with the correct affiliation. Record each:
-   ```bash
-   bash "$GEO" eval probe-record --probes <instance>/probes.jsonl --query "<query>" --found --rank 3 --engine <tool> --url <url>
-   ```
+2. **Discovery matrix (search probes):** query × engine, judged by one rule in `geo_eval/discovery.py`. **found** means the answer cites the entity's site (with its rank among the cited URLs), or names the entity with an attribution term (the affiliation) in the same sentence or line. List the queries with `bash "$GEO" eval queries --map <instance>/map.json`; give hop-1 area nodes discovery queries without the name (e.g. "<area> PhD student <affiliation>"). Then fill engine columns:
+   - **Your own web search tool:** search each query, then save `{"query", "text"}` lines with the result URLs in order and any sentences naming the entity. Judge them:
+     ```bash
+     bash "$GEO" eval probe-judge --map <instance>/map.json --probes <instance>/probes.jsonl --engine <tool>-search --answers answers.jsonl
+     ```
+   - **Codex web search** (OpenAI search through the local ChatGPT login, no API key): `bash "$(bash "$GEO" root)/geo/scripts/probe_codex.sh" queries.txt answers.jsonl`, then `probe-judge --engine codex-search`. It needs internet, so run it where there is some (a login node is fine: it compiles nothing).
+   - **LLMs from memory, with no web access** (e.g. Aleph models): `bash "$GEO" eval probe-memory --map ... --probes ... --model <id> [--model <id> ...]`. Run this through the scheduler. It changes only when models are retrained, so it's the slowest signal.
+   - **Anything else** (a human search, another API): `probe-record --engine <name>`, or save the answers and `probe-judge` them.
+
+   View the matrix with `bash "$GEO" eval discovery --map ... --probes ... [--since <ISO time>]`.
 3. **Traffic snapshot:** `bash "$GEO" eval ood --goatcounter <code> --token-file <file> --log <instance>/ood.jsonl`. Never print the token. Where the machine that runs Python can't reach GoatCounter (e.g. compute nodes behind a proxy), fetch with curl where there is internet, then summarise offline:
    ```bash
    bash "$GEO" fetch-goatcounter <code> <token-file> 7 <dir>
