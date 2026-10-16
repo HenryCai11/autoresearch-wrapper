@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "verified_at": "2026-10-16T16:37:06Z",
+  "complete_summary_at": "2026-10-16T16:35:12+00:00",
+  "production_merge_commit": "bbc3b79d20323549fd29e422017ed6c457c6b707",
+  "production_tree": "c2e643d4d1462b72bc4914de9222cfb200be07e3",
+  "resource_sha256": {
+    "index.html": "804fb749843152e5adb4187890b45887cf161570b64ccf91b70b89d7aa1bb14c"
+  },
+  "served_directory": "served-final",
+  "origin_ref_file": "origin-main-final.txt",
+  "note": "The original served-after check was issued while the final Codex request was still in flight. It is retained as an intermediate check, not the authoritative end-of-collection proof. This supplemental check occurred after the completed 60-cell summary and supersedes that timing claim. No search was repeated, and no raw answers, matrix, metric or decision changed."
+}

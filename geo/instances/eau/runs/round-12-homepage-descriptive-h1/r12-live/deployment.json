@@ -1,0 +1,18 @@
+{
+  "source_branch": "codex/geo-live-round-12-deploy",
+  "candidate_branch": "codex/geo-live-round-12",
+  "candidate_commit": "95940d50088176ada54ea4ed829bbf4ced9c1135",
+  "deploy_commit": "370c111915310be9ce80fe4202d9ae7bd1a4e7ec",
+  "production_merge_commit": "bbc3b79d20323549fd29e422017ed6c457c6b707",
+  "production_tree": "c2e643d4d1462b72bc4914de9222cfb200be07e3",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "resource_sha256": {
+    "index.html": "804fb749843152e5adb4187890b45887cf161570b64ccf91b70b89d7aa1bb14c"
+  },
+  "served_version_verified_at": "2026-10-16T16:31:12Z",
+  "served_version_reverified_at": "2026-10-16T16:34:57Z",
+  "verification": "The only changed resource, index.html, byte-matches the candidate and production before and after all searches; full production tree equals candidate.",
+  "authorization": "User explicitly confirmed publishing and testing R12, then preparing the next round.",
+  "selection_seed": "R9, 8/60; not previous R11 production with 7/60",
+  "deployment_method": "Isolated deploy branch based on R11; exact candidate index.html and complete candidate tree verified before merge. Relative to R11, the homepage restores the R9 overview as well as testing its H1."
+}

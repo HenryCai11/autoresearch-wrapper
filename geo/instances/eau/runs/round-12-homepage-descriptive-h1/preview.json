@@ -1,0 +1,9 @@
+{
+  "applied": false,
+  "files": [
+    "index.html"
+  ],
+  "diffs": {
+    "index.html": "--- a/index.html\n+++ b/index.html\n@@ -65,7 +65,7 @@\n     <section class=\"hero wrap\" aria-labelledby=\"hero-title\">\n       <div class=\"hero-copy\">\n         <p class=\"hero-description\" id=\"project-reference\">Official EAU project website: <a href=\"https://eau-meta-agent.github.io/\">eau-meta-agent.github.io</a> · <a href=\"https://arxiv.org/abs/2610.16523\">arXiv:2610.16523</a>.</p>\n-        <h1 id=\"hero-title\">Learning to<br>evolve, <em>together.</em></h1>\n+        <h1 id=\"hero-title\">EAU:<br><em>Co-evolution.</em></h1>\n         <p class=\"hero-subtitle\">Environment–Agent–User Co-evolution<br>for Training User-Centric Agents</p>\n         <p class=\"hero-description\"><strong>EAU is a meta-agent framework</strong> that evolves the environment, the agent, and the simulated user together while training user-centric agents.</p>\n         <div class=\"hero-actions\">\n"
+  }
+}

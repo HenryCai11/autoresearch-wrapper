@@ -1,0 +1,10 @@
+{
+  "state": "deployed_and_measured",
+  "production_commit": "bbc3b79d20323549fd29e422017ed6c457c6b707",
+  "decision": "discard",
+  "primary_citations": "6/60",
+  "report": "r12-live/REPORT.md",
+  "preparation_snapshot": "change.json",
+  "live_change": "r12-live/deployed-change.json",
+  "post_collection_verification": "r12-live/post-collection-verification.json"
+}

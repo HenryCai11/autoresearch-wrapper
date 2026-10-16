@@ -1,0 +1,73 @@
+[
+  {
+    "id": "homepage-descriptive-h1",
+    "status": "selected_preparing",
+    "measured": false,
+    "parents": [
+      "r1",
+      "r6",
+      "r7",
+      "r8",
+      "r9"
+    ],
+    "modules": [
+      "homepage-identity",
+      "presentation",
+      "paper-authority"
+    ],
+    "hypothesis": "Put the existing EAU name and co-evolution topic in the visible primary heading; test outer discovery without changing facts or metadata.",
+    "retain_for_combinations": true,
+    "round": 12,
+    "change_id": "r12-homepage-descriptive-h1",
+    "base_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+    "files": [
+      "index.html"
+    ],
+    "module_dependencies": [
+      "index.html: existing name, subtitle and hero-title ARIA target",
+      "styles.css: unchanged two-line hero typography",
+      "R7/R8/R9: retain overview, references and static evidence"
+    ],
+    "scope": "Replace only the existing hero h1 contents with EAU: / Co-evolution.; keep the id, two-line structure and emphasis markup.",
+    "reason_selected": "R11 returned four explicit homepage URLs but no support-page URLs. The homepage h1 is still Learning to evolve, together., while EAU and the full title are outside that h1. Test this small visible identity change on the already observed entry page.",
+    "alternatives_deferred": [
+      "static-second-backbone-evidence",
+      "static-component-reference",
+      "external-paper-link-audit"
+    ],
+    "interpretation": "Unmeasured local hypothesis, not predicted citation lift; broader page/module review is recorded separately."
+  },
+  {
+    "id": "static-second-backbone-evidence",
+    "status": "queued_unmeasured",
+    "measured": false,
+    "parents": [
+      "r4",
+      "r9"
+    ],
+    "modules": [
+      "homepage-identity",
+      "presentation",
+      "paper-authority"
+    ],
+    "hypothesis": "Expose the existing Qwen2.5-7B-Instruct result rows in separately labelled static HTML while preserving the default model and switch; no mixed-backbone or invented results.",
+    "retain_for_combinations": true
+  },
+  {
+    "id": "static-component-reference",
+    "status": "queued_unmeasured",
+    "measured": false,
+    "parents": [
+      "r2",
+      "r7",
+      "r9"
+    ],
+    "modules": [
+      "homepage-identity",
+      "method-reference",
+      "presentation"
+    ],
+    "hypothesis": "Expose the existing environment and agent tab descriptions in accessible static HTML while preserving the interactive explorer and avoiding duplicate padding.",
+    "retain_for_combinations": true
+  }
+]

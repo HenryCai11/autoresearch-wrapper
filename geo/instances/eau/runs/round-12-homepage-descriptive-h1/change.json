@@ -1,0 +1,79 @@
+{
+  "round": 12,
+  "change_id": "r12-homepage-descriptive-h1",
+  "pool_candidate_id": "homepage-descriptive-h1",
+  "state": "validated_awaiting_deployment_approval",
+  "files": [
+    "index.html"
+  ],
+  "graph_nodes": [
+    "file:index.html"
+  ],
+  "base_production_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+  "base_production_tree": "5ebd5d1c28e00690d58caafa0edfe066ae5307d7",
+  "base_role": "historical best seed, NOT current production",
+  "current_production_commit": "c744ba125108d003ea61e8b89807e274ffaa6e4e",
+  "current_production_tree": "ccf91bf07379aae81ec4ba3c698803d0bd69368c",
+  "parents": [
+    "r1",
+    "r6",
+    "r7",
+    "r8",
+    "r9"
+  ],
+  "hypothesis": "Put the existing EAU name and co-evolution topic in the visible primary heading; test outer discovery without changing facts or metadata.",
+  "selection": {
+    "primary_metric": "live_project_citation_rate",
+    "goal": "maximize",
+    "definition": "100 * frozen geo_eval site_cited cells / 60; bare project-domain occurrences count under the existing judge.",
+    "engines": [
+      "gpt-web",
+      "codex-search",
+      "tavily-search",
+      "exa-search"
+    ],
+    "validity": "All 60 frozen query-engine cells must return valid responses for automatic ranking.",
+    "inner_metric": "not computed and not used",
+    "baseline": "Best fully observed R9 seed: preserved 2026-10-16T13:09:24Z observation, 8/60 citations, composite 30.25; reused historical control, not new searches.",
+    "current_production": "R11 is still deployed and had 7/60, composite 28.9722; contextual only, not the R12 keep threshold.",
+    "deployment": "Require explicit R12 publication approval, exact candidate tree and served homepage bytes verified, and real 60-cell observations before evaluating the candidate.",
+    "history": "Retain all discarded candidates and queued proposals; never add parent metrics to rank a combination.",
+    "limitations": "Historical single samples do not establish causal effects or exclude indexing lag. No automatic deployment or rollback."
+  },
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+  "unchanged_vs_seed": [
+    "R7 overview",
+    "R8 reference cluster",
+    "R9 static results",
+    "all other HTML bytes and files",
+    "scripts",
+    "styles",
+    "metadata",
+    "knowledge map",
+    "queries",
+    "judge",
+    "engine settings"
+  ],
+  "excluded_unkept_deltas": [
+    "R10 shared scholarly identity",
+    "R11 overview restoration"
+  ],
+  "deployment_plan": "Do not blindly merge this R9-based candidate into R11: that would retain the unkept R11 overview. After explicit approval, use an isolated deploy branch based on current main, apply exact candidate content for index.html, verify the entire candidate tree, then merge and publish. Relative to production, index.html contains both the intended h1 test and the restoration of the R9 overview.",
+  "candidate_commit": "95940d50088176ada54ea4ed829bbf4ced9c1135",
+  "candidate_tree": "c2e643d4d1462b72bc4914de9222cfb200be07e3",
+  "wrapper_run_id": "20261016T144122Z-index-html",
+  "candidate": {
+    "based_on": "autoresearch/index-html/20261016T144122Z-index-html/seed",
+    "branch": "autoresearch/index-html/20261016T144122Z-index-html/candidate-001",
+    "candidate_id": "candidate-001",
+    "created_at": "2026-10-16T14:41:23+00:00",
+    "lifecycle": "allocated",
+    "missing": false,
+    "worktree_path": "/scratch/henrycai/eau-r12-20261016.autoresearch-worktrees/20261016T144122Z-index-html/candidate-001"
+  },
+  "production_changed_files": [
+    "index.html"
+  ],
+  "selection_seed_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+  "selection_seed_tree": "5ebd5d1c28e00690d58caafa0edfe066ae5307d7"
+}

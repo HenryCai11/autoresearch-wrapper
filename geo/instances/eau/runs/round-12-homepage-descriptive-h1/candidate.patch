@@ -1,0 +1,7 @@
+diff --git a/index.html b/index.html
+index 7205feb..46da58a 100644
+--- a/index.html
++++ b/index.html
+@@ -68 +68 @@
+-        <h1 id="hero-title">Learning to<br>evolve, <em>together.</em></h1>
++        <h1 id="hero-title">EAU:<br><em>Co-evolution.</em></h1>

@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "cells": 60,
+  "project_citations": 6,
+  "history_count": 13,
+  "unmeasured_proposals": 3,
+  "archived_metric_replays": {
+    "seed": "LIVE_PROJECT_CITATIONS=8/60\nMETRIC=13.333333333333334",
+    "candidate-001": "LIVE_PROJECT_CITATIONS=6/60\nMETRIC=10.0"
+  },
+  "script_sha256": {
+    "record_deployment.py": "fd9a9a987186ed2ad4f151567f60c000ae3048fc3547daa91670200f19de68d4",
+    "summarize_outer_live.py": "0c0e910bcdfd8c67c5cd53487c87fbf11c6e11c179cbf3b2925f1c9d566e7c71",
+    "finalize_r12_measurement.py": "3b9474199742d55e285535073b81dc0d5d52cad4c7ada620ff2eab8ab9bd9309",
+    "archive_r12_live.py": "fc9b387dcc7cdeb4021b4cdcf5614d5aebbff30040041c06a373660bc6b716f9",
+    "verify_served.sh": "89d676d6b5d523ac90b275785e951c63c6d5cffde86c384f695bf3fa4b35d713",
+    "finish_r12.sh": "b5542aff3e4581771436a742ae6b4237fac0c65011d11b03699f4c0e570ca54d",
+    "audit_r12.py": "8fb6f090f44472f05f81fff217e61c8f899741c9dc5bb428d90150978dd5f60b"
+  }
+}

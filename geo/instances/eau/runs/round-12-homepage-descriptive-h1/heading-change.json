@@ -1,0 +1,6 @@
+{
+  "before": "<h1 id=\"hero-title\">Learning to<br>evolve, <em>together.</em></h1>",
+  "after": "<h1 id=\"hero-title\">EAU:<br><em>Co-evolution.</em></h1>",
+  "facts": "Existing EAU name and co-evolution topic; the full existing paper title remains in the adjacent subtitle and document metadata.",
+  "layout_scope": "Same h1 id, two lines separated by one br, and em styling; no CSS change. Not browser-validated."
+}

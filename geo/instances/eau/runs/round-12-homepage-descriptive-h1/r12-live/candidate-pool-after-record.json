@@ -1,0 +1,1345 @@
+{
+  "schema_version": 1,
+  "site_url": "https://eau-meta-agent.github.io/",
+  "updated_at": "2026-10-16T16:35:13+00:00",
+  "current_round": 12,
+  "maintenance": "Site-specific ledger maintained by the agent when starting or recording a round; not an automatic scheduler or a new wrapper-core search algorithm.",
+  "policy": {
+    "primary_metric": "live_project_citation_rate",
+    "goal": "maximize",
+    "definition": "100 * frozen geo_eval site_cited cells / 60; bare project-domain occurrences count under the existing judge.",
+    "engines": [
+      "gpt-web",
+      "codex-search",
+      "tavily-search",
+      "exa-search"
+    ],
+    "validity": "All 60 frozen query-engine cells must return valid responses for automatic ranking.",
+    "inner_metric": "not computed and not used",
+    "baseline": "Best fully observed R9 seed: preserved 2026-10-16T13:09:24Z observation, 8/60 citations, composite 30.25; reused historical control, not new searches.",
+    "current_production": "R11 is still deployed and had 7/60, composite 28.9722; contextual only, not the R12 keep threshold.",
+    "deployment": "Require explicit R12 publication approval, exact candidate tree and served homepage bytes verified, and real 60-cell observations before evaluating the candidate.",
+    "history": "Retain all discarded candidates and queued proposals; never add parent metrics to rank a combination.",
+    "limitations": "Historical single samples do not establish causal effects or exclude indexing lag. No automatic deployment or rollback."
+  },
+  "modules": [
+    {
+      "id": "homepage-identity",
+      "files": [
+        "index.html"
+      ],
+      "depends_on": [
+        "presentation",
+        "reference-pages"
+      ]
+    },
+    {
+      "id": "method-reference",
+      "files": [
+        "method.html"
+      ],
+      "depends_on": [
+        "presentation",
+        "homepage-identity"
+      ]
+    },
+    {
+      "id": "research-context",
+      "files": [
+        "research-context.html"
+      ],
+      "depends_on": [
+        "method-reference",
+        "presentation",
+        "homepage-identity"
+      ]
+    },
+    {
+      "id": "paper-authority",
+      "files": [
+        "paper.html",
+        "CITATION.cff"
+      ],
+      "depends_on": [
+        "presentation",
+        "homepage-identity"
+      ]
+    },
+    {
+      "id": "machine-readable-summary",
+      "files": [
+        "llms.txt"
+      ],
+      "depends_on": [
+        "method-reference",
+        "research-context",
+        "paper-authority"
+      ]
+    },
+    {
+      "id": "repository-authority",
+      "files": [
+        "README.md"
+      ],
+      "depends_on": [
+        "homepage-identity",
+        "paper-authority"
+      ]
+    },
+    {
+      "id": "crawler-routing",
+      "files": [
+        "robots.txt",
+        "sitemap.xml"
+      ],
+      "depends_on": [
+        "reference-pages"
+      ]
+    },
+    {
+      "id": "presentation",
+      "files": [
+        "styles.css",
+        "script.js",
+        "site-config.js",
+        "assets/favicon.svg"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "reference-pages",
+      "files": [
+        "method.html",
+        "research-context.html",
+        "paper.html"
+      ],
+      "depends_on": [
+        "homepage-identity"
+      ]
+    },
+    {
+      "id": "external-paper-entry",
+      "urls": [
+        "https://arxiv.org/abs/2610.16523"
+      ],
+      "editable": false,
+      "authority": "paper author; not covered by website-edit permission",
+      "link_state": "unknown"
+    }
+  ],
+  "history": [
+    {
+      "id": "r0",
+      "round": 0,
+      "change_id": "r0-restore-e0cc480",
+      "files": [],
+      "candidate_commit": null,
+      "production_commit": "82ea530ccfc503cd587bd0cf38be52188b66fbff",
+      "branch": "codex/geo-live-baseline",
+      "outer_observation": {
+        "definition": "macro average over 15 fixed queries × 4 engines",
+        "weights": {
+          "citation_rate": 0.45,
+          "attribution_rate": 0.25,
+          "mrr": 0.2,
+          "mention_rate": 0.1
+        },
+        "score": 27.97,
+        "overall": {
+          "probed": 60,
+          "answer_success_rate": 0.9167,
+          "mention_rate": 0.65,
+          "found_rate": 0.5833,
+          "citation_rate": 0.1333,
+          "attribution_rate": 0.5833,
+          "mrr": 0.0444
+        },
+        "by_engine": {
+          "gpt-web": {
+            "probed": 15,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.7333,
+            "found_rate": 0.7333,
+            "citation_rate": 0.0,
+            "attribution_rate": 0.7333,
+            "mrr": 0.0
+          },
+          "codex-search": {
+            "probed": 15,
+            "answer_success_rate": 0.6667,
+            "mention_rate": 0.5333,
+            "found_rate": 0.4667,
+            "citation_rate": 0.3333,
+            "attribution_rate": 0.4667,
+            "mrr": 0.1778
+          },
+          "tavily-search": {
+            "probed": 15,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.4,
+            "found_rate": 0.3333,
+            "citation_rate": 0.0,
+            "attribution_rate": 0.3333,
+            "mrr": 0.0
+          },
+          "exa-search": {
+            "probed": 15,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.9333,
+            "found_rate": 0.8,
+            "citation_rate": 0.2,
+            "attribution_rate": 0.8,
+            "mrr": 0.0
+          }
+        },
+        "by_tier": {
+          "exact": {
+            "probed": 20,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.95,
+            "found_rate": 0.9,
+            "citation_rate": 0.3,
+            "attribution_rate": 0.9,
+            "mrr": 0.1167
+          },
+          "fuzzy": {
+            "probed": 20,
+            "answer_success_rate": 0.9,
+            "mention_rate": 0.65,
+            "found_rate": 0.65,
+            "citation_rate": 0.05,
+            "attribution_rate": 0.65,
+            "mrr": 0.0167
+          },
+          "broad": {
+            "probed": 20,
+            "answer_success_rate": 0.85,
+            "mention_rate": 0.35,
+            "found_rate": 0.2,
+            "citation_rate": 0.05,
+            "attribution_rate": 0.2,
+            "mrr": 0.0
+          }
+        }
+      },
+      "artifact_dir": "runs/live-5-round/round-0-pre-geo-baseline",
+      "retain_for_combinations": true,
+      "status": "historical_observation_not_isolated_module_effect"
+    },
+    {
+      "id": "r1",
+      "round": 1,
+      "change_id": "r1-machine-readable-identity",
+      "files": [
+        "index.html",
+        "llms.txt",
+        "robots.txt",
+        "sitemap.xml"
+      ],
+      "candidate_commit": "4eb20df",
+      "production_commit": "be9625b01cfb277f6aab9c05dee45d7e5a8a891b",
+      "branch": "codex/geo-live-round-1",
+      "outer_observation": {
+        "definition": "macro average over 15 fixed queries × 4 engines",
+        "weights": {
+          "citation_rate": 0.45,
+          "attribution_rate": 0.25,
+          "mrr": 0.2,
+          "mention_rate": 0.1
+        },
+        "score": 28.08,
+        "overall": {
+          "probed": 60,
+          "answer_success_rate": 0.9,
+          "mention_rate": 0.65,
+          "found_rate": 0.6,
+          "citation_rate": 0.1333,
+          "attribution_rate": 0.5833,
+          "mrr": 0.05
+        },
+        "by_engine": {
+          "gpt-web": {
+            "probed": 15,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.7333,
+            "found_rate": 0.7333,
+            "citation_rate": 0.0,
+            "attribution_rate": 0.7333,
+            "mrr": 0.0
+          },
+          "codex-search": {
+            "probed": 15,
+            "answer_success_rate": 0.6,
+            "mention_rate": 0.5333,
+            "found_rate": 0.5333,
+            "citation_rate": 0.3333,
+            "attribution_rate": 0.4667,
+            "mrr": 0.2
+          },
+          "tavily-search": {
+            "probed": 15,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.4,
+            "found_rate": 0.3333,
+            "citation_rate": 0.0,
+            "attribution_rate": 0.3333,
+            "mrr": 0.0
+          },
+          "exa-search": {
+            "probed": 15,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.9333,
+            "found_rate": 0.8,
+            "citation_rate": 0.2,
+            "attribution_rate": 0.8,
+            "mrr": 0.0
+          }
+        },
+        "by_tier": {
+          "exact": {
+            "probed": 20,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.95,
+            "found_rate": 0.95,
+            "citation_rate": 0.35,
+            "attribution_rate": 0.9,
+            "mrr": 0.15
+          },
+          "fuzzy": {
+            "probed": 20,
+            "answer_success_rate": 0.9,
+            "mention_rate": 0.65,
+            "found_rate": 0.65,
+            "citation_rate": 0.0,
+            "attribution_rate": 0.65,
+            "mrr": 0.0
+          },
+          "broad": {
+            "probed": 20,
+            "answer_success_rate": 0.8,
+            "mention_rate": 0.35,
+            "found_rate": 0.2,
+            "citation_rate": 0.05,
+            "attribution_rate": 0.2,
+            "mrr": 0.0
+          }
+        }
+      },
+      "artifact_dir": "runs/live-5-round/round-1-exact-identity",
+      "retain_for_combinations": true,
+      "status": "historical_observation_not_isolated_module_effect"
+    },
+    {
+      "id": "r2",
+      "round": 2,
+      "change_id": "r2-capability-landing-page",
+      "files": [
+        "method.html",
+        "index.html",
+        "llms.txt",
+        "sitemap.xml"
+      ],
+      "candidate_commit": "13b71dc",
+      "production_commit": "e49def194b9a475dd354975a8453a134f0d4ccd1",
+      "branch": "codex/geo-live-round-2",
+      "outer_observation": {
+        "definition": "macro average over 15 fixed queries × 4 engines",
+        "weights": {
+          "citation_rate": 0.45,
+          "attribution_rate": 0.25,
+          "mrr": 0.2,
+          "mention_rate": 0.1
+        },
+        "score": 28.25,
+        "overall": {
+          "probed": 60,
+          "answer_success_rate": 0.9,
+          "mention_rate": 0.65,
+          "found_rate": 0.6,
+          "citation_rate": 0.1333,
+          "attribution_rate": 0.5833,
+          "mrr": 0.0583
+        },
+        "by_engine": {
+          "gpt-web": {
+            "probed": 15,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.7333,
+            "found_rate": 0.7333,
+            "citation_rate": 0.0,
+            "attribution_rate": 0.7333,
+            "mrr": 0.0
+          },
+          "codex-search": {
+            "probed": 15,
+            "answer_success_rate": 0.6,
+            "mention_rate": 0.5333,
+            "found_rate": 0.5333,
+            "citation_rate": 0.3333,
+            "attribution_rate": 0.4667,
+            "mrr": 0.2333
+          },
+          "tavily-search": {
+            "probed": 15,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.4,
+            "found_rate": 0.3333,
+            "citation_rate": 0.0,
+            "attribution_rate": 0.3333,
+            "mrr": 0.0
+          },
+          "exa-search": {
+            "probed": 15,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.9333,
+            "found_rate": 0.8,
+            "citation_rate": 0.2,
+            "attribution_rate": 0.8,
+            "mrr": 0.0
+          }
+        },
+        "by_tier": {
+          "exact": {
+            "probed": 20,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.95,
+            "found_rate": 0.95,
+            "citation_rate": 0.35,
+            "attribution_rate": 0.9,
+            "mrr": 0.175
+          },
+          "fuzzy": {
+            "probed": 20,
+            "answer_success_rate": 0.85,
+            "mention_rate": 0.55,
+            "found_rate": 0.55,
+            "citation_rate": 0.0,
+            "attribution_rate": 0.55,
+            "mrr": 0.0
+          },
+          "broad": {
+            "probed": 20,
+            "answer_success_rate": 0.85,
+            "mention_rate": 0.45,
+            "found_rate": 0.3,
+            "citation_rate": 0.05,
+            "attribution_rate": 0.3,
+            "mrr": 0.0
+          }
+        }
+      },
+      "artifact_dir": "runs/live-5-round/round-2-fuzzy-capability",
+      "retain_for_combinations": true,
+      "status": "historical_observation_not_isolated_module_effect"
+    },
+    {
+      "id": "r3",
+      "round": 3,
+      "change_id": "r3-research-context-page",
+      "files": [
+        "research-context.html",
+        "index.html",
+        "llms.txt",
+        "sitemap.xml"
+      ],
+      "candidate_commit": "31fe5e4",
+      "production_commit": "808ea364b0df9d103b014d5e973a45a3b813eeca",
+      "branch": "codex/geo-live-round-3",
+      "outer_observation": {
+        "definition": "macro average over 15 fixed queries × 4 engines",
+        "weights": {
+          "citation_rate": 0.45,
+          "attribution_rate": 0.25,
+          "mrr": 0.2,
+          "mention_rate": 0.1
+        },
+        "score": 27.5,
+        "overall": {
+          "probed": 60,
+          "answer_success_rate": 0.8667,
+          "mention_rate": 0.6833,
+          "found_rate": 0.6,
+          "citation_rate": 0.1167,
+          "attribution_rate": 0.5833,
+          "mrr": 0.0417
+        },
+        "by_engine": {
+          "gpt-web": {
+            "probed": 15,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.7333,
+            "found_rate": 0.7333,
+            "citation_rate": 0.0,
+            "attribution_rate": 0.7333,
+            "mrr": 0.0
+          },
+          "codex-search": {
+            "probed": 15,
+            "answer_success_rate": 0.4667,
+            "mention_rate": 0.4667,
+            "found_rate": 0.4667,
+            "citation_rate": 0.2667,
+            "attribution_rate": 0.4,
+            "mrr": 0.1667
+          },
+          "tavily-search": {
+            "probed": 15,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.6,
+            "found_rate": 0.4,
+            "citation_rate": 0.0,
+            "attribution_rate": 0.4,
+            "mrr": 0.0
+          },
+          "exa-search": {
+            "probed": 15,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.9333,
+            "found_rate": 0.8,
+            "citation_rate": 0.2,
+            "attribution_rate": 0.8,
+            "mrr": 0.0
+          }
+        },
+        "by_tier": {
+          "exact": {
+            "probed": 20,
+            "answer_success_rate": 0.9,
+            "mention_rate": 0.9,
+            "found_rate": 0.9,
+            "citation_rate": 0.25,
+            "attribution_rate": 0.85,
+            "mrr": 0.1
+          },
+          "fuzzy": {
+            "probed": 20,
+            "answer_success_rate": 0.9,
+            "mention_rate": 0.7,
+            "found_rate": 0.65,
+            "citation_rate": 0.05,
+            "attribution_rate": 0.65,
+            "mrr": 0.025
+          },
+          "broad": {
+            "probed": 20,
+            "answer_success_rate": 0.8,
+            "mention_rate": 0.45,
+            "found_rate": 0.25,
+            "citation_rate": 0.05,
+            "attribution_rate": 0.25,
+            "mrr": 0.0
+          }
+        }
+      },
+      "artifact_dir": "runs/live-5-round/round-3-broad-domain",
+      "retain_for_combinations": true,
+      "status": "historical_observation_not_isolated_module_effect"
+    },
+    {
+      "id": "r4",
+      "round": 4,
+      "change_id": "r4-bibliographic-entity-graph",
+      "files": [
+        "paper.html",
+        "CITATION.cff",
+        "index.html",
+        "llms.txt",
+        "sitemap.xml"
+      ],
+      "candidate_commit": "99fd970",
+      "production_commit": "18ad3f754d52e2b0bbbee3b95883b384ffcdb8a8",
+      "branch": "codex/geo-live-round-4",
+      "outer_observation": {
+        "definition": "macro average over 15 fixed queries × 4 engines",
+        "weights": {
+          "citation_rate": 0.45,
+          "attribution_rate": 0.25,
+          "mrr": 0.2,
+          "mention_rate": 0.1
+        },
+        "score": 25.42,
+        "overall": {
+          "probed": 60,
+          "answer_success_rate": 0.8333,
+          "mention_rate": 0.6333,
+          "found_rate": 0.55,
+          "citation_rate": 0.1,
+          "attribution_rate": 0.55,
+          "mrr": 0.0417
+        },
+        "by_engine": {
+          "gpt-web": {
+            "probed": 15,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.7333,
+            "found_rate": 0.7333,
+            "citation_rate": 0.0,
+            "attribution_rate": 0.7333,
+            "mrr": 0.0
+          },
+          "codex-search": {
+            "probed": 15,
+            "answer_success_rate": 0.3333,
+            "mention_rate": 0.2667,
+            "found_rate": 0.2667,
+            "citation_rate": 0.2,
+            "attribution_rate": 0.2667,
+            "mrr": 0.1667
+          },
+          "tavily-search": {
+            "probed": 15,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.6,
+            "found_rate": 0.4,
+            "citation_rate": 0.0,
+            "attribution_rate": 0.4,
+            "mrr": 0.0
+          },
+          "exa-search": {
+            "probed": 15,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.9333,
+            "found_rate": 0.8,
+            "citation_rate": 0.2,
+            "attribution_rate": 0.8,
+            "mrr": 0.0
+          }
+        },
+        "by_tier": {
+          "exact": {
+            "probed": 20,
+            "answer_success_rate": 0.9,
+            "mention_rate": 0.9,
+            "found_rate": 0.9,
+            "citation_rate": 0.2,
+            "attribution_rate": 0.9,
+            "mrr": 0.1
+          },
+          "fuzzy": {
+            "probed": 20,
+            "answer_success_rate": 0.8,
+            "mention_rate": 0.6,
+            "found_rate": 0.55,
+            "citation_rate": 0.05,
+            "attribution_rate": 0.55,
+            "mrr": 0.025
+          },
+          "broad": {
+            "probed": 20,
+            "answer_success_rate": 0.8,
+            "mention_rate": 0.4,
+            "found_rate": 0.2,
+            "citation_rate": 0.05,
+            "attribution_rate": 0.2,
+            "mrr": 0.0
+          }
+        }
+      },
+      "artifact_dir": "runs/live-5-round/round-4-authority-relations",
+      "retain_for_combinations": true,
+      "status": "historical_observation_not_isolated_module_effect"
+    },
+    {
+      "id": "r5",
+      "round": 5,
+      "change_id": "r5-github-authority-bridge",
+      "files": [
+        "README.md"
+      ],
+      "candidate_commit": "e0e9a68",
+      "production_commit": "edec9373f0c5d4fcc0eae9308678c582fb719416",
+      "branch": "codex/geo-live-round-5",
+      "outer_observation": {
+        "definition": "macro average over 15 fixed queries × 4 engines",
+        "weights": {
+          "citation_rate": 0.45,
+          "attribution_rate": 0.25,
+          "mrr": 0.2,
+          "mention_rate": 0.1
+        },
+        "score": 25.5,
+        "overall": {
+          "probed": 60,
+          "answer_success_rate": 0.9,
+          "mention_rate": 0.6167,
+          "found_rate": 0.5667,
+          "citation_rate": 0.1,
+          "attribution_rate": 0.5667,
+          "mrr": 0.0333
+        },
+        "by_engine": {
+          "gpt-web": {
+            "probed": 15,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.7333,
+            "found_rate": 0.7333,
+            "citation_rate": 0.0,
+            "attribution_rate": 0.7333,
+            "mrr": 0.0
+          },
+          "codex-search": {
+            "probed": 15,
+            "answer_success_rate": 0.7333,
+            "mention_rate": 0.4667,
+            "found_rate": 0.4667,
+            "citation_rate": 0.2,
+            "attribution_rate": 0.4667,
+            "mrr": 0.1333
+          },
+          "tavily-search": {
+            "probed": 15,
+            "answer_success_rate": 0.9333,
+            "mention_rate": 0.4,
+            "found_rate": 0.3333,
+            "citation_rate": 0.0,
+            "attribution_rate": 0.3333,
+            "mrr": 0.0
+          },
+          "exa-search": {
+            "probed": 15,
+            "answer_success_rate": 0.9333,
+            "mention_rate": 0.8667,
+            "found_rate": 0.7333,
+            "citation_rate": 0.2,
+            "attribution_rate": 0.7333,
+            "mrr": 0.0
+          }
+        },
+        "by_tier": {
+          "exact": {
+            "probed": 20,
+            "answer_success_rate": 0.75,
+            "mention_rate": 0.75,
+            "found_rate": 0.75,
+            "citation_rate": 0.2,
+            "attribution_rate": 0.75,
+            "mrr": 0.075
+          },
+          "fuzzy": {
+            "probed": 20,
+            "answer_success_rate": 1.0,
+            "mention_rate": 0.75,
+            "found_rate": 0.7,
+            "citation_rate": 0.05,
+            "attribution_rate": 0.7,
+            "mrr": 0.025
+          },
+          "broad": {
+            "probed": 20,
+            "answer_success_rate": 0.95,
+            "mention_rate": 0.35,
+            "found_rate": 0.25,
+            "citation_rate": 0.05,
+            "attribution_rate": 0.25,
+            "mrr": 0.0
+          }
+        }
+      },
+      "artifact_dir": "runs/live-5-round/round-5-cross-engine-residuals",
+      "retain_for_combinations": true,
+      "status": "historical_observation_not_isolated_module_effect"
+    },
+    {
+      "id": "r6",
+      "round": 6,
+      "change_id": "r6-canonical-citation-entry",
+      "files": [
+        "index.html"
+      ],
+      "candidate_commit": "e277d446ab1d2ee12b1b7e2abe3bc5b23a990fd6",
+      "production_commit": "e6b74d333b09c30619d5c3c61c95fa066ee50188",
+      "branch": "codex/geo-live-round-6",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 7,
+        "mention_rate": 0.7333333333333333,
+        "found_rate": 0.65,
+        "citation_rate": 0.11666666666666667,
+        "attribution_rate": 0.65,
+        "mrr": 0.03611111111111111,
+        "score": 29.555555555555557
+      },
+      "decision": "discard",
+      "artifact_dir": "runs/round-6-canonical-citation-entry",
+      "retain_for_combinations": true,
+      "status": "historical_observation_not_isolated_module_effect",
+      "additional_observations": [
+        {
+          "kind": "13-minute unchanged-page repeat",
+          "outer": {
+            "n": 60,
+            "valid_responses": 60,
+            "project_citations": 7,
+            "mention_rate": 0.75,
+            "found_rate": 0.65,
+            "citation_rate": 0.11666666666666667,
+            "attribution_rate": 0.65,
+            "mrr": 0.03194444444444444,
+            "score": 29.638888888888893
+          },
+          "artifact_dir": "runs/round-6-canonical-citation-entry/r6-retest-20261016T1145Z"
+        }
+      ]
+    },
+    {
+      "id": "r7",
+      "round": 7,
+      "change_id": "r7-static-mechanism-overview",
+      "files": [
+        "index.html"
+      ],
+      "candidate_commit": "821a0b1acfc77323f64d900ea56ed1949eda9bc2",
+      "production_commit": "fbd9e100b6ae71704a0cf65b1a1b9b87dbdc4ef7",
+      "branch": "codex/geo-live-round-7",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 6,
+        "mention_rate": 0.7666666666666667,
+        "found_rate": 0.6666666666666666,
+        "citation_rate": 0.1,
+        "attribution_rate": 0.6666666666666666,
+        "mrr": 0.030555555555555555,
+        "score": 29.444444444444446
+      },
+      "decision": "discard",
+      "artifact_dir": "runs/round-7-static-mechanism-overview",
+      "retain_for_combinations": true,
+      "status": "historical_observation_not_isolated_module_effect"
+    },
+    {
+      "id": "r8",
+      "round": 8,
+      "change_id": "r8-reference-cluster",
+      "files": [
+        "method.html",
+        "research-context.html",
+        "paper.html",
+        "llms.txt"
+      ],
+      "parents": [
+        "r2",
+        "r3",
+        "r4",
+        "r6",
+        "r7"
+      ],
+      "candidate_commit": "a2e3d0163fa55384c1f949b6da6c6fef1ea486fc",
+      "production_commit": "4147abc262bbb69df7a170eb403bf1b6807869f4",
+      "branch": "codex/geo-live-round-8",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 6,
+        "mention_rate": 0.7333333333333333,
+        "found_rate": 0.65,
+        "citation_rate": 0.1,
+        "attribution_rate": 0.65,
+        "mrr": 0.027777777777777776,
+        "score": 28.638888888888893
+      },
+      "decision": "discard",
+      "artifact_dir": "runs/round-8-reference-cluster",
+      "retain_for_combinations": true,
+      "status": "measured_bundle_not_isolated_module_effect"
+    },
+    {
+      "id": "r9",
+      "round": 9,
+      "change_id": "r9-static-benchmark-evidence",
+      "files": [
+        "index.html"
+      ],
+      "parents": [
+        "r4",
+        "r7",
+        "r8"
+      ],
+      "candidate_commit": "9bb531cc09d8b7dda5a3148c5df3c5e62107892b",
+      "production_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "branch": "codex/geo-live-round-9",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 8,
+        "mention_rate": 0.7166666666666667,
+        "found_rate": 0.6666666666666666,
+        "citation_rate": 0.13333333333333333,
+        "attribution_rate": 0.65,
+        "mrr": 0.041666666666666664,
+        "score": 30.25
+      },
+      "decision": "keep",
+      "artifact_dir": "runs/round-9-static-benchmark-evidence",
+      "retain_for_combinations": true,
+      "status": "measured_bundle_not_isolated_module_effect"
+    },
+    {
+      "id": "r10",
+      "round": 10,
+      "change_id": "r10-shared-scholarly-entity",
+      "files": [
+        "index.html",
+        "method.html",
+        "paper.html",
+        "research-context.html"
+      ],
+      "parents": [
+        "r1",
+        "r4",
+        "r8",
+        "r9"
+      ],
+      "candidate_commit": "04e7ea4d0b1a6be0c65301c2a297e401294a0b78",
+      "production_commit": "b70597085286d4ff4c2d3de78f25d95581835b98",
+      "branch": "codex/geo-live-round-10",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 6,
+        "mention_rate": 0.7166666666666667,
+        "found_rate": 0.6333333333333333,
+        "citation_rate": 0.1,
+        "attribution_rate": 0.6333333333333333,
+        "mrr": 0.027777777777777776,
+        "score": 28.055555555555557
+      },
+      "decision": "discard",
+      "artifact_dir": "runs/round-10-shared-scholarly-entity",
+      "retain_for_combinations": true,
+      "status": "measured_bundle_not_isolated_module_effect"
+    },
+    {
+      "id": "r11",
+      "round": 11,
+      "change_id": "r11-reference-cluster-without-r7",
+      "files": [
+        "index.html"
+      ],
+      "parents": [
+        "r2",
+        "r3",
+        "r4",
+        "r6",
+        "r8",
+        "r9"
+      ],
+      "candidate_commit": "8e9ed309a7a60fb31cef6649f12374ad801f2a4b",
+      "production_commit": "c744ba125108d003ea61e8b89807e274ffaa6e4e",
+      "branch": "codex/geo-live-round-11-deploy",
+      "production_changed_files": [
+        "index.html",
+        "method.html",
+        "paper.html",
+        "research-context.html"
+      ],
+      "selection_seed_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 7,
+        "mention_rate": 0.7166666666666667,
+        "found_rate": 0.6333333333333333,
+        "citation_rate": 0.11666666666666667,
+        "attribution_rate": 0.6333333333333333,
+        "mrr": 0.03611111111111111,
+        "score": 28.97222222222222
+      },
+      "decision": "discard",
+      "artifact_dir": "runs/round-11-reference-cluster-without-r7",
+      "retain_for_combinations": true,
+      "status": "measured_bundle_not_isolated_module_effect"
+    },
+    {
+      "id": "r12",
+      "round": 12,
+      "change_id": "r12-homepage-descriptive-h1",
+      "files": [
+        "index.html"
+      ],
+      "parents": [
+        "r1",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "candidate_commit": "95940d50088176ada54ea4ed829bbf4ced9c1135",
+      "production_commit": "bbc3b79d20323549fd29e422017ed6c457c6b707",
+      "branch": "codex/geo-live-round-12-deploy",
+      "production_changed_files": [
+        "index.html"
+      ],
+      "selection_seed_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 6,
+        "mention_rate": 0.75,
+        "found_rate": 0.6666666666666666,
+        "citation_rate": 0.1,
+        "attribution_rate": 0.6666666666666666,
+        "mrr": 0.030555555555555555,
+        "score": 29.27777777777778
+      },
+      "decision": "discard",
+      "artifact_dir": "runs/round-12-homepage-descriptive-h1",
+      "retain_for_combinations": true,
+      "status": "measured_bundle_not_isolated_module_effect"
+    }
+  ],
+  "proposals": [
+    {
+      "id": "r8-reference-cluster",
+      "status": "discard",
+      "measured": true,
+      "deployment_status": "live",
+      "production_commit": "4147abc262bbb69df7a170eb403bf1b6807869f4",
+      "modules": [
+        "method-reference",
+        "research-context",
+        "paper-authority",
+        "machine-readable-summary"
+      ],
+      "files": [
+        "method.html",
+        "research-context.html",
+        "paper.html",
+        "llms.txt"
+      ],
+      "parents": [
+        "r2",
+        "r3",
+        "r4",
+        "r6",
+        "r7"
+      ],
+      "base_commit": "fbd9e100b6ae71704a0cf65b1a1b9b87dbdc4ef7",
+      "reuse_kind": "Connect existing R2/R3/R4 reference pages using R6 explicit-canonical-entry idea, on the deployed R7 base. No historical score is treated as a combination effect.",
+      "hypothesis": "Visible reference routes across the existing method, context, paper and text-summary modules may make project evidence easier to discover and cite after recrawling.",
+      "alternatives_considered": [
+        "shared scholarly entity graph",
+        "same reference cluster on R6 without R7 overview",
+        "static benchmark result fallback",
+        "external paper backlink audit"
+      ],
+      "reason_selected": "Cross-page navigation is a concrete controlled gap; the pages already exist and their factual content need not change. Existing homepage links and crawler files already cover the basic routes.",
+      "source_priority": "Unranked local test; saved source visibility is not a predicted lift.",
+      "candidate_commit": "a2e3d0163fa55384c1f949b6da6c6fef1ea486fc",
+      "candidate_tree": "b3d011a5256d81aac31840cc7183b8fb5fa7a405",
+      "branch": "autoresearch/index-html/20261016T120835Z-index-html/candidate-001",
+      "wrapper_run_id": "20261016T120835Z-index-html",
+      "measured_at": "2026-10-16T12:22:48+00:00",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 6,
+        "mention_rate": 0.7333333333333333,
+        "found_rate": 0.65,
+        "citation_rate": 0.1,
+        "attribution_rate": 0.65,
+        "mrr": 0.027777777777777776,
+        "score": 28.638888888888893
+      },
+      "measurement_artifact_dir": "runs/round-8-reference-cluster/r8-live",
+      "retain_for_combinations": true
+    },
+    {
+      "id": "shared-scholarly-entity",
+      "status": "discard",
+      "deployment_status": "live",
+      "production_commit": "b70597085286d4ff4c2d3de78f25d95581835b98",
+      "parents": [
+        "r1",
+        "r4",
+        "r8",
+        "r9"
+      ],
+      "modules": [
+        "homepage-identity",
+        "paper-authority",
+        "method-reference",
+        "research-context"
+      ],
+      "hypothesis": "Use one scholarly entity @id and separate WebPage nodes without changing factual claims.",
+      "round": 10,
+      "change_id": "r10-shared-scholarly-entity",
+      "measured": true,
+      "files": [
+        "index.html",
+        "method.html",
+        "paper.html",
+        "research-context.html"
+      ],
+      "base_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "module_dependencies": [
+        "index.html: existing project identity and author record",
+        "paper.html: existing scholarly metadata",
+        "method.html and research-context.html: distinct reference-page descriptions"
+      ],
+      "scope": "Replace only the JSON-LD block in four pages: one stable shared ScholarlyArticle @id, separate WebPage nodes, explicit mainEntity/mainEntityOfPage references. Retain visible content and all runtime behavior.",
+      "reason_selected": "All four pages describe the same paper as independent anonymous ScholarlyArticle objects with different page URLs. R9 supplies five explicit homepage URLs but no support-page URLs. Test a coherent shared identity without changing factual content, while retaining the R9 static results and R8 reference routes.",
+      "alternatives_deferred": [
+        "reference-cluster-without-r7",
+        "external-paper-link-audit"
+      ],
+      "interpretation": "Measured immediate post-deployment observation against preserved R9; not an isolated causal module effect. Retain for future combinations.",
+      "candidate_commit": "04e7ea4d0b1a6be0c65301c2a297e401294a0b78",
+      "candidate_tree": "14fdd73cd91dc01843dbe6a57b8f172cd249ea98",
+      "wrapper_run_id": "20261016T132116Z-index-html",
+      "branch": "autoresearch/index-html/20261016T132116Z-index-html/candidate-001",
+      "retain_for_combinations": true,
+      "measured_at": "2026-10-16T13:53:25+00:00",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 6,
+        "mention_rate": 0.7166666666666667,
+        "found_rate": 0.6333333333333333,
+        "citation_rate": 0.1,
+        "attribution_rate": 0.6333333333333333,
+        "mrr": 0.027777777777777776,
+        "score": 28.055555555555557
+      },
+      "measurement_artifact_dir": "runs/round-10-shared-scholarly-entity/r10-live"
+    },
+    {
+      "id": "reference-cluster-without-r7",
+      "status": "discard",
+      "deployment_status": "live",
+      "production_commit": "c744ba125108d003ea61e8b89807e274ffaa6e4e",
+      "parents": [
+        "r2",
+        "r3",
+        "r4",
+        "r6",
+        "r8",
+        "r9"
+      ],
+      "modules": [
+        "homepage-identity",
+        "method-reference",
+        "research-context",
+        "paper-authority",
+        "presentation"
+      ],
+      "base_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "hypothesis": "Test the retained R8 reference cluster and R9 static evidence with the pre-R7 overview; do not infer a combination score from historical results.",
+      "round": 11,
+      "change_id": "r11-reference-cluster-without-r7",
+      "measured": true,
+      "original_proposal": {
+        "id": "reference-cluster-without-r7",
+        "status": "queued_unmeasured",
+        "parents": [
+          "r2",
+          "r3",
+          "r4",
+          "r6"
+        ],
+        "modules": [
+          "method-reference",
+          "research-context",
+          "paper-authority",
+          "machine-readable-summary"
+        ],
+        "base_commit": "e6b74d333b09c30619d5c3c61c95fa066ee50188",
+        "hypothesis": "Test the cluster on R6 to assess interaction with the R7 overview; requires its own approved deployment and comparable control."
+      },
+      "files": [
+        "index.html"
+      ],
+      "module_dependencies": [
+        "R6: exact pre-R7 overview source",
+        "R8: retained cross-module reference routes",
+        "R9: retained static benchmark results"
+      ],
+      "scope": "Restore only section:overview from R6 on the R9 seed. Keep every other R9 byte unchanged.",
+      "reuse_kind": "Rebase the existing no-R7 reference-cluster proposal onto the stronger R9 seed, preserving R9 static evidence instead of resetting to the older R6 tree.",
+      "reason_selected": "R10 did not beat R9. Resume from the best fully observed seed and test an already queued historical combination, rather than carry an unkept metadata edit forward automatically.",
+      "alternatives_deferred": [
+        "external-paper-link-audit",
+        "new visible-identity headline experiment",
+        "R10 shared identity recombination"
+      ],
+      "interpretation": "Measured immediate post-deployment observation against preserved R9; not an isolated causal module effect. Retain for future combinations.",
+      "retain_for_combinations": true,
+      "candidate_commit": "8e9ed309a7a60fb31cef6649f12374ad801f2a4b",
+      "candidate_tree": "ccf91bf07379aae81ec4ba3c698803d0bd69368c",
+      "wrapper_run_id": "20261016T140844Z-index-html",
+      "branch": "autoresearch/index-html/20261016T140844Z-index-html/candidate-001",
+      "measured_at": "2026-10-16T14:23:17+00:00",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 7,
+        "mention_rate": 0.7166666666666667,
+        "found_rate": 0.6333333333333333,
+        "citation_rate": 0.11666666666666667,
+        "attribution_rate": 0.6333333333333333,
+        "mrr": 0.03611111111111111,
+        "score": 28.97222222222222
+      },
+      "measurement_artifact_dir": "runs/round-11-reference-cluster-without-r7/r11-live"
+    },
+    {
+      "id": "static-benchmark-evidence",
+      "status": "keep",
+      "deployment_status": "live",
+      "production_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "parents": [
+        "r4",
+        "r7",
+        "r8"
+      ],
+      "modules": [
+        "homepage-identity",
+        "paper-authority",
+        "presentation"
+      ],
+      "hypothesis": "Expose already-reported default result data in static HTML while retaining the model switch and accurate evidence boundaries.",
+      "round": 9,
+      "change_id": "r9-static-benchmark-evidence",
+      "measured": true,
+      "files": [
+        "index.html"
+      ],
+      "base_commit": "4147abc262bbb69df7a170eb403bf1b6807869f4",
+      "module_dependencies": [
+        "script.js: default qwen3 source data and client rendering",
+        "paper.html: overlapping EAU headline facts"
+      ],
+      "scope": "Pre-render the existing default Qwen3-4B chart cards and nine-method table in section:results; retain all runtime JavaScript and model-switch behavior.",
+      "reason_selected": "R8 returned no explicit support-page URLs, whereas the homepage appeared in three cells. Its default chart and table bodies are empty until JavaScript runs. Test factual evidence availability on that actually observed entry page.",
+      "alternatives_deferred": [
+        "shared-scholarly-entity",
+        "reference-cluster-without-r7",
+        "external-paper-link-audit"
+      ],
+      "interpretation": "Measured immediate post-deployment observation against preserved R8; not an isolated causal module effect. Retain for future combinations.",
+      "candidate_commit": "9bb531cc09d8b7dda5a3148c5df3c5e62107892b",
+      "candidate_tree": "5ebd5d1c28e00690d58caafa0edfe066ae5307d7",
+      "wrapper_run_id": "20261016T125445Z-index-html",
+      "branch": "autoresearch/index-html/20261016T125445Z-index-html/candidate-001",
+      "measured_at": "2026-10-16T13:09:24+00:00",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 8,
+        "mention_rate": 0.7166666666666667,
+        "found_rate": 0.6666666666666666,
+        "citation_rate": 0.13333333333333333,
+        "attribution_rate": 0.65,
+        "mrr": 0.041666666666666664,
+        "score": 30.25
+      },
+      "measurement_artifact_dir": "runs/round-9-static-benchmark-evidence/r9-live",
+      "retain_for_combinations": true
+    },
+    {
+      "id": "external-paper-link-audit",
+      "status": "needs_author_authority_for_any_edit",
+      "parents": [
+        "r5"
+      ],
+      "modules": [
+        "external-paper-entry",
+        "repository-authority"
+      ],
+      "link_state": "unknown",
+      "hypothesis": "Inspect the returned paper entry independently before proposing any author-controlled backlink change."
+    },
+    {
+      "id": "homepage-descriptive-h1",
+      "status": "discard",
+      "measured": true,
+      "parents": [
+        "r1",
+        "r6",
+        "r7",
+        "r8",
+        "r9"
+      ],
+      "modules": [
+        "homepage-identity",
+        "presentation",
+        "paper-authority"
+      ],
+      "hypothesis": "Put the existing EAU name and co-evolution topic in the visible primary heading; test outer discovery without changing facts or metadata.",
+      "retain_for_combinations": true,
+      "round": 12,
+      "change_id": "r12-homepage-descriptive-h1",
+      "base_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "files": [
+        "index.html"
+      ],
+      "module_dependencies": [
+        "index.html: existing name, subtitle and hero-title ARIA target",
+        "styles.css: unchanged two-line hero typography",
+        "R7/R8/R9: retain overview, references and static evidence"
+      ],
+      "scope": "Replace only the existing hero h1 contents with EAU: / Co-evolution.; keep the id, two-line structure and emphasis markup.",
+      "reason_selected": "R11 returned four explicit homepage URLs but no support-page URLs. The homepage h1 is still Learning to evolve, together., while EAU and the full title are outside that h1. Test this small visible identity change on the already observed entry page.",
+      "alternatives_deferred": [
+        "static-second-backbone-evidence",
+        "static-component-reference",
+        "external-paper-link-audit"
+      ],
+      "interpretation": "Measured immediate post-deployment observation against preserved R9; not an isolated causal module effect. Retain for future combinations.",
+      "candidate_commit": "95940d50088176ada54ea4ed829bbf4ced9c1135",
+      "candidate_tree": "c2e643d4d1462b72bc4914de9222cfb200be07e3",
+      "wrapper_run_id": "20261016T144122Z-index-html",
+      "branch": "autoresearch/index-html/20261016T144122Z-index-html/candidate-001",
+      "deployment_status": "live",
+      "production_commit": "bbc3b79d20323549fd29e422017ed6c457c6b707",
+      "measured_at": "2026-10-16T16:35:12+00:00",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 6,
+        "mention_rate": 0.75,
+        "found_rate": 0.6666666666666666,
+        "citation_rate": 0.1,
+        "attribution_rate": 0.6666666666666666,
+        "mrr": 0.030555555555555555,
+        "score": 29.27777777777778
+      },
+      "measurement_artifact_dir": "runs/round-12-homepage-descriptive-h1/r12-live"
+    },
+    {
+      "id": "static-second-backbone-evidence",
+      "status": "queued_unmeasured",
+      "measured": false,
+      "parents": [
+        "r4",
+        "r9"
+      ],
+      "modules": [
+        "homepage-identity",
+        "presentation",
+        "paper-authority"
+      ],
+      "hypothesis": "Expose the existing Qwen2.5-7B-Instruct result rows in separately labelled static HTML while preserving the default model and switch; no mixed-backbone or invented results.",
+      "retain_for_combinations": true
+    },
+    {
+      "id": "static-component-reference",
+      "status": "queued_unmeasured",
+      "measured": false,
+      "parents": [
+        "r2",
+        "r7",
+        "r9"
+      ],
+      "modules": [
+        "homepage-identity",
+        "method-reference",
+        "presentation"
+      ],
+      "hypothesis": "Expose the existing environment and agent tab descriptions in accessible static HTML while preserving the interactive explorer and avoiding duplicate padding.",
+      "retain_for_combinations": true
+    }
+  ],
+  "selected_candidate_id": "homepage-descriptive-h1"
+}

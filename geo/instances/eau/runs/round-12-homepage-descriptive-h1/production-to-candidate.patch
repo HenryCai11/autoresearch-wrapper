@@ -1,0 +1,19 @@
+diff --git a/index.html b/index.html
+index 9077acf..46da58a 100644
+--- a/index.html
++++ b/index.html
+@@ -68 +68 @@
+-        <h1 id="hero-title">Learning to<br>evolve, <em>together.</em></h1>
++        <h1 id="hero-title">EAU:<br><em>Co-evolution.</em></h1>
+@@ -126 +126 @@
+-        <div><p class="eyebrow section-number">01 / The idea</p><h2 id="overview-title">What if the training<br>system could<br><em>learn, too?</em></h2></div>
++        <div><p class="eyebrow section-number">01 / The idea</p><h2 id="overview-title">What does EAU<br><em>adapt?</em></h2></div>
+@@ -128,4 +128,4 @@
+-          <p class="lead">An agent’s learning signal is only as reliable as the interaction that produces it.</p>
+-          <p>Real conversations are rarely fully specified. Agents need to ask questions, uncover intent, and work with tools across multiple turns. But simulated users can be inconsistent, tools can be unreliable, and rewards can miss meaningful progress.</p>
+-          <p>Most training methods treat that system as fixed. <strong>eau makes it editable.</strong> A meta-agent reads trajectories, tool traces, and training statistics, then revises the components that shape the next interaction.</p>
+-          <p>Validated updates take effect within an ongoing run. What the system learns about training carries forward into the next one.</p>
++          <p class="lead">EAU co-evolves the environment, agent, and simulated user to train user-centric LLM agents.</p>
++          <p>For multi-turn reinforcement learning with users and tools, its meta-agent reads trajectories, tool traces, and training statistics. It proposes and validates changes to the hybrid user simulator, environment feedback, reward design, and reinforcement-learning configuration.</p>
++          <p><strong>Within a run</strong>, supported updates take effect while the agent policy learns. <strong>Across runs</strong>, an experience pool carries findings into later training attempts. Final-test feedback stays outside the adaptation loop.</p>
++          <p>EAU is evaluated on UserGym, ColBench, and τ²-bench with Qwen3-4B and Qwen2.5-7B-Instruct. The reported results describe these benchmark settings, not a guarantee for every agent environment.</p>
