@@ -322,6 +322,9 @@ class GeoEvalTests(unittest.TestCase):
         query = "Ada Lovelace Analytical Society"
         hallucinated = judge_answer("Ada Lovelace, Analytical Society: professor of chemistry and botany.", self.kmap, query)
         self.assertFalse(hallucinated.found)
+        # Core facts are guessable from the query, so they do not corroborate.
+        guessed = judge_answer("Ada Lovelace, Analytical Society: a mathematician and chemist.", self.kmap, query)
+        self.assertFalse(guessed.found)
         # A true fact the query did not contain corroborates it.
         corroborated = judge_answer("Ada Lovelace, Analytical Society; wrote the first computer program.", self.kmap, query)
         self.assertTrue(corroborated.found)

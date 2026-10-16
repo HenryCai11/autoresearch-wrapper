@@ -70,9 +70,13 @@ def corroborating_terms(kmap: KnowledgeMap, query: str | None) -> list[str]:
     memory do exactly that.
     """
     attribution = {term.lower() for term in attribution_terms(kmap)}
+    # Only hop >= 1 facts (papers, collaborators, education, topics) corroborate. Core
+    # facts are guessable from the query: a model that hears "University of Alberta"
+    # will add "Edmonton" while inventing everything else.
     terms = [
         term
         for node in kmap.nodes
+        if node.hop >= 1
         for term in node.terms
         if term.lower() not in attribution and len(term) >= 3
     ]
