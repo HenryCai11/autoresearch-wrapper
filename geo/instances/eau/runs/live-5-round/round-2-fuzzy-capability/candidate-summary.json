@@ -1,0 +1,18 @@
+{
+  "experiment_id": "eau-live-geo-5-round-2026-10",
+  "round": 2,
+  "label": "fuzzy-capability",
+  "change_id": "r2-capability-landing-page",
+  "phase": "pre_merge_candidate",
+  "candidate_commit": "13b71dc",
+  "pull_request": 11,
+  "inner_loop": {
+    "score": 86.83,
+    "matrix_offline": 80.83,
+    "technical": 95.83,
+    "delta_vs_round_1": 12.4,
+    "delta_vs_round_0": 43.4
+  },
+  "outer_loop": null,
+  "outer_status": "awaiting_merge_and_production_probe"
+}
