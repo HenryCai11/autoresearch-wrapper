@@ -1,0 +1,68 @@
+{
+  "basis": "Complete actual R13 and preserved R9-R12 outer evidence plus existing public site source; no new R14 probes",
+  "latest_observation": {
+    "round": 13,
+    "citations": 7,
+    "explicit_project_url_cells": 4,
+    "explicit_support_page_url_cells": 0,
+    "gained_vs_r9": [
+      {
+        "query": "meta-agent modifies training environment during multi-turn reinforcement learning",
+        "engine": "codex-search"
+      }
+    ],
+    "lost_vs_r9": [
+      {
+        "query": "EAU arXiv 2610.16523",
+        "engine": "codex-search"
+      },
+      {
+        "query": "user-centric agents co-evolve environment and user simulator",
+        "engine": "codex-search"
+      }
+    ],
+    "decision": "discard"
+  },
+  "reviews": [
+    {
+      "module": "homepage-identity",
+      "action": "Retain R9 identity/overview; preserve unkept R12 H1 in history"
+    },
+    {
+      "module": "presentation",
+      "action": "Select second-backbone static result reference using existing JS data and table styling; no model-switch code edits"
+    },
+    {
+      "module": "reference-pages",
+      "action": "Retain R8 reference cluster; no explicit support-page URLs in R13, not evidence that another edge will lift citations"
+    },
+    {
+      "module": "method-reference",
+      "action": "Retain R9 method page; preserve R13 static component variant as a later combination parent, not silently inherited"
+    },
+    {
+      "module": "research-context",
+      "action": "Retain factual evaluation boundaries and caveats"
+    },
+    {
+      "module": "paper-authority",
+      "action": "Retain seed metadata and numerical scope; no fabricated Qwen2.5 tau2 numbers or new gains"
+    },
+    {
+      "module": "machine-readable-summary",
+      "action": "Retain llms.txt unchanged"
+    },
+    {
+      "module": "crawler-routing",
+      "action": "Retain robots/sitemap; served bytes do not prove recrawling or indexing"
+    },
+    {
+      "module": "repository-authority",
+      "action": "Retain existing R5 README bridge; no external repository mutation"
+    },
+    {
+      "module": "external-paper-entry",
+      "action": "Link state stays unknown; defer any external author-owned edit pending separate authority"
+    }
+  ]
+}

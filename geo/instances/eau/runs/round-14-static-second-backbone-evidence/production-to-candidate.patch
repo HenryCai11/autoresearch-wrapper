@@ -1,0 +1,25 @@
+diff --git a/index.html b/index.html
+index 8eb0e7f..608c4b0 100644
+--- a/index.html
++++ b/index.html
+@@ -165,4 +164,0 @@
+-      <div class="timescales" id="static-component-reference" aria-label="Environment and agent reference">
+-        <article><span class="mini-index">Evolving environment</span><h3>A more informative learning signal.</h3><p>Revise intermediate rewards when task success is too sparse to guide exploration. The meta-agent can reward meaningful progress, correct unhelpful reward designs, and adjust supported interaction limits.</p><div class="knob-list"><span>Intermediate rewards</span><span>Reward rules</span><span>Episode length</span></div></article>
+-        <article><span class="mini-index">Evolving agent</span><h3>Training dynamics that can adapt.</h3><p>The neural policy learns through PPO with an action-token critic. The meta-agent monitors optimization logs and trajectories, adjusting configurable dynamics such as entropy and KL coefficients while keeping the training algorithm fixed.</p><div class="knob-list"><span>Entropy coefficient</span><span>KL coefficient</span><span>Training diagnostics</span></div></article>
+-      </div>
+@@ -195,0 +192,15 @@
++        <details class="result-table-details" id="static-second-backbone-evidence" open>
++          <summary>Qwen2.5-7B-Instruct: static result reference</summary>
++          <p class="results-note">The model switch above controls the main charts and comparison table. This separate reference always shows Qwen2.5-7B-Instruct.</p>
++          <div class="table-scroll"><table id="second-backbone-table"><caption id="second-backbone-caption">Qwen2.5-7B-Instruct · UserGym and ColBench (static reference)</caption><thead><tr><th scope="col">Method</th><th scope="col">UserGym avg.</th><th scope="col">ColBench pass</th><th scope="col">ColBench success</th><th scope="col">Overall</th></tr></thead><tbody id="second-backbone-table-body">
++          <tr><th scope="row">Backbone</th><td>0.338</td><td>0.242</td><td>0.140</td><td>0.305</td></tr>
++          <tr><th scope="row">ReAct</th><td>0.379</td><td>0.238</td><td>0.135</td><td>0.336</td></tr>
++          <tr><th scope="row">Reflexion</th><td>0.361</td><td>0.276</td><td>0.168</td><td>0.330</td></tr>
++          <tr><th scope="row">RAGEN</th><td>0.513</td><td>0.449</td><td>0.348</td><td>0.487</td></tr>
++          <tr><th scope="row">Search-R1</th><td>0.501</td><td>0.457</td><td>0.352</td><td>0.480</td></tr>
++          <tr><th scope="row">UserRL</th><td>0.508</td><td>0.436</td><td>0.327</td><td>0.480</td></tr>
++          <tr><th scope="row">InfoPO</th><td>0.563</td><td>0.534</td><td>0.426</td><td>0.544</td></tr>
++          <tr><th scope="row">PPO</th><td>0.568</td><td>0.356</td><td>0.240</td><td>0.508</td></tr>
++          <tr class="ours"><th scope="row">eau</th><td>0.632</td><td>0.659</td><td>0.533</td><td>0.615</td></tr>
++          </tbody></table></div>
++        </details>

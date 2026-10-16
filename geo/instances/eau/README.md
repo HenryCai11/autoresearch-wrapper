@@ -26,6 +26,11 @@ so it was discarded for selection. It has since been superseded by R13. See its
 It was discarded against R9's 8/60 and remains deployed without an automatic
 rollback. Its full outer evidence is in the [live report](runs/round-13-static-component-reference/r13-live/REPORT.md).
 
+[R14](runs/round-14-static-second-backbone-evidence/README.md) is prepared but
+unpublished and unmeasured. It adds a separately labelled static reference for
+the existing Qwen2.5-7B-Instruct result rows on the best observed R9 seed.
+All 27 local checks passed; no inner score or new outer observation exists.
+
 ## Cross-module candidate ledger
 
 From R8 onward, consult [`candidate-pool.json`](candidate-pool.json) before

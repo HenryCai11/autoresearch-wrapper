@@ -1,0 +1,18 @@
+{
+  "primary_metric": "live_project_citation_rate",
+  "goal": "maximize",
+  "definition": "100 * frozen geo_eval site_cited cells / 60, including bare project-domain occurrences under the existing judge",
+  "engines": [
+    "gpt-web",
+    "codex-search",
+    "tavily-search",
+    "exa-search"
+  ],
+  "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
+  "inner_metric": "not computed and not used",
+  "baseline": "Best fully observed R9: 8/60, composite 30.25; reused historical control, not new or simultaneous collection",
+  "current_production": "R13 remains deployed: 7/60, composite 30.13889, discard; do not lower the selection threshold to current production",
+  "deployment": "Separate explicit R14 publication approval required; exact candidate tree and served bytes before/after all 60 real probes must be verified",
+  "history": "Retain all discarded and kept candidates plus original proposals for combinations; never add parent scores",
+  "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up"
+}

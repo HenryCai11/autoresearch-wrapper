@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "site_url": "https://eau-meta-agent.github.io/",
-  "updated_at": "2026-10-16T17:47:40+00:00",
-  "current_round": 13,
+  "updated_at": "2026-10-16T18:02:07+00:00",
+  "current_round": 14,
   "maintenance": "Site-specific ledger maintained by the agent when starting or recording a round; not an automatic scheduler or a new wrapper-core search algorithm.",
   "policy": {
     "primary_metric": "live_project_citation_rate",
@@ -16,10 +16,10 @@
     ],
     "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
     "inner_metric": "not computed and not used",
-    "baseline": "Best measured R9: 8/60, composite 30.25000; reused historical measurement, not a simultaneous control",
-    "current_production": "R13 live: 7/60, discard; selection still compares with preserved R9 8/60",
-    "deployment": "R13 publication was explicitly approved; exact candidate tree and before/after served bytes verified for the completed real 60-cell collection.",
-    "history": "Retain all candidates and original proposals for combinations; never add parent scores",
+    "baseline": "Best fully observed R9: 8/60, composite 30.25; reused historical control, not new or simultaneous collection",
+    "current_production": "R13 remains deployed: 7/60, composite 30.13889, discard; do not lower the selection threshold to current production",
+    "deployment": "Separate explicit R14 publication approval required; exact candidate tree and served bytes before/after all 60 real probes must be verified",
+    "history": "Retain all discarded and kept candidates plus original proposals for combinations; never add parent scores",
     "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up"
   },
   "modules": [
@@ -1344,7 +1344,7 @@
     },
     {
       "id": "static-second-backbone-evidence",
-      "status": "queued_unmeasured",
+      "status": "validated_awaiting_deployment_approval",
       "measured": false,
       "parents": [
         "r4",
@@ -1356,7 +1356,47 @@
         "paper-authority"
       ],
       "hypothesis": "Expose the existing Qwen2.5-7B-Instruct result rows in separately labelled static HTML while preserving the default model and switch; no mixed-backbone or invented results.",
-      "retain_for_combinations": true
+      "retain_for_combinations": true,
+      "original_proposal": {
+        "id": "static-second-backbone-evidence",
+        "status": "queued_unmeasured",
+        "measured": false,
+        "parents": [
+          "r4",
+          "r9"
+        ],
+        "modules": [
+          "homepage-identity",
+          "presentation",
+          "paper-authority"
+        ],
+        "hypothesis": "Expose the existing Qwen2.5-7B-Instruct result rows in separately labelled static HTML while preserving the default model and switch; no mixed-backbone or invented results.",
+        "retain_for_combinations": true
+      },
+      "round": 14,
+      "change_id": "r14-static-second-backbone-evidence",
+      "base_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "files": [
+        "index.html"
+      ],
+      "reason_selected": "R13 preserved four explicit homepage URL cells and no support-page URL cells, but did not beat R9. R9 already exposes the default Qwen3 result data. The existing second-backbone rows remain only in script.js until the model switch is used; test a separately labelled static reference for those exact rows on the best measured seed.",
+      "scope": "Insert one default-open, separately captioned Qwen2.5-7B-Instruct result reference into the existing results section; preserve every original byte, including the default charts/table and model switch. Copy all nine method rows and 36 values exactly from existing JS.",
+      "module_dependencies": [
+        "index.html#results, existing main charts and comparison table",
+        "script.js results.qwen25 values and label, unchanged",
+        "styles.css existing result-table-details/table-scroll table styles, unchanged",
+        "R7 overview, R8 routes and R9 static default evidence, retained"
+      ],
+      "alternatives_deferred": [
+        "static-component-reference retained for combinations despite R13 discard",
+        "homepage-descriptive-h1 retained despite R12 discard",
+        "external-paper-link-audit requires separate author authority"
+      ],
+      "interpretation": "Unmeasured local hypothesis, not predicted lift; historical parent scores and a returned source URL do not certify a combination.",
+      "candidate_commit": "fd5681ce5d3146f3ec42081fef3d89ee0f0f5e7a",
+      "candidate_tree": "1d987f64d620a79a9db3c354c50f89d4ce8ae164",
+      "wrapper_run_id": "20261016T180208Z-index-html",
+      "branch": "autoresearch/index-html/20261016T180208Z-index-html/candidate-001"
     },
     {
       "id": "static-component-reference",
@@ -1431,5 +1471,5 @@
       "measurement_artifact_dir": "runs/round-13-static-component-reference/r13-live"
     }
   ],
-  "selected_candidate_id": "static-component-reference"
+  "selected_candidate_id": "static-second-backbone-evidence"
 }

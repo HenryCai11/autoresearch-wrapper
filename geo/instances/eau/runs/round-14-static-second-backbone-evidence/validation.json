@@ -1,0 +1,49 @@
+{
+  "checks": {
+    "only_index_changed_vs_best_seed": true,
+    "exactly_one_insertion_preserving_every_original_byte": true,
+    "only_results_named_section_changed": true,
+    "all_nine_methods_and_36_values_match_existing_qwen25_js": true,
+    "default_qwen3_rows_match_existing_js_and_are_not_replaced": true,
+    "new_model_label_and_independent_caption_are_explicit": true,
+    "new_reference_open_by_default_not_script_gated": true,
+    "no_new_backbone_gains_or_tau2_numbers": true,
+    "same_existing_column_headers_and_table_styles": true,
+    "new_static_ids_not_targets_of_switch_renderer": true,
+    "main_charts_and_original_table_ids_preserved_once": true,
+    "model_switch_default_and_both_buttons_unchanged": true,
+    "no_r13_static_component_block_inherited": true,
+    "h1_unchanged_from_selection_seed": true,
+    "head_metadata_and_schema_bytes_unchanged": true,
+    "script_and_style_bytes_unchanged": true,
+    "no_untracked_candidate_files": true,
+    "local_links_fragments_and_unique_ids_valid": true,
+    "one_homepage_h1": true,
+    "jsonld_valid_and_unchanged": true,
+    "visible_text_within_existing_limit": true,
+    "no_hidden_text_added": true,
+    "all_nonhome_visible_content_unchanged": true,
+    "frozen_map_judge_and_normalizer_unchanged": true,
+    "query_set_unchanged": true,
+    "production_r13_checkout_unchanged": true,
+    "production_diff_has_only_index": true
+  },
+  "errors": [],
+  "inner_score": "not computed",
+  "visible_home_chars_before": 5436,
+  "visible_home_chars_after": 6009,
+  "limit": 9000,
+  "selection_seed_round": 9,
+  "source_rows": 9,
+  "source_numeric_values": 36,
+  "scope_vs_seed": [
+    "index.html"
+  ],
+  "scope_vs_current_production": [
+    "index.html"
+  ],
+  "browser_test": "not performed; existing styles/selectors remain but rendered layout and interactive behavior are not claimed as browser-tested",
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+  "judge_sha256": "6bb1498e65e5cf065cc8e03e40007c73c32393e16f85a41d2395db76820613de",
+  "normalization_sha256": "8a2856dd9b69fe4b24c7b315f55ac6c98b7bcbd9063dd1093a11fba3e181d537"
+}
