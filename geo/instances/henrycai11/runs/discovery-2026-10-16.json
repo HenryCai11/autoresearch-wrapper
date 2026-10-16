@@ -1,0 +1,912 @@
+{
+  "engines": [
+    "claude-search",
+    "codex-search",
+    "exa-search",
+    "tavily-search"
+  ],
+  "summary": {
+    "claude-search": {
+      "all": 0.0,
+      "hop0": 0.0,
+      "hop1": 0.0,
+      "hop2": 0.0,
+      "found": 0,
+      "probed": 31
+    },
+    "codex-search": {
+      "all": 0.7018,
+      "hop0": 1.0,
+      "hop1": 0.6667,
+      "hop2": 0.4444,
+      "found": 20,
+      "probed": 31
+    },
+    "exa-search": {
+      "all": 0.5789,
+      "hop0": 1.0,
+      "hop1": 0.5556,
+      "hop2": 0.1111,
+      "found": 15,
+      "probed": 31
+    },
+    "tavily-search": {
+      "all": 0.4912,
+      "hop0": 1.0,
+      "hop1": 0.4444,
+      "hop2": 0.0,
+      "found": 12,
+      "probed": 31
+    }
+  },
+  "rows": [
+    {
+      "node": "advisor",
+      "hop": 0,
+      "keyword": "Xi Ye",
+      "query": "Min Cai Xi Ye",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "exa-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": 2,
+          "url": "https://henrycai11.github.io"
+        }
+      }
+    },
+    {
+      "node": "affiliation",
+      "hop": 0,
+      "keyword": "University of Alberta",
+      "query": "Min Cai University of Alberta",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "exa-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": 2,
+          "url": "https://henrycai11.github.io"
+        }
+      }
+    },
+    {
+      "node": "location",
+      "hop": 0,
+      "keyword": "Edmonton",
+      "query": "Min Cai Edmonton",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "exa-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io"
+        }
+      }
+    },
+    {
+      "node": "role",
+      "hop": 0,
+      "keyword": "PhD student",
+      "query": "Min Cai PhD student",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "exa-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": 5,
+          "url": "https://henrycai11.github.io"
+        }
+      }
+    },
+    {
+      "node": "area-agents",
+      "hop": 1,
+      "keyword": "LLM agents",
+      "query": "LLM agents PhD student University of Alberta",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "exa-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "area-continual",
+      "hop": 1,
+      "keyword": "continual learning",
+      "query": "continual learning for LLMs PhD student University of Alberta",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "area-interpretability",
+      "hop": 1,
+      "keyword": "mechanistic interpretability",
+      "query": "mechanistic interpretability PhD student University of Alberta",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "exa-search": {
+          "found": true,
+          "rank": 2,
+          "url": "https://henrycai11.github.io/"
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "area-reasoning",
+      "hop": 1,
+      "keyword": "LLM reasoning",
+      "query": "LLM reasoning PhD student University of Alberta",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "avalonbench",
+      "hop": 1,
+      "keyword": "AvalonBench",
+      "query": "AvalonBench evaluating LLMs playing Avalon",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "ba-blcu",
+      "hop": 1,
+      "keyword": "Beijing Language and Culture University",
+      "query": "Min Cai Beijing Language and Culture University translation",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "exa-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io"
+        }
+      }
+    },
+    {
+      "node": "collaborators",
+      "hop": 1,
+      "keyword": "Ziniu Hu",
+      "query": "Ziniu Hu Min Cai",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io"
+        }
+      }
+    },
+    {
+      "node": "datascibench",
+      "hop": 1,
+      "keyword": "DataSciBench",
+      "query": "DataSciBench LLM agent benchmark data science",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "eau",
+      "hop": 1,
+      "keyword": "EAU",
+      "query": "EAU environment agent user co-evolution user-centric agents",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": 4,
+          "url": "https://henrycai11.github.io/"
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "intern-baidu",
+      "hop": 1,
+      "keyword": "Baidu",
+      "query": "Min Cai Baidu research intern",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "exa-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io"
+        }
+      }
+    },
+    {
+      "node": "intern-zai",
+      "hop": 1,
+      "keyword": "Z.ai",
+      "query": "Min Cai Z.ai research intern",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "exa-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io"
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": 2,
+          "url": "https://henrycai11.github.io"
+        }
+      }
+    },
+    {
+      "node": "mgs",
+      "hop": 1,
+      "keyword": "Modular Gradient Surgery",
+      "query": "Modular Gradient Surgery general-purpose reasoning models",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "ms-shenzhen",
+      "hop": 1,
+      "keyword": "Shenzhen University",
+      "query": "Min Cai Shenzhen University",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "exa-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io/"
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": 1,
+          "url": "https://henrycai11.github.io"
+        }
+      }
+    },
+    {
+      "node": "post-training",
+      "hop": 1,
+      "keyword": "How Post-Training Reshapes LLMs",
+      "query": "How Post-Training Reshapes LLMs mechanistic view",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "selfcontrol",
+      "hop": 1,
+      "keyword": "SelfControl",
+      "query": "Self-Control of LLM Behaviors suffix gradient prefix controller",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "strategist",
+      "hop": 1,
+      "keyword": "Strategist",
+      "query": "Strategist LLM bi-level tree search strategic skills",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "tdrm",
+      "hop": 1,
+      "keyword": "TDRM",
+      "query": "TDRM smooth reward models temporal difference LLM",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "tyler",
+      "hop": 1,
+      "keyword": "Tyler",
+      "query": "Tyler typed latent reasoning language models",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": 4,
+          "url": "https://henrycai11.github.io/"
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "agent-coevolution",
+      "hop": 2,
+      "keyword": "co-evolution",
+      "query": "co-evolving environments agents and users for training LLM agents",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "behavior-control",
+      "hop": 2,
+      "keyword": "suffix gradient",
+      "query": "controlling LLM behavior by compressing suffix gradients into a prefix controller",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "data-science-agents",
+      "hop": 2,
+      "keyword": "data science agent",
+      "query": "benchmark for LLM data science agents",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "gradient-conflicts",
+      "hop": 2,
+      "keyword": "gradient conflict",
+      "query": "resolving gradient conflicts across domains in reasoning model training",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "latent-reasoning",
+      "hop": 2,
+      "keyword": "latent reasoning",
+      "query": "typed latent reasoning for language models",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "post-training-mechanisms",
+      "hop": 2,
+      "keyword": "post-training",
+      "query": "how post-training changes LLM internals knowledge truthfulness refusal",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "reward-modeling",
+      "hop": 2,
+      "keyword": "reward model",
+      "query": "temporal difference reward models for LLM reinforcement learning",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": true,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "social-deduction-games",
+      "hop": 2,
+      "keyword": "social deduction game",
+      "query": "LLM agents playing Avalon social deduction game",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    },
+    {
+      "node": "strategic-reasoning",
+      "hop": 2,
+      "keyword": "strategic reasoning",
+      "query": "LLM strategic reasoning with bi-level tree search",
+      "cells": {
+        "claude-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "codex-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "exa-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        },
+        "tavily-search": {
+          "found": false,
+          "rank": null,
+          "url": null
+        }
+      }
+    }
+  ]
+}
