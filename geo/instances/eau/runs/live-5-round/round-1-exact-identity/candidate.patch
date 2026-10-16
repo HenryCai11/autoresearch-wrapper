@@ -1,0 +1,50 @@
+diff --git a/index.html b/index.html
+index e2e8841..b5bbf38 100644
+--- a/index.html
++++ b/index.html
+@@ -5,6 +5,17 @@
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="theme-color" content="#f5f2eb">
+   <meta name="description" content="EAU: Environment–Agent–User Co-evolution for Training User-Centric Agents. A meta-agent framework that adapts the training system alongside the policy.">
++  <link rel="canonical" href="https://eau-meta-agent.github.io/">
++  <meta name="citation_title" content="EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents">
++  <meta name="citation_author" content="Min Cai">
++  <meta name="citation_author" content="Dan Zhang">
++  <meta name="citation_author" content="Gao Xing">
++  <meta name="citation_author" content="Libin Ma">
++  <meta name="citation_author" content="Zhaohui Xu">
++  <meta name="citation_author" content="Xi Ye">
++  <meta name="citation_publication_date" content="2026">
++  <meta name="citation_arxiv_id" content="2610.16523">
++  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2610.16523">
+   <meta property="og:title" content="eau — Learning to evolve, together.">
+   <meta property="og:description" content="Environment–Agent–User Co-evolution for Training User-Centric Agents. Explore the framework, experiments, and research.">
+   <meta property="og:type" content="website">
+@@ -16,6 +27,27 @@
+   <title>eau — Environment–Agent–User Co-evolution</title>
+   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+   <link rel="stylesheet" href="styles.css">
++  <script type="application/ld+json">
++  {
++    "@context": "https://schema.org",
++    "@type": "ScholarlyArticle",
++    "name": "EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents",
++    "alternateName": ["EAU", "Environment-Agent-User Co-evolution"],
++    "url": "https://eau-meta-agent.github.io/",
++    "sameAs": "https://arxiv.org/abs/2610.16523",
++    "identifier": "arXiv:2610.16523",
++    "description": "EAU is a meta-agent framework that jointly adapts the environment, agent, and simulated user while training user-centric agents.",
++    "author": [
++      {"@type": "Person", "name": "Min Cai"},
++      {"@type": "Person", "name": "Dan Zhang"},
++      {"@type": "Person", "name": "Gao Xing"},
++      {"@type": "Person", "name": "Libin Ma"},
++      {"@type": "Person", "name": "Zhaohui Xu"},
++      {"@type": "Person", "name": "Xi Ye"}
++    ],
++    "keywords": ["environment-agent-user co-evolution", "meta-agent", "user-centric agents", "UserGym", "ColBench", "multi-turn reinforcement learning"]
++  }
++  </script>
+   <script src="site-config.js" defer></script>
+   <script src="script.js" defer></script>
+ </head>

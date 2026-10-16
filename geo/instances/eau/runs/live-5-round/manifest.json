@@ -17,7 +17,12 @@
     {
       "round": 1,
       "label": "exact-identity",
-      "status": "candidate_building"
+      "status": "awaiting_merge",
+      "pr": 10,
+      "candidate_commit": "4eb20df",
+      "inner_candidate_score": 74.43,
+      "inner_delta_vs_round_0": 31.0,
+      "candidate_summary": "round-1-exact-identity/candidate-summary.json"
     },
     {
       "round": 2,
