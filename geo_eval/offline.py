@@ -96,29 +96,54 @@ def find_person(site: Site, kmap: KnowledgeMap) -> dict | None:
     )
 
 
+def find_entity(site: Site, kmap: KnowledgeMap) -> dict | None:
+    """Find structured data for the configured entity type and identity."""
+    allowed = set(kmap.schema_types or ["Person"])
+    return next(
+        (
+            item
+            for item in site.all_json_ld()
+            if json_ld_types(item) & allowed
+            and contains_any(
+                " ".join(str(item.get(key, "")) for key in ("name", "headline", "alternateName")),
+                kmap.identity_terms,
+            )
+        ),
+        None,
+    )
+
+
 def _as_list(value: Any) -> list:
     return value if isinstance(value, list) else ([value] if value else [])
 
 
 def _structured_data_checks(site: Site, kmap: KnowledgeMap) -> list[Check]:
     errors = sum(page.json_ld_errors for page in site.pages.values())
-    person = find_person(site, kmap)
+    entity = find_entity(site, kmap)
+    person_mode = set(kmap.schema_types or ["Person"]) == {"Person"}
     checks = [
-        Check("person_jsonld", "structured_data", 1.0 if person else 0.0, "JSON-LD Person for the entity"),
+        Check(
+            "person_jsonld" if person_mode else "entity_jsonld",
+            "structured_data",
+            1.0 if entity else 0.0,
+            "JSON-LD " + "/".join(kmap.schema_types or ["Person"]) + " for the entity",
+        ),
         Check("jsonld_valid", "structured_data", 0.0 if errors else 1.0, f"{errors} unparseable JSON-LD blocks"),
     ]
-    if person:
-        same_as = _as_list(person.get("sameAs"))
+    if person_mode and entity:
+        same_as = _as_list(entity.get("sameAs"))
         checks += [
             Check(
                 "person_alias",
                 "structured_data",
-                1.0 if contains_any(" ".join(map(str, _as_list(person.get("alternateName")))), kmap.aliases or [kmap.name]) else 0.0,
+                1.0 if contains_any(" ".join(map(str, _as_list(entity.get("alternateName")))), kmap.aliases or [kmap.name]) else 0.0,
                 "alternateName lists an alias",
             ),
             Check("person_same_as", "structured_data", min(len(same_as), 3) / 3, f"{len(same_as)} sameAs profile links"),
-            Check("person_url", "structured_data", 1.0 if person.get("url") else 0.0, "url"),
+            Check("person_url", "structured_data", 1.0 if entity.get("url") else 0.0, "url"),
         ]
+    elif entity:
+        checks.append(Check("entity_url", "structured_data", 1.0 if entity.get("url") else 0.0, "url"))
     if kmap.papers():
         articles = [item for item in site.all_json_ld() if json_ld_types(item) & {"ScholarlyArticle", "Article"}]
         checks.append(Check("papers_typed", "structured_data", 1.0 if articles else 0.0, f"{len(articles)} ScholarlyArticle records"))

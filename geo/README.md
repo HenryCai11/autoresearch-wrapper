@@ -8,6 +8,8 @@ Generative engine optimization: make a website easier for LLMs and AI search to 
 | `geo/scripts/` | Glue: stage/install Jekyll gems, build a site, `score.sh` (the loop's metric command), `fetch_goatcounter.sh`. |
 | `geo/instances/<name>/` | One site's data and config only: `map.json` (knowledge map), `instance.env`, `probes.jsonl`, `ood.jsonl`. |
 
+`map.json` may set `entity.schema_types` to the JSON-LD types that identify the target. The default is `Person`; project and paper sites can use types such as `ScholarlyArticle` and `Article` so structured-data scoring follows the actual entity.
+
 ## The eval matrix
 
 One row per knowledge-map keyword (hop 0 = core identity, hop 1 = papers/areas/organisations, hop 2 = topics), one column per signal:

@@ -112,6 +112,12 @@ class GeoEvalTests(unittest.TestCase):
         self.assertEqual(self.kmap.queries_for(self.kmap.node("affiliation")), ["Ada Lovelace Analytical Society"])
         self.assertEqual(self.kmap.queries_for(self.kmap.node("programming")), ["first computer program"])
 
+    def test_discovery_queries_are_deduplicated_case_insensitively(self) -> None:
+        duplicate = parse_map({**MAP, "probes": [{"query": "ADA LOVELACE ANALYTICAL SOCIETY", "hop": 2}]})
+        matrix = build_discovery(duplicate, [])
+        queries = [row["query"].lower() for row in matrix.rows]
+        self.assertEqual(queries.count("ada lovelace analytical society"), 1)
+
     def test_term_matching_is_forgiving(self) -> None:
         self.assertTrue(contains_term("Environment–Agent  co-evolution", "environment-agent co-evolution"))
 
@@ -214,6 +220,25 @@ class GeoEvalTests(unittest.TestCase):
         self.assertLess(bare.score, 25)
         failed = {c.name for c in bare.checks if c.value < 1}
         self.assertTrue({"person_jsonld", "llms_txt", "canonical", "no_forbidden_text"} <= failed)
+
+    def test_non_person_entity_uses_configured_schema_type(self) -> None:
+        project_map = parse_map({
+            **MAP,
+            "entity": {
+                "name": "EAU",
+                "aliases": ["Environment-Agent-User Co-evolution"],
+                "url": "https://eau.example/",
+                "schema_types": ["ScholarlyArticle", "Article"],
+            },
+        })
+        html = """<html><head><title>EAU project</title>
+        <script type="application/ld+json">{"@type":"ScholarlyArticle","name":"EAU: Environment-Agent-User Co-evolution","url":"https://eau.example/"}</script>
+        </head><body><p>EAU project</p></body></html>"""
+        result = score_technical(load_site(str(write_site(self.tmp / "project", html))), project_map)
+        checks = {check.name: check.value for check in result.checks}
+        self.assertEqual(checks["entity_jsonld"], 1.0)
+        self.assertEqual(checks["entity_url"], 1.0)
+        self.assertNotIn("person_jsonld", checks)
 
     def test_robots_blocking(self) -> None:
         robots = "User-agent: GPTBot\nDisallow: /\n\nUser-agent: *\nAllow: /\n"
