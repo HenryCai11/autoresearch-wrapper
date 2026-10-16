@@ -1,0 +1,15 @@
+{
+  "round": 3,
+  "change_id": "r3-research-context-page",
+  "vs_round": 2,
+  "inner_delta": 5.5,
+  "outer_delta": -0.75,
+  "metric_deltas": {
+    "citation_rate": -0.0166,
+    "attribution_rate": 0.0,
+    "mention_rate": 0.0333,
+    "mrr": -0.0166,
+    "answer_success_rate": -0.0333
+  },
+  "interpretation": "Immediate post-deploy measurement; lower Codex answer success materially reduced observed outer score."
+}

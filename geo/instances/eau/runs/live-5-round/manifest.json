@@ -45,17 +45,21 @@
     {
       "round": 3,
       "label": "broad-domain",
-      "status": "awaiting_merge",
+      "status": "complete",
       "pr": 12,
       "candidate_commit": "31fe5e4",
       "inner_candidate_score": 92.33,
       "inner_delta_vs_round_2": 5.5,
-      "candidate_summary": "round-3-broad-domain/candidate-summary.json"
+      "candidate_summary": "round-3-broad-domain/candidate-summary.json",
+      "production_merge_commit": "808ea364b0df9d103b014d5e973a45a3b813eeca",
+      "outer_score": 27.5,
+      "outer_delta_vs_round_2": -0.75,
+      "summary": "round-3-broad-domain/summary.json"
     },
     {
       "round": 4,
       "label": "authority-entity-relations",
-      "status": "planned"
+      "status": "candidate_building"
     },
     {
       "round": 5,
