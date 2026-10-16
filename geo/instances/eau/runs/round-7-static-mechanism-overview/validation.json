@@ -1,0 +1,20 @@
+{
+  "checks": {
+    "only_homepage_changed": true,
+    "only_overview_section_changed": true,
+    "links_and_ids_valid": true,
+    "one_home_h1": true,
+    "styles_scripts_other_pages_unchanged": true,
+    "head_unchanged": true,
+    "jsonld_valid": true,
+    "visible_text_within_existing_limit": true,
+    "hidden_text_unchanged": true,
+    "interactive_default_panel_unchanged": true
+  },
+  "errors": [],
+  "visible_home_chars_before": 4964,
+  "visible_home_chars_after": 5051,
+  "limit": 9000,
+  "inner_score": "not computed",
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f"
+}

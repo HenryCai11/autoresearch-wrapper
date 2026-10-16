@@ -1,0 +1,123 @@
+{
+  "matched_valid_cells": 60,
+  "before": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 7,
+    "mention_rate": 0.7333333333333333,
+    "found_rate": 0.65,
+    "citation_rate": 0.11666666666666667,
+    "attribution_rate": 0.65,
+    "mrr": 0.03888888888888889,
+    "score": 29.61111111111111
+  },
+  "after": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 7,
+    "mention_rate": 0.75,
+    "found_rate": 0.65,
+    "citation_rate": 0.11666666666666667,
+    "attribution_rate": 0.65,
+    "mrr": 0.03194444444444444,
+    "score": 29.638888888888893
+  },
+  "citation_delta_pp": 0.0,
+  "composite_delta": 0.02777777777778212,
+  "citation_gains": 1,
+  "citation_losses": 1,
+  "cell_changes": [
+    {
+      "query": "EAU meta-agent user-centric agents",
+      "engine": "codex-search",
+      "fields": {
+        "rank": {
+          "before": 2,
+          "after": 4
+        }
+      }
+    },
+    {
+      "query": "framework jointly adapts simulated user environment rewards RL configuration",
+      "engine": "codex-search",
+      "fields": {
+        "site_cited": {
+          "before": false,
+          "after": true
+        },
+        "rank": {
+          "before": null,
+          "after": 3
+        },
+        "url": {
+          "before": null,
+          "after": "https://eau-meta-agent.github.io/"
+        }
+      }
+    },
+    {
+      "query": "meta-agent modifies training environment during multi-turn reinforcement learning",
+      "engine": "codex-search",
+      "fields": {
+        "site_cited": {
+          "before": true,
+          "after": false
+        },
+        "rank": {
+          "before": 2,
+          "after": null
+        },
+        "url": {
+          "before": "https://eau-meta-agent.github.io/",
+          "after": null
+        }
+      }
+    },
+    {
+      "query": "within-run and across-run adaptation agent training",
+      "engine": "tavily-search",
+      "fields": {
+        "mention": {
+          "before": false,
+          "after": true
+        }
+      }
+    },
+    {
+      "query": "recent agent environment co-evolution papers",
+      "engine": "codex-search",
+      "fields": {
+        "mention": {
+          "before": true,
+          "after": false
+        },
+        "found": {
+          "before": true,
+          "after": false
+        },
+        "attributed": {
+          "before": true,
+          "after": false
+        }
+      }
+    },
+    {
+      "query": "methods improving user-centric agents with simulated users",
+      "engine": "codex-search",
+      "fields": {
+        "mention": {
+          "before": false,
+          "after": true
+        },
+        "found": {
+          "before": false,
+          "after": true
+        },
+        "attributed": {
+          "before": false,
+          "after": true
+        }
+      }
+    }
+  ]
+}

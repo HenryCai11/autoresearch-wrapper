@@ -1,0 +1,11 @@
+{
+  "source_branch": "codex/geo-live-round-7",
+  "candidate_commit": "821a0b1acfc77323f64d900ea56ed1949eda9bc2",
+  "production_merge_commit": "fbd9e100b6ae71704a0cf65b1a1b9b87dbdc4ef7",
+  "production_tree": "ab2d4d904e2227401ce1d23cf92f1d4a2bdd0b9a",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "homepage_sha256": "e8c74c5ed002d414aeb421c5cf5d56a37dc933803a53f1e8629311198d8b2301",
+  "served_version_verified_at": "2026-10-16T11:55:51Z",
+  "verification": "Public homepage bytes exactly match merged R7 checkout and allocated candidate tree.",
+  "authorization": "User explicitly requested publishing R7 and then measuring it."
+}

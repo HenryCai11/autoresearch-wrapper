@@ -1,0 +1,19 @@
+{
+  "authority": "User requested outer search metrics only; user requested starting R7.",
+  "primary_metric": "live_project_citation_rate",
+  "goal": "maximize",
+  "definition": "100 * site_cited cells / 60; the unchanged geo_eval judge accepts project-domain mentions including bare domains.",
+  "validity": "Require all 15 frozen queries across all four engines; failures remain failures, never zeros for ranking.",
+  "secondary_metrics": [
+    "legacy outer composite",
+    "explicit project URL and rank",
+    "found",
+    "mention",
+    "attribution"
+  ],
+  "inner_metric": "not computed and not used for ranking or promotion",
+  "baseline": "Reuse the latest completed R6 delayed-repeat 60-cell measurement started at 2026-10-16T11:45:24Z, not a new R7 control search. Preserve the immediate R6 control separately.",
+  "deployment": "An unpublished candidate is unmeasured. The user explicitly approved publishing R7 and then measuring it.",
+  "history": "Keep R5 and discarded R6 commits, raw answers, and candidates. R7 deliberately starts from deployed R6, not the historical best R5, to isolate this incremental intervention.",
+  "interpretation": "One immediate sample does not establish causality; report indexing lag and repeated-search variance."
+}

@@ -1,0 +1,7 @@
+{
+  "commit": "821a0b1acfc77323f64d900ea56ed1949eda9bc2",
+  "description": "R7 static mechanism overview; verified deployed tree; all 60 frozen outer cells valid; compared with latest R6 retest",
+  "metric_value": 10.0,
+  "recorded_at": "2026-10-16T12:00:17+00:00",
+  "status": "discard"
+}
