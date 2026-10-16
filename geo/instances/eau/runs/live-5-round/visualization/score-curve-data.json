@@ -27,7 +27,7 @@
     "outer_valid": 31.39,
     "answer_success": 0.9,
     "best_outer": 28.25,
-    "status": "best"
+    "status": "best all-cell"
   },
   {
     "round": 3,
@@ -37,7 +37,7 @@
     "outer_valid": 31.73,
     "answer_success": 0.8667,
     "best_outer": 28.25,
-    "status": "no lift"
+    "status": "trade-off"
   },
   {
     "round": 4,
@@ -47,16 +47,16 @@
     "outer_valid": 30.5,
     "answer_success": 0.8333,
     "best_outer": 28.25,
-    "status": "inconclusive"
+    "status": "dominated"
   },
   {
     "round": 5,
     "change": "GitHub bridge",
     "inner": 99.0,
-    "outer_all": 18.5,
-    "outer_valid": 25.81,
-    "answer_success": 0.7167,
+    "outer_all": 25.5,
+    "outer_valid": 28.33,
+    "answer_success": 0.9,
     "best_outer": 28.25,
-    "status": "no immediate lift"
+    "status": "paired +0.33"
   }
 ]

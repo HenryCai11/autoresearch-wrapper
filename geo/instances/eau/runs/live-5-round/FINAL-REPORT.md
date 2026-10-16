@@ -13,25 +13,26 @@ The local inner score is a deployment-readiness proxy. It checks site coverage, 
 | 2 | Capability landing page | 86.83 | **28.25** | 31.39 | 90.00% | best all-cell checkpoint |
 | 3 | Research-context page | 92.33 | 27.50 | 31.73 | 86.67% | no demonstrated lift |
 | 4 | Bibliographic entity graph | 99.00 | 25.42 | 30.50 | 83.33% | inconclusive |
-| 5 | GitHub authority bridge | 99.00 | 18.50 | 25.81 | 71.67% | no immediate lift; Codex probe failed |
+| 5 | GitHub authority bridge | 99.00 | 25.50 | 28.33 | 90.00% | small paired lift; not yet robust |
 
 ## What the experiment shows
 
 1. Inner readiness rose from 43.43 to 99.00, while live exposure did not rise with it. On-site completeness is therefore a useful gate and a poor final objective.
 2. The highest all-cell outer score was Round 2 at 28.25. Its gain over baseline was only 0.28 points, below a robust claim of causal lift for this sample size.
 3. Rounds 3–5 did not produce a demonstrated live-search improvement at immediate post-deployment measurement time.
-4. Round 5 cannot be scored fairly as 18.50: Codex returned 0/15 answers. Over the 43 query-engine cells that returned in both R4 and R5, the score changed from 26.28 to 25.81 (-0.47).
+4. The failed Round 5 Codex run returned 0/15 and was discarded. The bounded retest returned 11/15. Across the 46 query-engine cells that returned in both R4 and R5, the score changed from 28.70 to 29.02 (+0.33), a small positive delta that is not yet robust.
 5. GitHub and new project pages may require recrawling before they can affect retrieval. These T+0 observations should be followed by the same frozen query set after indexing.
 
 ## Codex probe incident
 
-Five Codex CLI processes were started concurrently with a 60-second per-query timeout. The CLI reported model-list refresh timeouts, and all 15 queries were recorded empty. A single diagnostic query succeeded in 44 seconds. The probe now defaults to low reasoning effort, a 90-second timeout, per-query logs, elapsed time, exit status, and should be scheduled with no more than two concurrent processes.
+Five Codex CLI processes were initially started concurrently with a 60-second per-query timeout. The CLI reported model-list refresh timeouts, and all 15 queries were recorded empty. A single diagnostic query succeeded in 44 seconds. The bounded retest used two workers, low reasoning effort, and 90 seconds per query: 11/15 returned and four timed out. The probe now records per-query logs, elapsed time, status, and exit code.
 
 ## Artifacts
 
 - `plot-data.csv`: plotting table for all rounds
 - `timing.csv`: measured wall-clock interval and event count per round
-- `visualization/eau-geo-score-curve.png`: final score and decision-tree figure
+- `visualization/eau-geo-score-curve.png`: final score, temporal frontier, and decision-tree figure
+- `visualization/eau-geo-pareto-frontier.png`: inner/outer Pareto frontier
 - `visualization/eau-geo-optimization-loop.mp4`: stepwise animation
 - `visualization/score-curve-data.csv`: exact values used by the figure
 - each `round-*` directory: raw answers, normalized probes, search matrix, summaries, changes, commits, and timestamped tool events

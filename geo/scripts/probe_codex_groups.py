@@ -8,6 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import tempfile
 
@@ -45,9 +46,15 @@ def main() -> int:
             results = list(pool.map(run_group, enumerate(groups)))
 
         answers: dict[str, dict] = {}
+        final_logs = Path(str(output) + ".logs")
+        final_logs.mkdir(parents=True, exist_ok=True)
         failed = False
-        for _, code, path in sorted(results):
+        for index, code, path in sorted(results):
             failed |= code != 0
+            group_logs = path.with_suffix("").with_suffix(".logs")
+            if group_logs.is_dir():
+                for log in sorted(group_logs.glob("*.log")):
+                    shutil.copy2(log, final_logs / f"group-{index:02d}-{log.name}")
             for line in path.read_text().splitlines():
                 if line.strip():
                     row = json.loads(line)

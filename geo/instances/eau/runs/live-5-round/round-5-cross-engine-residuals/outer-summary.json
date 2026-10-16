@@ -6,15 +6,15 @@
     "mrr": 0.2,
     "mention_rate": 0.1
   },
-  "score": 18.5,
+  "score": 25.5,
   "overall": {
     "probed": 60,
-    "answer_success_rate": 0.7167,
-    "mention_rate": 0.5,
-    "found_rate": 0.45,
-    "citation_rate": 0.05,
-    "attribution_rate": 0.45,
-    "mrr": 0.0
+    "answer_success_rate": 0.9,
+    "mention_rate": 0.6167,
+    "found_rate": 0.5667,
+    "citation_rate": 0.1,
+    "attribution_rate": 0.5667,
+    "mrr": 0.0333
   },
   "by_engine": {
     "gpt-web": {
@@ -28,12 +28,12 @@
     },
     "codex-search": {
       "probed": 15,
-      "answer_success_rate": 0.0,
-      "mention_rate": 0.0,
-      "found_rate": 0.0,
-      "citation_rate": 0.0,
-      "attribution_rate": 0.0,
-      "mrr": 0.0
+      "answer_success_rate": 0.7333,
+      "mention_rate": 0.4667,
+      "found_rate": 0.4667,
+      "citation_rate": 0.2,
+      "attribution_rate": 0.4667,
+      "mrr": 0.1333
     },
     "tavily-search": {
       "probed": 15,
@@ -57,29 +57,29 @@
   "by_tier": {
     "exact": {
       "probed": 20,
-      "answer_success_rate": 0.65,
-      "mention_rate": 0.65,
-      "found_rate": 0.65,
-      "citation_rate": 0.1,
-      "attribution_rate": 0.65,
-      "mrr": 0.0
+      "answer_success_rate": 0.75,
+      "mention_rate": 0.75,
+      "found_rate": 0.75,
+      "citation_rate": 0.2,
+      "attribution_rate": 0.75,
+      "mrr": 0.075
     },
     "fuzzy": {
       "probed": 20,
-      "answer_success_rate": 0.75,
-      "mention_rate": 0.55,
-      "found_rate": 0.5,
-      "citation_rate": 0.0,
-      "attribution_rate": 0.5,
-      "mrr": 0.0
+      "answer_success_rate": 1.0,
+      "mention_rate": 0.75,
+      "found_rate": 0.7,
+      "citation_rate": 0.05,
+      "attribution_rate": 0.7,
+      "mrr": 0.025
     },
     "broad": {
       "probed": 20,
-      "answer_success_rate": 0.75,
-      "mention_rate": 0.3,
-      "found_rate": 0.2,
+      "answer_success_rate": 0.95,
+      "mention_rate": 0.35,
+      "found_rate": 0.25,
       "citation_rate": 0.05,
-      "attribution_rate": 0.2,
+      "attribution_rate": 0.25,
       "mrr": 0.0
     }
   }

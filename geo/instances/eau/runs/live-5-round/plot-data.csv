@@ -4,4 +4,4 @@ round,label,change_id,inner_score,matrix_offline,technical,outer_score,answer_su
 2,fuzzy-capability,r2-capability-landing-page,86.83,80.83,95.83,28.25,0.9,0.65,0.5833,0.1333,0.0583,0.35,0.0,0.05,e49def194b9a475dd354975a8453a134f0d4ccd1
 3,broad-domain,r3-research-context-page,92.33,90.0,95.83,27.5,0.8667,0.6833,0.5833,0.1167,0.0417,0.25,0.05,0.05,808ea364b0df9d103b014d5e973a45a3b813eeca
 4,authority-entity-relations,r4-bibliographic-entity-graph,99.0,98.33,100.0,25.42,0.8333,0.6333,0.55,0.1,0.0417,0.2,0.05,0.05,18ad3f754d52e2b0bbbee3b95883b384ffcdb8a8
-5,cross-engine-residuals,r5-github-authority-bridge,99.0,98.33,100.0,18.5,0.7167,0.5,0.45,0.05,0.0,0.1,0.0,0.05,edec9373f0c5d4fcc0eae9308678c582fb719416
+5,cross-engine-residuals,r5-github-authority-bridge,99.0,98.33,100.0,25.5,0.9,0.6167,0.5667,0.1,0.0333,0.2,0.05,0.05,edec9373f0c5d4fcc0eae9308678c582fb719416
