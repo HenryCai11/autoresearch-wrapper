@@ -70,6 +70,56 @@ BEST = np.maximum.accumulate(OUTER)
 X = np.arange(6)
 
 
+def draw_autoresearch_frontier(output: Path) -> None:
+    """Render the outer metric like an autoresearch keep/discard history."""
+    fig, ax = plt.subplots(figsize=(13, 7.2), facecolor="#fbfaf7")
+    ax.set_facecolor("#fbfaf7")
+
+    kept = [i == 0 or OUTER[i] > BEST[i - 1] for i in range(len(OUTER))]
+    discarded = [i for i in range(1, len(OUTER)) if not kept[i]]
+    accepted = [i for i in range(len(OUTER)) if kept[i]]
+
+    # Raw evaluations may move in either direction. The staircase is the run's
+    # incumbent score and therefore stays flat after a discarded candidate.
+    ax.plot(X, OUTER, color="#aeb7b5", lw=1.7, ls="--", marker="o", ms=6,
+            label="candidate score", zorder=2)
+    ax.step(X, BEST, where="post", color="#ef3f78", lw=4.0,
+            label="frontier · best score so far", zorder=3)
+    ax.scatter(accepted, [OUTER[i] for i in accepted], s=145, color="#07867f",
+               edgecolor="#ffffff", lw=2, label="keep", zorder=5)
+    ax.scatter(discarded, [OUTER[i] for i in discarded], s=125, color="#fbfaf7",
+               edgecolor="#7b8585", lw=2, marker="X", label="discard", zorder=5)
+
+    for i, value in enumerate(OUTER):
+        decision = "seed" if i == 0 else ("KEEP" if kept[i] else "DISCARD")
+        color = "#07867f" if kept[i] else "#697274"
+        offset = 14 if i in (0, 2, 4) else -34
+        ax.annotate(f"R{i}  {value:.2f}\n{decision}", (i, value),
+                    xytext=(0, offset), textcoords="offset points", ha="center",
+                    fontsize=9.5, color=color, weight="bold")
+
+    ax.annotate("incumbent remains R2 = 28.25", xy=(5, BEST[5]), xytext=(3.25, 29.0),
+                arrowprops={"arrowstyle": "->", "color": "#ef3f78", "lw": 1.5},
+                fontsize=10.5, color="#c8255d", weight="bold")
+    ax.set_title("EAU GEO · autoresearch metric frontier", loc="left", fontsize=22,
+                 weight="bold", color="#15191c", pad=30)
+    ax.text(0, 1.015, "Each candidate is compared with the incumbent outer score; the frontier never decreases.",
+            transform=ax.transAxes, fontsize=11, color="#697176")
+    ax.set_ylabel("outer live-search score", fontsize=11, color="#4f585a")
+    ax.set_xlabel("optimization round", fontsize=11, color="#4f585a")
+    ax.set_xticks(X, [f"R{i}\n{SHORT[i]}" for i in range(6)], fontsize=9)
+    ax.set_xlim(-.25, 5.25)
+    ax.set_ylim(min(OUTER) - 1.2, max(BEST) + 1.5)
+    ax.grid(axis="y", color="#e1e6e3", linewidth=.9)
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.spines[["left", "bottom"]].set_color("#c7cecc")
+    ax.tick_params(colors="#697176")
+    ax.legend(loc="lower left", ncol=4, frameon=False, fontsize=9.5)
+    fig.tight_layout()
+    fig.savefig(output, dpi=180, facecolor=fig.get_facecolor())
+    plt.close(fig)
+
+
 def draw(limit: float, output: Path | None = None) -> None:
     visible = int(np.floor(limit))
     progress = limit - visible
@@ -178,6 +228,7 @@ def draw_pareto(output: Path) -> None:
 def main() -> None:
     OUT.mkdir(exist_ok=True)
     draw(5, OUT / "eau-geo-score-curve.png")
+    draw_autoresearch_frontier(OUT / "eau-geo-autoresearch-frontier.png")
     draw_pareto(OUT / "eau-geo-pareto-frontier.png")
     frames = OUT / "frames"
     frames.mkdir(exist_ok=True)
@@ -197,7 +248,7 @@ def main() -> None:
         draw(step, frames / f"anim-{frame:03d}.png")
         return []
     # Rendered step frames are assembled by ffmpeg outside matplotlib to keep output deterministic.
-    print(json.dumps({"png": str(OUT / 'eau-geo-score-curve.png'), "frontier": str(OUT / 'eau-geo-pareto-frontier.png'), "frames": str(frames), "csv": str(OUT / 'score-curve-data.csv')}))
+    print(json.dumps({"png": str(OUT / 'eau-geo-score-curve.png'), "autoresearch_frontier": str(OUT / 'eau-geo-autoresearch-frontier.png'), "pareto_frontier": str(OUT / 'eau-geo-pareto-frontier.png'), "frames": str(frames), "csv": str(OUT / 'score-curve-data.csv')}))
 
 
 if __name__ == "__main__":

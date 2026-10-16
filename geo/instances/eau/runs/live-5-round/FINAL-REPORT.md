@@ -31,6 +31,7 @@ Five Codex CLI processes were initially started concurrently with a 60-second pe
 
 - `plot-data.csv`: plotting table for all rounds
 - `timing.csv`: measured wall-clock interval and event count per round
+- `visualization/eau-geo-autoresearch-frontier.png`: candidate scores plus the non-decreasing best-so-far keep/discard frontier
 - `visualization/eau-geo-score-curve.png`: final score, temporal frontier, and decision-tree figure
 - `visualization/eau-geo-pareto-frontier.png`: inner/outer Pareto frontier
 - `visualization/eau-geo-optimization-loop.mp4`: stepwise animation
