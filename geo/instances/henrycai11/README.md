@@ -34,3 +34,7 @@ Sequential optimize run on `_pages/about.md`, 7 candidates, all kept; ended earl
 | 7 | JSON-LD colleagues and internships | 100.00 |
 
 Staged (not committed) in the site checkout: `_config.yml`, `_includes/geo-head.html` (new), `_layouts/default.html`, `llms.txt` (new). Live search probes and traffic need a deploy, then a re-probe after recrawl.
+
+## Deployed (2026-10-15, site master @ 263d99d)
+
+Live score of https://henrycai11.github.io/ right after deploy: METRIC 100.0 (matrix 100, technical 100, LLM 100), identical to the local build. Search column 0.10 still reflects the pre-deploy probes; re-probe and take a traffic snapshot after engines recrawl (about a week).
