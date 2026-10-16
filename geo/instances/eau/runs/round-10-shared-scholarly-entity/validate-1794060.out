@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/scratch/henrycai/geo-runs/eau-r10-20261016/validate_r10.py", line 100, in <module>
+    assert all(checks.values()), [name for name, passed in checks.items() if not passed]
+           ~~~^^^^^^^^^^^^^^^^^
+AssertionError: ['only_jsonld_changed']

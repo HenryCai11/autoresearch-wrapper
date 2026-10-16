@@ -1,0 +1,30 @@
+{
+  "homepage": "Initial geo-apply on meta:schema, followed by an apply_patch correction of the WebPage name to the exact head title.",
+  "support_pages": "Exact generated schema-only patch applied with the agent apply_patch tool",
+  "reason": "Current geo-apply exposes linked HTML assets but does not permit replace_text on them; no wrapper-core mutation or bypass of canonical run state.",
+  "scope": [
+    "index.html",
+    "method.html",
+    "paper.html",
+    "research-context.html"
+  ],
+  "verified": "Only one JSON-LD block per page differs; all non-JSON-LD bytes unchanged.",
+  "initial_attempt_artifacts": [
+    "operations-initial-attempt.json",
+    "preview.json",
+    "applied.json",
+    "validation-attempt-1.json",
+    "validate-1794060.out"
+  ],
+  "final_artifacts": [
+    "operations.json",
+    "support-schema-final.apply_patch",
+    "schema-after.json",
+    "candidate.patch",
+    "validation.json"
+  ],
+  "corrections": [
+    "Preserve two-space indentation before support-page script tags.",
+    "Read WebPage name from head/title, not the generic parser title that also captures SVG titles. Wrapper/scorer code remains unchanged."
+  ]
+}
