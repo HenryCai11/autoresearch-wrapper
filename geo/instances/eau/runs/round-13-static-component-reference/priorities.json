@@ -1,0 +1,48 @@
+{
+  "tool": "Preserved actual R12 four-engine responses; no R13 search calls",
+  "result_scope": "Source URLs displayed in those saved responses; not a top-ten rank or predicted lift",
+  "query_count": 15,
+  "observed_funnel": {
+    "project_returned": 3,
+    "paper_returned": 10,
+    "repo_returned": 0
+  },
+  "interventions": [
+    {
+      "id": "external-paper-link-audit",
+      "nodes": [
+        "external:paper-backlink"
+      ],
+      "source_url": "https://arxiv.org/abs/2610.16523",
+      "observed_source_visible_target_absent_queries": [
+        "Q02",
+        "Q06",
+        "Q07",
+        "Q08",
+        "Q11",
+        "Q12",
+        "Q15"
+      ],
+      "observed_opportunity_count": 7,
+      "next_test_order": 1,
+      "effect_status": "unmeasured",
+      "priority_basis": "returned source URL visible while project URL absent"
+    },
+    {
+      "id": "r13-static-component-reference",
+      "nodes": [
+        "file:index.html",
+        "section:framework",
+        "file:script.js",
+        "file:styles.css"
+      ],
+      "source_url": "https://eau-meta-agent.github.io/",
+      "observed_source_visible_target_absent_queries": [],
+      "observed_opportunity_count": 0,
+      "next_test_order": null,
+      "effect_status": "unmeasured",
+      "priority_basis": "returned source URL visible while project URL absent"
+    }
+  ],
+  "warning": "This orders entry points for a next test using returned URLs only; it does not measure intervention lift, platform reachability, ranking, or citation."
+}

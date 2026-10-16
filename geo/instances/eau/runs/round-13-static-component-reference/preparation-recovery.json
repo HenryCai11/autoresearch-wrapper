@@ -1,0 +1,10 @@
+{
+  "cause": "The local clone did not contain the latest production merge object needed for the production diff; first validation stopped before writing a metric or candidate commit.",
+  "resolution": "Fetched origin/main on the login node, then resumed the same allocated candidate without a second seed record, allocation or edit.",
+  "preserved": [
+    "original geo-apply preview and application",
+    "graph-before and graph-after",
+    "original failed Slurm log prepare-1797109.out"
+  ],
+  "no_search_or_deployment": true
+}

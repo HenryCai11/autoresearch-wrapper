@@ -18,6 +18,12 @@ python3 scripts/geo_eval.py discovery \
 Historical R0–R12 run directories contain actual GPT web, Codex search, Tavily,
 and Exa observations. Keys are supplied only at runtime; never store them here.
 
+R12 is deployed and measured: 6/60 citation cells versus the best R9's 8/60,
+so it was discarded for selection (not automatically rolled back). See its
+[live report](runs/round-12-homepage-descriptive-h1/r12-live/REPORT.md).
+[R13](runs/round-13-static-component-reference/README.md) is a validated,
+unpublished static-component-reference candidate; it has no new outer observation.
+
 ## Cross-module candidate ledger
 
 From R8 onward, consult [`candidate-pool.json`](candidate-pool.json) before

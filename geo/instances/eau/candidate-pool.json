@@ -1,26 +1,26 @@
 {
   "schema_version": 1,
   "site_url": "https://eau-meta-agent.github.io/",
-  "updated_at": "2026-10-16T16:35:13+00:00",
-  "current_round": 12,
+  "updated_at": "2026-10-16T16:39:02+00:00",
+  "current_round": 13,
   "maintenance": "Site-specific ledger maintained by the agent when starting or recording a round; not an automatic scheduler or a new wrapper-core search algorithm.",
   "policy": {
     "primary_metric": "live_project_citation_rate",
     "goal": "maximize",
-    "definition": "100 * frozen geo_eval site_cited cells / 60; bare project-domain occurrences count under the existing judge.",
+    "definition": "100 * frozen geo_eval site_cited cells / 60, including bare project-domain occurrences under the existing judge",
     "engines": [
       "gpt-web",
       "codex-search",
       "tavily-search",
       "exa-search"
     ],
-    "validity": "All 60 frozen query-engine cells must return valid responses for automatic ranking.",
+    "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
     "inner_metric": "not computed and not used",
-    "baseline": "Best fully observed R9 seed: preserved 2026-10-16T13:09:24Z observation, 8/60 citations, composite 30.25; reused historical control, not new searches.",
-    "current_production": "R11 is still deployed and had 7/60, composite 28.9722; contextual only, not the R12 keep threshold.",
-    "deployment": "Require explicit R12 publication approval, exact candidate tree and served homepage bytes verified, and real 60-cell observations before evaluating the candidate.",
-    "history": "Retain all discarded candidates and queued proposals; never add parent metrics to rank a combination.",
-    "limitations": "Historical single samples do not establish causal effects or exclude indexing lag. No automatic deployment or rollback."
+    "baseline": "Best measured R9: 8/60, composite 30.25000; reused historical measurement, not a simultaneous control",
+    "current_production": "R12, 6/60, discard; do not lower the selection bar to current production",
+    "deployment": "Separate explicit publication approval required for R13; verify exact candidate tree and served bytes before/after 60 real probes",
+    "history": "Retain all candidates and original proposals for combinations; never add parent scores",
+    "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up"
   },
   "modules": [
     {
@@ -1325,7 +1325,7 @@
     },
     {
       "id": "static-component-reference",
-      "status": "queued_unmeasured",
+      "status": "validated_awaiting_deployment_approval",
       "measured": false,
       "parents": [
         "r2",
@@ -1338,8 +1338,48 @@
         "presentation"
       ],
       "hypothesis": "Expose the existing environment and agent tab descriptions in accessible static HTML while preserving the interactive explorer and avoiding duplicate padding.",
-      "retain_for_combinations": true
+      "retain_for_combinations": true,
+      "original_proposal": {
+        "id": "static-component-reference",
+        "status": "queued_unmeasured",
+        "measured": false,
+        "parents": [
+          "r2",
+          "r7",
+          "r9"
+        ],
+        "modules": [
+          "homepage-identity",
+          "method-reference",
+          "presentation"
+        ],
+        "hypothesis": "Expose the existing environment and agent tab descriptions in accessible static HTML while preserving the interactive explorer and avoiding duplicate padding.",
+        "retain_for_combinations": true
+      },
+      "round": 13,
+      "change_id": "r13-static-component-reference",
+      "base_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "files": [
+        "index.html"
+      ],
+      "reason_selected": "The latest complete R12 responses identify the homepage entry surface; the existing environment/agent explanations are only in script.js until a tab is selected. Test exposing those exact existing explanations in static homepage HTML, not another metadata variant.",
+      "scope": "Add one two-article static component reference inside the existing framework section. Copy titles, descriptions and knobs verbatim from the existing environment/agent JS data. Do not duplicate the default user paragraph or alter the interactive tabs.",
+      "module_dependencies": [
+        "index.html#framework and its current tab panel",
+        "script.js components.environment and components.agent, unchanged",
+        "styles.css .timescales and .knob-list, unchanged",
+        "R7 overview / R8 routes / R9 static results, retained"
+      ],
+      "alternatives_deferred": [
+        "static-second-backbone-evidence",
+        "external-paper-link-audit"
+      ],
+      "interpretation": "Unmeasured hypothesis; source presence and parent observations are not predicted intervention lift.",
+      "candidate_commit": "fb91450d84828046b5a5fa6412c40c21a277e05f",
+      "candidate_tree": "20f5afb5e7a68b3d66956e31dfad7ed4d8b15a6c",
+      "wrapper_run_id": "20261016T163902Z-index-html",
+      "branch": "autoresearch/index-html/20261016T163902Z-index-html/candidate-001"
     }
   ],
-  "selected_candidate_id": "homepage-descriptive-h1"
+  "selected_candidate_id": "static-component-reference"
 }

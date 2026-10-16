@@ -1,0 +1,14 @@
+{
+  "run": {
+    "active_candidates": [
+      "seed"
+    ],
+    "part_id": "index.html",
+    "program_path": "/scratch/henrycai/eau-r13-20261016/.autoresearch-wrapper/runs/20261016T163902Z-index-html/program.md",
+    "run_id": "20261016T163902Z-index-html"
+  },
+  "selected": "static-component-reference",
+  "selection_seed_round": 9,
+  "control_citations": 8,
+  "inner_score": "not computed"
+}

@@ -1,0 +1,48 @@
+{
+  "basis": "Complete actual R12 plus R9/R10/R11 preserved outer evidence and public local source; no new R13 probes",
+  "latest_observation": {
+    "round": 12,
+    "citations": 6,
+    "explicit_project_url_cells": 3,
+    "explicit_support_page_url_cells": 0,
+    "decision": "discard"
+  },
+  "reviews": [
+    {
+      "module": "homepage-identity",
+      "action": "Retain exact R9 seed identity; keep R12 result available regardless of verdict"
+    },
+    {
+      "module": "presentation",
+      "action": "Select existing environment/agent static descriptions; preserve explorer, scripts, default user panel and results switch"
+    },
+    {
+      "module": "method-reference",
+      "action": "Retain method.html and routes; do not infer lift from graph reach"
+    },
+    {
+      "module": "research-context",
+      "action": "Retain factual evaluation boundaries"
+    },
+    {
+      "module": "paper-authority",
+      "action": "Retain seed metadata; R10 candidate remains available, not silently inherited"
+    },
+    {
+      "module": "machine-readable-summary",
+      "action": "Retain llms.txt unchanged"
+    },
+    {
+      "module": "crawler-routing",
+      "action": "Retain robots/sitemap; no unsupported indexing claim"
+    },
+    {
+      "module": "repository-authority",
+      "action": "Retain existing R5 README bridge"
+    },
+    {
+      "module": "external-paper-entry",
+      "action": "Link state remains unknown; edit deferred pending separate author authority"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "source_file": "script.js",
+  "source_sha256": "a9a6bc3c30dbb6db8e0714b30aa12dd146f9a07710a1e1ceac2999117c94d751",
+  "components": {
+    "environment": {
+      "title": "A more informative learning signal.",
+      "description": "Revise intermediate rewards when task success is too sparse to guide exploration. The meta-agent can reward meaningful progress, correct unhelpful reward designs, and adjust supported interaction limits.",
+      "knobs": [
+        "Intermediate rewards",
+        "Reward rules",
+        "Episode length"
+      ]
+    },
+    "agent": {
+      "title": "Training dynamics that can adapt.",
+      "description": "The neural policy learns through PPO with an action-token critic. The meta-agent monitors optimization logs and trajectories, adjusting configurable dynamics such as entropy and KL coefficients while keeping the training algorithm fixed.",
+      "knobs": [
+        "Entropy coefficient",
+        "KL coefficient",
+        "Training diagnostics"
+      ]
+    }
+  },
+  "rendered_html": "      <div class=\"timescales\" id=\"static-component-reference\" aria-label=\"Environment and agent reference\">\n        <article><span class=\"mini-index\">Evolving environment</span><h3>A more informative learning signal.</h3><p>Revise intermediate rewards when task success is too sparse to guide exploration. The meta-agent can reward meaningful progress, correct unhelpful reward designs, and adjust supported interaction limits.</p><div class=\"knob-list\"><span>Intermediate rewards</span><span>Reward rules</span><span>Episode length</span></div></article>\n        <article><span class=\"mini-index\">Evolving agent</span><h3>Training dynamics that can adapt.</h3><p>The neural policy learns through PPO with an action-token critic. The meta-agent monitors optimization logs and trajectories, adjusting configurable dynamics such as entropy and KL coefficients while keeping the training algorithm fixed.</p><div class=\"knob-list\"><span>Entropy coefficient</span><span>KL coefficient</span><span>Training diagnostics</span></div></article>\n      </div>\n",
+  "facts": "Titles, descriptions and knob labels copied verbatim from existing public JS data; no new method claim or measurement",
+  "presentation": "Persistent semantic article blocks using existing styles; unchanged interactive tabs remain above, no duplicated default user paragraph"
+}
