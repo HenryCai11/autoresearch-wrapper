@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "site_url": "https://eau-meta-agent.github.io/",
-  "updated_at": "2026-10-16T12:22:49+00:00",
-  "current_round": 8,
+  "updated_at": "2026-10-16T13:09:24+00:00",
+  "current_round": 9,
   "maintenance": "Site-specific ledger maintained by the agent when starting or recording a round; not an automatic scheduler or a new wrapper-core search algorithm.",
   "policy": {
     "primary_metric": "live_project_citation_rate",
@@ -16,8 +16,8 @@
     ],
     "validity": "All 15 fixed queries and four engines must return valid responses before automatic ranking.",
     "inner_metric": "not computed; not used for selection",
-    "baseline": "Reuse R7 live 60-cell measurement from 2026-10-16T12:00:17+00:00: 6/60, composite 29.4444.",
-    "deployment": "An unpublished tree is unmeasured. R8 production deployment requires explicit user approval.",
+    "baseline": "R9 reuses R8 live 60-cell measurement from 2026-10-16T12:22:48+00:00: 6/60, composite 28.6389; no fresh simultaneous control.",
+    "deployment": "An unpublished tree is unmeasured. Each production deployment requires explicit user approval and served-byte verification; R9 approved and verified before collection.",
     "history": "Preserve all historical candidates, including discard, with parent commits, module scope, and measurements.",
     "limitations": "Cross-round observations are cumulative, not isolated module ablations; timing, indexing and tool failures differ. Do not rank combinations by adding old scores."
   },
@@ -842,6 +842,37 @@
       "artifact_dir": "runs/round-8-reference-cluster",
       "retain_for_combinations": true,
       "status": "measured_bundle_not_isolated_module_effect"
+    },
+    {
+      "id": "r9",
+      "round": 9,
+      "change_id": "r9-static-benchmark-evidence",
+      "files": [
+        "index.html"
+      ],
+      "parents": [
+        "r4",
+        "r7",
+        "r8"
+      ],
+      "candidate_commit": "9bb531cc09d8b7dda5a3148c5df3c5e62107892b",
+      "production_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "branch": "codex/geo-live-round-9",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 8,
+        "mention_rate": 0.7166666666666667,
+        "found_rate": 0.6666666666666666,
+        "citation_rate": 0.13333333333333333,
+        "attribution_rate": 0.65,
+        "mrr": 0.041666666666666664,
+        "score": 30.25
+      },
+      "decision": "keep",
+      "artifact_dir": "runs/round-9-static-benchmark-evidence",
+      "retain_for_combinations": true,
+      "status": "measured_bundle_not_isolated_module_effect"
     }
   ],
   "proposals": [
@@ -935,16 +966,57 @@
     },
     {
       "id": "static-benchmark-evidence",
-      "status": "queued_unmeasured",
+      "status": "keep",
+      "deployment_status": "live",
+      "production_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
       "parents": [
-        "r4"
+        "r4",
+        "r7",
+        "r8"
       ],
       "modules": [
         "homepage-identity",
         "paper-authority",
         "presentation"
       ],
-      "hypothesis": "Expose already-reported default result data in static HTML while retaining the model switch and accurate evidence boundaries."
+      "hypothesis": "Expose already-reported default result data in static HTML while retaining the model switch and accurate evidence boundaries.",
+      "round": 9,
+      "change_id": "r9-static-benchmark-evidence",
+      "measured": true,
+      "files": [
+        "index.html"
+      ],
+      "base_commit": "4147abc262bbb69df7a170eb403bf1b6807869f4",
+      "module_dependencies": [
+        "script.js: default qwen3 source data and client rendering",
+        "paper.html: overlapping EAU headline facts"
+      ],
+      "scope": "Pre-render the existing default Qwen3-4B chart cards and nine-method table in section:results; retain all runtime JavaScript and model-switch behavior.",
+      "reason_selected": "R8 returned no explicit support-page URLs, whereas the homepage appeared in three cells. Its default chart and table bodies are empty until JavaScript runs. Test factual evidence availability on that actually observed entry page.",
+      "alternatives_deferred": [
+        "shared-scholarly-entity",
+        "reference-cluster-without-r7",
+        "external-paper-link-audit"
+      ],
+      "interpretation": "Measured immediate post-deployment observation against preserved R8; not an isolated causal module effect. Retain for future combinations.",
+      "candidate_commit": "9bb531cc09d8b7dda5a3148c5df3c5e62107892b",
+      "candidate_tree": "5ebd5d1c28e00690d58caafa0edfe066ae5307d7",
+      "wrapper_run_id": "20261016T125445Z-index-html",
+      "branch": "autoresearch/index-html/20261016T125445Z-index-html/candidate-001",
+      "measured_at": "2026-10-16T13:09:24+00:00",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 8,
+        "mention_rate": 0.7166666666666667,
+        "found_rate": 0.6666666666666666,
+        "citation_rate": 0.13333333333333333,
+        "attribution_rate": 0.65,
+        "mrr": 0.041666666666666664,
+        "score": 30.25
+      },
+      "measurement_artifact_dir": "runs/round-9-static-benchmark-evidence/r9-live",
+      "retain_for_combinations": true
     },
     {
       "id": "external-paper-link-audit",
@@ -960,5 +1032,5 @@
       "hypothesis": "Inspect the returned paper entry independently before proposing any author-controlled backlink change."
     }
   ],
-  "selected_candidate_id": "r8-reference-cluster"
+  "selected_candidate_id": "static-benchmark-evidence"
 }

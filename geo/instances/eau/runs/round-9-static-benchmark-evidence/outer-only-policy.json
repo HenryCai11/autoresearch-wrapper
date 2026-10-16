@@ -1,0 +1,17 @@
+{
+  "primary_metric": "live_project_citation_rate",
+  "goal": "maximize",
+  "definition": "100 * frozen geo_eval site_cited cells / 60; bare project-domain occurrences count under the existing judge.",
+  "engines": [
+    "gpt-web",
+    "codex-search",
+    "tavily-search",
+    "exa-search"
+  ],
+  "validity": "All 60 frozen query-engine cells must return valid responses for automatic ranking.",
+  "inner_metric": "not computed and not used",
+  "baseline": "Preserved R8 immediate live observation at 2026-10-16T12:22:48Z: 6/60 citations, 28.6389 composite. This is reused, not a new R9 control search.",
+  "deployment": "Require explicit R9 publication approval, verified served bytes, and real four-engine observations before candidate evaluation.",
+  "history": "Retain discarded candidates and queued combinations; measure combinations rather than infer their scores.",
+  "limitations": "A single immediate sample with a historical control cannot establish a causal effect; search variation and indexing lag remain possible."
+}

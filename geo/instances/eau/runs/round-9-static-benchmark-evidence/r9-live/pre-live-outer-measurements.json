@@ -1,0 +1,14 @@
+{
+  "measurements": [
+    {
+      "label": "r8-live-reused-control",
+      "deployed_commit": "4147abc262bbb69df7a170eb403bf1b6807869f4",
+      "deployed_tree": "b3d011a5256d81aac31840cc7183b8fb5fa7a405",
+      "measured_at": "2026-10-16T12:22:48+00:00",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "../round-8-reference-cluster/r8-live/search-matrix.csv",
+      "matrix_sha256": "6e2aed8100a519ed03c6f9f9bad767ab96cd4eee04bfdce6211a65f8eb0ee677",
+      "verification": "Current production main is still R8; homepage bytes equal the R8 checkout. Original all-four-resource deployment proof is preserved with the control."
+    }
+  ]
+}
