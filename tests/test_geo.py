@@ -39,8 +39,27 @@ class GeoTests(unittest.TestCase):
         self.assertIn("outcome:Doubao:retrieval", ids)
         self.assertIn("outcome:DeepSeek:answer", ids)
         self.assertIn({"from": "file:index.html", "to": "section:one", "kind": "contains"}, graph["edges"])
-        self.config["interventions"] = [{"id": "edit-home", "nodes": ["section:one"], "cost": 1}]
-        self.assertIn("outcome:Doubao:answer", prioritize(graph, self.config)[0]["reachable_outcomes"])
+
+    def test_prioritization_uses_returned_urls_not_graph_reachability(self) -> None:
+        self.config["repo_url"] = "https://github.com/example/repo"
+        self.config["interventions"] = [
+            {"id": "readme", "nodes": ["file:README.md"], "source_url": self.config["repo_url"],
+             "cost": .1, "current_gap": True},
+            {"id": "paper-link", "nodes": ["external:paper-backlink"],
+             "source_url": self.config["paper_url"], "cost": 100, "current_gap": False},
+        ]
+        evidence = {"tool": "GPT/Codex web search", "observations": [
+            {"query_id": "Q1", "result_urls": [self.config["paper_url"]]},
+            {"query_id": "Q2", "result_urls": [self.config["paper_url"]]},
+        ]}
+        result = prioritize(self.config, evidence)
+        self.assertEqual(result["observed_funnel"],
+                         {"project_returned": 0, "paper_returned": 2, "repo_returned": 0})
+        self.assertEqual(result["interventions"][0]["id"], "paper-link")
+        self.assertEqual(result["interventions"][0]["observed_opportunity_count"], 2)
+        self.assertIsNone(result["interventions"][1]["next_test_order"])
+        self.assertNotIn("reachable_outcomes", result["interventions"][0])
+        self.assertNotIn("structural_priority", result["interventions"][0])
 
     def test_graph_tracks_node_content_when_topology_is_unchanged(self) -> None:
         before = build_graph(self.repo, self.config)

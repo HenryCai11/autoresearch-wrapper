@@ -267,7 +267,7 @@ def build_parser() -> argparse.ArgumentParser:
         ("geo-score", "Measure local GEO readiness, never search exposure."),
         ("geo-apply", "Preview or apply graph-addressed website edits in a worktree."),
         ("geo-compare", "Compare paired platform observations with global regression guards."),
-        ("geo-prioritize", "Rank proposed edits by dependency reach, marked as hypotheses."),
+        ("geo-prioritize", "Order next link tests from observed returned source URLs only."),
     ):
         geo_parser = subparsers.add_parser(name, help=help_text)
         add_repo_arg(geo_parser)
@@ -279,7 +279,7 @@ def build_parser() -> argparse.ArgumentParser:
             geo_parser.add_argument("--observations", default="geo/observations.csv")
             geo_parser.add_argument("--candidate")
         if name == "geo-prioritize":
-            geo_parser.add_argument("--observations", default="geo/observations.csv")
+            geo_parser.add_argument("--search-evidence", required=True)
         geo_parser.set_defaults(func=command_geo)
 
     wrap = subparsers.add_parser(
@@ -1024,9 +1024,8 @@ def command_geo(args: argparse.Namespace) -> int:
         rows = geo.load_observations((repo_root / args.observations).resolve())
         result = geo.compare_platforms(config, rows, candidate=args.candidate)
     elif args.command == "geo-prioritize":
-        path = (repo_root / args.observations).resolve()
-        rows = geo.load_observations(path) if path.is_file() else None
-        result = geo.prioritize(geo.build_graph(repo_root, config), config, rows)
+        evidence = geo.load_search_evidence((repo_root / args.search_evidence).resolve())
+        result = geo.prioritize(config, evidence)
     elif args.command == "geo-apply":
         manifest = json.loads(Path(args.operations).read_text(encoding="utf-8"))
         if args.apply:

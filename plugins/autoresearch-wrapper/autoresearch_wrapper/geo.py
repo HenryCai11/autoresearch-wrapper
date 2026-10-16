@@ -360,39 +360,66 @@ def compare_platforms(config: dict[str, Any], rows: list[dict[str, str]],
             "warning": "Unknown observations are bounded, never imputed as zero; local readiness is excluded."}
 
 
-def prioritize(graph: dict[str, Any], config: dict[str, Any],
-               observations: list[dict[str, str]] | None = None) -> list[dict[str, Any]]:
-    """Order certified global gains first, then structural hypotheses.
+def _url_matches(url: str, target: str) -> bool:
+    """Match a returned URL to a target page or a subtree rooted at that URL."""
+    actual, expected = urlparse(url), urlparse(target)
+    if actual.netloc.lower() != expected.netloc.lower():
+        return False
+    path, root = actual.path.rstrip("/"), expected.path.rstrip("/")
+    return path == root or bool(root) and path.startswith(root + "/") or not root
 
-    A measured platform regression sends an intervention below unmeasured ideas.
-    Unknown platform effects never become positive evidence.
+
+def load_search_evidence(path: Path) -> dict[str, Any]:
+    """Load source URLs returned by a real search tool; no synthetic graph outcomes."""
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if not data.get("tool") or not isinstance(data.get("observations"), list):
+        raise ValueError("search evidence needs a tool name and observations")
+    seen = set()
+    for row in data["observations"]:
+        if not row.get("query_id") or row["query_id"] in seen:
+            raise ValueError("search evidence needs unique query IDs")
+        seen.add(row["query_id"])
+        urls = row.get("result_urls")
+        if not isinstance(urls, list) or any(not str(url).startswith(("http://", "https://")) for url in urls):
+            raise ValueError("each observation needs a list of returned HTTP URLs")
+    return data
+
+
+def prioritize(config: dict[str, Any], search_evidence: dict[str, Any]) -> dict[str, Any]:
+    """Order observed entry-point *test opportunities*, not predicted SEO gains.
+
+    A source URL must actually appear while the target project URL is absent.
+    Graph reachability, hand-entered gaps, costs, and unobserved platforms are
+    deliberately excluded. An opportunity is not an intervention effect.
     """
-    parents: dict[str, set[str]] = defaultdict(set)
-    for edge in graph["edges"]:
-        parents[edge["to"]].add(edge["from"])
-    result = []
-    for item in config.get("interventions", []):
-        reached = set()
-        frontier = list(item["nodes"])
-        while frontier:
-            node = frontier.pop()
-            for parent in parents[node]:
-                if parent not in reached:
-                    reached.add(parent)
-                    frontier.append(parent)
-        outcomes = [node for node in reached if node.startswith("outcome:")]
-        cost = max(float(item.get("cost", 1)), 0.1)
-        gap = bool(item.get("current_gap", True))
-        score = round((len(outcomes) + 1) * int(gap) / cost, 3)
-        evidence = (compare_platforms(config, observations, item.get("candidate_id"))
-                    if observations is not None and item.get("candidate_id") else None)
-        state = ("certified_gain" if evidence and evidence["verdict"] == "keep"
-                 else "observed_regression" if evidence and evidence["regressions"]
-                 else "hypothesis_only")
-        result.append({"id": item["id"], "nodes": item["nodes"],
-                       "reachable_outcomes": sorted(outcomes), "structural_priority": score,
-                       "current_gap": gap, "owner": item.get("owner", "repo"),
-                       "status": state, "global_evaluation": evidence})
-    rank = {"certified_gain": 0, "hypothesis_only": 1, "observed_regression": 2}
-    return sorted(result, key=lambda entry: (rank[entry["status"]],
-                                            -entry["structural_priority"], entry["id"]))
+    observations = search_evidence["observations"]
+    expected_queries = {item["id"] for item in config.get("queries", []) if isinstance(item, dict)}
+    if expected_queries and {row["query_id"] for row in observations} != expected_queries:
+        raise ValueError("search evidence must cover the configured query IDs exactly")
+    site_url, paper_url, repo_url = (config["site_url"], config["paper_url"], config.get("repo_url", ""))
+    def seen(row: dict[str, Any], url: str) -> bool:
+        return bool(url) and any(_url_matches(result, url) for result in row["result_urls"])
+    target_present = [seen(row, site_url) for row in observations]
+    paper_present = [seen(row, paper_url) for row in observations]
+    repo_present = [seen(row, repo_url) for row in observations]
+    items = []
+    for intervention in config.get("interventions", []):
+        source_url = intervention.get("source_url")
+        if not source_url:
+            raise ValueError(f"intervention {intervention['id']} needs a source_url for observed prioritization")
+        opportunities = [row["query_id"] for row, target in zip(observations, target_present)
+                         if not target and seen(row, source_url)]
+        items.append({"id": intervention["id"], "nodes": intervention["nodes"],
+                      "source_url": source_url, "observed_source_visible_target_absent_queries": opportunities,
+                      "observed_opportunity_count": len(opportunities),
+                      "next_test_order": None, "effect_status": "unmeasured",
+                      "priority_basis": "returned source URL visible while project URL absent"})
+    items.sort(key=lambda row: (-row["observed_opportunity_count"], row["id"]))
+    for index, item in enumerate(row for row in items if row["observed_opportunity_count"]):
+        item["next_test_order"] = index + 1
+    return {"tool": search_evidence["tool"], "result_scope": search_evidence.get("result_scope"),
+            "query_count": len(observations),
+            "observed_funnel": {"project_returned": sum(target_present),
+                                "paper_returned": sum(paper_present), "repo_returned": sum(repo_present)},
+            "interventions": items,
+            "warning": "This orders entry points for a next test using returned URLs only; it does not measure intervention lift, platform reachability, ranking, or citation."}

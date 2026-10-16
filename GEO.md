@@ -4,7 +4,7 @@ The GEO commands extend this wrapper's existing worktree loop. They address thre
 
 1. `geo-graph` discovers files, HTML metadata, individual `<section id="...">` nodes, assets, external sources, and per-platform retrieval/answer outcomes. Local nodes include SHA-256 content fingerprints, so a text edit remains visible even when the graph topology is unchanged. Edges state dependencies, not proven causal effects.
 2. `geo-apply` previews or applies an operation manifest against named graph nodes. `edit`, `add_after`, `move_after`, and `remove` target HTML sections; `replace_text` targets text files. `--apply` is restricted to a Git worktree. Run it inside a candidate allocated by the wrapper; `evaluate` snapshots and measures that candidate.
-3. `geo-prioritize` orders open interventions by graph reach and cost as **hypotheses**. If paired platform observations exist for a candidate, `geo-compare` checks the weighted global effect and measured regressions. Unknown observations remain unknown. A local score cannot certify search exposure.
+3. `geo-prioritize` reads **actual returned source URLs** from a saved search-tool response and orders only visible source-to-missing-project entry points for the next test. It does not use hypothetical graph reach, hand-entered gap flags, or costs, and it cannot certify lift. If paired platform observations exist for a candidate, `geo-compare` separately checks weighted global effect and measured regressions. Unknown observations remain unknown.
 
 The configuration below is an example, not a claim that any platform has been measured:
 
@@ -16,7 +16,7 @@ The configuration below is an example, not a claim that any platform has been me
   "queries": [{"id": "Q1", "text": "Recent agent-environment co-evolution papers?"}],
   "interventions": [
     {"id": "readme_link", "nodes": ["file:README.md"], "cost": 1,
-     "current_gap": true, "candidate_id": "readme-link"}
+     "source_url": "https://github.com/example/repo", "candidate_id": "readme-link"}
   ]
 }
 ```
@@ -26,7 +26,8 @@ Commands, from the target website repository:
 ```bash
 WRAPPER=/path/to/autoresearch-wrapper/scripts/autoresearch_wrapper.py
 python3 "$WRAPPER" geo-graph --repo . --config geo/config.json > geo/graph.json
-python3 "$WRAPPER" geo-prioritize --repo . --config geo/config.json
+python3 "$WRAPPER" geo-prioritize --repo . --config geo/config.json \
+  --search-evidence geo/gpt-web-search-observations.json
 python3 "$WRAPPER" geo-score --repo . --config geo/config.json
 python3 "$WRAPPER" scan --repo . --no-interactive
 python3 "$WRAPPER" configure --repo . --part README.md --metric geo_readiness \
@@ -52,6 +53,23 @@ An operation manifest looks like:
 ```
 
 For a section, use `{"op":"edit","node":"section:overview","html":"<section id=\"overview\">...</section>"}`; `add_after` supplies a new section with a unique ID; `move_after` supplies `after_node`; `remove` deletes the section. Validate the resulting page before recording the candidate.
+
+## Observed search entry points
+
+`geo-prioritize` requires a saved response from a real search tool, reduced to the source URLs that tool actually returned:
+
+```json
+{
+  "tool": "GPT/Codex web search",
+  "result_scope": "source URLs displayed in the tool response; not a top-10 rank",
+  "observations": [
+    {"query_id": "Q1", "result_urls": ["https://arxiv.org/abs/1234.56789"],
+     "raw_file": "geo/evidence/query-q1.txt"}
+  ]
+}
+```
+
+Each intervention needs a `source_url`. The command counts queries where that source URL was returned and the project URL was absent. It uses no graph-reach count, hand-entered gap flag, cost estimate, or unseen platform. A high count says that the source is a visible place to test a link to the missing project page; it is **not** an estimate of lift. Keep the raw tool response and query settings for audit. `geo-compare` remains the separate route for paired before/after outcomes when real platform data becomes available.
 
 ## Global observation contract
 
