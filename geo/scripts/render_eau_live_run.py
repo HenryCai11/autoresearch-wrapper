@@ -33,9 +33,7 @@ DETAIL = [
     "Repository authority links",
 ]
 INNER = [43.43, 74.43, 86.83, 92.33, 99.00, 99.00]
-OUTER = [27.97, 28.08, 28.25, 27.50, 25.42, 18.50]
-SUCCESS = [0.9167, 0.9000, 0.9000, 0.8667, 0.8333, 0.7167]
-STATUS = ["baseline", "kept", "best", "no lift", "inconclusive", "no immediate lift"]
+STATUS = ["baseline", "kept", "best all-cell", "trade-off", "dominated", "paired +0.33"]
 W = {"site_cited": 0.45, "attributed": 0.25, "reciprocal_rank": 0.20, "mention": 0.10}
 
 
@@ -65,6 +63,9 @@ def load_cells() -> tuple[list[list[float]], list[float]]:
 
 
 CELLS, VALID = load_cells()
+SUMMARIES = [json.loads((ROOT / directory / "summary.json").read_text()) for directory in ROUND_DIRS]
+OUTER = [row["outer_loop"]["score"] for row in SUMMARIES]
+SUCCESS = [row["outer_loop"]["overall"]["answer_success_rate"] for row in SUMMARIES]
 BEST = np.maximum.accumulate(OUTER)
 X = np.arange(6)
 
@@ -121,12 +122,12 @@ def draw(limit: float, output: Path | None = None) -> None:
     chart.plot(X[:upto], INNER[:upto], color="#07867f", lw=2.2, marker="o", label="inner readiness proxy", zorder=4)
     chart.plot(X[:upto], OUTER[:upto], color="#bca6ad", lw=1.3, ls=":", marker="o", label="outer: all scheduled cells", zorder=3)
     chart.plot(X[:upto], VALID[:upto], color="#ff4f83", lw=2.2, marker="o", mfc="#fbfaf7", label="outer: valid responses", zorder=5)
-    chart.step(X[:upto], BEST[:upto], where="post", color="#c8255d", lw=3.0, label="best observed outer", zorder=3)
+    chart.step(X[:upto], BEST[:upto], where="post", color="#c8255d", lw=3.0, label="outer frontier (best so far)", zorder=3)
     chart.legend(loc="upper left", ncol=2, frameon=False, fontsize=9)
     for i in range(upto):
         chart.text(i, OUTER[i]-6.5, f"{OUTER[i]:.2f} all\n{SUCCESS[i]*100:.0f}% returned", ha="center", fontsize=8, color="#8b4a61")
     if visible == 5:
-        chart.annotate("Codex probe failed: 0/15", xy=(5, OUTER[5]), xytext=(4.15, 8),
+        chart.annotate("Codex retest: 11/15 returned", xy=(5, OUTER[5]), xytext=(4.05, 8),
                        arrowprops={"arrowstyle": "->", "color": "#8b4a61"},
                        fontsize=9, color="#8b4a61", weight="bold")
     chart.text(5.2, 101, "60 observations per round", ha="right", va="top", fontsize=8.5, color="#8a9293")
@@ -136,9 +137,48 @@ def draw(limit: float, output: Path | None = None) -> None:
     plt.close(fig)
 
 
+def draw_pareto(output: Path) -> None:
+    fig, ax = plt.subplots(figsize=(11, 7), facecolor="#fbfaf7")
+    ax.set_facecolor("#fbfaf7")
+    frontier = []
+    for i, (inner, outer) in enumerate(zip(INNER, OUTER)):
+        dominated = any(
+            j != i and INNER[j] >= inner and OUTER[j] >= outer
+            and (INNER[j] > inner or OUTER[j] > outer)
+            for j in range(len(INNER))
+        )
+        if not dominated:
+            frontier.append(i)
+    frontier.sort(key=lambda i: (INNER[i], OUTER[i]))
+    sizes = [150 + 450 * value for value in SUCCESS]
+    ax.scatter(INNER, OUTER, s=sizes, c="#c5ccca", edgecolors="#ffffff", linewidths=2, zorder=2)
+    ax.plot([INNER[i] for i in frontier], [OUTER[i] for i in frontier], color="#ff4f83", lw=3,
+            marker="o", ms=9, label="Pareto frontier", zorder=4)
+    for i, (inner, outer) in enumerate(zip(INNER, OUTER)):
+        color = "#ff4f83" if i in frontier else "#687174"
+        y_offset = 18 if i == 4 else -42 if i == 5 else (8 if i % 2 == 0 else -26)
+        ax.annotate(f"R{i}  {SHORT[i]}\ninner {inner:.2f} · outer {outer:.2f}", (inner, outer),
+                    xytext=(7, y_offset), textcoords="offset points",
+                    fontsize=9, color=color, weight="bold" if i in frontier else "normal")
+    ax.set_title("EAU GEO intervention frontier", loc="left", fontsize=22, weight="bold", color="#15191c", pad=34)
+    ax.text(0, 1.01, "Maximize live exposure while increasing local readiness", transform=ax.transAxes,
+            fontsize=11, color="#697176")
+    ax.set_xlabel("inner readiness proxy →", fontsize=11)
+    ax.set_ylabel("outer live exposure score →", fontsize=11)
+    ax.set_xlim(38, 103); ax.set_ylim(min(OUTER)-1.0, max(OUTER)+1.0)
+    ax.grid(color="#e4e8e5", linewidth=.8)
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.legend(frameon=False, loc="lower left")
+    ax.text(.99, .02, "bubble size = answer success", transform=ax.transAxes, ha="right", color="#7d8586", fontsize=9)
+    fig.tight_layout()
+    fig.savefig(output, dpi=180, facecolor=fig.get_facecolor())
+    plt.close(fig)
+
+
 def main() -> None:
     OUT.mkdir(exist_ok=True)
     draw(5, OUT / "eau-geo-score-curve.png")
+    draw_pareto(OUT / "eau-geo-pareto-frontier.png")
     frames = OUT / "frames"
     frames.mkdir(exist_ok=True)
     for i in range(6):
@@ -157,7 +197,7 @@ def main() -> None:
         draw(step, frames / f"anim-{frame:03d}.png")
         return []
     # Rendered step frames are assembled by ffmpeg outside matplotlib to keep output deterministic.
-    print(json.dumps({"png": str(OUT / 'eau-geo-score-curve.png'), "frames": str(frames), "csv": str(OUT / 'score-curve-data.csv')}))
+    print(json.dumps({"png": str(OUT / 'eau-geo-score-curve.png'), "frontier": str(OUT / 'eau-geo-pareto-frontier.png'), "frames": str(frames), "csv": str(OUT / 'score-curve-data.csv')}))
 
 
 if __name__ == "__main__":

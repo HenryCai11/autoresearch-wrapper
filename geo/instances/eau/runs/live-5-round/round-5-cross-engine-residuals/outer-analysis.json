@@ -1,46 +1,36 @@
 {
-  "r5_valid": {
-    "mention_rate": 0.6977,
-    "attribution_rate": 0.6279,
-    "citation_rate": 0.0698,
-    "mrr": 0.0,
-    "score": 25.814,
-    "n": 43
+  "r5_all": {
+    "mention_rate": 0.6167,
+    "attribution_rate": 0.5667,
+    "citation_rate": 0.1,
+    "mrr": 0.0333,
+    "score": 25.5,
+    "n": 60
   },
-  "matched_n": 43,
+  "r5_valid": {
+    "mention_rate": 0.6852,
+    "attribution_rate": 0.6296,
+    "citation_rate": 0.1111,
+    "mrr": 0.037,
+    "score": 28.3333,
+    "n": 54
+  },
+  "matched_n": 46,
   "r4_paired": {
-    "mention_rate": 0.7442,
-    "attribution_rate": 0.6279,
-    "citation_rate": 0.0698,
-    "mrr": 0.0,
-    "score": 26.2791,
-    "n": 43
+    "mention_rate": 0.7391,
+    "attribution_rate": 0.6304,
+    "citation_rate": 0.1087,
+    "mrr": 0.0326,
+    "score": 28.6957,
+    "n": 46
   },
   "r5_paired": {
-    "mention_rate": 0.6977,
-    "attribution_rate": 0.6279,
-    "citation_rate": 0.0698,
-    "mrr": 0.0,
-    "score": 25.814,
-    "n": 43
+    "mention_rate": 0.7174,
+    "attribution_rate": 0.6522,
+    "citation_rate": 0.1087,
+    "mrr": 0.0326,
+    "score": 29.0217,
+    "n": 46
   },
-  "stable_n": 43,
-  "r4_stable_paired": {
-    "mention_rate": 0.7442,
-    "attribution_rate": 0.6279,
-    "citation_rate": 0.0698,
-    "mrr": 0.0,
-    "score": 26.2791,
-    "n": 43
-  },
-  "r5_stable_paired": {
-    "mention_rate": 0.6977,
-    "attribution_rate": 0.6279,
-    "citation_rate": 0.0698,
-    "mrr": 0.0,
-    "score": 25.814,
-    "n": 43
-  },
-  "paired_delta": -0.4651,
-  "stable_delta": -0.4651
+  "paired_delta": 0.326
 }
