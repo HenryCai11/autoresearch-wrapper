@@ -38,7 +38,8 @@ class GeoTests(unittest.TestCase):
             {"id": "paper_link", "source_url": self.config["paper_url"],
              "nodes": ["external:paper-backlink"], "owner": "paper-author"},
             {"id": "readme_link", "source_url": "https://github.com/example/repo",
-             "nodes": ["file:README.md"], "candidate_id": "readme"},
+             "nodes": ["file:README.md"], "candidate_id": "readme",
+             "candidate_arms": [{"id": "sourced_summary", "status": "planned"}]},
         ]
         evidence = {"tool": "actual search", "observations": [
             {"query_id": "Q1", "result_urls": [self.config["paper_url"]],
@@ -51,6 +52,7 @@ class GeoTests(unittest.TestCase):
         self.assertEqual(observed["nodes"][0]["operations"], ["author-edit"])
         self.assertEqual(observed["platforms_to_check"], ["Doubao", "DeepSeek"])
         self.assertEqual([item["id"] for item in tree["unobserved_entry_points"]], ["readme_link"])
+        self.assertEqual(tree["unobserved_entry_points"][0]["candidate_arms"][0]["id"], "sourced_summary")
         html = render_explorer_html(tree)
         self.assertIn("evidence/q1.txt", html)
         self.assertIn("未观测到入口", html)

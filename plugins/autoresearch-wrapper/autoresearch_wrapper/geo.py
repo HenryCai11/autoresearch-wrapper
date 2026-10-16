@@ -453,6 +453,7 @@ def explore(repo: Path, config: dict[str, Any], search_evidence: dict[str, Any],
             "candidate_id": candidate_id, "local_state": spec.get("local_state", "unspecified"),
             "change_kind": spec.get("change_kind", "unspecified"),
             "hypothesis": spec.get("hypothesis", ""),
+            "candidate_arms": spec.get("candidate_arms", []),
             "next_test_order": item["next_test_order"],
             "experiment": comparison or {"status": "unmeasured"},
             "platforms_to_check": list(config["platforms"]),
@@ -524,6 +525,13 @@ def render_explorer_html(tree: dict[str, Any]) -> str:
             details += '<p>待检验假设：' + escape(item["hypothesis"]) + '</p>'
         if item["candidate_id"]:
             details += tag("候选", item["candidate_id"])
+        if item["candidate_arms"]:
+            arms = "".join(branch(escape(arm["id"]),
+                                  tag("状态", arm.get("status", "planned"), "unknown") +
+                                  ("<p>" + escape(arm.get("hypothesis", "")) + "</p>"
+                                   if arm.get("hypothesis") else ""))
+                           for arm in item["candidate_arms"])
+            details += branch("待测候选改法", arms)
         platforms = experiment.get("platforms", {})
         platform_html = "".join(
             branch(escape(name),
@@ -579,9 +587,13 @@ def render_explorer_html(tree: dict[str, Any]) -> str:
       return make(name, value?.coverage ? `覆盖 ${value.coverage} · 增量 ${value.delta_known_cells}` :
         '前后数据未测', value?.coverage ? 'measured' : 'unknown');
     });
+    const arms = (item.candidate_arms || []).map(arm => make(arm.id,
+      `${arm.status || 'planned'} · 效果未测`, 'unknown'));
+    const branches = [make('改动节点', `${nodes.length} 个`, 'group', nodes),
+      make('跨平台评测', outcome, 'group', platforms)];
+    if (arms.length) branches.push(make('待测候选改法', `${arms.length} 个`, 'group', arms));
     return make(item.id, `${item.change_kind} · ${outcome}`, observed ? 'candidate' : 'dormant',
-      [make('改动节点', `${nodes.length} 个`, 'group', nodes),
-       make('跨平台评测', outcome, 'group', platforms)], true);
+      branches, true);
   }
   const queries = data.queries.map(q => make(q.id, q.text, 'query',
     q.sources.length ? q.sources.map(s => make(new URL(s.url).hostname,
