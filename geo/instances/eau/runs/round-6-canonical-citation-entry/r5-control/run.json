@@ -1,0 +1,26 @@
+{
+  "experiment_id": "eau-live-geo-r6-2026-10",
+  "round": 5,
+  "label": "r5-control-repeat",
+  "change_id": "r5-unchanged-remeasurement",
+  "production_merge_commit": "edec9373f0c5d4fcc0eae9308678c582fb719416",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "measurement_phase": "same_deployed_R5_control",
+  "collected_at": "2026-10-16T11:20:44+00:00",
+  "query_count": 15,
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "codex_settings": {
+    "parallelism": 2,
+    "timeout_seconds": 90,
+    "reasoning_effort": "low"
+  },
+  "gpt_web_settings": {
+    "response_length": "long",
+    "query_per_call": 1,
+    "scope": "raw native search-tool response"
+  },
+  "comparison_limitations": [
+    "This is an unchanged-site repeat, not a treatment effect.",
+    "Probe/runtime settings and elapsed time differ from the original R5."
+  ]
+}

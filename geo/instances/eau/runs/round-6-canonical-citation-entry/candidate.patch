@@ -1,0 +1,40 @@
+diff --git a/index.html b/index.html
+index 40e6d25..d107686 100644
+--- a/index.html
++++ b/index.html
+@@ -4,7 +4,7 @@
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="theme-color" content="#f5f2eb">
+-  <meta name="description" content="EAU: Environment–Agent–User Co-evolution for Training User-Centric Agents. A meta-agent framework that adapts the training system alongside the policy.">
++  <meta name="description" content="Official EAU project website for arXiv:2610.16523. A meta-agent framework that adapts environments, simulated users, rewards, and RL configuration for user-centric agents.">
+   <link rel="canonical" href="https://eau-meta-agent.github.io/">
+   <meta name="citation_title" content="EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents">
+   <meta name="citation_author" content="Min Cai">
+@@ -16,15 +16,15 @@
+   <meta name="citation_publication_date" content="2026">
+   <meta name="citation_arxiv_id" content="2610.16523">
+   <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2610.16523">
+-  <meta property="og:title" content="eau — Learning to evolve, together.">
+-  <meta property="og:description" content="Environment–Agent–User Co-evolution for Training User-Centric Agents. Explore the framework, experiments, and research.">
++  <meta property="og:title" content="EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents">
++  <meta property="og:description" content="Official EAU project website for arXiv:2610.16523. A meta-agent framework that adapts environments, simulated users, rewards, and RL configuration for user-centric agents.">
+   <meta property="og:type" content="website">
+   <meta property="og:url" content="https://eau-meta-agent.github.io/">
+   <meta property="og:image" content="https://eau-meta-agent.github.io/assets/social-card.png">
+   <meta property="og:image:width" content="1200">
+   <meta property="og:image:height" content="630">
+   <meta name="twitter:card" content="summary_large_image">
+-  <title>eau — Environment–Agent–User Co-evolution</title>
++  <title>EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents</title>
+   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+   <link rel="stylesheet" href="styles.css">
+   <script type="application/ld+json">
+@@ -64,6 +64,7 @@
+   <main id="main">
+     <section class="hero wrap" aria-labelledby="hero-title">
+       <div class="hero-copy">
++        <p class="hero-description" id="project-reference">Official EAU project website: <a href="https://eau-meta-agent.github.io/">eau-meta-agent.github.io</a> · <a href="https://arxiv.org/abs/2610.16523">arXiv:2610.16523</a>.</p>
+         <h1 id="hero-title">Learning to<br>evolve, <em>together.</em></h1>
+         <p class="hero-subtitle">Environment–Agent–User Co-evolution<br>for Training User-Centric Agents</p>
+         <p class="hero-description"><strong>EAU is a meta-agent framework</strong> that evolves the environment, the agent, and the simulated user together while training user-centric agents.</p>

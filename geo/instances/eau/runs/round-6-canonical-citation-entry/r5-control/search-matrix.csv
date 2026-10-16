@@ -1,0 +1,61 @@
+query,tier,engine,mention,found,site_cited,attributed,rank,reciprocal_rank,url,answer_empty
+EAU Environment Agent User Co-evolution,exact,gpt-web,True,True,False,True,,0.0,,False
+EAU Environment Agent User Co-evolution,exact,codex-search,True,True,True,True,3,0.3333333333333333,https://eau-meta-agent.github.io/,False
+EAU Environment Agent User Co-evolution,exact,tavily-search,True,True,False,True,,0.0,,False
+EAU Environment Agent User Co-evolution,exact,exa-search,True,True,False,True,,0.0,,False
+EAU arXiv 2610.16523,exact,gpt-web,True,True,False,True,,0.0,,False
+EAU arXiv 2610.16523,exact,codex-search,True,False,False,False,,0.0,,False
+EAU arXiv 2610.16523,exact,tavily-search,True,True,False,True,,0.0,,False
+EAU arXiv 2610.16523,exact,exa-search,True,True,True,True,,0.0,,False
+EAU meta-agent user-centric agents,exact,gpt-web,True,True,False,True,,0.0,,False
+EAU meta-agent user-centric agents,exact,codex-search,True,True,True,True,2,0.5,https://eau-meta-agent.github.io/,False
+EAU meta-agent user-centric agents,exact,tavily-search,True,True,False,True,,0.0,,False
+EAU meta-agent user-centric agents,exact,exa-search,True,True,False,True,,0.0,,False
+EAU UserGym ColBench,exact,gpt-web,True,True,False,True,,0.0,,False
+EAU UserGym ColBench,exact,codex-search,True,True,False,True,,0.0,,False
+EAU UserGym ColBench,exact,tavily-search,True,True,False,True,,0.0,,False
+EAU UserGym ColBench,exact,exa-search,True,True,False,True,,0.0,,False
+EAU project website environment agent user co-evolution,exact,gpt-web,True,True,False,True,,0.0,,False
+EAU project website environment agent user co-evolution,exact,codex-search,True,True,True,True,1,1.0,https://eau-meta-agent.github.io/,False
+EAU project website environment agent user co-evolution,exact,tavily-search,True,True,False,True,,0.0,,False
+EAU project website environment agent user co-evolution,exact,exa-search,True,True,True,True,,0.0,,False
+framework jointly adapts simulated user environment rewards RL configuration,fuzzy,gpt-web,True,True,False,True,,0.0,,False
+framework jointly adapts simulated user environment rewards RL configuration,fuzzy,codex-search,True,True,False,True,,0.0,,False
+framework jointly adapts simulated user environment rewards RL configuration,fuzzy,tavily-search,False,False,False,False,,0.0,,False
+framework jointly adapts simulated user environment rewards RL configuration,fuzzy,exa-search,True,True,False,True,,0.0,,False
+user-centric agents co-evolve environment and user simulator,fuzzy,gpt-web,True,True,False,True,,0.0,,False
+user-centric agents co-evolve environment and user simulator,fuzzy,codex-search,True,True,False,True,,0.0,,False
+user-centric agents co-evolve environment and user simulator,fuzzy,tavily-search,True,True,False,True,,0.0,,False
+user-centric agents co-evolve environment and user simulator,fuzzy,exa-search,True,True,False,True,,0.0,,False
+meta-agent modifies training environment during multi-turn reinforcement learning,fuzzy,gpt-web,True,True,False,True,,0.0,,False
+meta-agent modifies training environment during multi-turn reinforcement learning,fuzzy,codex-search,True,True,True,True,2,0.5,https://eau-meta-agent.github.io/,False
+meta-agent modifies training environment during multi-turn reinforcement learning,fuzzy,tavily-search,True,False,False,False,,0.0,,False
+meta-agent modifies training environment during multi-turn reinforcement learning,fuzzy,exa-search,True,True,False,True,,0.0,,False
+adaptive user simulator reward design LLM agents,fuzzy,gpt-web,False,False,False,False,,0.0,,False
+adaptive user simulator reward design LLM agents,fuzzy,codex-search,False,False,False,False,,0.0,,False
+adaptive user simulator reward design LLM agents,fuzzy,tavily-search,False,False,False,False,,0.0,,False
+adaptive user simulator reward design LLM agents,fuzzy,exa-search,True,True,False,True,,0.0,,False
+within-run and across-run adaptation agent training,fuzzy,gpt-web,True,True,False,True,,0.0,,False
+within-run and across-run adaptation agent training,fuzzy,codex-search,False,False,False,False,,0.0,,False
+within-run and across-run adaptation agent training,fuzzy,tavily-search,False,False,False,False,,0.0,,False
+within-run and across-run adaptation agent training,fuzzy,exa-search,True,True,False,True,,0.0,,False
+recent agent environment co-evolution papers,broad,gpt-web,False,False,False,False,,0.0,,False
+recent agent environment co-evolution papers,broad,codex-search,True,True,False,True,,0.0,,False
+recent agent environment co-evolution papers,broad,tavily-search,False,False,False,False,,0.0,,False
+recent agent environment co-evolution papers,broad,exa-search,True,True,True,True,,0.0,,False
+LLM agent training environment evolves with policy,broad,gpt-web,True,True,False,True,,0.0,,False
+LLM agent training environment evolves with policy,broad,codex-search,True,True,False,True,,0.0,,False
+LLM agent training environment evolves with policy,broad,tavily-search,False,False,False,False,,0.0,,False
+LLM agent training environment evolves with policy,broad,exa-search,True,True,False,True,,0.0,,False
+multi-turn reinforcement learning user simulation benchmarks,broad,gpt-web,False,False,False,False,,0.0,,False
+multi-turn reinforcement learning user simulation benchmarks,broad,codex-search,False,False,False,False,,0.0,,False
+multi-turn reinforcement learning user simulation benchmarks,broad,tavily-search,False,False,False,False,,0.0,,False
+multi-turn reinforcement learning user simulation benchmarks,broad,exa-search,True,False,False,False,,0.0,,False
+editable training systems for tool-using agents,broad,gpt-web,False,False,False,False,,0.0,,False
+editable training systems for tool-using agents,broad,codex-search,True,True,False,True,,0.0,,False
+editable training systems for tool-using agents,broad,tavily-search,False,False,False,False,,0.0,,False
+editable training systems for tool-using agents,broad,exa-search,False,False,False,False,,0.0,,False
+methods improving user-centric agents with simulated users,broad,gpt-web,True,True,False,True,,0.0,,False
+methods improving user-centric agents with simulated users,broad,codex-search,False,False,False,False,,0.0,,False
+methods improving user-centric agents with simulated users,broad,tavily-search,True,False,False,False,,0.0,,False
+methods improving user-centric agents with simulated users,broad,exa-search,True,False,False,False,,0.0,,False

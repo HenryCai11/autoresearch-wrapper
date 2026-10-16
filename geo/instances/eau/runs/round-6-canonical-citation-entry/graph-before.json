@@ -1,0 +1,578 @@
+{
+  "nodes": [
+    {
+      "id": "file:index.html",
+      "kind": "file",
+      "path": "index.html",
+      "mutable": true,
+      "operations": [
+        "replace_text"
+      ],
+      "content_sha256": "30c7369aa85ebb4fbac2f9b2917241cc3ab177eb75e7823c5366aa36ae40a749"
+    },
+    {
+      "id": "file:README.md",
+      "kind": "file",
+      "path": "README.md",
+      "mutable": true,
+      "operations": [
+        "replace_text"
+      ],
+      "content_sha256": "cbfc1917acbc5daaa2b872631ee5507914821e244b0c851ec7f63ee9b9dc849b"
+    },
+    {
+      "id": "file:robots.txt",
+      "kind": "file",
+      "path": "robots.txt",
+      "mutable": true,
+      "operations": [
+        "replace_text"
+      ],
+      "content_sha256": "0e9a662f08193c1527b200952248aff7b12679ff84718f45110fe9f31024f441"
+    },
+    {
+      "id": "file:sitemap.xml",
+      "kind": "file",
+      "path": "sitemap.xml",
+      "mutable": true,
+      "operations": [
+        "replace_text"
+      ],
+      "content_sha256": "2399ca87664745ed0829b0844a5266bf263822bcb9268f313f6cf886b1870121"
+    },
+    {
+      "id": "file:styles.css",
+      "kind": "file",
+      "path": "styles.css",
+      "mutable": true,
+      "operations": [
+        "replace_text"
+      ],
+      "content_sha256": "c338776c58b8e60120f7f2be63fb2b1da0afda4eefd129fd32cf9145bd6db041"
+    },
+    {
+      "id": "file:script.js",
+      "kind": "file",
+      "path": "script.js",
+      "mutable": true,
+      "operations": [
+        "replace_text"
+      ],
+      "content_sha256": "a9a6bc3c30dbb6db8e0714b30aa12dd146f9a07710a1e1ceac2999117c94d751"
+    },
+    {
+      "id": "file:site-config.js",
+      "kind": "file",
+      "path": "site-config.js",
+      "mutable": true,
+      "operations": [
+        "replace_text"
+      ],
+      "content_sha256": "2069d8bd716a51deb171e2bb7f97270ce62356de50db6e14fd1342637e900073"
+    },
+    {
+      "id": "section:framework",
+      "kind": "html-section",
+      "path": "index.html",
+      "mutable": true,
+      "operations": [
+        "add_after",
+        "edit",
+        "move_after",
+        "remove"
+      ],
+      "span": [
+        10846,
+        14888
+      ],
+      "content_sha256": "fa6a8410c53d29d483d9720a19084323068317eaa962ad757d146f177787758b"
+    },
+    {
+      "id": "section:overview",
+      "kind": "html-section",
+      "path": "index.html",
+      "mutable": true,
+      "operations": [
+        "add_after",
+        "edit",
+        "move_after",
+        "remove"
+      ],
+      "span": [
+        9131,
+        10840
+      ],
+      "content_sha256": "4760366b75c5de49b6bf2dce90adfeccc8a45c87618af86d60c2efe0344a18d2"
+    },
+    {
+      "id": "section:resources",
+      "kind": "html-section",
+      "path": "index.html",
+      "mutable": true,
+      "operations": [
+        "add_after",
+        "edit",
+        "move_after",
+        "remove"
+      ],
+      "span": [
+        18943,
+        20459
+      ],
+      "content_sha256": "539372c55898630b3f86117fe1d866bf7154d1de6e257d902d3299a36c4e818b"
+    },
+    {
+      "id": "section:results",
+      "kind": "html-section",
+      "path": "index.html",
+      "mutable": true,
+      "operations": [
+        "add_after",
+        "edit",
+        "move_after",
+        "remove"
+      ],
+      "span": [
+        14894,
+        17067
+      ],
+      "content_sha256": "8064ad9d1fd61f7f22985ba228913b1073c8a364e3dda9b194d302c4c3c3370b"
+    },
+    {
+      "id": "meta:title",
+      "kind": "html-metadata",
+      "path": "index.html",
+      "mutable": true,
+      "operations": [
+        "replace_text"
+      ],
+      "span": [
+        1659,
+        1715
+      ],
+      "content_sha256": "8ea7ec2c18be0833ba4684fa3743690c3097f9c8f27df19213290df4766cf243"
+    },
+    {
+      "id": "meta:description",
+      "kind": "html-metadata",
+      "path": "index.html",
+      "mutable": true,
+      "operations": [
+        "replace_text"
+      ],
+      "span": [
+        184,
+        371
+      ],
+      "content_sha256": "8e7ff597ce3be50c0fcd1749f49872db057f9ae27e4c45fb7e7c60b3f911d84a"
+    },
+    {
+      "id": "meta:canonical",
+      "kind": "html-metadata",
+      "path": "index.html",
+      "mutable": true,
+      "operations": [
+        "replace_text"
+      ],
+      "span": [
+        374,
+        437
+      ],
+      "content_sha256": "be7dae2e590c49228d481ec0ef2f6cca34822544c9085076606aa5061f7aba82"
+    },
+    {
+      "id": "meta:schema",
+      "kind": "html-metadata",
+      "path": "index.html",
+      "mutable": true,
+      "operations": [
+        "replace_text"
+      ],
+      "span": [
+        1829,
+        3359
+      ],
+      "content_sha256": "e828a59c2806542530280e5d59cb813df566b9bfea52f3720c0970664e58fffb"
+    },
+    {
+      "id": "file:assets/eau_demo.webp",
+      "kind": "asset",
+      "path": "assets/eau_demo.webp",
+      "mutable": true,
+      "operations": [],
+      "content_sha256": "9aba253e557b770cae8b4ff693419b3e52f277bffbba299a4902f596d69e0487"
+    },
+    {
+      "id": "file:assets/experience_analysis.webp",
+      "kind": "asset",
+      "path": "assets/experience_analysis.webp",
+      "mutable": true,
+      "operations": [],
+      "content_sha256": "b0d740cac7b1e8d860369009336e6330da5235fef374d94942ef4d2853cbdbaf"
+    },
+    {
+      "id": "file:assets/favicon.svg",
+      "kind": "asset",
+      "path": "assets/favicon.svg",
+      "mutable": true,
+      "operations": [
+        "replace_text"
+      ],
+      "content_sha256": "fffca6bee7efdb7062a32814b68d5a57fd71fd39166d8d3c15916b84457b0a85"
+    },
+    {
+      "id": "file:assets/usergym_progression.webp",
+      "kind": "asset",
+      "path": "assets/usergym_progression.webp",
+      "mutable": true,
+      "operations": [],
+      "content_sha256": "240f1894b72e51b137a9e0022d9c3c5d23238498ffebab09db9124c2ec098c69"
+    },
+    {
+      "id": "file:method.html",
+      "kind": "asset",
+      "path": "method.html",
+      "mutable": true,
+      "operations": [],
+      "content_sha256": "e787e2152aa4aff1911ef5d411115376a777c247633dd38c287616a7d4317b85"
+    },
+    {
+      "id": "file:paper.html",
+      "kind": "asset",
+      "path": "paper.html",
+      "mutable": true,
+      "operations": [],
+      "content_sha256": "8760ee9f63115c157a3f105a8bd51b02dbd4137c275026f53d178f185a9c7b5c"
+    },
+    {
+      "id": "file:research-context.html",
+      "kind": "asset",
+      "path": "research-context.html",
+      "mutable": true,
+      "operations": [],
+      "content_sha256": "bdd1be4f5ccf3aba6b47dc87a381b30b37a1850066bbf3ad338ab1a95f8c91b9"
+    },
+    {
+      "id": "external:paper",
+      "kind": "external-source",
+      "path": null,
+      "mutable": false,
+      "operations": [],
+      "url": "https://arxiv.org/abs/2610.16523"
+    },
+    {
+      "id": "external:d41310e492",
+      "kind": "external-source",
+      "path": null,
+      "mutable": false,
+      "operations": [],
+      "url": "https://eau-meta-agent.github.io/"
+    },
+    {
+      "id": "external:repository-metadata",
+      "kind": "external-owned",
+      "path": null,
+      "mutable": false,
+      "operations": [
+        "manual-admin-edit"
+      ],
+      "url": "https://github.com/eau-meta-agent/eau-meta-agent.github.io"
+    },
+    {
+      "id": "external:paper-backlink",
+      "kind": "external-owned",
+      "path": null,
+      "mutable": false,
+      "operations": [
+        "author-edit"
+      ],
+      "url": "https://arxiv.org/abs/2610.16523",
+      "state": "unverified"
+    },
+    {
+      "id": "outcome:site-discovery",
+      "kind": "unobserved-outcome",
+      "path": null,
+      "mutable": false,
+      "operations": []
+    },
+    {
+      "id": "outcome:gpt-web:retrieval",
+      "kind": "observed-outcome",
+      "path": null,
+      "mutable": false,
+      "operations": [],
+      "platform": "gpt-web"
+    },
+    {
+      "id": "outcome:gpt-web:answer",
+      "kind": "observed-outcome",
+      "path": null,
+      "mutable": false,
+      "operations": [],
+      "platform": "gpt-web"
+    },
+    {
+      "id": "outcome:codex-search:retrieval",
+      "kind": "observed-outcome",
+      "path": null,
+      "mutable": false,
+      "operations": [],
+      "platform": "codex-search"
+    },
+    {
+      "id": "outcome:codex-search:answer",
+      "kind": "observed-outcome",
+      "path": null,
+      "mutable": false,
+      "operations": [],
+      "platform": "codex-search"
+    },
+    {
+      "id": "outcome:tavily-search:retrieval",
+      "kind": "observed-outcome",
+      "path": null,
+      "mutable": false,
+      "operations": [],
+      "platform": "tavily-search"
+    },
+    {
+      "id": "outcome:tavily-search:answer",
+      "kind": "observed-outcome",
+      "path": null,
+      "mutable": false,
+      "operations": [],
+      "platform": "tavily-search"
+    },
+    {
+      "id": "outcome:exa-search:retrieval",
+      "kind": "observed-outcome",
+      "path": null,
+      "mutable": false,
+      "operations": [],
+      "platform": "exa-search"
+    },
+    {
+      "id": "outcome:exa-search:answer",
+      "kind": "observed-outcome",
+      "path": null,
+      "mutable": false,
+      "operations": [],
+      "platform": "exa-search"
+    }
+  ],
+  "edges": [
+    {
+      "from": "external:repository-metadata",
+      "to": "file:README.md",
+      "kind": "describes"
+    },
+    {
+      "from": "file:README.md",
+      "to": "file:index.html",
+      "kind": "links-to"
+    },
+    {
+      "from": "file:index.html",
+      "to": "external:d41310e492",
+      "kind": "links-to"
+    },
+    {
+      "from": "file:index.html",
+      "to": "external:paper",
+      "kind": "links-to"
+    },
+    {
+      "from": "file:index.html",
+      "to": "file:assets/eau_demo.webp",
+      "kind": "references"
+    },
+    {
+      "from": "file:index.html",
+      "to": "file:assets/experience_analysis.webp",
+      "kind": "references"
+    },
+    {
+      "from": "file:index.html",
+      "to": "file:assets/favicon.svg",
+      "kind": "references"
+    },
+    {
+      "from": "file:index.html",
+      "to": "file:assets/usergym_progression.webp",
+      "kind": "references"
+    },
+    {
+      "from": "file:index.html",
+      "to": "file:method.html",
+      "kind": "references"
+    },
+    {
+      "from": "file:index.html",
+      "to": "file:paper.html",
+      "kind": "references"
+    },
+    {
+      "from": "file:index.html",
+      "to": "file:research-context.html",
+      "kind": "references"
+    },
+    {
+      "from": "file:index.html",
+      "to": "file:script.js",
+      "kind": "references"
+    },
+    {
+      "from": "file:index.html",
+      "to": "file:site-config.js",
+      "kind": "references"
+    },
+    {
+      "from": "file:index.html",
+      "to": "file:styles.css",
+      "kind": "references"
+    },
+    {
+      "from": "file:index.html",
+      "to": "meta:canonical",
+      "kind": "contains"
+    },
+    {
+      "from": "file:index.html",
+      "to": "meta:description",
+      "kind": "contains"
+    },
+    {
+      "from": "file:index.html",
+      "to": "meta:schema",
+      "kind": "contains"
+    },
+    {
+      "from": "file:index.html",
+      "to": "meta:title",
+      "kind": "contains"
+    },
+    {
+      "from": "file:index.html",
+      "to": "section:framework",
+      "kind": "contains"
+    },
+    {
+      "from": "file:index.html",
+      "to": "section:overview",
+      "kind": "contains"
+    },
+    {
+      "from": "file:index.html",
+      "to": "section:resources",
+      "kind": "contains"
+    },
+    {
+      "from": "file:index.html",
+      "to": "section:results",
+      "kind": "contains"
+    },
+    {
+      "from": "file:robots.txt",
+      "to": "file:sitemap.xml",
+      "kind": "declares"
+    },
+    {
+      "from": "file:sitemap.xml",
+      "to": "file:index.html",
+      "kind": "lists"
+    },
+    {
+      "from": "outcome:codex-search:answer",
+      "to": "outcome:codex-search:retrieval",
+      "kind": "depends-on"
+    },
+    {
+      "from": "outcome:codex-search:retrieval",
+      "to": "external:paper",
+      "kind": "may-retrieve"
+    },
+    {
+      "from": "outcome:codex-search:retrieval",
+      "to": "outcome:site-discovery",
+      "kind": "depends-on"
+    },
+    {
+      "from": "outcome:exa-search:answer",
+      "to": "outcome:exa-search:retrieval",
+      "kind": "depends-on"
+    },
+    {
+      "from": "outcome:exa-search:retrieval",
+      "to": "external:paper",
+      "kind": "may-retrieve"
+    },
+    {
+      "from": "outcome:exa-search:retrieval",
+      "to": "outcome:site-discovery",
+      "kind": "depends-on"
+    },
+    {
+      "from": "outcome:gpt-web:answer",
+      "to": "outcome:gpt-web:retrieval",
+      "kind": "depends-on"
+    },
+    {
+      "from": "outcome:gpt-web:retrieval",
+      "to": "external:paper",
+      "kind": "may-retrieve"
+    },
+    {
+      "from": "outcome:gpt-web:retrieval",
+      "to": "outcome:site-discovery",
+      "kind": "depends-on"
+    },
+    {
+      "from": "outcome:site-discovery",
+      "to": "external:paper-backlink",
+      "kind": "depends-on"
+    },
+    {
+      "from": "outcome:site-discovery",
+      "to": "external:repository-metadata",
+      "kind": "depends-on"
+    },
+    {
+      "from": "outcome:site-discovery",
+      "to": "file:README.md",
+      "kind": "depends-on"
+    },
+    {
+      "from": "outcome:site-discovery",
+      "to": "file:index.html",
+      "kind": "depends-on"
+    },
+    {
+      "from": "outcome:site-discovery",
+      "to": "file:robots.txt",
+      "kind": "depends-on"
+    },
+    {
+      "from": "outcome:site-discovery",
+      "to": "file:sitemap.xml",
+      "kind": "depends-on"
+    },
+    {
+      "from": "outcome:tavily-search:answer",
+      "to": "outcome:tavily-search:retrieval",
+      "kind": "depends-on"
+    },
+    {
+      "from": "outcome:tavily-search:retrieval",
+      "to": "external:paper",
+      "kind": "may-retrieve"
+    },
+    {
+      "from": "outcome:tavily-search:retrieval",
+      "to": "outcome:site-discovery",
+      "kind": "depends-on"
+    }
+  ],
+  "site_url": "https://eau-meta-agent.github.io/",
+  "paper_url": "https://arxiv.org/abs/2610.16523"
+}

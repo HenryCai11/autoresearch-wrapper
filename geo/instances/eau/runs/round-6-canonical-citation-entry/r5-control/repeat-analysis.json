@@ -1,0 +1,36 @@
+{
+  "comparison": "same deployed R5, old measurement vs fresh control; not an R6 effect",
+  "original_r5_paired": {
+    "mention_rate": 0.6976744186046512,
+    "attribution_rate": 0.627906976744186,
+    "citation_rate": 0.06976744186046512,
+    "mrr": 0.0,
+    "n": 43,
+    "score": 25.813953488372093
+  },
+  "fresh_r5_paired": {
+    "mention_rate": 0.7209302325581395,
+    "attribution_rate": 0.627906976744186,
+    "citation_rate": 0.06976744186046512,
+    "mrr": 0.0,
+    "n": 43,
+    "score": 26.046511627906977
+  },
+  "paired_delta": 0.23255813953488413,
+  "fresh_r5_valid": {
+    "mention_rate": 0.7333333333333333,
+    "attribution_rate": 0.65,
+    "citation_rate": 0.11666666666666667,
+    "mrr": 0.03888888888888889,
+    "n": 60,
+    "score": 29.61111111111111
+  },
+  "fresh_r5_scheduled": {
+    "mention_rate": 0.7333333333333333,
+    "attribution_rate": 0.65,
+    "citation_rate": 0.11666666666666667,
+    "mrr": 0.03888888888888889,
+    "n": 60,
+    "score": 29.61111111111111
+  }
+}
