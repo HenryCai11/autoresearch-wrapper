@@ -17,17 +17,21 @@
     {
       "round": 1,
       "label": "exact-identity",
-      "status": "awaiting_merge",
+      "status": "complete",
       "pr": 10,
       "candidate_commit": "4eb20df",
       "inner_candidate_score": 74.43,
       "inner_delta_vs_round_0": 31.0,
-      "candidate_summary": "round-1-exact-identity/candidate-summary.json"
+      "candidate_summary": "round-1-exact-identity/candidate-summary.json",
+      "production_merge_commit": "be9625b01cfb277f6aab9c05dee45d7e5a8a891b",
+      "outer_score": 28.08,
+      "outer_delta_vs_round_0": 0.11,
+      "summary": "round-1-exact-identity/summary.json"
     },
     {
       "round": 2,
       "label": "fuzzy-capability",
-      "status": "planned"
+      "status": "candidate_building"
     },
     {
       "round": 3,
