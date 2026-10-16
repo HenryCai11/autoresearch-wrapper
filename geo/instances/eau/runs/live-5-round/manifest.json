@@ -1,0 +1,21 @@
+{
+  "experiment_id": "eau-live-geo-5-round-2026-10",
+  "site": "https://eau-meta-agent.github.io/",
+  "baseline_source_commit": "e0cc480",
+  "query_set": "geo/instances/eau/map.json",
+  "rounds": [
+    {"round": 0, "label": "pre-geo-baseline", "status": "awaiting_merge", "pr": 9},
+    {"round": 1, "label": "exact-identity", "status": "planned"},
+    {"round": 2, "label": "fuzzy-capability", "status": "planned"},
+    {"round": 3, "label": "broad-domain", "status": "planned"},
+    {"round": 4, "label": "authority-entity-relations", "status": "planned"},
+    {"round": 5, "label": "cross-engine-residuals", "status": "planned"}
+  ],
+  "plot_contract": {
+    "offline_and_live_separate": true,
+    "primary_live_metric": "project_domain_citation_rate",
+    "secondary_live_metrics": ["mention_rate", "mean_reciprocal_rank", "correct_attribution_rate"],
+    "query_tiers": ["exact", "fuzzy", "broad"],
+    "engines": ["gpt-web", "codex-search", "tavily-search", "exa-search"]
+  }
+}
