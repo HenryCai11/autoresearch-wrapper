@@ -1,0 +1,2 @@
+codex failed for: within-run and across-run adaptation agent training
+codex failed for: LLM agent training environment evolves with policy

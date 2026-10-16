@@ -31,17 +31,21 @@
     {
       "round": 2,
       "label": "fuzzy-capability",
-      "status": "awaiting_merge",
+      "status": "complete",
       "pr": 11,
       "candidate_commit": "13b71dc",
       "inner_candidate_score": 86.83,
       "inner_delta_vs_round_1": 12.4,
-      "candidate_summary": "round-2-fuzzy-capability/candidate-summary.json"
+      "candidate_summary": "round-2-fuzzy-capability/candidate-summary.json",
+      "production_merge_commit": "e49def194b9a475dd354975a8453a134f0d4ccd1",
+      "outer_score": 28.25,
+      "outer_delta_vs_round_1": 0.17,
+      "summary": "round-2-fuzzy-capability/summary.json"
     },
     {
       "round": 3,
       "label": "broad-domain",
-      "status": "planned"
+      "status": "candidate_building"
     },
     {
       "round": 4,
