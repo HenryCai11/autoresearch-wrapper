@@ -45,7 +45,12 @@
     {
       "round": 3,
       "label": "broad-domain",
-      "status": "candidate_building"
+      "status": "awaiting_merge",
+      "pr": 12,
+      "candidate_commit": "31fe5e4",
+      "inner_candidate_score": 92.33,
+      "inner_delta_vs_round_2": 5.5,
+      "candidate_summary": "round-3-broad-domain/candidate-summary.json"
     },
     {
       "round": 4,
