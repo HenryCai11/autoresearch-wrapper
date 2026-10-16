@@ -15,14 +15,16 @@ python3 scripts/geo_eval.py discovery \
   --probes geo/instances/eau/probes.jsonl
 ```
 
-Historical R0–R12 run directories contain actual GPT web, Codex search, Tavily,
+Historical R0–R13 run directories contain actual GPT web, Codex search, Tavily,
 and Exa observations. Keys are supplied only at runtime; never store them here.
 
-R12 is deployed and measured: 6/60 citation cells versus the best R9's 8/60,
-so it was discarded for selection (not automatically rolled back). See its
+R12 was measured at 6/60 citation cells versus the best R9's 8/60,
+so it was discarded for selection. It has since been superseded by R13. See its
 [live report](runs/round-12-homepage-descriptive-h1/r12-live/REPORT.md).
-[R13](runs/round-13-static-component-reference/README.md) is a validated,
-unpublished static-component-reference candidate; it has no new outer observation.
+[R13](runs/round-13-static-component-reference/README.md) is now live and measured:
+7/60 citation cells, all 60 valid; composite 30.14; explicit project URLs 4/60.
+It was discarded against R9's 8/60 and remains deployed without an automatic
+rollback. Its full outer evidence is in the [live report](runs/round-13-static-component-reference/r13-live/REPORT.md).
 
 ## Cross-module candidate ledger
 

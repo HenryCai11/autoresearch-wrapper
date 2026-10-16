@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "site_url": "https://eau-meta-agent.github.io/",
-  "updated_at": "2026-10-16T16:39:02+00:00",
+  "updated_at": "2026-10-16T17:47:40+00:00",
   "current_round": 13,
   "maintenance": "Site-specific ledger maintained by the agent when starting or recording a round; not an automatic scheduler or a new wrapper-core search algorithm.",
   "policy": {
@@ -17,8 +17,8 @@
     "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
     "inner_metric": "not computed and not used",
     "baseline": "Best measured R9: 8/60, composite 30.25000; reused historical measurement, not a simultaneous control",
-    "current_production": "R12, 6/60, discard; do not lower the selection bar to current production",
-    "deployment": "Separate explicit publication approval required for R13; verify exact candidate tree and served bytes before/after 60 real probes",
+    "current_production": "R13 live: 7/60, discard; selection still compares with preserved R9 8/60",
+    "deployment": "R13 publication was explicitly approved; exact candidate tree and before/after served bytes verified for the completed real 60-cell collection.",
     "history": "Retain all candidates and original proposals for combinations; never add parent scores",
     "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up"
   },
@@ -987,6 +987,41 @@
       "artifact_dir": "runs/round-12-homepage-descriptive-h1",
       "retain_for_combinations": true,
       "status": "measured_bundle_not_isolated_module_effect"
+    },
+    {
+      "id": "r13",
+      "round": 13,
+      "change_id": "r13-static-component-reference",
+      "files": [
+        "index.html"
+      ],
+      "parents": [
+        "r2",
+        "r7",
+        "r9"
+      ],
+      "candidate_commit": "fb91450d84828046b5a5fa6412c40c21a277e05f",
+      "production_commit": "c6fa063d86be9e1861b0d79c6d2f7e2c27e3c1aa",
+      "branch": "codex/geo-live-round-13-deploy",
+      "production_changed_files": [
+        "index.html"
+      ],
+      "selection_seed_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 7,
+        "mention_rate": 0.75,
+        "found_rate": 0.6666666666666666,
+        "citation_rate": 0.11666666666666667,
+        "attribution_rate": 0.6666666666666666,
+        "mrr": 0.03611111111111111,
+        "score": 30.138888888888886
+      },
+      "decision": "discard",
+      "artifact_dir": "runs/round-13-static-component-reference",
+      "retain_for_combinations": true,
+      "status": "measured_bundle_not_isolated_module_effect"
     }
   ],
   "proposals": [
@@ -1325,8 +1360,8 @@
     },
     {
       "id": "static-component-reference",
-      "status": "validated_awaiting_deployment_approval",
-      "measured": false,
+      "status": "discard",
+      "measured": true,
       "parents": [
         "r2",
         "r7",
@@ -1374,11 +1409,26 @@
         "static-second-backbone-evidence",
         "external-paper-link-audit"
       ],
-      "interpretation": "Unmeasured hypothesis; source presence and parent observations are not predicted intervention lift.",
+      "interpretation": "Measured immediate post-deployment observation against preserved R9; not an isolated causal module effect. Retain for future combinations.",
       "candidate_commit": "fb91450d84828046b5a5fa6412c40c21a277e05f",
       "candidate_tree": "20f5afb5e7a68b3d66956e31dfad7ed4d8b15a6c",
       "wrapper_run_id": "20261016T163902Z-index-html",
-      "branch": "autoresearch/index-html/20261016T163902Z-index-html/candidate-001"
+      "branch": "autoresearch/index-html/20261016T163902Z-index-html/candidate-001",
+      "deployment_status": "live",
+      "production_commit": "c6fa063d86be9e1861b0d79c6d2f7e2c27e3c1aa",
+      "measured_at": "2026-10-16T17:47:38+00:00",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 7,
+        "mention_rate": 0.75,
+        "found_rate": 0.6666666666666666,
+        "citation_rate": 0.11666666666666667,
+        "attribution_rate": 0.6666666666666666,
+        "mrr": 0.03611111111111111,
+        "score": 30.138888888888886
+      },
+      "measurement_artifact_dir": "runs/round-13-static-component-reference/r13-live"
     }
   ],
   "selected_candidate_id": "static-component-reference"

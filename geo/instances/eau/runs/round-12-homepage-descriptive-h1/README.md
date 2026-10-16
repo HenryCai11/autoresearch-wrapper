@@ -1,8 +1,9 @@
 # EAU R12 — descriptive homepage H1
 
-Current status: **published and measured; discard against R9**.
+Current status: **published and measured; discard against R9; superseded by R13**.
 
-R12 is live as `bbc3b79d20323549fd29e422017ed6c457c6b707`. All 60 outer
+R12 was deployed as `bbc3b79d20323549fd29e422017ed6c457c6b707` and has since
+been superseded by [R13](../round-13-static-component-reference/README.md). All 60 outer
 responses were valid. Primary citations: R9 **8/60 → R12 6/60**; secondary
 composite: **30.25 → 29.28**. Explicit project URL cells: **3/60**. No inner
 score was computed and no automatic production rollback was performed.

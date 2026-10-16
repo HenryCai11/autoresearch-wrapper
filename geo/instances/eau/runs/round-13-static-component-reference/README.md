@@ -1,6 +1,23 @@
 # EAU R13 — static component reference
 
-Status: **validated local candidate; not published or measured**.
+Current status: **published and measured; discard against R9**.
+
+R13 is live as `c6fa063d86be9e1861b0d79c6d2f7e2c27e3c1aa`. All 60 outer
+responses were valid. Primary project-domain citations: R9 **8/60 → R13 7/60**;
+secondary composite: **30.25 → 30.14**. Explicit project URL cells: **4/60**;
+support-page URL cells: **0/60**. No inner score was computed, and no automatic
+rollback was performed. This immediate single sample is not a causal estimate.
+
+See [the live report](r13-live/REPORT.md), [current state](CURRENT.json), and
+[deployment and collection timing proof](r13-live/deployment.json).
+The complete 60-cell evidence and 14-entry R0–R13 history passed the live audit;
+all eight proposals remain, including the two still unmeasured.
+
+The rest of this document is the historical preparation snapshot. Its original
+bytes are preserved in `r13-live/pre-live-README.md` for the preparation audit;
+statements below about awaiting approval or current production refer to that time.
+
+## Preparation snapshot
 
 - Wrapper run: 20261016T163902Z-index-html; sequential, one candidate.
 - Pool proposal: static-component-reference, previously queued and unmeasured.
