@@ -5,6 +5,7 @@ The GEO commands extend this wrapper's existing worktree loop. They address thre
 1. `geo-graph` discovers files, HTML metadata, individual `<section id="...">` nodes, assets, external sources, and per-platform retrieval/answer outcomes. Local nodes include SHA-256 content fingerprints, so a text edit remains visible even when the graph topology is unchanged. Edges state dependencies, not proven causal effects.
 2. `geo-apply` previews or applies an operation manifest against named graph nodes. `edit`, `add_after`, `move_after`, and `remove` target HTML sections; `replace_text` targets text files. `--apply` is restricted to a Git worktree. Run it inside a candidate allocated by the wrapper; `evaluate` snapshots and measures that candidate.
 3. `geo-prioritize` reads **actual returned source URLs** from a saved search-tool response and orders only visible source-to-missing-project entry points for the next test. It does not use hypothetical graph reach, hand-entered gap flags, or costs, and it cannot certify lift. If paired platform observations exist for a candidate, `geo-compare` separately checks weighted global effect and measured regressions. Unknown observations remain unknown.
+4. `geo-explore` turns those observations into a query → returned source → intervention → graph node tree. It keeps interventions with no observed source in a separate unranked branch. Optional paired CSV results appear on their candidate branches; missing results display as unmeasured. `--html-out` writes a standalone expandable HTML view.
 
 The configuration below is an example, not a claim that any platform has been measured:
 
@@ -28,6 +29,10 @@ WRAPPER=/path/to/autoresearch-wrapper/scripts/autoresearch_wrapper.py
 python3 "$WRAPPER" geo-graph --repo . --config geo/config.json > geo/graph.json
 python3 "$WRAPPER" geo-prioritize --repo . --config geo/config.json \
   --search-evidence geo/gpt-web-search-observations.json
+python3 "$WRAPPER" geo-explore --repo . --config geo/config.json \
+  --search-evidence geo/gpt-web-search-observations.json \
+  --observations geo/pending_agent_observations.csv \
+  --html-out geo/figures/geo-exploration-tree.html > geo/exploration-tree.json
 python3 "$WRAPPER" geo-score --repo . --config geo/config.json
 python3 "$WRAPPER" scan --repo . --no-interactive
 python3 "$WRAPPER" configure --repo . --part README.md --metric geo_readiness \
@@ -70,6 +75,8 @@ For a section, use `{"op":"edit","node":"section:overview","html":"<section id=\
 ```
 
 Each intervention needs a `source_url`. The command counts queries where that source URL was returned and the project URL was absent. It uses no graph-reach count, hand-entered gap flag, cost estimate, or unseen platform. A high count says that the source is a visible place to test a link to the missing project page; it is **not** an estimate of lift. Keep the raw tool response and query settings for audit. `geo-compare` remains the separate route for paired before/after outcomes when real platform data becomes available.
+
+For the explorer, interventions may also declare `change_kind` (`node` or `edge`), `local_state`, `hypothesis`, `owner`, and `candidate_id`. These labels explain the proposed experiment; they do not enter the priority calculation. The tree shows graph-supported operations for each named node. External nodes list their manual operation and owner. If `--observations` is supplied, a candidate receives a global comparison only when at least one after row for that exact `candidate_id` has a measured metric. Otherwise it stays `unmeasured`.
 
 ## Global observation contract
 

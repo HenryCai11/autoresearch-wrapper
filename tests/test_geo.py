@@ -4,7 +4,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from autoresearch_wrapper.geo import apply_operations, build_graph, compare_platforms, prioritize, readiness
+from autoresearch_wrapper.geo import (apply_operations, build_graph, compare_platforms,
+                                     explore, prioritize, readiness, render_explorer_html)
 
 
 class GeoTests(unittest.TestCase):
@@ -30,6 +31,29 @@ class GeoTests(unittest.TestCase):
 
     def tearDown(self) -> None:
         self.temp.cleanup()
+
+    def test_explore_separates_observed_and_unobserved_branches(self) -> None:
+        self.config["queries"] = [{"id": "Q1", "text": "recent agent co-evolution"}]
+        self.config["interventions"] = [
+            {"id": "paper_link", "source_url": self.config["paper_url"],
+             "nodes": ["external:paper-backlink"], "owner": "paper-author"},
+            {"id": "readme_link", "source_url": "https://github.com/example/repo",
+             "nodes": ["file:README.md"], "candidate_id": "readme"},
+        ]
+        evidence = {"tool": "actual search", "observations": [
+            {"query_id": "Q1", "result_urls": [self.config["paper_url"]],
+             "raw_file": "evidence/q1.txt"}]}
+        tree = explore(self.repo, self.config, evidence)
+        self.assertEqual(tree["observed_funnel"]["project_returned"], 0)
+        observed = tree["queries"][0]["sources"][0]["interventions"][0]
+        self.assertEqual(observed["id"], "paper_link")
+        self.assertEqual(observed["experiment"]["status"], "unmeasured")
+        self.assertEqual(observed["nodes"][0]["operations"], ["author-edit"])
+        self.assertEqual(observed["platforms_to_check"], ["Doubao", "DeepSeek"])
+        self.assertEqual([item["id"] for item in tree["unobserved_entry_points"]], ["readme_link"])
+        html = render_explorer_html(tree)
+        self.assertIn("evidence/q1.txt", html)
+        self.assertIn("未观测到入口", html)
 
     def test_graph_exposes_internal_sections_and_outcomes(self) -> None:
         graph = build_graph(self.repo, self.config)

@@ -13,6 +13,7 @@ import json
 import re
 from collections import defaultdict
 from html.parser import HTMLParser
+from html import escape
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
@@ -423,3 +424,139 @@ def prioritize(config: dict[str, Any], search_evidence: dict[str, Any]) -> dict[
                                 "paper_returned": sum(paper_present), "repo_returned": sum(repo_present)},
             "interventions": items,
             "warning": "This orders entry points for a next test using returned URLs only; it does not measure intervention lift, platform reachability, ranking, or citation."}
+
+
+def explore(repo: Path, config: dict[str, Any], search_evidence: dict[str, Any],
+            rows: list[dict[str, str]] | None = None) -> dict[str, Any]:
+    """Build an auditable query -> source -> intervention -> node experiment tree."""
+    ranking = prioritize(config, search_evidence)
+    graph = build_graph(repo, config)
+    nodes = {node["id"]: node for node in graph["nodes"]}
+    interventions = {item["id"]: item for item in config.get("interventions", [])}
+    priorities = {item["id"]: item for item in ranking["interventions"]}
+    query_text = {item["id"]: item["text"] for item in config.get("queries", [])
+                  if isinstance(item, dict)}
+
+    def intervention_branch(item: dict[str, Any]) -> dict[str, Any]:
+        spec = interventions[item["id"]]
+        candidate_id = spec.get("candidate_id")
+        comparison = None
+        if candidate_id and rows is not None:
+            after = [row for row in rows if row.get("phase") == "after"
+                     and row.get("candidate_id") == candidate_id
+                     and any((row.get(field) or "").strip() for field in METRIC_WEIGHTS)]
+            if after:
+                comparison = compare_platforms(config, rows, candidate=candidate_id)
+        return {
+            "id": item["id"], "source_url": item["source_url"],
+            "owner": spec.get("owner", "unspecified"),
+            "candidate_id": candidate_id, "local_state": spec.get("local_state", "unspecified"),
+            "change_kind": spec.get("change_kind", "unspecified"),
+            "hypothesis": spec.get("hypothesis", ""),
+            "next_test_order": item["next_test_order"],
+            "experiment": comparison or {"status": "unmeasured"},
+            "platforms_to_check": list(config["platforms"]),
+            "nodes": [{"id": node_id, "present": node_id in nodes,
+                       "mutable_in_repo": nodes.get(node_id, {}).get("mutable", False),
+                       "operations": nodes.get(node_id, {}).get("operations", []),
+                       "path": nodes.get(node_id, {}).get("path")}
+                      for node_id in spec["nodes"]],
+        }
+
+    queries = []
+    for observation in search_evidence["observations"]:
+        query_id = observation["query_id"]
+        source_groups: dict[str, dict[str, Any]] = {}
+        for item in ranking["interventions"]:
+            if query_id not in item["observed_source_visible_target_absent_queries"]:
+                continue
+            source = item["source_url"]
+            group = source_groups.setdefault(source, {"url": source, "interventions": []})
+            group["interventions"].append(intervention_branch(item))
+        queries.append({"id": query_id, "text": query_text.get(query_id, query_id),
+                        "raw_file": observation.get("raw_file"),
+                        "project_returned": any(_url_matches(url, config["site_url"])
+                                                for url in observation["result_urls"]),
+                        "sources": list(source_groups.values())})
+    unobserved = [intervention_branch(item) for item in ranking["interventions"]
+                  if item["observed_opportunity_count"] == 0]
+    mapped_ids = {node_id for spec in interventions.values() for node_id in spec["nodes"]}
+    unmapped = [{"id": node["id"], "kind": node["kind"],
+                 "mutable_in_repo": node["mutable"], "operations": node["operations"]}
+                for node in graph["nodes"] if node["id"] not in mapped_ids]
+    return {"objective": config["site_url"], "tool": search_evidence["tool"],
+            "result_scope": search_evidence.get("result_scope"),
+            "observed_funnel": ranking["observed_funnel"], "queries": queries,
+            "unobserved_entry_points": unobserved,
+            "graph_node_count": len(graph["nodes"]), "mapped_node_count": len(mapped_ids),
+            "unmapped_nodes": unmapped,
+            "warning": "Branches show actual returned URLs and proposed interventions. They are not causal paths or predicted lift. Unknown platform effects remain unknown."}
+
+
+def render_explorer_html(tree: dict[str, Any]) -> str:
+    """Render a self-contained, browser-readable experiment tree without external assets."""
+    def tag(label: str, value: Any, kind: str = "") -> str:
+        return f'<span class="badge {kind}">{escape(label)}: {escape(str(value))}</span>'
+
+    def branch(title: str, body: str, *, open_by_default: bool = False) -> str:
+        opened = " open" if open_by_default else ""
+        return f'<details{opened}><summary>{title}</summary><div class="children">{body}</div></details>'
+
+    def intervention_view(item: dict[str, Any]) -> str:
+        experiment = item["experiment"]
+        if experiment.get("status") == "unmeasured":
+            evaluation = tag("真实前后评测", "未测", "unknown")
+        else:
+            evaluation = (tag("全局结论", experiment["verdict"], "measured") +
+                          tag("配对覆盖", experiment["observed_weight"]) +
+                          tag("增量区间", experiment["global_delta_bounds"]))
+        nodes = "".join(branch(escape(node["id"]),
+                               tag("仓库内可改", "是" if node["mutable_in_repo"] else "否") +
+                               tag("操作", ", ".join(node["operations"]) or "需外部操作") +
+                               (tag("文件", node["path"]) if node["path"] else ""))
+                        for node in item["nodes"])
+        title = escape(item["id"]) + (f' <span class="order">下一测试 #{item["next_test_order"]}</span>'
+                                      if item["next_test_order"] else "")
+        details = (tag("改动类型", item["change_kind"]) + tag("负责人", item["owner"]) +
+                   tag("本地状态", item["local_state"]) + evaluation)
+        if item["hypothesis"]:
+            details += '<p>待检验假设：' + escape(item["hypothesis"]) + '</p>'
+        if item["candidate_id"]:
+            details += tag("候选", item["candidate_id"])
+        platforms = experiment.get("platforms", {})
+        platform_html = "".join(
+            branch(escape(name),
+                   tag("配对覆盖", platforms.get(name, {}).get("coverage", 0)) +
+                   (tag("已知单元增量", platforms[name]["delta_known_cells"])
+                    if platforms.get(name, {}).get("coverage", 0) else
+                    tag("状态", "未测", "unknown")))
+            for name in item["platforms_to_check"])
+        details += branch("跨平台前后复测", platform_html)
+        return branch(title, details + nodes)
+
+    query_html = []
+    for query in tree["queries"]:
+        sources = "".join(branch(escape(source["url"]),
+                                 "".join(intervention_view(item) for item in source["interventions"]))
+                          for source in query["sources"])
+        if not sources:
+            sources = '<p class="muted">本次返回中没有配置的可测试入口。</p>'
+        summary = f'{escape(query["id"])} · {escape(query["text"])}'
+        query_html.append(branch(summary,
+                                 tag("项目 URL 出现", "是" if query["project_returned"] else "否") +
+                                 (tag("原始证据", query["raw_file"]) if query["raw_file"] else "") +
+                                 sources, open_by_default=True))
+    dormant = "".join(intervention_view(item) for item in tree["unobserved_entry_points"])
+    dormant = branch("未观测到入口的候选 · 无法按本次搜索结果排序", dormant) if dormant else ""
+    unmapped = "".join(branch(escape(node["id"]),
+                              tag("类型", node["kind"]) +
+                              tag("仓库内可改", "是" if node["mutable_in_repo"] else "否") +
+                              tag("操作", ", ".join(node["operations"]) or "无"))
+                       for node in tree["unmapped_nodes"])
+    unmapped = branch("其余依赖图节点 · 尚未连接到干预方案", unmapped) if unmapped else ""
+    funnel = tree["observed_funnel"]
+    header = (tag("搜索工具", tree["tool"]) + tag("项目页出现", funnel["project_returned"]) +
+              tag("论文出现", funnel["paper_returned"]) + tag("仓库出现", funnel["repo_returned"]))
+    return """<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GEO 实验探索树</title><style>
+body{font:16px/1.55 system-ui,sans-serif;background:#f6f5f1;color:#24312b;max-width:1100px;margin:32px auto;padding:0 20px}h1{margin-bottom:6px}p{max-width:85ch}.muted{color:#647168}details{border-left:2px solid #9fb5a6;margin:10px 0 10px 16px;padding:5px 0 5px 15px;background:#fff;border-radius:0 8px 8px 0}summary{cursor:pointer;font-weight:650;overflow-wrap:anywhere}.children{padding:9px 0 2px}.badge{display:inline-block;background:#e9eee9;border-radius:5px;padding:2px 7px;margin:3px 6px 3px 0;font-size:13px}.unknown{background:#fff0cf}.measured{background:#d6eee0}.order{font-size:12px;color:#426b53}.note{background:#fff6e2;border-left:3px solid #d4a74f;padding:10px 14px}button{border:1px solid #718f7c;background:white;border-radius:6px;padding:5px 10px;cursor:pointer;margin-right:8px}
+</style></head><body><h1>GEO 实验探索树</h1><p>目标项目页：<a href=""" + escape(tree["objective"], quote=True) + """">""" + escape(tree["objective"]) + """</a></p><p>层级：真实搜索工具 → 查询 → 已返回的入口 URL → 干预方案 → 图节点。点击分支展开。</p><div>""" + header + tag("依赖图节点", tree["graph_node_count"]) + """</div><p class="note">""" + escape(tree["warning"]) + """</p><p><button onclick="document.querySelectorAll('details').forEach(x=>x.open=true)">全部展开</button><button onclick="document.querySelectorAll('details').forEach(x=>x.open=false)">全部收起</button></p>""" + "".join(query_html) + dormant + unmapped + """</body></html>"""
