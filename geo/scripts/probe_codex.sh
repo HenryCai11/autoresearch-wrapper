@@ -7,7 +7,10 @@ set -uo pipefail
 QUERIES="${1:?usage: probe_codex.sh <queries.txt> <out.jsonl>}"
 OUT="${2:?out.jsonl}"
 WORK="$(mktemp -d)"
-SEARCH_TIMEOUT="${CODEX_SEARCH_TIMEOUT:-300}"
+SEARCH_TIMEOUT="${CODEX_SEARCH_TIMEOUT:-90}"
+REASONING_EFFORT="${CODEX_SEARCH_REASONING_EFFORT:-low}"
+LOG_DIR="${OUT%.jsonl}.logs"
+mkdir -p "$LOG_DIR"
 trap 'rm -rf "$WORK"' EXIT
 : > "$OUT"
 n=0
@@ -18,12 +21,23 @@ while IFS= read -r query; do
 
 Report what you find as a search assistant would: a short numbered list of the most relevant results, each with the people involved and their affiliations, and the URL. Do not run any commands."
   # </dev/null: codex reads stdin, which would otherwise swallow the rest of the query list.
-  if (cd "$WORK" && timeout "$SEARCH_TIMEOUT" codex --search exec --skip-git-repo-check -s read-only -o "$WORK/answer.txt" "$prompt" < /dev/null > "$WORK/log.txt" 2>&1); then
+  started="$(date +%s)"
+  if (cd "$WORK" && timeout "$SEARCH_TIMEOUT" codex --search exec --skip-git-repo-check \
+      -c "model_reasoning_effort=${REASONING_EFFORT}" -s read-only \
+      -o "$WORK/answer.txt" "$prompt" < /dev/null > "$WORK/log.txt" 2>&1); then
+    exit_code=0
     text="$(cat "$WORK/answer.txt")"
+    status="ok"
   else
+    exit_code=$?
     text=""
-    echo "codex failed for: $query" >&2
+    if [ "$exit_code" -eq 124 ]; then status="timeout"; else status="error"; fi
+    echo "codex ${status} (exit ${exit_code}) for: $query" >&2
   fi
-  jq -nc --arg q "$query" --arg t "$text" '{query: $q, text: $t}' >> "$OUT"
+  elapsed="$(( $(date +%s) - started ))"
+  cp "$WORK/log.txt" "$LOG_DIR/query-$(printf '%02d' "$n").log"
+  jq -nc --arg q "$query" --arg t "$text" --arg status "$status" \
+    --argjson exit_code "$exit_code" --argjson elapsed_seconds "$elapsed" \
+    '{query: $q, text: $t, status: $status, exit_code: $exit_code, elapsed_seconds: $elapsed_seconds}' >> "$OUT"
   echo "[$n] $query"
 done < "$QUERIES"

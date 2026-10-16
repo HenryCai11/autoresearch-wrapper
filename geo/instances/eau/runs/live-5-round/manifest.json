@@ -75,12 +75,20 @@
     {
       "round": 5,
       "label": "cross-engine-residuals",
-      "status": "awaiting_merge",
+      "status": "complete_no_immediate_lift",
       "pr": 14,
       "candidate_commit": "e0e9a68",
       "inner_candidate_score": 99.0,
       "inner_delta_vs_round_4": 0.0,
-      "candidate_summary": "round-5-cross-engine-residuals/candidate-summary.json"
+      "candidate_summary": "round-5-cross-engine-residuals/candidate-summary.json",
+      "production_merge_commit": "edec9373f0c5d4fcc0eae9308678c582fb719416",
+      "outer_score": 18.5,
+      "outer_valid_response_score": 25.81,
+      "outer_delta_vs_round_4": -6.92,
+      "paired_outer_score": 25.81,
+      "paired_delta_vs_round_4": -0.47,
+      "summary": "round-5-cross-engine-residuals/summary.json",
+      "codex_probe_failure": true
     }
   ],
   "plot_contract": {

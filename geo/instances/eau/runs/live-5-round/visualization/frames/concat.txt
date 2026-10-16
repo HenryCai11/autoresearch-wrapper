@@ -1,0 +1,13 @@
+file 'step-00.png'
+duration 1.5
+file 'step-01.png'
+duration 1.5
+file 'step-02.png'
+duration 1.5
+file 'step-03.png'
+duration 1.5
+file 'step-04.png'
+duration 1.5
+file 'step-05.png'
+duration 1.5
+file 'step-05.png'
