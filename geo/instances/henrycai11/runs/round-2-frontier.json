@@ -1,0 +1,1434 @@
+{
+ "rounds": [
+  {
+   "round": 0,
+   "candidate": "seed",
+   "status": "keep",
+   "description": "round 2 baseline: master @ 263d99d (metric v2, full page set)",
+   "metric": 71.02,
+   "offline": 85.79,
+   "matrix": 84.65,
+   "technical": 87.5,
+   "llm": 56.25,
+   "columns": {
+    "site": 1.0,
+    "schema": 1.0,
+    "llms": 1.0,
+    "llm": 0.6
+   },
+   "technical_categories": {
+    "structured_data": 1.0,
+    "crawler_files": 1.0,
+    "metadata": 1.0,
+    "hygiene": 1.0,
+    "scholarly": 0.5
+   },
+   "home_chars": 3041
+  },
+  {
+   "round": 1,
+   "candidate": "candidate-001",
+   "status": "keep",
+   "description": "per-paper pages (9) with page descriptions and Google Scholar citation tags (authors from arXiv)",
+   "metric": 76.84,
+   "offline": 97.42,
+   "matrix": 97.37,
+   "technical": 97.5,
+   "llm": 56.25,
+   "columns": {
+    "site": 1.0,
+    "schema": 1.0,
+    "llms": 1.0,
+    "llm": 0.6
+   },
+   "technical_categories": {
+    "structured_data": 1.0,
+    "crawler_files": 1.0,
+    "metadata": 1.0,
+    "hygiene": 1.0,
+    "scholarly": 0.9
+   },
+   "home_chars": 3041
+  },
+  {
+   "round": 2,
+   "candidate": "candidate-002",
+   "status": "keep",
+   "description": "llms.txt reordered: identity + papers-with-topics first (within 800 chars), links and background after",
+   "metric": 84.12,
+   "offline": 97.42,
+   "matrix": 97.37,
+   "technical": 97.5,
+   "llm": 70.83,
+   "columns": {
+    "site": 1.0,
+    "schema": 1.0,
+    "llms": 1.0,
+    "llm": 0.75
+   },
+   "technical_categories": {
+    "structured_data": 1.0,
+    "crawler_files": 1.0,
+    "metadata": 1.0,
+    "hygiene": 1.0,
+    "scholarly": 0.9
+   },
+   "home_chars": 3041
+  },
+  {
+   "round": 3,
+   "candidate": "candidate-003",
+   "status": "discard",
+   "description": "stop building academicpages template samples (posts, talks, portfolio, demo pages); add /papers/ index",
+   "metric": 84.12,
+   "offline": 97.42,
+   "matrix": 97.37,
+   "technical": 97.5,
+   "llm": 70.83,
+   "columns": {
+    "site": 1.0,
+    "schema": 1.0,
+    "llms": 1.0,
+    "llm": 0.75
+   },
+   "technical_categories": {
+    "structured_data": 1.0,
+    "crawler_files": 1.0,
+    "metadata": 1.0,
+    "hygiene": 1.0,
+    "scholarly": 0.9
+   },
+   "home_chars": 3041
+  },
+  {
+   "round": 4,
+   "candidate": "candidate-004",
+   "status": "keep",
+   "description": "llms.txt: every core fact, background item and paper within the first 800 characters",
+   "metric": 96.62,
+   "offline": 97.42,
+   "matrix": 97.37,
+   "technical": 97.5,
+   "llm": 95.83,
+   "columns": {
+    "site": 1.0,
+    "schema": 1.0,
+    "llms": 1.0,
+    "llm": 0.95
+   },
+   "technical_categories": {
+    "structured_data": 1.0,
+    "crawler_files": 1.0,
+    "metadata": 1.0,
+    "hygiene": 1.0,
+    "scholarly": 0.9
+   },
+   "home_chars": 3041
+  },
+  {
+   "round": 5,
+   "candidate": "candidate-005",
+   "status": "keep",
+   "description": "homepage sidebar shows the GitHub handle: GitHub (HenryCai11)",
+   "metric": 97.12,
+   "offline": 98.42,
+   "matrix": 97.37,
+   "technical": 100.0,
+   "llm": 95.83,
+   "columns": {
+    "site": 1.0,
+    "schema": 1.0,
+    "llms": 1.0,
+    "llm": 0.95
+   },
+   "technical_categories": {
+    "structured_data": 1.0,
+    "crawler_files": 1.0,
+    "metadata": 1.0,
+    "hygiene": 1.0,
+    "scholarly": 1.0
+   },
+   "home_chars": 3054
+  },
+  {
+   "round": 6,
+   "candidate": "candidate-006",
+   "status": "keep",
+   "description": "llms.txt: restore the Outstanding Paper award within the first 800 characters",
+   "metric": 99.21,
+   "offline": 98.42,
+   "matrix": 97.37,
+   "technical": 100.0,
+   "llm": 100.0,
+   "columns": {
+    "site": 1.0,
+    "schema": 1.0,
+    "llms": 1.0,
+    "llm": 1.0
+   },
+   "technical_categories": {
+    "structured_data": 1.0,
+    "crawler_files": 1.0,
+    "metadata": 1.0,
+    "hygiene": 1.0,
+    "scholarly": 1.0
+   },
+   "home_chars": 3054
+  },
+  {
+   "round": 7,
+   "candidate": "candidate-007",
+   "status": "keep",
+   "description": "CV page description with education and internships (search snippet)",
+   "metric": 100.0,
+   "offline": 100.0,
+   "matrix": 100.0,
+   "technical": 100.0,
+   "llm": 100.0,
+   "columns": {
+    "site": 1.0,
+    "schema": 1.0,
+    "llms": 1.0,
+    "llm": 1.0
+   },
+   "technical_categories": {
+    "structured_data": 1.0,
+    "crawler_files": 1.0,
+    "metadata": 1.0,
+    "hygiene": 1.0,
+    "scholarly": 1.0
+   },
+   "home_chars": 3054
+  }
+ ],
+ "matrix_before": [
+  {
+   "keyword": "PhD student",
+   "hop": 0,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "University of Alberta",
+   "hop": 0,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Xi Ye",
+   "hop": 0,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Edmonton",
+   "hop": 0,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Shenzhen University",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Beijing Language and Culture University",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Ziniu Hu",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "Baidu",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Z.ai",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "LLM agents",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "mechanistic interpretability",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "LLM reasoning",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "continual learning",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "AvalonBench",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "DataSciBench",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 0.0
+  },
+  {
+   "keyword": "Strategist",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 0.0
+  },
+  {
+   "keyword": "EAU",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "How Post-Training Reshapes LLMs",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 0.0
+  },
+  {
+   "keyword": "SelfControl",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "TDRM",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "Modular Gradient Surgery",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "Tyler",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 0.0
+  },
+  {
+   "keyword": "social deduction game",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 0.0
+  },
+  {
+   "keyword": "strategic reasoning",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "data science agent",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 0.0
+  },
+  {
+   "keyword": "co-evolution",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 0.0
+  },
+  {
+   "keyword": "post-training",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 0.0
+  },
+  {
+   "keyword": "suffix gradient",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 0.0
+  },
+  {
+   "keyword": "reward model",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 0.0
+  },
+  {
+   "keyword": "gradient conflict",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 0.0
+  },
+  {
+   "keyword": "latent reasoning",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 0.0
+  }
+ ],
+ "matrix_after": [
+  {
+   "keyword": "PhD student",
+   "hop": 0,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "University of Alberta",
+   "hop": 0,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Xi Ye",
+   "hop": 0,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Edmonton",
+   "hop": 0,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Shenzhen University",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Beijing Language and Culture University",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Ziniu Hu",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "Baidu",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Z.ai",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "LLM agents",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "mechanistic interpretability",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "LLM reasoning",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "continual learning",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "AvalonBench",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "DataSciBench",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "Strategist",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "EAU",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "How Post-Training Reshapes LLMs",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "SelfControl",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "TDRM",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "Modular Gradient Surgery",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "Tyler",
+   "hop": 1,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "social deduction game",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "strategic reasoning",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": null
+  },
+  {
+   "keyword": "data science agent",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "co-evolution",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "post-training",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "suffix gradient",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "reward model",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "gradient conflict",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  },
+  {
+   "keyword": "latent reasoning",
+   "hop": 2,
+   "site": 1.0,
+   "schema": 1.0,
+   "llms": 1.0,
+   "llm": 1.0
+  }
+ ],
+ "probes": [
+  {
+   "query": "Min Cai PhD student",
+   "found": false
+  },
+  {
+   "query": "Min Cai University of Alberta",
+   "found": false
+  },
+  {
+   "query": "Min Cai Xi Ye",
+   "found": false
+  },
+  {
+   "query": "Min Cai Edmonton",
+   "found": false
+  },
+  {
+   "query": "AvalonBench evaluating LLMs playing Avalon",
+   "found": false
+  },
+  {
+   "query": "DataSciBench LLM agent benchmark data science",
+   "found": false
+  },
+  {
+   "query": "Strategist LLM bi-level tree search strategic skills",
+   "found": false
+  },
+  {
+   "query": "EAU environment agent user co-evolution user-centric agents",
+   "found": false
+  },
+  {
+   "query": "How Post-Training Reshapes LLMs mechanistic view",
+   "found": false
+  },
+  {
+   "query": "Self-Control of LLM Behaviors suffix gradient prefix controller",
+   "found": false
+  },
+  {
+   "query": "TDRM smooth reward models temporal difference LLM",
+   "found": true
+  },
+  {
+   "query": "Modular Gradient Surgery general-purpose reasoning models",
+   "found": true
+  },
+  {
+   "query": "Tyler typed latent reasoning language models",
+   "found": false
+  },
+  {
+   "query": "LLM agents playing Avalon social deduction game",
+   "found": false
+  },
+  {
+   "query": "LLM strategic reasoning with bi-level tree search",
+   "found": false
+  },
+  {
+   "query": "benchmark for LLM data science agents",
+   "found": false
+  },
+  {
+   "query": "co-evolving environments agents and users for training LLM agents",
+   "found": false
+  },
+  {
+   "query": "how post-training changes LLM internals knowledge truthfulness refusal",
+   "found": false
+  },
+  {
+   "query": "controlling LLM behavior by compressing suffix gradients into a prefix controller",
+   "found": false
+  },
+  {
+   "query": "temporal difference reward models for LLM reinforcement learning",
+   "found": false
+  },
+  {
+   "query": "resolving gradient conflicts across domains in reasoning model training",
+   "found": false
+  },
+  {
+   "query": "typed latent reasoning for language models",
+   "found": false
+  },
+  {
+   "query": "Min Cai PhD student",
+   "found": true
+  },
+  {
+   "query": "Min Cai University of Alberta",
+   "found": true
+  },
+  {
+   "query": "Min Cai Xi Ye",
+   "found": true
+  },
+  {
+   "query": "Min Cai Edmonton",
+   "found": true
+  },
+  {
+   "query": "Min Cai Shenzhen University",
+   "found": true
+  },
+  {
+   "query": "Min Cai Beijing Language and Culture University translation",
+   "found": true
+  },
+  {
+   "query": "Ziniu Hu Min Cai",
+   "found": true
+  },
+  {
+   "query": "Min Cai Baidu research intern",
+   "found": true
+  },
+  {
+   "query": "Min Cai Z.ai research intern",
+   "found": true
+  },
+  {
+   "query": "LLM agents PhD student University of Alberta",
+   "found": true
+  },
+  {
+   "query": "mechanistic interpretability PhD student University of Alberta",
+   "found": true
+  },
+  {
+   "query": "LLM reasoning PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "continual learning for LLMs PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "AvalonBench evaluating LLMs playing Avalon",
+   "found": false
+  },
+  {
+   "query": "DataSciBench LLM agent benchmark data science",
+   "found": false
+  },
+  {
+   "query": "Strategist LLM bi-level tree search strategic skills",
+   "found": false
+  },
+  {
+   "query": "EAU environment agent user co-evolution user-centric agents",
+   "found": true
+  },
+  {
+   "query": "How Post-Training Reshapes LLMs mechanistic view",
+   "found": true
+  },
+  {
+   "query": "Self-Control of LLM Behaviors suffix gradient prefix controller",
+   "found": false
+  },
+  {
+   "query": "TDRM smooth reward models temporal difference LLM",
+   "found": true
+  },
+  {
+   "query": "Modular Gradient Surgery general-purpose reasoning models",
+   "found": true
+  },
+  {
+   "query": "Tyler typed latent reasoning language models",
+   "found": true
+  },
+  {
+   "query": "LLM agents playing Avalon social deduction game",
+   "found": false
+  },
+  {
+   "query": "LLM strategic reasoning with bi-level tree search",
+   "found": false
+  },
+  {
+   "query": "benchmark for LLM data science agents",
+   "found": false
+  },
+  {
+   "query": "co-evolving environments agents and users for training LLM agents",
+   "found": true
+  },
+  {
+   "query": "how post-training changes LLM internals knowledge truthfulness refusal",
+   "found": true
+  },
+  {
+   "query": "controlling LLM behavior by compressing suffix gradients into a prefix controller",
+   "found": false
+  },
+  {
+   "query": "temporal difference reward models for LLM reinforcement learning",
+   "found": true
+  },
+  {
+   "query": "resolving gradient conflicts across domains in reasoning model training",
+   "found": false
+  },
+  {
+   "query": "typed latent reasoning for language models",
+   "found": true
+  },
+  {
+   "query": "Min Cai PhD student",
+   "found": false
+  },
+  {
+   "query": "Min Cai University of Alberta",
+   "found": false
+  },
+  {
+   "query": "Min Cai Xi Ye",
+   "found": false
+  },
+  {
+   "query": "Min Cai Edmonton",
+   "found": false
+  },
+  {
+   "query": "Min Cai Shenzhen University",
+   "found": false
+  },
+  {
+   "query": "Min Cai Beijing Language and Culture University translation",
+   "found": false
+  },
+  {
+   "query": "Ziniu Hu Min Cai",
+   "found": false
+  },
+  {
+   "query": "Min Cai Baidu research intern",
+   "found": false
+  },
+  {
+   "query": "Min Cai Z.ai research intern",
+   "found": false
+  },
+  {
+   "query": "LLM agents PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "mechanistic interpretability PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "LLM reasoning PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "continual learning for LLMs PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "AvalonBench evaluating LLMs playing Avalon",
+   "found": false
+  },
+  {
+   "query": "DataSciBench LLM agent benchmark data science",
+   "found": false
+  },
+  {
+   "query": "Strategist LLM bi-level tree search strategic skills",
+   "found": false
+  },
+  {
+   "query": "EAU environment agent user co-evolution user-centric agents",
+   "found": false
+  },
+  {
+   "query": "How Post-Training Reshapes LLMs mechanistic view",
+   "found": false
+  },
+  {
+   "query": "Self-Control of LLM Behaviors suffix gradient prefix controller",
+   "found": false
+  },
+  {
+   "query": "TDRM smooth reward models temporal difference LLM",
+   "found": false
+  },
+  {
+   "query": "Modular Gradient Surgery general-purpose reasoning models",
+   "found": false
+  },
+  {
+   "query": "Tyler typed latent reasoning language models",
+   "found": false
+  },
+  {
+   "query": "LLM agents playing Avalon social deduction game",
+   "found": false
+  },
+  {
+   "query": "LLM strategic reasoning with bi-level tree search",
+   "found": false
+  },
+  {
+   "query": "benchmark for LLM data science agents",
+   "found": false
+  },
+  {
+   "query": "co-evolving environments agents and users for training LLM agents",
+   "found": false
+  },
+  {
+   "query": "how post-training changes LLM internals knowledge truthfulness refusal",
+   "found": false
+  },
+  {
+   "query": "controlling LLM behavior by compressing suffix gradients into a prefix controller",
+   "found": false
+  },
+  {
+   "query": "temporal difference reward models for LLM reinforcement learning",
+   "found": false
+  },
+  {
+   "query": "resolving gradient conflicts across domains in reasoning model training",
+   "found": false
+  },
+  {
+   "query": "typed latent reasoning for language models",
+   "found": false
+  },
+  {
+   "query": "Min Cai Xi Ye",
+   "found": false
+  },
+  {
+   "query": "Min Cai University of Alberta",
+   "found": false
+  },
+  {
+   "query": "Min Cai Edmonton",
+   "found": false
+  },
+  {
+   "query": "Min Cai PhD student",
+   "found": false
+  },
+  {
+   "query": "LLM agents PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "continual learning for LLMs PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "mechanistic interpretability PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "LLM reasoning PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "AvalonBench evaluating LLMs playing Avalon",
+   "found": false
+  },
+  {
+   "query": "Min Cai Beijing Language and Culture University translation",
+   "found": false
+  },
+  {
+   "query": "Ziniu Hu Min Cai",
+   "found": false
+  },
+  {
+   "query": "DataSciBench LLM agent benchmark data science",
+   "found": false
+  },
+  {
+   "query": "EAU environment agent user co-evolution user-centric agents",
+   "found": false
+  },
+  {
+   "query": "Min Cai Baidu research intern",
+   "found": false
+  },
+  {
+   "query": "Min Cai Z.ai research intern",
+   "found": false
+  },
+  {
+   "query": "Modular Gradient Surgery general-purpose reasoning models",
+   "found": false
+  },
+  {
+   "query": "Min Cai Shenzhen University",
+   "found": false
+  },
+  {
+   "query": "How Post-Training Reshapes LLMs mechanistic view",
+   "found": false
+  },
+  {
+   "query": "Self-Control of LLM Behaviors suffix gradient prefix controller",
+   "found": false
+  },
+  {
+   "query": "Strategist LLM bi-level tree search strategic skills",
+   "found": false
+  },
+  {
+   "query": "TDRM smooth reward models temporal difference LLM",
+   "found": false
+  },
+  {
+   "query": "Tyler typed latent reasoning language models",
+   "found": false
+  },
+  {
+   "query": "co-evolving environments agents and users for training LLM agents",
+   "found": false
+  },
+  {
+   "query": "controlling LLM behavior by compressing suffix gradients into a prefix controller",
+   "found": false
+  },
+  {
+   "query": "benchmark for LLM data science agents",
+   "found": false
+  },
+  {
+   "query": "resolving gradient conflicts across domains in reasoning model training",
+   "found": false
+  },
+  {
+   "query": "typed latent reasoning for language models",
+   "found": false
+  },
+  {
+   "query": "how post-training changes LLM internals knowledge truthfulness refusal",
+   "found": false
+  },
+  {
+   "query": "temporal difference reward models for LLM reinforcement learning",
+   "found": false
+  },
+  {
+   "query": "LLM agents playing Avalon social deduction game",
+   "found": false
+  },
+  {
+   "query": "LLM strategic reasoning with bi-level tree search",
+   "found": false
+  },
+  {
+   "query": "Min Cai Xi Ye",
+   "found": false
+  },
+  {
+   "query": "Min Cai University of Alberta",
+   "found": false
+  },
+  {
+   "query": "Min Cai Edmonton",
+   "found": false
+  },
+  {
+   "query": "Min Cai PhD student",
+   "found": false
+  },
+  {
+   "query": "LLM agents PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "continual learning for LLMs PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "mechanistic interpretability PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "LLM reasoning PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "AvalonBench evaluating LLMs playing Avalon",
+   "found": false
+  },
+  {
+   "query": "Min Cai Beijing Language and Culture University translation",
+   "found": false
+  },
+  {
+   "query": "Ziniu Hu Min Cai",
+   "found": false
+  },
+  {
+   "query": "DataSciBench LLM agent benchmark data science",
+   "found": false
+  },
+  {
+   "query": "EAU environment agent user co-evolution user-centric agents",
+   "found": false
+  },
+  {
+   "query": "Min Cai Baidu research intern",
+   "found": false
+  },
+  {
+   "query": "Min Cai Z.ai research intern",
+   "found": false
+  },
+  {
+   "query": "Modular Gradient Surgery general-purpose reasoning models",
+   "found": false
+  },
+  {
+   "query": "Min Cai Shenzhen University",
+   "found": false
+  },
+  {
+   "query": "How Post-Training Reshapes LLMs mechanistic view",
+   "found": false
+  },
+  {
+   "query": "Self-Control of LLM Behaviors suffix gradient prefix controller",
+   "found": false
+  },
+  {
+   "query": "Strategist LLM bi-level tree search strategic skills",
+   "found": false
+  },
+  {
+   "query": "TDRM smooth reward models temporal difference LLM",
+   "found": false
+  },
+  {
+   "query": "Tyler typed latent reasoning language models",
+   "found": false
+  },
+  {
+   "query": "co-evolving environments agents and users for training LLM agents",
+   "found": false
+  },
+  {
+   "query": "controlling LLM behavior by compressing suffix gradients into a prefix controller",
+   "found": false
+  },
+  {
+   "query": "benchmark for LLM data science agents",
+   "found": false
+  },
+  {
+   "query": "resolving gradient conflicts across domains in reasoning model training",
+   "found": false
+  },
+  {
+   "query": "typed latent reasoning for language models",
+   "found": false
+  },
+  {
+   "query": "how post-training changes LLM internals knowledge truthfulness refusal",
+   "found": false
+  },
+  {
+   "query": "temporal difference reward models for LLM reinforcement learning",
+   "found": false
+  },
+  {
+   "query": "LLM agents playing Avalon social deduction game",
+   "found": false
+  },
+  {
+   "query": "LLM strategic reasoning with bi-level tree search",
+   "found": false
+  },
+  {
+   "query": "Min Cai Xi Ye",
+   "found": false
+  },
+  {
+   "query": "Min Cai University of Alberta",
+   "found": false
+  },
+  {
+   "query": "Min Cai Edmonton",
+   "found": false
+  },
+  {
+   "query": "Min Cai PhD student",
+   "found": false
+  },
+  {
+   "query": "LLM agents PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "continual learning for LLMs PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "mechanistic interpretability PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "LLM reasoning PhD student University of Alberta",
+   "found": false
+  },
+  {
+   "query": "AvalonBench evaluating LLMs playing Avalon",
+   "found": false
+  },
+  {
+   "query": "Min Cai Beijing Language and Culture University translation",
+   "found": false
+  },
+  {
+   "query": "Ziniu Hu Min Cai",
+   "found": false
+  },
+  {
+   "query": "DataSciBench LLM agent benchmark data science",
+   "found": false
+  },
+  {
+   "query": "EAU environment agent user co-evolution user-centric agents",
+   "found": false
+  },
+  {
+   "query": "Min Cai Baidu research intern",
+   "found": false
+  },
+  {
+   "query": "Min Cai Z.ai research intern",
+   "found": false
+  },
+  {
+   "query": "Modular Gradient Surgery general-purpose reasoning models",
+   "found": false
+  },
+  {
+   "query": "Min Cai Shenzhen University",
+   "found": false
+  },
+  {
+   "query": "How Post-Training Reshapes LLMs mechanistic view",
+   "found": false
+  },
+  {
+   "query": "Self-Control of LLM Behaviors suffix gradient prefix controller",
+   "found": false
+  },
+  {
+   "query": "Strategist LLM bi-level tree search strategic skills",
+   "found": false
+  },
+  {
+   "query": "TDRM smooth reward models temporal difference LLM",
+   "found": false
+  },
+  {
+   "query": "Tyler typed latent reasoning language models",
+   "found": false
+  },
+  {
+   "query": "co-evolving environments agents and users for training LLM agents",
+   "found": false
+  },
+  {
+   "query": "controlling LLM behavior by compressing suffix gradients into a prefix controller",
+   "found": false
+  },
+  {
+   "query": "benchmark for LLM data science agents",
+   "found": false
+  },
+  {
+   "query": "resolving gradient conflicts across domains in reasoning model training",
+   "found": false
+  },
+  {
+   "query": "typed latent reasoning for language models",
+   "found": false
+  },
+  {
+   "query": "how post-training changes LLM internals knowledge truthfulness refusal",
+   "found": false
+  },
+  {
+   "query": "temporal difference reward models for LLM reinforcement learning",
+   "found": false
+  },
+  {
+   "query": "LLM agents playing Avalon social deduction game",
+   "found": false
+  },
+  {
+   "query": "LLM strategic reasoning with bi-level tree search",
+   "found": false
+  }
+ ],
+ "ood": {
+  "recorded_at": "2026-10-15T17:00:00Z",
+  "window_days": 7,
+  "site": "henrycai11",
+  "total_visits": 1,
+  "ai_referred_visits": 0,
+  "ai_referrers": {},
+  "top_referrers": [
+   {
+    "name": "",
+    "count": 1
+   }
+  ],
+  "top_pages": [
+   {
+    "path": "/",
+    "count": 1
+   }
+  ]
+ }
+}

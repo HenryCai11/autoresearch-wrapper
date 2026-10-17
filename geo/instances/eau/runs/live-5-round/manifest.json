@@ -1,0 +1,120 @@
+{
+  "experiment_id": "eau-live-geo-5-round-2026-10",
+  "site": "https://eau-meta-agent.github.io/",
+  "baseline_source_commit": "e0cc480",
+  "query_set": "geo/instances/eau/map.json",
+  "rounds": [
+    {
+      "round": 0,
+      "label": "pre-geo-baseline",
+      "status": "complete",
+      "pr": 9,
+      "production_merge_commit": "82ea530ccfc503cd587bd0cf38be52188b66fbff",
+      "inner_score": 43.43,
+      "outer_score": 27.97,
+      "summary": "round-0-pre-geo-baseline/summary.json"
+    },
+    {
+      "round": 1,
+      "label": "exact-identity",
+      "status": "complete",
+      "pr": 10,
+      "candidate_commit": "4eb20df",
+      "inner_candidate_score": 74.43,
+      "inner_delta_vs_round_0": 31.0,
+      "candidate_summary": "round-1-exact-identity/candidate-summary.json",
+      "production_merge_commit": "be9625b01cfb277f6aab9c05dee45d7e5a8a891b",
+      "outer_score": 28.08,
+      "outer_delta_vs_round_0": 0.11,
+      "summary": "round-1-exact-identity/summary.json"
+    },
+    {
+      "round": 2,
+      "label": "fuzzy-capability",
+      "status": "complete",
+      "pr": 11,
+      "candidate_commit": "13b71dc",
+      "inner_candidate_score": 86.83,
+      "inner_delta_vs_round_1": 12.4,
+      "candidate_summary": "round-2-fuzzy-capability/candidate-summary.json",
+      "production_merge_commit": "e49def194b9a475dd354975a8453a134f0d4ccd1",
+      "outer_score": 28.25,
+      "outer_delta_vs_round_1": 0.17,
+      "summary": "round-2-fuzzy-capability/summary.json"
+    },
+    {
+      "round": 3,
+      "label": "broad-domain",
+      "status": "complete",
+      "pr": 12,
+      "candidate_commit": "31fe5e4",
+      "inner_candidate_score": 92.33,
+      "inner_delta_vs_round_2": 5.5,
+      "candidate_summary": "round-3-broad-domain/candidate-summary.json",
+      "production_merge_commit": "808ea364b0df9d103b014d5e973a45a3b813eeca",
+      "outer_score": 27.5,
+      "outer_delta_vs_round_2": -0.75,
+      "summary": "round-3-broad-domain/summary.json"
+    },
+    {
+      "round": 4,
+      "label": "authority-entity-relations",
+      "status": "complete_inconclusive",
+      "pr": 13,
+      "candidate_commit": "99fd970",
+      "inner_candidate_score": 99.0,
+      "inner_delta_vs_round_3": 6.67,
+      "candidate_summary": "round-4-authority-relations/candidate-summary.json",
+      "production_merge_commit": "18ad3f754d52e2b0bbbee3b95883b384ffcdb8a8",
+      "outer_score": 25.42,
+      "outer_delta_vs_round_3": -2.08,
+      "paired_outer_score": 29.69,
+      "paired_delta_vs_round_3": -1.15,
+      "summary": "round-4-authority-relations/summary.json"
+    },
+    {
+      "round": 5,
+      "label": "cross-engine-residuals",
+      "status": "complete_small_paired_lift",
+      "pr": 14,
+      "candidate_commit": "e0e9a68",
+      "inner_candidate_score": 99.0,
+      "inner_delta_vs_round_4": 0.0,
+      "candidate_summary": "round-5-cross-engine-residuals/candidate-summary.json",
+      "production_merge_commit": "edec9373f0c5d4fcc0eae9308678c582fb719416",
+      "outer_score": 25.5,
+      "outer_valid_response_score": 28.33,
+      "outer_delta_vs_round_4": 0.08,
+      "paired_outer_score": 29.02,
+      "paired_delta_vs_round_4": 0.33,
+      "summary": "round-5-cross-engine-residuals/summary.json",
+      "codex_probe_failure": false,
+      "codex_probe_success": "11/15"
+    }
+  ],
+  "plot_contract": {
+    "offline_and_live_separate": true,
+    "primary_live_metric": "project_domain_citation_rate",
+    "secondary_live_metrics": [
+      "mention_rate",
+      "mean_reciprocal_rank",
+      "correct_attribution_rate"
+    ],
+    "query_tiers": [
+      "exact",
+      "fuzzy",
+      "broad"
+    ],
+    "engines": [
+      "gpt-web",
+      "codex-search",
+      "tavily-search",
+      "exa-search"
+    ]
+  },
+  "decision_policy": {
+    "inner_loop": "eligibility proxy only; must not regress or violate guardrails",
+    "outer_loop": "final promotion criterion",
+    "failure_handling": "report all scheduled cells, valid-response cells, and matched valid pairs separately"
+  }
+}

@@ -1,0 +1,7 @@
+round,change,inner,outer_all,outer_valid,answer_success,best_outer,status
+0,Baseline,43.43,27.97,30.52,0.9167,27.97,baseline
+1,Identity,74.43,28.08,31.2,0.9,28.08,kept
+2,Capability,86.83,28.25,31.39,0.9,28.25,best all-cell
+3,Research context,92.33,27.5,31.73,0.8667,28.25,trade-off
+4,Entity graph,99.0,25.42,30.5,0.8333,28.25,dominated
+5,GitHub bridge,99.0,25.5,28.33,0.9,28.25,paired +0.33

@@ -1,0 +1,21 @@
+{
+  "experiment_id": "eau-live-geo-5-round-2026-10",
+  "round": 2,
+  "label": "fuzzy-capability",
+  "change_id": "r2-capability-landing-page",
+  "base_production_commit": "be9625b01cfb277f6aab9c05dee45d7e5a8a891b",
+  "candidate_branch": "codex/geo-live-round-2",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "query_count": 15,
+  "query_set_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "measurement_phase": "post_merge_production",
+  "outer_status": "complete",
+  "candidate_commit": "13b71dc",
+  "pull_request": 11,
+  "inner_candidate_score": 86.83,
+  "inner_previous_score": 74.43,
+  "inner_delta": 12.4,
+  "production_merge_commit": "e49def194b9a475dd354975a8453a134f0d4ccd1",
+  "merged_at": "2026-10-16T09:22:36Z",
+  "deployment_status": "built"
+}

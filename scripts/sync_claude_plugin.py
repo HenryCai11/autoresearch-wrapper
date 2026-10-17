@@ -16,6 +16,10 @@ SYNC_TARGETS = {
     REPO_ROOT / "scripts": PLUGIN_ROOT / "scripts",
     REPO_ROOT / "autoresearch_wrapper": PLUGIN_ROOT / "autoresearch_wrapper",
     REPO_ROOT / "templates": PLUGIN_ROOT / "templates",
+    # GEO: the generic toolkit and build/score scripts. Instances are user data and
+    # are not packaged.
+    REPO_ROOT / "geo_eval": PLUGIN_ROOT / "geo_eval",
+    REPO_ROOT / "geo" / "scripts": PLUGIN_ROOT / "geo" / "scripts",
 }
 
 

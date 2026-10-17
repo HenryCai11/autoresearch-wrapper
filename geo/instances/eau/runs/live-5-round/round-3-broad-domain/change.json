@@ -1,0 +1,18 @@
+{
+  "change_id": "r3-research-context-page",
+  "objective": "Create a factual research-context entry point for broad category queries.",
+  "files": [
+    "research-context.html",
+    "index.html",
+    "llms.txt",
+    "sitemap.xml"
+  ],
+  "signals_targeted": [
+    "site",
+    "snippet",
+    "schema",
+    "llms"
+  ],
+  "query_tier": "broad",
+  "outer_loop_hypothesis": "Increase broad-query mention, attribution, and project citation while preserving exact and fuzzy performance."
+}

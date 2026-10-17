@@ -1,0 +1,62 @@
+[
+  {
+    "round": 0,
+    "change": "Baseline",
+    "inner": 43.43,
+    "outer_all": 27.97,
+    "outer_valid": 30.52,
+    "answer_success": 0.9167,
+    "best_outer": 27.97,
+    "status": "baseline"
+  },
+  {
+    "round": 1,
+    "change": "Identity",
+    "inner": 74.43,
+    "outer_all": 28.08,
+    "outer_valid": 31.2,
+    "answer_success": 0.9,
+    "best_outer": 28.08,
+    "status": "kept"
+  },
+  {
+    "round": 2,
+    "change": "Capability",
+    "inner": 86.83,
+    "outer_all": 28.25,
+    "outer_valid": 31.39,
+    "answer_success": 0.9,
+    "best_outer": 28.25,
+    "status": "best all-cell"
+  },
+  {
+    "round": 3,
+    "change": "Research context",
+    "inner": 92.33,
+    "outer_all": 27.5,
+    "outer_valid": 31.73,
+    "answer_success": 0.8667,
+    "best_outer": 28.25,
+    "status": "trade-off"
+  },
+  {
+    "round": 4,
+    "change": "Entity graph",
+    "inner": 99.0,
+    "outer_all": 25.42,
+    "outer_valid": 30.5,
+    "answer_success": 0.8333,
+    "best_outer": 28.25,
+    "status": "dominated"
+  },
+  {
+    "round": 5,
+    "change": "GitHub bridge",
+    "inner": 99.0,
+    "outer_all": 25.5,
+    "outer_valid": 28.33,
+    "answer_success": 0.9,
+    "best_outer": 28.25,
+    "status": "paired +0.33"
+  }
+]

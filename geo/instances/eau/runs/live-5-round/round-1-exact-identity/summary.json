@@ -1,0 +1,98 @@
+{
+  "experiment_id": "eau-live-geo-5-round-2026-10",
+  "round": 1,
+  "label": "exact-identity",
+  "change_id": "r1-machine-readable-identity",
+  "production_merge_commit": "be9625b01cfb277f6aab9c05dee45d7e5a8a891b",
+  "inner_loop": {
+    "score": 74.43,
+    "matrix_offline": 60.17,
+    "technical": 95.83
+  },
+  "outer_loop": {
+    "definition": "macro average over 15 fixed queries × 4 engines",
+    "weights": {
+      "citation_rate": 0.45,
+      "attribution_rate": 0.25,
+      "mrr": 0.2,
+      "mention_rate": 0.1
+    },
+    "score": 28.08,
+    "overall": {
+      "probed": 60,
+      "answer_success_rate": 0.9,
+      "mention_rate": 0.65,
+      "found_rate": 0.6,
+      "citation_rate": 0.1333,
+      "attribution_rate": 0.5833,
+      "mrr": 0.05
+    },
+    "by_engine": {
+      "gpt-web": {
+        "probed": 15,
+        "answer_success_rate": 1.0,
+        "mention_rate": 0.7333,
+        "found_rate": 0.7333,
+        "citation_rate": 0.0,
+        "attribution_rate": 0.7333,
+        "mrr": 0.0
+      },
+      "codex-search": {
+        "probed": 15,
+        "answer_success_rate": 0.6,
+        "mention_rate": 0.5333,
+        "found_rate": 0.5333,
+        "citation_rate": 0.3333,
+        "attribution_rate": 0.4667,
+        "mrr": 0.2
+      },
+      "tavily-search": {
+        "probed": 15,
+        "answer_success_rate": 1.0,
+        "mention_rate": 0.4,
+        "found_rate": 0.3333,
+        "citation_rate": 0.0,
+        "attribution_rate": 0.3333,
+        "mrr": 0.0
+      },
+      "exa-search": {
+        "probed": 15,
+        "answer_success_rate": 1.0,
+        "mention_rate": 0.9333,
+        "found_rate": 0.8,
+        "citation_rate": 0.2,
+        "attribution_rate": 0.8,
+        "mrr": 0.0
+      }
+    },
+    "by_tier": {
+      "exact": {
+        "probed": 20,
+        "answer_success_rate": 1.0,
+        "mention_rate": 0.95,
+        "found_rate": 0.95,
+        "citation_rate": 0.35,
+        "attribution_rate": 0.9,
+        "mrr": 0.15
+      },
+      "fuzzy": {
+        "probed": 20,
+        "answer_success_rate": 0.9,
+        "mention_rate": 0.65,
+        "found_rate": 0.65,
+        "citation_rate": 0.0,
+        "attribution_rate": 0.65,
+        "mrr": 0.0
+      },
+      "broad": {
+        "probed": 20,
+        "answer_success_rate": 0.8,
+        "mention_rate": 0.35,
+        "found_rate": 0.2,
+        "citation_rate": 0.05,
+        "attribution_rate": 0.2,
+        "mrr": 0.0
+      }
+    }
+  }
+}

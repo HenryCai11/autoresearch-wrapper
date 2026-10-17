@@ -1,0 +1,261 @@
+EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents (https://arxiv.org/abs/2610.16523)
+citeturn170academia12 [wordlim: 200] Published: 3 days ago; Title: EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents ... Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. ... Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy.
+Title: EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents
+Authors: Min Cai, Dan Zhang, Gao Xing, Libin Ma, Zhaohui Xu, Xi Ye
+Date: Mon Oct 12 10:11:38 2026
+
+Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. Simulated users can be stochastic or inconsistent, while environments may contain unreliable tools, incomplete state coverage, and incorrect verifiers. Prior work mainly addresses the resulting instability through reward shaping or denser supervision, while treating these components as fixed. We instead introduce EAU, a meta-agent framework for environment--agent--user co-evolution. During training, EAU monitors trajectories, tool traces, rewards, and training statistics; diagnoses failures and uninformative interactions; and proposes targeted modifications to the user simulator, environment, reward design, and RL configuration. Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy. These adaptations also persist across runs, so later training can build on previously discovered improvements rather than restarting from a fixed setup. We enable this process through an editable symbolic representation of user and environment dynamics, while the agent remains a neural LLM optimized with RL. Across three interactive-agent benchmarks and two backbone models, EAU consistently outperforms prior RL methods, improving the overall score over the strongest baseline by 14.7--15.0% and increasing successful task completion on ColBench by up to 36.7%, showing that co-evolving the training system with the policy can substantially improve multi-turn RL.--------------------------------------------------------------------------------
+[2610.16523] EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents (https://borowiecki.dev/abs/2610.16523)
+citeturn170search0 [wordlim: 200] Published: 4 days ago; Crawled: 2 days ago; View a PDF of the paper titled EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents, by Min Cai and Dan Zhang and Gao Xing and Libin Ma and Zhaohui Xu and Xi Ye ... > Abstract:Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. ... Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy.
+
+# Computer Science > Artificial Intelligence
+
+[Submitted on 12 Oct 2026]
+
+# Title:EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents
+
+Authors:Min Cai, Dan Zhang, Gao Xing, Libin Ma, Zhaohui Xu, Xi Ye
+
+View a PDF of the paper titled EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents, by Min Cai and Dan Zhang and Gao Xing and Libin Ma and Zhaohui Xu and Xi Ye
+
+View PDF HTML (experimental)
+
+> Abstract:Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. Simulated users can be stochastic or inconsistent, while environments may contain unreliable tools, incomplete state coverage, and incorrect verifiers. Prior work mainly addresses the resulting instability through reward shaping or denser supervision, while treating these components as fixed. We instead introduce EAU, a meta-agent framework for environment--agent--user co-evolution. During training, EAU monitors trajectories, tool traces, rewards, and training statistics; diagnoses failures and uninformative interactions; and proposes targeted modifications to the user simulator, environment, reward design, and RL configuration. Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy. These adaptations also persist across runs, so later training can build on previously discovered improvements rather than restarting from a fixed setup. We enable this process through an editable symbolic representation of user and environment dynamics, while the agent remains a neural LLM optimized with RL. Across three interactive-agent benchmarks and two backbone models, EAU consistently outperforms prior RL methods, improving the overall score over the strongest baseline by 14.7--15.0% and increasing successful task completion on ColBench by up to 36.7%, showing that co-evolving the training system with the policy can substantially improve multi-turn RL.
+
+Subjects:  | Artificial Intelligence (cs.AI); Computation and Language (cs.CL); Machine Learning (cs.LG)
+Cite as:  | arXiv:2610.16523 [cs.AI]
+   | (or arXiv:2610.16523v1 [cs.AI] for this version)
+   | https://doi.org/10.48550/arXiv.2610.16523 arXiv-issued DOI via DataCite (pending registration)
+
+## Submission history
+
+From: Min Cai [view email]
+[v1] Mon, 12 Oct 2026 10:11:38 UTC (1,774 KB)--------------------------------------------------------------------------------
+EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents | Arxiv - DeepPaper (https://jp.ibbac.eu.org/papers/2610.16523v1)
+citeturn170search1 [wordlim: 200] Published: 4 days ago; Crawled: yesterday; EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents ... Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy. ... EAU is a meta-agent framework that enables the co-evolution of environment, user simulator, and agent policy to improve multi-turn RL training stability and performance.
+
+  1.   2. Paper List
+  3. EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents
+
+# EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents
+
+PDF DeepRead
+
+### Key Contributions
+
+Introduces a meta-agent framework (EAU) that dynamically adapts environment, user simulator, and reward design during training, leading to significant performance gains in multi-turn agent tasks.
+
+### Abstract
+
+Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. Simulated users can be stochastic or inconsistent, while environments may contain unreliable tools, incomplete state coverage, and incorrect verifiers. Prior work mainly addresses the resulting instability through reward shaping or denser supervision, while treating these components as fixed. We instead introduce EAU, a meta-agent framework for environment--agent--user co-evolution. During training, EAU monitors trajectories, tool traces, rewards, and training statistics; diagnoses failures and uninformative interactions; and proposes targeted modifications to the user simulator, environment, reward design, and RL configuration. Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy. These adaptations also persist across runs, so later training can build on previously discovered improvements rather than restarting from a fixed setup. We enable this process through an editable symbolic representation of user and environment dynamics, while the agent remains a neural LLM optimized with RL. Across three interactive-agent benchmarks and two backbone models, EAU consistently outperforms prior RL methods, improving the overall score over the strongest baseline by 14.7--15.0% and increasing successful task completion on ColBench by up to 36.7%, showing that co-evolving the training system with the policy can substantially improve multi-turn RL.
+
+### Summary
+
+EAU is a meta-agent framework that enables the co-evolution of environment, user simulator, and agent policy to improve multi-turn RL training stability and performance.
+
+### Subjects
+
+cs.AI cs.CL cs.LG
+
+### arXiv
+
+Image: arXiv 2610.16523v1
+
+### Paper Type
+
+framework Method
+
+### Domain
+
+Reinforcement Learning LLM Agent
+
+Authors
+
+Min Cai, Dan Zhang, Gao Xing, Libin Ma, Zhaohui Xu, Xi Ye
+
+Submitted
+
+Oct 12, 2026--------------------------------------------------------------------------------
+EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents · Pith (https://pith.science/paper/2610.16523)
+citeturn170search2 [wordlim: 200] Published: 4 days ago; Crawled: yesterday; "EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents." arXiv:2610.16523 (2026). https://pith.science/paper/EBSLUJDR ... [§5.2 and §5.3, Table 1] The meta-agent is instantiated with Claude Opus-5, a proprietary frontier model that is not available to the research community for independent verification or reproduction. ... 10 Preprint:EAU, A Meta-Agent forEnvironment-Agent-User Co-evolution AI USESTATEMENT Generative AI is a functional component of the proposed method and experimental pipeline.” ... The paper shows that co-evolving the user simulator, environment, and training configuration alongside the policy, mediated by a meta-agent, leads to substantial performance gains in multi-turn RL for user-centric agents. ... Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy.
+### The paper claims
+
+Co-evolving the training system with the policy substantially improves multi-turn RL for user-centric agents.
+
+### The reading
+
+Training large language model agents to interact with users over multiple turns is hard because the learning signal depends on the user simulator and environment, which are usually fixed and can be noisy, inconsistent, or uninformative. The paper argues that instead of only improving the policy's reward signal, one should also adapt the simulator, environment, and training configuration during training. It introduces EAU, a meta-agent framework that monitors ongoing RL training, diagnoses failures, and proposes targeted modifications to these components, which are then hot-swapped into the live run. Across three benchmarks and two backbone models, EAU consistently outperforms prior RL methods, improving overall scores by 14.7–15.0% and increasing successful task completion on ColBench by up to 36.7%.
+
+### What carries the argument
+
+EAU (Environment-Agent-User Co-Evolution) — a meta-agent framework where a frontier coding agent acts as a meta-controller that continuously monitors RL training, diagnoses issues in the user simulator, environment, and training dynamics, and proposes programmatic modifications via editable symbolic interfaces. The symbolic user simulator provides deterministic control over information disclosure, mixed with an LLM simulator via an epsilon-greedy strategy. Interventions occur both intra-run (hot-swapped without restart) and inter-run (carried across training runs).
+
+Extended reading notes
+
+### Core claim
+
+The paper shows that co-evolving the user simulator, environment, and training configuration alongside the policy, mediated by a meta-agent, leads to substantial performance gains in multi-turn RL for user-centric agents. The meta-agent observes training trajectories, tool traces, rewards, and statistics; proposes modifications to the user simulator (including a symbolic user with tunable rules), reward design, episode limits, and RL hyperparameters; and validates and hot-swaps these changes into the ongoing training loop. This enables the training system itself to adapt as the policy improves, overcoming instabilities from fixed simulators and environments.
+
+### Load-bearing premise
+
+The meta-agent (a frontier coding model) can reliably diagnose training problems from logs and propose beneficial modifications, even though the integrity gates only constrain writes and do not guarantee improvement.
+
+Editorial extensions
+
+### If this is right
+
+  * If EAU is sound, the standard practice of fixing the simulator and environment during interactive-agent RL training should be replaced by adaptive co-evolution.
+  * Meta-agent-guided adaptation could reduce the manual effort of debugging simulators, reward functions, and hyperparameters for multi-turn agent tasks.
+  * The observed gains (up to 36.7% on ColBench) suggest that training-system adaptation may be as important as policy optimization in achieving high performance.
+  * The method is compatible with multiple RL algorithms (PPO, UserRL, InfoPO) and meta-agent backbones (Claude Opus, Codex), indicating broad applicability.
+  * Performance improvements transfer to held-out environments (e.g., Inten. in UserGym), suggesting that co-evolution fosters generalizable agent behaviors.
+
+Simulated users can be stochastic or inconsistent, while environments may contain unreliable tools, incomplete state coverage, and incorrect verifiers. Prior work mainly addresses the resulting instability through reward shaping or denser supervision, while treating these components as fixed. We instead introduce EAU, a meta-agent framework for environment--agent--user co-evolution. During training, EAU monitors trajectories, tool traces, rewards, and training statistics; diagnoses failures and uninformative interactions; and proposes targeted modifications to the user simulator, environment, reward design, and RL configuration. Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy. These adaptations also persist across runs, so later training can build on previously discovered improvements rather than restarting from a fixed setup. We enable this process through an editable symbolic representation of user and environment dynamics, while the agent remains a neural LLM optimized with RL. Thus, we have Ttool : (stool, atool) 7→ (s ′ tool, ztool) and Tuser : (suser,… Image: Figure 4 Figure 4. Illustration of symbolic user simulator. Image: Figure 5 Figure 5. Illustration of environment evolution by Image: Figure 7 Figure 7. Run-level progression on UserGym with Qwen3-4B. The two conditions share ex￾perience from the first four runs; in run 5, one uses inter-run adaptation only, while the other additionally permits intra-run intervention. 6 CONCLUSION We introduced EAU, a meta-agent framework that jointly evolves the environment, agent, and user during training. We show that a frontier coding agent can effectively manage and adapt these com￾ponents based solely on training feedback, including trajectories and optimization logs. To provide finer control over user behavior, we introduce a symbolic user… Image: Figure 8 Figure 8. Experience flow from UserGym, Qwen3-4B to ColBench, Qwen2.5-7B. For RL training, we consider RAGEN (Wang et al., 2025b), a general multi-turn agent RL frame￾work; Search-R1 (Jin et al., 2025), which trains agents through reinforcement learning over multi￾step search trajectories; UserRL (Qian et al., 2025b), which targets interactive user-centric agents; and InfoPO (Kong et al., 2026), which introduces information-driven optimization for user-agent interaction. We additionally include vanilla PPO as a standard RL baseline to isolate the gains from our co-evolution framework. For…
+
+--------------------------------------------------------------------------------
+EAU: Environment-Agent-User Co-evolution for Trai… - arXiv (https://arxiv-troller.com/paper/3340860/)
+citeturn170search3 [wordlim: 200] Published: 4 days ago; Crawled: yesterday; # EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents ... Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. ... Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy.
+
+← Back to Search
+
+# EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents
+
+Authors: Min Cai, Dan Zhang, Gao Xing, Libin Ma, Zhaohui Xu, Xi Ye
+
+arXiv ID
+
+2610.16523
+
+Submitted
+
+October 12, 2026
+
+Last Updated
+
+October 14, 2026
+
+Categories
+
+cs.AI cs.CL cs.LG
+
+### Abstract
+
+Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. Simulated users can be stochastic or inconsistent, while environments may contain unreliable tools, incomplete state coverage, and incorrect verifiers. Prior work mainly addresses the resulting instability through reward shaping or denser supervision, while treating these components as fixed. We instead introduce EAU, a meta-agent framework for environment--agent--user co-evolution. During training, EAU monitors trajectories, tool traces, rewards, and training statistics; diagnoses failures and uninformative interactions; and proposes targeted modifications to the user simulator, environment, reward design, and RL configuration. Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy. These adaptations also persist across runs, so later training can build on previously discovered improvements rather than restarting from a fixed setup. We enable this process through an editable symbolic representation of user and environment dynamics, while the agent remains a neural LLM optimized with RL. Across three interactive-agent benchmarks and two backbone models, EAU consistently outperforms prior RL methods, improving the overall score over the strongest baseline by 14.7--15.0% and increasing successful task completion on ColBench by up to 36.7%, showing that co-evolving the training system with the policy can substantially improve multi-turn RL.--------------------------------------------------------------------------------
+SCOPE: Self-Play with Co-Evolving User Simulator | Simon Yu (https://simonucl.github.io/blog/2026/scope/)
+citeturn170search4 [wordlim: 200] Published: 4 months ago; Crawled: 2 weeks ago; # SCOPE: Self-Play with Co-Evolving User Simulator ... ## Let the training partner evolve ... The agent and user simulator both learn from their conversations, while a pool of saved simulator checkpoints supplies different training partners. ... It reports held-out gains of up to 9% with Verbalized Sampling and 14% with Co-Training over single-simulator RL, along with improvements in a human study.
+# SCOPE: Self-Play with Co-Evolving User Simulator
+
+Created in May 26, 2026 by Simon Yu
+
+Paper · Code
+
+An agent can get better at talking to its training partner while getting worse at talking to everyone else. That is the problem we study in One Frozen Simulator Is Not Enough: Simulator Collapse in Multi-Agent RL, accepted at EMNLP 2026.
+
+## When the simulator becomes the shortcut
+
+Multi-turn reinforcement learning often uses another language model to play the user. A frozen simulator tends to repeat a narrow set of behaviors. The agent learns to exploit those habits: training reward rises, but performance against unfamiliar simulators falls. Its responses also become less diverse.
+
+We call this simulator collapse. Better performance against one training partner does not necessarily mean better interaction with real users.
+
+## Let the training partner evolve
+
+SCOPE addresses this through population co-training. The agent and user simulator both learn from their conversations, while a pool of saved simulator checkpoints supplies different training partners. --------------------------------------------------------------------------------
+EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents | The Latest in AI (https://thelatestinai.com/papers/2610.16523)
+citeturn170search5 [wordlim: 200] Published: 4 days ago; Crawled: yesterday; cs.AI·2610.16523 Copy arXiv ID·Oct 12, 2026 ... # EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents ... Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. ... We instead introduce EAU, a meta-agent framework for environment--agent--user co-evolution. ... Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy.
+
+cs.AI·2610.16523 Copy arXiv ID·Oct 12, 2026
+
+Save
+
+# EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents
+
+Authors: Min Cai, Dan Zhang, Gao Xing, Libin Ma, Zhaohui Xu, Xi Ye
+
+Organizations: University of Alberta · National University of Singapore · Kuaishou Technology · Independent Researcher · Alberta Machine Intelligence Institute (Amii)
+
+## Abstract
+
+Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. Simulated users can be stochastic or inconsistent, while environments may contain unreliable tools, incomplete state coverage, and incorrect verifiers. Prior work mainly addresses the resulting instability through reward shaping or denser supervision, while treating these components as fixed. We instead introduce EAU, a meta-agent framework for environment--agent--user co-evolution. During training, EAU monitors trajectories, tool traces, rewards, and training statistics; diagnoses failures and uninformative interactions; and proposes targeted modifications to the user simulator, environment, reward design, and RL configuration. --------------------------------------------------------------------------------
+EAU: Environment-Agent-User Co-evolution for Training... (https://arxivlens.com/paperview/details/eau-environment-agent-user-co-evolution-for-training-user-centric-agents-1688-5bf90cde)
+citeturn170search6 [wordlim: 200] Published: 4 days ago; Crawled: yesterday; Back ArXiv cs.AI EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents ... Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. ... Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy.
+
+Back ArXiv cs.AI EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents
+
+ArXiv cs.AI cs.CL cs.LG
+
+# EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents
+
+Min Cai, Dan Zhang, Gao Xing, Libin Ma, Zhaohui Xu, Xi Ye
+
+2610.16523 Published Oct 12, 2026
+
+Chat with paper Cite 中文 View PDF Share
+
+### Publication
+
+Published: Oct 12, 2026
+
+Categories: cs.AI, cs.CL, cs.LG
+
+### Metrics
+
+Source: ArXiv
+
+### Paper Preview
+
+### Abstract
+
+Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. Simulated users can be stochastic or inconsistent, while environments may contain unreliable tools, incomplete state coverage, and incorrect verifiers. Prior work mainly addresses the resulting instability through reward shaping or denser supervision, while treating these components as fixed. --------------------------------------------------------------------------------
+arXiv Troller (https://arxiv-troller.com/?q=paper%3A+2610.11655)
+citeturn170search7 [wordlim: 200] Crawled: today; EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents ... Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. ... Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy.
+--------------------------------------------------------------------------------
+arXiv Troller (https://arxiv-troller.com/?q=paper%3A+2603.01940)
+citeturn170search8 [wordlim: 200] Crawled: today; EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents ... Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. ... Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy.
+--------------------------------------------------------------------------------
+EAU: ユーザー中心エージェント訓練のための環境・エージェント・ユーザーの共進化 - AIDB (https://ai-data-base.com/paper/2610-16523)
+citeturn170search9 [wordlim: 200] Published: 4 days ago; Crawled: 2 days ago; 原題: EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents ... ※ 日本語タイトル・ポイント・Abstractの日本語訳はAIによる自動生成です。 ... Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. ... Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy.
+--------------------------------------------------------------------------------
+arXiv Troller (https://arxiv-troller.com/?q=paper%3A+2609.37267)
+citeturn170search10 [wordlim: 200] Crawled: today; EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents ... Training LLM agents to interact with users over multiple turns is challenging because the learning signal depends not only on the agent, but also on the user simulator and environment, which jointly shape the agent's experience. ... Validated changes are hot-swapped into the ongoing run, allowing the training setup to evolve together with the policy. ... Authors: Hang Zheng, Nan Jiang, Zichen Zhu, Zixu Yang, Zhiyang Tang, Shuai Fan, Lu Chen, Xiaobao Wu, Kai Yu
+--------------------------------------------------------------------------------
+EAU：用于训练以用户为中心的智能体的环境-智能体-用户协同进化框架 | Arxiv - DeepPaper (https://arxiv.deeppaper.ai/papers/2610.16523v1)
+citeturn170search11 [wordlim: 200] Published: 4 days ago; Crawled: 2 days ago; ## EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents ... cs.AI cs.CL cs.LG
+--------------------------------------------------------------------------------
+GenEnv: Difficulty-Aligned Co-Evolution Between LLM Agents and Environment Simulators (https://arxiv.org/abs/2512.19682)
+citeturn170academia13 [wordlim: 200] Published: 9 months ago; Title: GenEnv: Difficulty-Aligned Co-Evolution Between LLM Agents and Environment Simulators ... We address this by introducing GenEnv, a framework that establishes a difficulty-aligned co-evolutionary game between an agent and a scalable, generative environment simulator.Unlike traditional methods that evolve models on static datasets, GenEnv instantiates a dataevolving: the simulator acts as a dynamic curriculum policy, continuously generating tasks specifically tailored to the agent's ``zone of proximal development''.
+--------------------------------------------------------------------------------
+World Model-Guided Reinforcement Learning via Counterfactual User Engagement Simulation (https://arxiv.org/abs/2609.01067)
+citeturn170academia14 [wordlim: 200] Published: last month; Reinforcement learning for user-centric agents is limited by the cost, latency, and risk of collecting online feedback, as well as by the lack of counterfactual comparisons under the same user state. ... Motivated by language world models, we instantiate the simulator as a User Engagement World Model (UEWM), which treats a recommended item as the agent action and the user's heterogeneous feedback as the environment observation.
+--------------------------------------------------------------------------------
+Evolving Agents: Interactive Simulation of Dynamic and Diverse Human Personalities (https://arxiv.org/abs/2404.02718)
+citeturn170academia15 [wordlim: 200] Published: 2.5 years ago; Human-like Agents with diverse and dynamic personalities could serve as an essential design probe in the process of user-centered design, thereby enabling designers to enhance the user experience of interactive applications. ... We also build a simulation platform that enables agents to interact with the environment and other agents. ... Through ablation and control experiments, we demonstrated the effectiveness of agent personality evolution, and all of our agent architecture modules contribute to creating believable human-like agents with diverse and dynamic personalities.
+--------------------------------------------------------------------------------
+A Systematic Survey of Self-Evolving Agents: From Model-Centric (https://d197for5662m48.cloudfront.net/documents/publicationstatus/309709/preprint_pdf/d87671b0e1950a508eb50b56fb3098af.pdf)
+citeturn170search16 [wordlim: 200] Published: 7 months ago; Model-Centric to Environment-Driven Co-Evolution ... (iii) Model-Environment Co-Evolution, where agents and theirenvironments jointly evolve through sustained interaction. ... All related resources, including research papers, open-sourcedata, and projects, are collected for the community in https: ... on periodic, human-curated updates, a self-evolving agent
+--------------------------------------------------------------------------------
+Training Proactive and Personalized LLM Agents (https://www.elephantasm.com/downloads/Training%20Proactive%20and%20Personalized%20LLM%20Agents%20%282511.02208v1%29.pdf)
+citeturn170search17 [wordlim: 200] Crawled: 5 months ago;     - AI: “Let me fix the error. ... For example, SWEER-RL (Zhou et al., 2025c) trains a multi-turn LLM to collaborate with a human simulator on code generation; CollabLLM (Wu et al., 2025) introduces intrinsic rewards to enhance interaction efficiency and engagement; and UserRL (Qian et al., 2025b) develops multiple gym environments to study various reward shaping techniques. ... To study agents that interact with users exhibiting diverse personas, we design UserVille, an interactive environment that simulates users with different preferences and provides feedback on interaction quality. ... (iii) **User-Centric Evaluation:** After task completion, the user simulator produces user-centric feedback metrics, including evaluations of proactivity and personalization, to quantify the quality of the agent–user interaction.
+--------------------------------------------------------------------------------
+Faithful Simulation of User–Agent–Environment Interactions for Scalable LLM Agent Evaluation (https://openreview.net/pdf/dab39dfe908c876a52c542e30e4464376edcc482.pdf)
+citeturn170search18 [wordlim: 200] Published: last year; Faithful Simulation of User–Agent–Environment Interactions for Scalable LLM Agent Evaluation ... This paper presents a fully automated framework for simulating *User–Agent–Environment* interactions, providing scalable and faithful interaction data for agent evaluation. ... We apply this framework to evaluate state-of-the-art open- and closed-source agents. ... Large language models (LLMs)[Brown et al., 2020, OpenAI, 2025, Liu and et al., 2025] have demonstrated impressive capabilities across various tasks [Bubeck et al., 2023].
+--------------------------------------------------------------------------------
+Framsticks (https://en.wikipedia.org/wiki/Framsticks)
+citeturn170search19 [wordlim: 200] Crawled: 1.1 years ago; Software for simulation of artificial life ... Operating System: Microsoft Windows, Linux, macOS, iOS, Android ... Framsticks is a 3D freeware Artificial Life simulator.Organisms consisting of physical structures ("bodies") and control structures ("brains") evolve over time against a user's predefined fitness landscape (for instance, evolving for speed), or spontaneously coevolve in a complex environment.Evolution of organisms occurs primarily through artificial selection, where an intelligent selector chooses the selection parameters and mutation rates.
+--------------------------------------------------------------------------------
+Computational (https://aaltodoc.aalto.fi/bitstreams/f418b074-5dfd-46ab-b8a2-b2a6b1af750c/download)
+citeturn170search20 [wordlim: 200] Published: 6 months ago; My future work will focus on developing anticipatory agents that integrate ... and the environment. ... that learn and evolve with users over time, developing longitudinal mod- ... adapt accordingly will redefine the user-agent relationship. ... Designing for Intent and Co-Evolution
+--------------------------------------------------------------------------------
+Pedagogical agent (https://en.wikipedia.org/wiki/Pedagogical_agent)
+citeturn170search21 [wordlim: 200] Crawled: 11 months ago; A pedagogical agent is a concept borrowed from computer science and artificial intelligence and applied to education, usually as part of an intelligent tutoring system (ITS). ... Mabanza and de Wet define it as "a character enacted by a computer that interacts with the user in a socially engaging manner".A pedagogical agent can be assigned different roles in the learning environment, such as tutor or co-learner, depending on the desired purpose of the agent.
+--------------------------------------------------------------------------------
+NECA Project (https://en.wikipedia.org/wiki/NECA_Project)
+citeturn170search22 [wordlim: 200] Crawled: 3.3 years ago; The NECA Project (Net Environment for Embodied Emotional Conversational Agents) was a research project that focused on multimodal communication with animated agents in a virtual world. ... Lifelike Agents for the Internet in "Agent culture: human-agent interaction in a multicultural world" edited by Sabine Payr, Robert Trappl 2004 pages 197-228 ... - Brigitte Krenn and Barbara Neumayr Incorporating animated conversation into a web-based Community Building Tool in "Intelligent virtual agents: 4th International Workshop, IVA 2003", edited by Thomas Rist pages 18-22 ... The Socialite user could select a set of avatars to interact with and after learning about the user's personal preferences, the avatars helped the user navigate a virtual world and get in touch with other agents and users.
+--------------------------------------------------------------------------------
+Pythagoras ABM (https://en.wikipedia.org/wiki/Pythagoras_ABM)
+citeturn170search23 [wordlim: 200] Crawled: 10 months ago; One agent can change another agent's affiliation using influence techniques, such as propaganda, through one-time actions that happen to the agent, or affiliation changes may simply evolve across multiple actions. ... User Created MOE s: Users can now write their own measures of effectiveness capturing software and add them to the library.Pythagoras will automatically detect the addition of the measure and create the interfaces between the agents and the recording software, allowing the user to capture the information as often as needed. ... Pythagoras runs on a PC or any other platform that supports Java 1.5 and JAXB 2.0. ... Its heritage traces back to Project Albert, an international project dedicated to research in the human aspects of warfare, such as intangibles, co-evolving goals and non-linear relationships.
+--------------------------------------------------------------------------------
+Wearable augmented task-list interchange device (https://en.wikipedia.org/wiki/Wearable_augmented_task-list_interchange_device)
+citeturn170search24 [wordlim: 200] Crawled: 6 months ago; Wearable Augmented task-List Interchange Device (W.A.L.I.D) system was designed by computing researchers of the wearable computing group at the University of Oregon as a simulator to test wearable communities projects. ... The WALID system utilizes personal agent software to find nearby community members to negotiate the exchange of tasks.Agents are made aware of the activities of the tasks and their locations via a user's task list. ... Ideas from game theory are employed to ensure that results negotiations are mutually beneficial; cooperation is conducted only if there is opportunity to enhance the user's objective.
+--------------------------------------------------------------------------------
+Adaptation (computer science) (https://en.wikipedia.org/wiki/Adaptation_%28computer_science%29)
+citeturn170search25 [wordlim: 200] Crawled: 2.1 years ago; Adaptation in computer science is a process where an interactive system (adaptive system) adapts its behaviour to individual users based on information acquired about its user(s) and its environment. ... A software system passes through a potentially long software engineering cycle and before delivery, requirement engineers, designers and software developers realize the components of the system. ... The operational environment will change, the tasks will be distinct, the end-users will be heterogeneous, and their competences and expectations will evolve. ... Intra-individual differences consider the evolution and further development of a single user, as well as the task over time.

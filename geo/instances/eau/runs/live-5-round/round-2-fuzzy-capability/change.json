@@ -1,0 +1,18 @@
+{
+  "change_id": "r2-capability-landing-page",
+  "objective": "Give fuzzy capability queries a focused crawlable page and snippet that connects EAU to its editable training components.",
+  "files": [
+    "method.html",
+    "index.html",
+    "llms.txt",
+    "sitemap.xml"
+  ],
+  "signals_targeted": [
+    "site",
+    "snippet",
+    "schema",
+    "llms"
+  ],
+  "query_tier": "fuzzy",
+  "outer_loop_hypothesis": "Increase fuzzy-query mention, attribution, and project citation without reducing exact-query performance."
+}

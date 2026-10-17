@@ -1,0 +1,37 @@
+diff --git a/index.html b/index.html
+index 07522dd..db8e5f3 100644
+--- a/index.html
++++ b/index.html
+@@ -56,7 +56,7 @@
+   <header class="site-header">
+     <a class="wordmark" href="#" aria-label="EAU home">eau<span class="wordmark-dot">.</span></a>
+     <nav aria-label="Main navigation">
+-      <a href="#overview">The idea</a><a href="#framework">Framework</a><a href="#results">Results</a><a href="method.html">Method summary</a>
++      <a href="#overview">The idea</a><a href="#framework">Framework</a><a href="#results">Results</a><a href="method.html">Method summary</a><a href="research-context.html">Research context</a>
+     </nav>
+     <a class="header-link" href="#resources">Research materials <span aria-hidden="true">↗</span></a>
+   </header>
+diff --git a/llms.txt b/llms.txt
+index 57507e4..8f945b9 100644
+--- a/llms.txt
++++ b/llms.txt
+@@ -22,3 +22,7 @@ EAU is a meta-agent framework for training user-centric LLM agents. It jointly a
+ ## Evaluation
+ 
+ EAU is evaluated on UserGym, ColBench, and tau2-bench with Qwen3-4B and Qwen2.5-7B-Instruct policy backbones. The reported Qwen3-4B results include 0.623 on UserGym, 0.600 ColBench task success, and 0.627 overall.
++
++## Research context
++
++EAU contributes to agent-environment-user co-evolution for LLM agents. It targets multi-turn reinforcement learning with simulated users and tools, and treats the adaptive training system as editable rather than fixed. The environment, agent training process, and user simulator are jointly revised from training feedback. See https://eau-meta-agent.github.io/research-context.html for scope and comparisons.
+diff --git a/sitemap.xml b/sitemap.xml
+index b0727fd..8bb27c2 100644
+--- a/sitemap.xml
++++ b/sitemap.xml
+@@ -9,4 +9,7 @@
+   <url>
+     <loc>https://eau-meta-agent.github.io/method.html</loc>
+   </url>
++  <url>
++    <loc>https://eau-meta-agent.github.io/research-context.html</loc>
++  </url>
+ </urlset>

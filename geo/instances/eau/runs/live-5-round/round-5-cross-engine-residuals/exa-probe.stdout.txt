@@ -1,0 +1,31 @@
+exa-search	found	EAU Environment Agent User co-evolution
+exa-search	found	EAU meta-agent framework
+exa-search	found	EAU user-centric agents
+exa-search	not found	EAU Qwen3-4B Qwen2.5-7B
+exa-search	found	EAU UserGym ColBench tau2-bench
+exa-search	not found	EAU ColBench 0.600 InfoPO
+exa-search	found	EAU environment feedback reward design
+exa-search	found	EAU arXiv 2610.16523
+exa-search	found	EAU reward design reinforcement learning
+exa-search	found	EAU reinforcement learning configuration meta-agent
+exa-search	found	EAU within-run across-run adaptation
+exa-search	found	EAU hybrid user simulator symbolic rules LLM responses
+exa-search	found	LLM agent editable adaptive training system meta-agent
+exa-search	found	最近有什么 agent-environment co-evolution 的工作？
+exa-search	found	What are recent papers on agent-environment co-evolution for LLM agents?
+exa-search	found	Which recent methods co-evolve the training environment and agent policy, and how do they differ?
+exa-search	found	What work jointly adapts the environment, agent, and simulated user during multi-turn RL training?
+exa-search	found	multi-turn reinforcement learning user simulator environment adaptation
+exa-search	found	EAU meta-agent user-centric agents
+exa-search	found	EAU UserGym ColBench
+exa-search	found	EAU project website environment agent user co-evolution
+exa-search	found	framework jointly adapts simulated user environment rewards RL configuration
+exa-search	found	user-centric agents co-evolve environment and user simulator
+exa-search	found	meta-agent modifies training environment during multi-turn reinforcement learning
+exa-search	found	adaptive user simulator reward design LLM agents
+exa-search	found	within-run and across-run adaptation agent training
+exa-search	found	recent agent environment co-evolution papers
+exa-search	found	LLM agent training environment evolves with policy
+exa-search	not found	multi-turn reinforcement learning user simulation benchmarks
+exa-search	not found	editable training systems for tool-using agents
+exa-search	not found	methods improving user-centric agents with simulated users

@@ -85,6 +85,13 @@ CLI_COMMANDS = {
     "arm-ready",
     "compare",
     "finalize",
+    "geo-graph",
+    "geo-score",
+    "geo-apply",
+    "geo-compare",
+    "geo-prioritize",
+    "geo-explore",
+    "geo-decide",
 }
 
 IGNORED_DIRS = {
@@ -108,6 +115,9 @@ IGNORED_DIRS = {
 }
 
 SOURCE_EXTENSIONS = {
+    ".html": "html",
+    ".css": "css",
+    ".svg": "svg",
     ".c": "c",
     ".cc": "cpp",
     ".cpp": "cpp",
@@ -253,6 +263,33 @@ def build_parser() -> argparse.ArgumentParser:
     )
     add_interactive_arg(scan)
     scan.set_defaults(func=command_scan)
+
+    for name, help_text in (
+        ("geo-graph", "Build a site/component/search-outcome dependency graph."),
+        ("geo-score", "Measure local GEO readiness, never search exposure."),
+        ("geo-apply", "Preview or apply graph-addressed website edits in a worktree."),
+        ("geo-compare", "Compare paired platform observations with global regression guards."),
+        ("geo-prioritize", "Order next link tests from observed returned source URLs only."),
+        ("geo-explore", "Build an evidence-linked GEO experiment tree and HTML explorer."),
+        ("geo-decide", "Build a conditional GEO next-action decision tree from real evidence."),
+    ):
+        geo_parser = subparsers.add_parser(name, help=help_text)
+        add_repo_arg(geo_parser)
+        geo_parser.add_argument("--config", default="geo/config.json")
+        if name == "geo-apply":
+            geo_parser.add_argument("--operations", required=True)
+            geo_parser.add_argument("--apply", action="store_true")
+        if name == "geo-compare":
+            geo_parser.add_argument("--observations", default="geo/observations.csv")
+            geo_parser.add_argument("--candidate")
+        if name in {"geo-prioritize", "geo-explore", "geo-decide"}:
+            geo_parser.add_argument("--search-evidence", required=True)
+        if name == "geo-explore":
+            geo_parser.add_argument("--observations", help="Optional paired before/after CSV.")
+            geo_parser.add_argument("--html-out", help="Write an interactive standalone HTML tree.")
+        if name == "geo-decide":
+            geo_parser.add_argument("--svg-out", help="Write a standalone SVG decision tree.")
+        geo_parser.set_defaults(func=command_geo)
 
     wrap = subparsers.add_parser(
         "wrap",
@@ -982,6 +1019,58 @@ def render_dependency_tree(parts: list[dict[str, Any]], max_depth: int = 3) -> s
     return "\n".join(lines) if lines else "(no dependency edges found)"
 
 
+def command_geo(args: argparse.Namespace) -> int:
+    from autoresearch_wrapper import geo
+
+    repo_root = detect_repo_root(Path(args.repo))
+    config = geo.read_config((repo_root / args.config).resolve())
+    if args.command == "geo-graph":
+        result = geo.build_graph(repo_root, config)
+    elif args.command == "geo-score":
+        result = geo.readiness(repo_root, config)
+        print(f"METRIC={result['score']}")
+    elif args.command == "geo-compare":
+        rows = geo.load_observations((repo_root / args.observations).resolve())
+        result = geo.compare_platforms(config, rows, candidate=args.candidate)
+    elif args.command == "geo-prioritize":
+        evidence = geo.load_search_evidence((repo_root / args.search_evidence).resolve())
+        result = geo.prioritize(config, evidence)
+    elif args.command == "geo-explore":
+        evidence = geo.load_search_evidence((repo_root / args.search_evidence).resolve())
+        rows = geo.load_observations((repo_root / args.observations).resolve()) if args.observations else None
+        result = geo.explore(repo_root, config, evidence, rows)
+        if args.html_out:
+            destination = (repo_root / args.html_out).resolve()
+            if not destination.is_relative_to(repo_root):
+                raise SystemExit("--html-out must be inside the repo")
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(geo.render_explorer_html(result), encoding="utf-8")
+    elif args.command == "geo-decide":
+        evidence = geo.load_search_evidence((repo_root / args.search_evidence).resolve())
+        result = geo.decide(config, evidence)
+        if args.svg_out:
+            destination = (repo_root / args.svg_out).resolve()
+            if not destination.is_relative_to(repo_root):
+                raise SystemExit("--svg-out must be inside the repo")
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(geo.render_decision_svg(result), encoding="utf-8")
+    elif args.command == "geo-apply":
+        manifest = json.loads(Path(args.operations).read_text(encoding="utf-8"))
+        if args.apply:
+            git_dir = subprocess.run(
+                ["git", "rev-parse", "--git-dir"], cwd=repo_root,
+                capture_output=True, text=True, check=True,
+            ).stdout.strip().replace("\\", "/")
+            if "/worktrees/" not in git_dir:
+                raise SystemExit("geo-apply --apply requires a Git worktree candidate")
+        result = geo.apply_operations(repo_root, config, manifest["operations"],
+                                      write=args.apply)
+    else:
+        raise SystemExit(f"unknown GEO command: {args.command}")
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0
+
+
 def command_scan(args: argparse.Namespace) -> int:
     repo_root = detect_repo_root(Path(args.repo))
     state = refresh_repo_state(repo_root)
@@ -1228,6 +1317,8 @@ def command_configure(args: argparse.Namespace) -> int:
     repo_root = detect_repo_root(Path(args.repo))
     state = ensure_scanned(repo_root)
     part = resolve_part(state, args.part)
+    if part is None and args.part:
+        part = register_explicit_part(repo_root, state, args.part)
     if part is None:
         raise SystemExit("unable to resolve part; run scan first or pass --part")
 
@@ -1364,6 +1455,7 @@ def start_or_resume_run(
 
     run = find_active_run(state, part["id"])
     if run is None:
+        warn_if_checkout_dirty(repo_root)
         run = create_run(repo_root, state, part, config)
     else:
         run["status"] = "running"
@@ -1661,6 +1753,11 @@ def refresh_repo_state(repo_root: Path) -> dict[str, Any]:
     state["repo_root"] = str(repo_root)
     state["git"] = git_metadata(repo_root)
     parts, dependency_graph = discover_parts(repo_root)
+    # Keep explicitly configured targets (e.g. non-code files) across rescans.
+    discovered = {part["id"] for part in parts}
+    for relative in state.get("explicit_parts", []):
+        if relative not in discovered and (repo_root / relative).is_file():
+            parts.append(explicit_part_record(relative))
     state["parts"] = parts
     state["dependency_graph"] = dependency_graph
     refresh_part_readiness(state)
@@ -1714,9 +1811,31 @@ def migrate_state(state: dict[str, Any], repo_root: Path) -> dict[str, Any]:
 def write_state(repo_root: Path, state: dict[str, Any]) -> None:
     target_dir = state_dir(repo_root)
     target_dir.mkdir(parents=True, exist_ok=True)
+    if not state.get("state_dir_excluded"):
+        state["state_dir_excluded"] = exclude_state_dir_from_git(repo_root)
     state["updated_at"] = now_iso()
     atomic_write_text(state_file(repo_root), json.dumps(state, indent=2, sort_keys=True) + "\n")
     atomic_write_text(status_file(repo_root), status_markdown(state))
+
+
+def exclude_state_dir_from_git(repo_root: Path) -> bool:
+    """Keep the state dir out of `git status` via .git/info/exclude (local, never committed)."""
+    completed = git_run(repo_root, ["rev-parse", "--git-path", "info/exclude"])
+    if completed.returncode != 0:
+        return False  # not a git repo (yet); try again on a later write
+    exclude = Path(completed.stdout.strip())
+    if not exclude.is_absolute():
+        exclude = repo_root / exclude
+    entry = f"/{STATE_DIRNAME}/"
+    try:
+        existing = exclude.read_text() if exclude.exists() else ""
+        if entry not in existing.splitlines():
+            exclude.parent.mkdir(parents=True, exist_ok=True)
+            prefix = "" if not existing or existing.endswith("\n") else "\n"
+            exclude.write_text(f"{existing}{prefix}{entry}\n")
+    except OSError:
+        return False
+    return True
 
 
 def atomic_write_text(path: Path, text: str) -> None:
@@ -2026,7 +2145,19 @@ def extract_dependencies(
     unresolved: list[dict[str, Any]] = []
     kind = f"{language}-dependency"
 
-    if language == "python":
+    if language in {"html", "css", "svg", "robots", "sitemap", "markdown"}:
+        for target in re.findall(r'''(?:href|src)\s*=\s*["']([^"']+)["']|url\(\s*["']?([^)'"\s]+)''', text, re.I):
+            reference = next((value for value in target if value), "")
+            if not reference or reference.startswith(("#", "http:", "https:", "data:")):
+                continue
+            reference = reference.split("?", 1)[0].split("#", 1)[0]
+            candidate = (repo_root / relative_path).parent.joinpath(reference.lstrip("/")).resolve()
+            if candidate.is_relative_to(repo_root) and candidate.is_file():
+                resolved = candidate.relative_to(repo_root).as_posix()
+                if resolved in index["paths"]:
+                    dependencies.add(resolved)
+        kind = "site-reference"
+    elif language == "python":
         dependencies, unresolved = extract_python_dependencies(relative_path, text, index)
         kind = "python-import"
     elif language in {"javascript", "typescript"}:
@@ -2501,6 +2632,40 @@ def merge_part_notes(base_notes: str, dependency_summary: dict[str, Any]) -> str
     return f"{base_notes}; {summary_note}"
 
 
+def explicit_part_record(relative: str) -> dict[str, Any]:
+    """A part the user named directly: any repo file, including non-code (.md, .yml, .html)."""
+    part = {
+        "id": relative,
+        "path": relative,
+        "language": infer_file_language(Path(relative)) or "other",
+        "status": "probably optimizable",
+        "explicit": True,
+        "suggested_metric": {"name": "unknown", "goal": None},
+        "candidate_clarity": False,
+        "signals": [],
+        "dependencies": [],
+        "dependents": [],
+        "unresolved_dependencies": [],
+        "dependency_clarity": "clear",
+        "key_neighbors": [],
+        "notes": "explicit target (not discovered by scan); no dependency graph",
+    }
+    part["dependency_summary"] = build_dependency_summary(part)
+    return part
+
+
+def register_explicit_part(repo_root: Path, state: dict[str, Any], raw_path: str) -> dict[str, Any] | None:
+    relative = normalize_repo_relative_path(repo_root, raw_path)
+    if not (repo_root / relative).is_file():
+        return None
+    explicit = state.setdefault("explicit_parts", [])
+    if relative not in explicit:
+        explicit.append(relative)
+    part = explicit_part_record(relative)
+    state.setdefault("parts", []).append(part)
+    return part
+
+
 def dependency_run_blockers(part: dict[str, Any]) -> list[str]:
     blockers = []
     for unresolved in part.get("unresolved_dependencies", []):
@@ -2641,6 +2806,12 @@ def iter_source_files(repo_root: Path):
 
 
 def infer_file_language(path: Path) -> str | None:
+    if path.name.lower() == "readme.md":
+        return "markdown"
+    if path.name == "robots.txt":
+        return "robots"
+    if path.name == "sitemap.xml":
+        return "sitemap"
     suffix_language = SOURCE_EXTENSIONS.get(path.suffix.lower())
     if suffix_language:
         return suffix_language
@@ -3302,7 +3473,7 @@ def resolve_run(state: dict[str, Any], run_id: str | None) -> dict[str, Any]:
 def create_run(
     repo_root: Path, state: dict[str, Any], part: dict[str, Any], config: dict[str, Any]
 ) -> dict[str, Any]:
-    run_id = build_run_id(part["id"])
+    run_id = build_run_id(part["id"], state, repo_root)
     worktree_root = default_worktree_root(repo_root) / run_id
     base_ref = git_stdout(repo_root, ["rev-parse", "HEAD"]).strip()
     seed = create_candidate_worktree(
@@ -3375,9 +3546,15 @@ def init_optimize_run(
     return run
 
 
-def build_run_id(part_id: str) -> str:
+def build_run_id(part_id: str, state: dict[str, Any], repo_root: Path) -> str:
+    """Timestamped id, made unique: two runs for one part can start within the same second."""
     timestamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    return f"{timestamp}-{slugify(part_id)}"
+    base = f"{timestamp}-{slugify(part_id)}"
+    taken = set(state.get("runs", {}))
+    run_id, suffix = base, 2
+    while run_id in taken or (runs_dir(repo_root) / run_id).exists():
+        run_id, suffix = f"{base}-{suffix}", suffix + 1
+    return run_id
 
 
 def slugify(value: str, limit: int = 48) -> str:
@@ -3545,6 +3722,22 @@ def append_result_row(run: dict[str, Any], candidate: dict[str, Any], metric_nam
     ]
     with Path(run["results_path"]).open("a") as handle:
         handle.write("\t".join(row) + "\n")
+
+
+def warn_if_checkout_dirty(repo_root: Path) -> None:
+    """New runs start from HEAD; say so when tracked changes would be left out."""
+    output = git_run(repo_root, ["status", "--porcelain", "--untracked-files=no"]).stdout
+    # Porcelain lines are "XY path"; don't strip the output, X may be a space.
+    files = [line[3:] for line in output.splitlines() if line.strip()]
+    if not files:
+        return
+    head = git_stdout(repo_root, ["rev-parse", "--short", "HEAD"]).strip()
+    shown = ", ".join(files[:5]) + (f", and {len(files) - 5} more" if len(files) > 5 else "")
+    print(
+        f"warning: the main checkout has uncommitted changes ({shown}). This run starts from "
+        f"HEAD ({head}) and does not include them; commit them first if they belong in the baseline.",
+        file=sys.stderr,
+    )
 
 
 def git_identity_args(cwd: Path) -> list[str]:
@@ -4162,7 +4355,8 @@ def create_comparison_run(
     create_info: dict[str, Any] | None = None,
     delete_info: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    run_id = build_run_id(part["id"])
+    warn_if_checkout_dirty(repo_root)
+    run_id = build_run_id(part["id"], state, repo_root)
     run_dir = runs_dir(repo_root) / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
     worktree_root = default_worktree_root(repo_root) / run_id

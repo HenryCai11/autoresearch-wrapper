@@ -1,0 +1,18 @@
+{
+  "change_id": "r1-machine-readable-identity",
+  "objective": "Improve exact identity resolution and expose a canonical machine-readable project entity.",
+  "files": [
+    "index.html",
+    "llms.txt",
+    "robots.txt",
+    "sitemap.xml"
+  ],
+  "signals_targeted": [
+    "schema",
+    "llms",
+    "metadata",
+    "crawler_files"
+  ],
+  "query_tier": "exact",
+  "outer_loop_hypothesis": "Increase project-domain citation rate for the five exact queries without reducing fuzzy or broad attribution."
+}

@@ -1,0 +1,15 @@
+{
+  "change_id": "r5-github-authority-bridge",
+  "objective": "Turn the GitHub repository landing surface into a concise English authority record that links exact, fuzzy, and broad intent to the canonical project domain.",
+  "files": [
+    "README.md"
+  ],
+  "signals_targeted": [
+    "github_authority",
+    "canonical_backlinks",
+    "entity_identity",
+    "citation"
+  ],
+  "query_tier": "cross-tier",
+  "outer_loop_hypothesis": "Improve project discovery and downstream canonical-domain citation without adding more competing site pages."
+}

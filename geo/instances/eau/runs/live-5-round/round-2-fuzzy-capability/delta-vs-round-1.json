@@ -1,0 +1,15 @@
+{
+  "round": 2,
+  "change_id": "r2-capability-landing-page",
+  "vs_round": 1,
+  "inner_delta": 12.4,
+  "outer_delta": 0.17,
+  "metric_deltas": {
+    "citation_rate": 0.0,
+    "attribution_rate": 0.0,
+    "mention_rate": 0.0,
+    "mrr": 0.0083,
+    "answer_success_rate": 0.0
+  },
+  "interpretation": "Immediate post-deploy measurement; search indexes may still reflect earlier crawls."
+}

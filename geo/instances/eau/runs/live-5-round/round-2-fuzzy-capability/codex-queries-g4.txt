@@ -1,0 +1,3 @@
+within-run and across-run adaptation agent training
+recent agent environment co-evolution papers
+LLM agent training environment evolves with policy

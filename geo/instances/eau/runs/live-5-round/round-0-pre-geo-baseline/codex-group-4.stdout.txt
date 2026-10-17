@@ -1,0 +1,3 @@
+[1] multi-turn reinforcement learning user simulation benchmarks
+[2] editable training systems for tool-using agents
+[3] methods improving user-centric agents with simulated users
