@@ -1,0 +1,155 @@
+{
+  "site_url": "https://eau-meta-agent.github.io/",
+  "paper_url": "https://arxiv.org/abs/2610.16523",
+  "repo_url": "https://github.com/eau-meta-agent/eau-meta-agent.github.io",
+  "platforms": {
+    "gpt-web": 0.25,
+    "codex-search": 0.25,
+    "tavily-search": 0.25,
+    "exa-search": 0.25
+  },
+  "queries": [
+    {
+      "id": "Q01",
+      "text": "EAU Environment Agent User Co-evolution"
+    },
+    {
+      "id": "Q02",
+      "text": "EAU arXiv 2610.16523"
+    },
+    {
+      "id": "Q03",
+      "text": "EAU meta-agent user-centric agents"
+    },
+    {
+      "id": "Q04",
+      "text": "EAU UserGym ColBench"
+    },
+    {
+      "id": "Q05",
+      "text": "EAU project website environment agent user co-evolution"
+    },
+    {
+      "id": "Q06",
+      "text": "framework jointly adapts simulated user environment rewards RL configuration"
+    },
+    {
+      "id": "Q07",
+      "text": "user-centric agents co-evolve environment and user simulator"
+    },
+    {
+      "id": "Q08",
+      "text": "meta-agent modifies training environment during multi-turn reinforcement learning"
+    },
+    {
+      "id": "Q09",
+      "text": "adaptive user simulator reward design LLM agents"
+    },
+    {
+      "id": "Q10",
+      "text": "within-run and across-run adaptation agent training"
+    },
+    {
+      "id": "Q11",
+      "text": "recent agent environment co-evolution papers"
+    },
+    {
+      "id": "Q12",
+      "text": "LLM agent training environment evolves with policy"
+    },
+    {
+      "id": "Q13",
+      "text": "multi-turn reinforcement learning user simulation benchmarks"
+    },
+    {
+      "id": "Q14",
+      "text": "editable training systems for tool-using agents"
+    },
+    {
+      "id": "Q15",
+      "text": "methods improving user-centric agents with simulated users"
+    }
+  ],
+  "interventions": [
+    {
+      "id": "r16-descriptive-section-headings",
+      "candidate_id": "r16-descriptive-section-headings",
+      "nodes": [
+        "file:index.html",
+        "section:framework",
+        "section:results",
+        "file:script.js",
+        "file:styles.css"
+      ],
+      "source_url": "https://eau-meta-agent.github.io/",
+      "link_state": "present",
+      "link_evidence_url": "https://eau-meta-agent.github.io/",
+      "change_kind": "node",
+      "local_state": "On R9, framework/results H2 use creative labels instead of method and benchmark names",
+      "hypothesis": "Replace framework/results creative H2 labels with factual method/benchmark headings to test passage context on the observed homepage entry surface.",
+      "candidate_arms": [
+        {
+          "id": "r8-reference-cluster",
+          "status": "discard",
+          "hypothesis": "Visible reference routes across the existing method, context, paper and text-summary modules may make project evidence easier to discover and cite after recrawling."
+        },
+        {
+          "id": "shared-scholarly-entity",
+          "status": "discard",
+          "hypothesis": "Use one scholarly entity @id and separate WebPage nodes without changing factual claims."
+        },
+        {
+          "id": "reference-cluster-without-r7",
+          "status": "discard",
+          "hypothesis": "Test the retained R8 reference cluster and R9 static evidence with the pre-R7 overview; do not infer a combination score from historical results."
+        },
+        {
+          "id": "static-benchmark-evidence",
+          "status": "keep",
+          "hypothesis": "Expose already-reported default result data in static HTML while retaining the model switch and accurate evidence boundaries."
+        },
+        {
+          "id": "external-paper-link-audit",
+          "status": "needs_author_authority_for_any_edit",
+          "hypothesis": "Inspect the returned paper entry independently before proposing any author-controlled backlink change."
+        },
+        {
+          "id": "homepage-descriptive-h1",
+          "status": "discard",
+          "hypothesis": "Put the existing EAU name and co-evolution topic in the visible primary heading; test outer discovery without changing facts or metadata."
+        },
+        {
+          "id": "static-second-backbone-evidence",
+          "status": "discard",
+          "hypothesis": "Expose the existing Qwen2.5-7B-Instruct result rows in separately labelled static HTML while preserving the default model and switch; no mixed-backbone or invented results."
+        },
+        {
+          "id": "static-component-reference",
+          "status": "discard",
+          "hypothesis": "Expose the existing environment and agent tab descriptions in accessible static HTML while preserving the interactive explorer and avoiding duplicate padding."
+        },
+        {
+          "id": "static-entry-combination",
+          "status": "discard",
+          "hypothesis": "Test whether the retained R12 H1, R13 static method explanations and R14 second-backbone table work together as an initial-HTML identity/method/evidence bundle on R9."
+        },
+        {
+          "id": "descriptive-section-headings",
+          "status": "selected_preparing",
+          "hypothesis": "Replace framework/results creative H2 labels with factual method/benchmark headings to test passage context on the observed homepage entry surface."
+        }
+      ]
+    },
+    {
+      "id": "external-paper-link-audit",
+      "nodes": [
+        "external:paper-backlink"
+      ],
+      "source_url": "https://arxiv.org/abs/2610.16523",
+      "link_state": "unknown",
+      "owner": "paper author",
+      "change_kind": "edge",
+      "hypothesis": "External paper edits require separate authority and are outside R16"
+    }
+  ]
+}

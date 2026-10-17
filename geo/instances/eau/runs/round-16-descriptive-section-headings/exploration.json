@@ -1,0 +1,711 @@
+{
+  "objective": "https://eau-meta-agent.github.io/",
+  "tool": "Saved actual R15 four-engine answers; not new R16 probes",
+  "result_scope": "Displayed source URLs only, not top-ten ranks or predicted intervention lift",
+  "observed_funnel": {
+    "project_returned": 4,
+    "paper_returned": 11,
+    "repo_returned": 0
+  },
+  "queries": [
+    {
+      "id": "Q01",
+      "text": "EAU Environment Agent User Co-evolution",
+      "raw_file": "r15-evidence/gpt-web-answers.jsonl",
+      "project_returned": true,
+      "sources": []
+    },
+    {
+      "id": "Q02",
+      "text": "EAU arXiv 2610.16523",
+      "raw_file": "r15-evidence/gpt-web-answers.jsonl",
+      "project_returned": true,
+      "sources": []
+    },
+    {
+      "id": "Q03",
+      "text": "EAU meta-agent user-centric agents",
+      "raw_file": "r15-evidence/gpt-web-answers.jsonl",
+      "project_returned": true,
+      "sources": []
+    },
+    {
+      "id": "Q04",
+      "text": "EAU UserGym ColBench",
+      "raw_file": "r15-evidence/gpt-web-answers.jsonl",
+      "project_returned": false,
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2610.16523",
+          "interventions": [
+            {
+              "id": "external-paper-link-audit",
+              "source_url": "https://arxiv.org/abs/2610.16523",
+              "owner": "paper author",
+              "candidate_id": null,
+              "local_state": "unspecified",
+              "change_kind": "edge",
+              "hypothesis": "External paper edits require separate authority and are outside R16",
+              "candidate_arms": [],
+              "next_test_order": 1,
+              "experiment": {
+                "status": "unmeasured"
+              },
+              "platforms_to_check": [
+                "gpt-web",
+                "codex-search",
+                "tavily-search",
+                "exa-search"
+              ],
+              "nodes": [
+                {
+                  "id": "external:paper-backlink",
+                  "present": true,
+                  "mutable_in_repo": false,
+                  "operations": [
+                    "author-edit"
+                  ],
+                  "path": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q05",
+      "text": "EAU project website environment agent user co-evolution",
+      "raw_file": "r15-evidence/gpt-web-answers.jsonl",
+      "project_returned": true,
+      "sources": []
+    },
+    {
+      "id": "Q06",
+      "text": "framework jointly adapts simulated user environment rewards RL configuration",
+      "raw_file": "r15-evidence/gpt-web-answers.jsonl",
+      "project_returned": false,
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2610.16523",
+          "interventions": [
+            {
+              "id": "external-paper-link-audit",
+              "source_url": "https://arxiv.org/abs/2610.16523",
+              "owner": "paper author",
+              "candidate_id": null,
+              "local_state": "unspecified",
+              "change_kind": "edge",
+              "hypothesis": "External paper edits require separate authority and are outside R16",
+              "candidate_arms": [],
+              "next_test_order": 1,
+              "experiment": {
+                "status": "unmeasured"
+              },
+              "platforms_to_check": [
+                "gpt-web",
+                "codex-search",
+                "tavily-search",
+                "exa-search"
+              ],
+              "nodes": [
+                {
+                  "id": "external:paper-backlink",
+                  "present": true,
+                  "mutable_in_repo": false,
+                  "operations": [
+                    "author-edit"
+                  ],
+                  "path": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q07",
+      "text": "user-centric agents co-evolve environment and user simulator",
+      "raw_file": "r15-evidence/gpt-web-answers.jsonl",
+      "project_returned": false,
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2610.16523",
+          "interventions": [
+            {
+              "id": "external-paper-link-audit",
+              "source_url": "https://arxiv.org/abs/2610.16523",
+              "owner": "paper author",
+              "candidate_id": null,
+              "local_state": "unspecified",
+              "change_kind": "edge",
+              "hypothesis": "External paper edits require separate authority and are outside R16",
+              "candidate_arms": [],
+              "next_test_order": 1,
+              "experiment": {
+                "status": "unmeasured"
+              },
+              "platforms_to_check": [
+                "gpt-web",
+                "codex-search",
+                "tavily-search",
+                "exa-search"
+              ],
+              "nodes": [
+                {
+                  "id": "external:paper-backlink",
+                  "present": true,
+                  "mutable_in_repo": false,
+                  "operations": [
+                    "author-edit"
+                  ],
+                  "path": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q08",
+      "text": "meta-agent modifies training environment during multi-turn reinforcement learning",
+      "raw_file": "r15-evidence/gpt-web-answers.jsonl",
+      "project_returned": false,
+      "sources": []
+    },
+    {
+      "id": "Q09",
+      "text": "adaptive user simulator reward design LLM agents",
+      "raw_file": "r15-evidence/gpt-web-answers.jsonl",
+      "project_returned": false,
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2610.16523",
+          "interventions": [
+            {
+              "id": "external-paper-link-audit",
+              "source_url": "https://arxiv.org/abs/2610.16523",
+              "owner": "paper author",
+              "candidate_id": null,
+              "local_state": "unspecified",
+              "change_kind": "edge",
+              "hypothesis": "External paper edits require separate authority and are outside R16",
+              "candidate_arms": [],
+              "next_test_order": 1,
+              "experiment": {
+                "status": "unmeasured"
+              },
+              "platforms_to_check": [
+                "gpt-web",
+                "codex-search",
+                "tavily-search",
+                "exa-search"
+              ],
+              "nodes": [
+                {
+                  "id": "external:paper-backlink",
+                  "present": true,
+                  "mutable_in_repo": false,
+                  "operations": [
+                    "author-edit"
+                  ],
+                  "path": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q10",
+      "text": "within-run and across-run adaptation agent training",
+      "raw_file": "r15-evidence/gpt-web-answers.jsonl",
+      "project_returned": false,
+      "sources": []
+    },
+    {
+      "id": "Q11",
+      "text": "recent agent environment co-evolution papers",
+      "raw_file": "r15-evidence/gpt-web-answers.jsonl",
+      "project_returned": false,
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2610.16523",
+          "interventions": [
+            {
+              "id": "external-paper-link-audit",
+              "source_url": "https://arxiv.org/abs/2610.16523",
+              "owner": "paper author",
+              "candidate_id": null,
+              "local_state": "unspecified",
+              "change_kind": "edge",
+              "hypothesis": "External paper edits require separate authority and are outside R16",
+              "candidate_arms": [],
+              "next_test_order": 1,
+              "experiment": {
+                "status": "unmeasured"
+              },
+              "platforms_to_check": [
+                "gpt-web",
+                "codex-search",
+                "tavily-search",
+                "exa-search"
+              ],
+              "nodes": [
+                {
+                  "id": "external:paper-backlink",
+                  "present": true,
+                  "mutable_in_repo": false,
+                  "operations": [
+                    "author-edit"
+                  ],
+                  "path": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q12",
+      "text": "LLM agent training environment evolves with policy",
+      "raw_file": "r15-evidence/gpt-web-answers.jsonl",
+      "project_returned": false,
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2610.16523",
+          "interventions": [
+            {
+              "id": "external-paper-link-audit",
+              "source_url": "https://arxiv.org/abs/2610.16523",
+              "owner": "paper author",
+              "candidate_id": null,
+              "local_state": "unspecified",
+              "change_kind": "edge",
+              "hypothesis": "External paper edits require separate authority and are outside R16",
+              "candidate_arms": [],
+              "next_test_order": 1,
+              "experiment": {
+                "status": "unmeasured"
+              },
+              "platforms_to_check": [
+                "gpt-web",
+                "codex-search",
+                "tavily-search",
+                "exa-search"
+              ],
+              "nodes": [
+                {
+                  "id": "external:paper-backlink",
+                  "present": true,
+                  "mutable_in_repo": false,
+                  "operations": [
+                    "author-edit"
+                  ],
+                  "path": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Q13",
+      "text": "multi-turn reinforcement learning user simulation benchmarks",
+      "raw_file": "r15-evidence/gpt-web-answers.jsonl",
+      "project_returned": false,
+      "sources": []
+    },
+    {
+      "id": "Q14",
+      "text": "editable training systems for tool-using agents",
+      "raw_file": "r15-evidence/gpt-web-answers.jsonl",
+      "project_returned": false,
+      "sources": []
+    },
+    {
+      "id": "Q15",
+      "text": "methods improving user-centric agents with simulated users",
+      "raw_file": "r15-evidence/gpt-web-answers.jsonl",
+      "project_returned": false,
+      "sources": [
+        {
+          "url": "https://arxiv.org/abs/2610.16523",
+          "interventions": [
+            {
+              "id": "external-paper-link-audit",
+              "source_url": "https://arxiv.org/abs/2610.16523",
+              "owner": "paper author",
+              "candidate_id": null,
+              "local_state": "unspecified",
+              "change_kind": "edge",
+              "hypothesis": "External paper edits require separate authority and are outside R16",
+              "candidate_arms": [],
+              "next_test_order": 1,
+              "experiment": {
+                "status": "unmeasured"
+              },
+              "platforms_to_check": [
+                "gpt-web",
+                "codex-search",
+                "tavily-search",
+                "exa-search"
+              ],
+              "nodes": [
+                {
+                  "id": "external:paper-backlink",
+                  "present": true,
+                  "mutable_in_repo": false,
+                  "operations": [
+                    "author-edit"
+                  ],
+                  "path": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "unobserved_entry_points": [
+    {
+      "id": "r16-descriptive-section-headings",
+      "source_url": "https://eau-meta-agent.github.io/",
+      "owner": "unspecified",
+      "candidate_id": "r16-descriptive-section-headings",
+      "local_state": "On R9, framework/results H2 use creative labels instead of method and benchmark names",
+      "change_kind": "node",
+      "hypothesis": "Replace framework/results creative H2 labels with factual method/benchmark headings to test passage context on the observed homepage entry surface.",
+      "candidate_arms": [
+        {
+          "id": "r8-reference-cluster",
+          "status": "discard",
+          "hypothesis": "Visible reference routes across the existing method, context, paper and text-summary modules may make project evidence easier to discover and cite after recrawling."
+        },
+        {
+          "id": "shared-scholarly-entity",
+          "status": "discard",
+          "hypothesis": "Use one scholarly entity @id and separate WebPage nodes without changing factual claims."
+        },
+        {
+          "id": "reference-cluster-without-r7",
+          "status": "discard",
+          "hypothesis": "Test the retained R8 reference cluster and R9 static evidence with the pre-R7 overview; do not infer a combination score from historical results."
+        },
+        {
+          "id": "static-benchmark-evidence",
+          "status": "keep",
+          "hypothesis": "Expose already-reported default result data in static HTML while retaining the model switch and accurate evidence boundaries."
+        },
+        {
+          "id": "external-paper-link-audit",
+          "status": "needs_author_authority_for_any_edit",
+          "hypothesis": "Inspect the returned paper entry independently before proposing any author-controlled backlink change."
+        },
+        {
+          "id": "homepage-descriptive-h1",
+          "status": "discard",
+          "hypothesis": "Put the existing EAU name and co-evolution topic in the visible primary heading; test outer discovery without changing facts or metadata."
+        },
+        {
+          "id": "static-second-backbone-evidence",
+          "status": "discard",
+          "hypothesis": "Expose the existing Qwen2.5-7B-Instruct result rows in separately labelled static HTML while preserving the default model and switch; no mixed-backbone or invented results."
+        },
+        {
+          "id": "static-component-reference",
+          "status": "discard",
+          "hypothesis": "Expose the existing environment and agent tab descriptions in accessible static HTML while preserving the interactive explorer and avoiding duplicate padding."
+        },
+        {
+          "id": "static-entry-combination",
+          "status": "discard",
+          "hypothesis": "Test whether the retained R12 H1, R13 static method explanations and R14 second-backbone table work together as an initial-HTML identity/method/evidence bundle on R9."
+        },
+        {
+          "id": "descriptive-section-headings",
+          "status": "selected_preparing",
+          "hypothesis": "Replace framework/results creative H2 labels with factual method/benchmark headings to test passage context on the observed homepage entry surface."
+        }
+      ],
+      "next_test_order": null,
+      "experiment": {
+        "status": "unmeasured"
+      },
+      "platforms_to_check": [
+        "gpt-web",
+        "codex-search",
+        "tavily-search",
+        "exa-search"
+      ],
+      "nodes": [
+        {
+          "id": "file:index.html",
+          "present": true,
+          "mutable_in_repo": true,
+          "operations": [
+            "replace_text"
+          ],
+          "path": "index.html"
+        },
+        {
+          "id": "section:framework",
+          "present": true,
+          "mutable_in_repo": true,
+          "operations": [
+            "add_after",
+            "edit",
+            "move_after",
+            "remove"
+          ],
+          "path": "index.html"
+        },
+        {
+          "id": "section:results",
+          "present": true,
+          "mutable_in_repo": true,
+          "operations": [
+            "add_after",
+            "edit",
+            "move_after",
+            "remove"
+          ],
+          "path": "index.html"
+        },
+        {
+          "id": "file:script.js",
+          "present": true,
+          "mutable_in_repo": true,
+          "operations": [
+            "replace_text"
+          ],
+          "path": "script.js"
+        },
+        {
+          "id": "file:styles.css",
+          "present": true,
+          "mutable_in_repo": true,
+          "operations": [
+            "replace_text"
+          ],
+          "path": "styles.css"
+        }
+      ]
+    }
+  ],
+  "graph_node_count": 35,
+  "mapped_node_count": 6,
+  "unmapped_nodes": [
+    {
+      "id": "file:README.md",
+      "kind": "file",
+      "mutable_in_repo": true,
+      "operations": [
+        "replace_text"
+      ]
+    },
+    {
+      "id": "file:robots.txt",
+      "kind": "file",
+      "mutable_in_repo": true,
+      "operations": [
+        "replace_text"
+      ]
+    },
+    {
+      "id": "file:sitemap.xml",
+      "kind": "file",
+      "mutable_in_repo": true,
+      "operations": [
+        "replace_text"
+      ]
+    },
+    {
+      "id": "file:site-config.js",
+      "kind": "file",
+      "mutable_in_repo": true,
+      "operations": [
+        "replace_text"
+      ]
+    },
+    {
+      "id": "section:overview",
+      "kind": "html-section",
+      "mutable_in_repo": true,
+      "operations": [
+        "add_after",
+        "edit",
+        "move_after",
+        "remove"
+      ]
+    },
+    {
+      "id": "section:resources",
+      "kind": "html-section",
+      "mutable_in_repo": true,
+      "operations": [
+        "add_after",
+        "edit",
+        "move_after",
+        "remove"
+      ]
+    },
+    {
+      "id": "meta:title",
+      "kind": "html-metadata",
+      "mutable_in_repo": true,
+      "operations": [
+        "replace_text"
+      ]
+    },
+    {
+      "id": "meta:description",
+      "kind": "html-metadata",
+      "mutable_in_repo": true,
+      "operations": [
+        "replace_text"
+      ]
+    },
+    {
+      "id": "meta:canonical",
+      "kind": "html-metadata",
+      "mutable_in_repo": true,
+      "operations": [
+        "replace_text"
+      ]
+    },
+    {
+      "id": "meta:schema",
+      "kind": "html-metadata",
+      "mutable_in_repo": true,
+      "operations": [
+        "replace_text"
+      ]
+    },
+    {
+      "id": "file:assets/eau_demo.webp",
+      "kind": "asset",
+      "mutable_in_repo": true,
+      "operations": []
+    },
+    {
+      "id": "file:assets/experience_analysis.webp",
+      "kind": "asset",
+      "mutable_in_repo": true,
+      "operations": []
+    },
+    {
+      "id": "file:assets/favicon.svg",
+      "kind": "asset",
+      "mutable_in_repo": true,
+      "operations": [
+        "replace_text"
+      ]
+    },
+    {
+      "id": "file:assets/usergym_progression.webp",
+      "kind": "asset",
+      "mutable_in_repo": true,
+      "operations": []
+    },
+    {
+      "id": "file:method.html",
+      "kind": "asset",
+      "mutable_in_repo": true,
+      "operations": []
+    },
+    {
+      "id": "file:paper.html",
+      "kind": "asset",
+      "mutable_in_repo": true,
+      "operations": []
+    },
+    {
+      "id": "file:research-context.html",
+      "kind": "asset",
+      "mutable_in_repo": true,
+      "operations": []
+    },
+    {
+      "id": "external:paper",
+      "kind": "external-source",
+      "mutable_in_repo": false,
+      "operations": []
+    },
+    {
+      "id": "external:d41310e492",
+      "kind": "external-source",
+      "mutable_in_repo": false,
+      "operations": []
+    },
+    {
+      "id": "external:repository-metadata",
+      "kind": "external-owned",
+      "mutable_in_repo": false,
+      "operations": [
+        "manual-admin-edit"
+      ]
+    },
+    {
+      "id": "outcome:site-discovery",
+      "kind": "unobserved-outcome",
+      "mutable_in_repo": false,
+      "operations": []
+    },
+    {
+      "id": "outcome:gpt-web:retrieval",
+      "kind": "observed-outcome",
+      "mutable_in_repo": false,
+      "operations": []
+    },
+    {
+      "id": "outcome:gpt-web:answer",
+      "kind": "observed-outcome",
+      "mutable_in_repo": false,
+      "operations": []
+    },
+    {
+      "id": "outcome:codex-search:retrieval",
+      "kind": "observed-outcome",
+      "mutable_in_repo": false,
+      "operations": []
+    },
+    {
+      "id": "outcome:codex-search:answer",
+      "kind": "observed-outcome",
+      "mutable_in_repo": false,
+      "operations": []
+    },
+    {
+      "id": "outcome:tavily-search:retrieval",
+      "kind": "observed-outcome",
+      "mutable_in_repo": false,
+      "operations": []
+    },
+    {
+      "id": "outcome:tavily-search:answer",
+      "kind": "observed-outcome",
+      "mutable_in_repo": false,
+      "operations": []
+    },
+    {
+      "id": "outcome:exa-search:retrieval",
+      "kind": "observed-outcome",
+      "mutable_in_repo": false,
+      "operations": []
+    },
+    {
+      "id": "outcome:exa-search:answer",
+      "kind": "observed-outcome",
+      "mutable_in_repo": false,
+      "operations": []
+    }
+  ],
+  "warning": "Branches show actual returned URLs and proposed interventions. They are not causal paths or predicted lift. Unknown platform effects remain unknown."
+}

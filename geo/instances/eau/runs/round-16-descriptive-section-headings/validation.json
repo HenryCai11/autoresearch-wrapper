@@ -1,0 +1,52 @@
+{
+  "checks": {
+    "only_index_changed_vs_best_seed": true,
+    "exactly_two_heading_operations_no_extra_rewrite": true,
+    "reverse_two_operations_recovers_entire_seed_html": true,
+    "only_framework_and_results_named_sections_changed": true,
+    "headings_supported_by_frozen_map_and_existing_visible_sources": true,
+    "only_framework_h2_changed_within_its_section": true,
+    "only_results_h2_changed_within_its_section": true,
+    "new_headings_present_in_visible_text": true,
+    "h2_count_ids_and_order_preserved": true,
+    "h2_br_and_em_structure_preserved": true,
+    "section_accessible_heading_targets_preserved": true,
+    "original_r9_h1_and_subtitle_unchanged": true,
+    "r7_overview_unchanged": true,
+    "r9_default_static_result_table_byte_identical": true,
+    "discarded_r15_static_blocks_not_inherited": true,
+    "old_interactive_targets_preserved_once": true,
+    "default_model_selection_and_renderer_preserved": true,
+    "head_metadata_and_schema_bytes_unchanged": true,
+    "scripts_and_styles_byte_identical_to_seed": true,
+    "all_reference_urls_and_order_unchanged": true,
+    "no_untracked_candidate_files": true,
+    "local_links_fragments_and_unique_ids_valid": true,
+    "one_homepage_h1": true,
+    "jsonld_valid_and_unchanged": true,
+    "visible_text_within_original_limit": true,
+    "no_hidden_text_added": true,
+    "all_nonhome_visible_content_unchanged": true,
+    "frozen_map_judge_and_normalizer_unchanged": true,
+    "frozen_queries_unchanged": true,
+    "production_r15_checkout_unchanged": true,
+    "production_diff_only_index": true
+  },
+  "errors": [],
+  "inner_score": "not computed",
+  "visible_home_chars_before": 5436,
+  "visible_home_chars_after": 5433,
+  "limit": 9000,
+  "selection_seed_round": 9,
+  "heading_operation_count": 2,
+  "scope_vs_seed": [
+    "index.html"
+  ],
+  "scope_vs_current_production": [
+    "index.html"
+  ],
+  "browser_test": "not performed; preserved br/em structure and existing styles do not establish rendered line wrapping, layout or runtime behavior",
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+  "judge_sha256": "6bb1498e65e5cf065cc8e03e40007c73c32393e16f85a41d2395db76820613de",
+  "normalization_sha256": "8a2856dd9b69fe4b24c7b315f55ac6c98b7bcbd9063dd1093a11fba3e181d537"
+}

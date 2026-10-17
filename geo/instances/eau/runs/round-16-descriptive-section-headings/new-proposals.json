@@ -1,0 +1,31 @@
+[
+  {
+    "id": "descriptive-section-headings",
+    "status": "selected_preparing",
+    "measured": false,
+    "round": 16,
+    "change_id": "r16-descriptive-section-headings",
+    "parents": [
+      "r9"
+    ],
+    "retain_for_combinations": true,
+    "modules": [
+      "homepage-identity",
+      "presentation"
+    ],
+    "files": [
+      "index.html"
+    ],
+    "base_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+    "hypothesis": "Replace framework/results creative H2 labels with factual method/benchmark headings to test passage context on the observed homepage entry surface.",
+    "reason_selected": "R15 has 6/60 citations, all exact-tier, with 0 fuzzy/broad and no support-page URL cells. Test two existing homepage headings without content expansion or inheriting the discarded R15 bundle; source visibility is not estimated lift.",
+    "scope": "Two H2 text replacements only; no new facts, numbers, claims, links, styles, scripts, schema or padding.",
+    "module_dependencies": [
+      "index.html framework-title and results-title",
+      "existing styles.css heading layout, unchanged",
+      "existing script.js and model-switch targets, unchanged",
+      "R7 overview, R8 routes and R9 static data, retained"
+    ],
+    "interpretation": "Unmeasured whole-candidate hypothesis; immediate historical observations cannot isolate module effects or rule out indexing lag."
+  }
+]

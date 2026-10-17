@@ -1,0 +1,12 @@
+{
+  "initial_job": 1816002,
+  "initial_exit": 1,
+  "cause": "After all 31 checks and the candidate commit, a reused ledger assertion incorrectly expected current_round 15 instead of 16.",
+  "fix": "Corrected candidate_r16.py assertion to round 16 and resumed only the remaining ledger/archive steps.",
+  "same_run_id": "20261017T095913Z-index-html",
+  "same_candidate_commit": "18c0ae3d6af0baf151487681aac40d7a09dd475c",
+  "all_31_checks_passed_before_recovery": true,
+  "new_candidate_allocated": false,
+  "candidate_rewritten": false,
+  "old_history_changed": false
+}

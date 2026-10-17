@@ -1,0 +1,27 @@
+{
+  "seed_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+  "operation_count": 2,
+  "new_facts": false,
+  "headings": [
+    {
+      "id": "framework-title",
+      "before": "<h2 id=\"framework-title\">A feedback loop.<br><em>With room to change.</em></h2>",
+      "after": "<h2 id=\"framework-title\">How EAU adapts<br><em>the training system.</em></h2>",
+      "map_node": "adaptive-training-system",
+      "fact": "EAU treats the training system as editable and uses feedback to select interventions.",
+      "existing_visible_source": "research-context.html#scope",
+      "existing_source_excerpt": "It treats the training system as editable, using rollout evidence to select and validate interventions while evaluation remains fixed."
+    },
+    {
+      "id": "results-title",
+      "before": "<h2 id=\"results-title\">Better interactions.<br><em>Stronger agents.</em></h2>",
+      "after": "<h2 id=\"results-title\">EAU results on<br><em>UserGym and ColBench.</em></h2>",
+      "map_node": "benchmarks",
+      "fact": "EAU is evaluated on UserGym, ColBench, and τ²-bench.",
+      "existing_visible_source": "index.html#results",
+      "existing_source_excerpt": "Evaluated on UserGym, ColBench, and τ²-bench."
+    }
+  ],
+  "scope": "Only two existing visible H2 texts; preserve IDs, br/em structure, paragraphs, tables, metadata and assets.",
+  "score_policy": "Unmeasured new intervention; R15 source presence and historical scores do not predict lift."
+}

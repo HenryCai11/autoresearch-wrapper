@@ -1,0 +1,16 @@
+{
+  "operations": [
+    {
+      "op": "replace_text",
+      "node": "file:index.html",
+      "before": "<h2 id=\"framework-title\">A feedback loop.<br><em>With room to change.</em></h2>",
+      "after": "<h2 id=\"framework-title\">How EAU adapts<br><em>the training system.</em></h2>"
+    },
+    {
+      "op": "replace_text",
+      "node": "file:index.html",
+      "before": "<h2 id=\"results-title\">Better interactions.<br><em>Stronger agents.</em></h2>",
+      "after": "<h2 id=\"results-title\">EAU results on<br><em>UserGym and ColBench.</em></h2>"
+    }
+  ]
+}

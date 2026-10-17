@@ -1,0 +1,26 @@
+{
+  "headings": [
+    {
+      "id": "framework-title",
+      "before": "<h2 id=\"framework-title\">A feedback loop.<br><em>With room to change.</em></h2>",
+      "after": "<h2 id=\"framework-title\">How EAU adapts<br><em>the training system.</em></h2>",
+      "map_node": "adaptive-training-system",
+      "fact": "EAU treats the training system as editable and uses feedback to select interventions.",
+      "existing_visible_source": "research-context.html#scope",
+      "existing_source_excerpt": "It treats the training system as editable, using rollout evidence to select and validate interventions while evaluation remains fixed."
+    },
+    {
+      "id": "results-title",
+      "before": "<h2 id=\"results-title\">Better interactions.<br><em>Stronger agents.</em></h2>",
+      "after": "<h2 id=\"results-title\">EAU results on<br><em>UserGym and ColBench.</em></h2>",
+      "map_node": "benchmarks",
+      "fact": "EAU is evaluated on UserGym, ColBench, and τ²-bench.",
+      "existing_visible_source": "index.html#results",
+      "existing_source_excerpt": "Evaluated on UserGym, ColBench, and τ²-bench."
+    }
+  ],
+  "source_facts_verified": true,
+  "default_static_tbody_sha256": "d122a21db681c41fbedddd4604188546561ffd1961c666287af4dacaa17da699",
+  "script_sha256": "a9a6bc3c30dbb6db8e0714b30aa12dd146f9a07710a1e1ceac2999117c94d751",
+  "facts": "Only factual headings changed; all data and paragraphs unchanged; outer score unknown"
+}

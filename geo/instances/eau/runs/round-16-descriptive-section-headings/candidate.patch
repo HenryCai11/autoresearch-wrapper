@@ -1,0 +1,10 @@
+diff --git a/index.html b/index.html
+index 7205feb..a00af3f 100644
+--- a/index.html
++++ b/index.html
+@@ -143 +143 @@
+-      <div class="section-heading"><div><p class="eyebrow section-number">02 / The framework</p><h2 id="framework-title">A feedback loop.<br><em>With room to change.</em></h2></div><p>The policy learns through reinforcement learning.<br>The meta-agent adapts the experience it learns from.</p></div>
++      <div class="section-heading"><div><p class="eyebrow section-number">02 / The framework</p><h2 id="framework-title">How EAU adapts<br><em>the training system.</em></h2></div><p>The policy learns through reinforcement learning.<br>The meta-agent adapts the experience it learns from.</p></div>
+@@ -171 +171 @@
+-        <div class="section-heading"><div><p class="eyebrow section-number">03 / The evidence</p><h2 id="results-title">Better interactions.<br><em>Stronger agents.</em></h2></div><p>Evaluated on UserGym, ColBench, and τ²-bench.<br>Explore the results across two policy backbones.</p></div>
++        <div class="section-heading"><div><p class="eyebrow section-number">03 / The evidence</p><h2 id="results-title">EAU results on<br><em>UserGym and ColBench.</em></h2></div><p>Evaluated on UserGym, ColBench, and τ²-bench.<br>Explore the results across two policy backbones.</p></div>

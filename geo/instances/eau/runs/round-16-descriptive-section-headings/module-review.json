@@ -1,0 +1,80 @@
+{
+  "basis": "Actual completed R15 60-cell measurement and preserved R9 control; no new R16 searches",
+  "latest_observation": {
+    "round": 15,
+    "citations": 6,
+    "explicit_project_url_cells": 4,
+    "explicit_support_page_url_cells": 0,
+    "fuzzy_citations": 0,
+    "broad_citations": 0,
+    "decision": "discard"
+  },
+  "reviews": [
+    {
+      "module": "homepage-identity",
+      "action": "Test two descriptive H2 labels; retain original R9 H1, subtitle and overview"
+    },
+    {
+      "module": "presentation",
+      "action": "Preserve h2 IDs, br/em markup and all styles; no browser/visual validation claimed"
+    },
+    {
+      "module": "method-reference",
+      "action": "Reuse supported training-system concept in heading; method page and component descriptions unchanged"
+    },
+    {
+      "module": "research-context",
+      "action": "Fact source for editable training system; context page unchanged"
+    },
+    {
+      "module": "paper-authority",
+      "action": "Retain all metadata and evidence boundaries; no new claims or scholarly-entity changes"
+    },
+    {
+      "module": "machine-readable-summary",
+      "action": "Retain llms.txt; R15 has no support-page URL retrieval evidence"
+    },
+    {
+      "module": "repository-authority",
+      "action": "Retain existing README bridge; no external repository mutation"
+    },
+    {
+      "module": "crawler-routing",
+      "action": "Retain robots/sitemap; served content does not prove indexing"
+    },
+    {
+      "module": "reference-pages",
+      "action": "Retain R8 routes and all reference pages; no extra link or content expansion"
+    },
+    {
+      "module": "external-paper-entry",
+      "action": "Unknown backlink state; edits still need separate author authority"
+    }
+  ],
+  "alternatives_retained": [
+    {
+      "ids": [
+        "homepage-descriptive-h1",
+        "static-component-reference",
+        "static-second-backbone-evidence",
+        "static-entry-combination"
+      ],
+      "decision": "Retain exact operations and observations for future combinations; do not silently inherit into R16"
+    },
+    {
+      "ids": [
+        "shared-scholarly-entity",
+        "reference-cluster-without-r7",
+        "r8-reference-cluster"
+      ],
+      "decision": "Retain prior candidates without claiming causal module effects"
+    },
+    {
+      "ids": [
+        "external-paper-link-audit"
+      ],
+      "decision": "Unmeasured and authority-gated, not silently performed"
+    }
+  ],
+  "selection_limit": "Source visibility and immediate historical samples do not predict heading lift or isolate module effects."
+}

@@ -1,0 +1,31 @@
+{
+  "production_commit": "596ccda6c33a4bb2ea9cac3daa7d489e856f264d",
+  "production_tree": "13982678cdeb9efc1bb4ea871f6f150a9a5f16ce",
+  "production_observation": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 6,
+    "mention_rate": 0.75,
+    "found_rate": 0.6833333333333333,
+    "citation_rate": 0.1,
+    "attribution_rate": 0.6833333333333333,
+    "mrr": 0.03333333333333333,
+    "score": 29.750000000000004
+  },
+  "selection_seed_round": 9,
+  "selection_seed_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+  "selection_seed_tree": "5ebd5d1c28e00690d58caafa0edfe066ae5307d7",
+  "seed_observation": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 8,
+    "mention_rate": 0.7166666666666667,
+    "found_rate": 0.6666666666666666,
+    "citation_rate": 0.13333333333333333,
+    "attribution_rate": 0.65,
+    "mrr": 0.041666666666666664,
+    "score": 30.25
+  },
+  "production_unchanged": true,
+  "requires_separate_publication_approval": true
+}

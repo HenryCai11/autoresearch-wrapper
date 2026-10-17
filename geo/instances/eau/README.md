@@ -41,11 +41,18 @@ descriptions and R14 second-backbone table together on R9. All 32 local checks
 and the completed live audit passed. No inner score was computed.
 See its [live report](runs/round-15-static-entry-combination/r15-live/REPORT.md).
 
-All 16 R0–R15 observations and all nine proposals remain. All eight old proposals
-are unchanged; the combination now has its own observation, not a sum of parent
-scores. Only the external-authority proposal remains unmeasured. These immediate
-samples against historical R9 cannot establish causal module effects or rule
-out stale indexing.
+[R16](runs/round-16-descriptive-section-headings/README.md) is prepared but
+unpublished and unmeasured. On the best R9 seed, it replaces only the framework
+and results H2 text with descriptive method/benchmark labels; IDs, paragraphs,
+data, links, metadata, scripts and styles remain unchanged. All 31 local checks
+and the preparation archive audit passed. No browser/visual test or inner score
+was performed. Separate publication approval is required; production remains R15.
+
+All 16 R0–R15 observations and all nine old proposals remain unchanged. A tenth
+proposal records R16; it and the external-authority proposal are unmeasured.
+Discarded candidates remain available for later combinations, without adding
+their scores to predict a bundle. These immediate samples against historical R9
+cannot establish causal module effects or rule out stale indexing.
 
 ## Cross-module candidate ledger
 

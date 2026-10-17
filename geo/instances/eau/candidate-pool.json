@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "site_url": "https://eau-meta-agent.github.io/",
-  "updated_at": "2026-10-17T09:37:52+00:00",
-  "current_round": 15,
+  "updated_at": "2026-10-17T09:59:13+00:00",
+  "current_round": 16,
   "maintenance": "Site-specific ledger maintained by the agent when starting or recording a round; not an automatic scheduler or a new wrapper-core search algorithm.",
   "policy": {
     "primary_metric": "live_project_citation_rate",
@@ -17,9 +17,9 @@
     "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
     "inner_metric": "not computed and not used",
     "baseline": "Best complete R9, 8/60, composite 30.25; reused historical control, not fresh/simultaneous",
-    "current_production": "R15 live: 6/60, discard; selection still compares with preserved R9 8/60",
-    "deployment": "R15 publication was explicitly approved; exact candidate tree and before/after served bytes verified for the completed real 60-cell collection.",
-    "history": "All 16 R0–R15 observations and all nine proposals retained; all eight old proposals unchanged. The new combination now has its own measurement; only the external-authority proposal remains unmeasured. Do not add parent scores.",
+    "current_production": "R15 unchanged, 6/60, composite 29.75, discard; not the selection threshold",
+    "deployment": "Separate explicit R16 approval required, exact candidate tree and served bytes verified before/after all 60 real requests",
+    "history": "All nine old proposals and 16 old history entries are unchanged; one new heading proposal is separate and unmeasured; do not add parent scores",
     "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up"
   },
   "modules": [
@@ -1606,7 +1606,40 @@
         "score": 29.750000000000004
       },
       "measurement_artifact_dir": "runs/round-15-static-entry-combination/r15-live"
+    },
+    {
+      "id": "descriptive-section-headings",
+      "status": "validated_awaiting_deployment_approval",
+      "measured": false,
+      "round": 16,
+      "change_id": "r16-descriptive-section-headings",
+      "parents": [
+        "r9"
+      ],
+      "retain_for_combinations": true,
+      "modules": [
+        "homepage-identity",
+        "presentation"
+      ],
+      "files": [
+        "index.html"
+      ],
+      "base_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "hypothesis": "Replace framework/results creative H2 labels with factual method/benchmark headings to test passage context on the observed homepage entry surface.",
+      "reason_selected": "R15 has 6/60 citations, all exact-tier, with 0 fuzzy/broad and no support-page URL cells. Test two existing homepage headings without content expansion or inheriting the discarded R15 bundle; source visibility is not estimated lift.",
+      "scope": "Two H2 text replacements only; no new facts, numbers, claims, links, styles, scripts, schema or padding.",
+      "module_dependencies": [
+        "index.html framework-title and results-title",
+        "existing styles.css heading layout, unchanged",
+        "existing script.js and model-switch targets, unchanged",
+        "R7 overview, R8 routes and R9 static data, retained"
+      ],
+      "interpretation": "Unmeasured whole-candidate hypothesis; immediate historical observations cannot isolate module effects or rule out indexing lag.",
+      "candidate_commit": "18c0ae3d6af0baf151487681aac40d7a09dd475c",
+      "candidate_tree": "692b95a10e27de1e9c84011fb839cba3b0eb6b15",
+      "wrapper_run_id": "20261017T095913Z-index-html",
+      "branch": "autoresearch/index-html/20261017T095913Z-index-html/candidate-001"
     }
   ],
-  "selected_candidate_id": "static-entry-combination"
+  "selected_candidate_id": "descriptive-section-headings"
 }
