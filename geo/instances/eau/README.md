@@ -33,6 +33,12 @@ rollback. It adds a separately labelled static reference for the existing
 Qwen2.5-7B-Instruct rows on the R9 seed. No inner score was computed.
 See its [live report](runs/round-14-static-second-backbone-evidence/r14-live/REPORT.md).
 
+[R15](runs/round-15-static-entry-combination/README.md) is prepared but unpublished
+and unmeasured. It replays the retained R12 H1, R13 static method descriptions,
+and R14 second-backbone table together on R9. All 32 local checks passed.
+All eight old proposals remain unchanged; a ninth records this combination.
+Parent observations are not added to predict its score. No inner score exists.
+
 ## Cross-module candidate ledger
 
 From R8 onward, consult [`candidate-pool.json`](candidate-pool.json) before

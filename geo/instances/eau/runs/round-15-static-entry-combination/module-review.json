@@ -1,0 +1,53 @@
+{
+  "basis": "Measured R14 plus preserved R9/R12/R13 and exact archived parent operations; no new R15 searches",
+  "latest_observation": {
+    "round": 14,
+    "citations": 5,
+    "explicit_project_url_cells": 3,
+    "explicit_support_page_url_cells": 0,
+    "decision": "discard"
+  },
+  "reviews": [
+    {
+      "module": "homepage-identity",
+      "action": "Replay R12 existing EAU/co-evolution H1, preserving the full subtitle"
+    },
+    {
+      "module": "presentation",
+      "action": "Replay existing static method and result blocks; scripts/styles unchanged"
+    },
+    {
+      "module": "method-reference",
+      "action": "R13 homepage component descriptions combined; method.html unchanged"
+    },
+    {
+      "module": "research-context",
+      "action": "Retain scope and evaluation boundaries unchanged"
+    },
+    {
+      "module": "paper-authority",
+      "action": "Retain R9 metadata; no new measurements, gains, authors or claims"
+    },
+    {
+      "module": "machine-readable-summary",
+      "action": "Retain llms.txt unchanged"
+    },
+    {
+      "module": "repository-authority",
+      "action": "Retain existing README bridge; no external repository mutation"
+    },
+    {
+      "module": "crawler-routing",
+      "action": "Retain robots/sitemap; no claim that served content proves indexing"
+    },
+    {
+      "module": "reference-pages",
+      "action": "Retain R8 routes; R14 returned no explicit support-page URLs"
+    },
+    {
+      "module": "external-paper-entry",
+      "action": "Unknown backlink state; any edit requires separate author authority"
+    }
+  ],
+  "selection_limit": "A bundle result cannot identify individual module effects; immediate search observations may reflect stale indexes."
+}

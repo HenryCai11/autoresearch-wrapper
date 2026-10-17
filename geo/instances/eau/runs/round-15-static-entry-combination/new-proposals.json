@@ -1,0 +1,35 @@
+[
+  {
+    "id": "static-entry-combination",
+    "status": "selected_preparing",
+    "measured": false,
+    "round": 15,
+    "change_id": "r15-static-entry-combination",
+    "parents": [
+      "r9",
+      "r12",
+      "r13",
+      "r14"
+    ],
+    "retain_for_combinations": true,
+    "modules": [
+      "homepage-identity",
+      "presentation",
+      "method-reference"
+    ],
+    "files": [
+      "index.html"
+    ],
+    "base_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+    "hypothesis": "Test whether the retained R12 H1, R13 static method explanations and R14 second-backbone table work together as an initial-HTML identity/method/evidence bundle on R9.",
+    "reason_selected": "All seven editable-site proposals now have observations. The only remaining unmeasured old proposal needs external author authority. A separately identified combination tests previously retained candidates without deleting or overwriting their individual results.",
+    "scope": "Replay exactly three archived operations; no new wording, numbers, styles, scripts or schema.",
+    "module_dependencies": [
+      "index.html hero-title, framework and results",
+      "existing script.js component/result facts, unchanged",
+      "existing styles.css, unchanged",
+      "R7 overview, R8 references and R9 default static data, retained"
+    ],
+    "interpretation": "Unmeasured bundle, not predicted lift. Single immediate historical observations cannot isolate parent effects or rule out indexing lag."
+  }
+]

@@ -1,0 +1,74 @@
+{
+  "round": 15,
+  "change_id": "r15-static-entry-combination",
+  "pool_candidate_id": "static-entry-combination",
+  "state": "validated_awaiting_deployment_approval",
+  "files": [
+    "index.html"
+  ],
+  "graph_nodes": [
+    "file:index.html",
+    "section:framework",
+    "section:results"
+  ],
+  "selection_seed_round": 9,
+  "selection_seed_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+  "selection_seed_tree": "5ebd5d1c28e00690d58caafa0edfe066ae5307d7",
+  "current_production_commit": "c762ead8370159e102c5ea11b1a43b944c71d1bf",
+  "current_production_tree": "1d987f64d620a79a9db3c354c50f89d4ce8ae164",
+  "parents": [
+    "r9",
+    "r12",
+    "r13",
+    "r14"
+  ],
+  "hypothesis": "Test whether the retained R12 H1, R13 static method explanations and R14 second-backbone table work together as an initial-HTML identity/method/evidence bundle on R9.",
+  "selection": {
+    "primary_metric": "live_project_citation_rate",
+    "goal": "maximize",
+    "definition": "100 * frozen geo_eval site_cited cells / 60, including bare project-domain occurrences under the existing judge",
+    "engines": [
+      "gpt-web",
+      "codex-search",
+      "tavily-search",
+      "exa-search"
+    ],
+    "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
+    "inner_metric": "not computed and not used",
+    "baseline": "Best complete R9, 8/60, composite 30.25; reused historical control, not fresh/simultaneous",
+    "current_production": "R14 unchanged, 5/60, composite 28.88889, discard; not the selection threshold",
+    "deployment": "Separate explicit R15 approval required, exact candidate tree and served bytes verified before/after all 60 real requests",
+    "history": "All eight old proposals and 15 old history entries are unchanged; one new combination proposal is separate and unmeasured; do not add parent scores",
+    "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up"
+  },
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+  "unchanged_vs_seed": [
+    "all bytes except the three exact archived operations",
+    "all other pages",
+    "R7 overview and R8 links",
+    "default result rows and switch",
+    "scripts",
+    "styles",
+    "metadata",
+    "map",
+    "queries",
+    "judge",
+    "engine settings"
+  ],
+  "deployment_plan": "Require separate R15 approval. Use an isolated deploy branch based on then-current main, apply exact candidate index.html and verify its whole tree; reconcile teammate changes. Relative to R14, the second-backbone table remains unchanged and H1 plus component descriptions are added.",
+  "candidate_commit": "ca8936282e047ee302c315c3eecc016db45cd79b",
+  "candidate_tree": "13982678cdeb9efc1bb4ea871f6f150a9a5f16ce",
+  "wrapper_run_id": "20261017T090803Z-index-html",
+  "candidate": {
+    "based_on": "autoresearch/index-html/20261017T090803Z-index-html/seed",
+    "branch": "autoresearch/index-html/20261017T090803Z-index-html/candidate-001",
+    "candidate_id": "candidate-001",
+    "created_at": "2026-10-17T09:11:27+00:00",
+    "lifecycle": "allocated",
+    "missing": false,
+    "worktree_path": "/scratch/henrycai/eau-r15-20261017.autoresearch-worktrees/20261017T090803Z-index-html/candidate-001"
+  },
+  "production_changed_files": [
+    "index.html"
+  ]
+}

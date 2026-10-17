@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "site_url": "https://eau-meta-agent.github.io/",
-  "updated_at": "2026-10-17T05:53:37+00:00",
-  "current_round": 14,
+  "updated_at": "2026-10-17T09:08:03+00:00",
+  "current_round": 15,
   "maintenance": "Site-specific ledger maintained by the agent when starting or recording a round; not an automatic scheduler or a new wrapper-core search algorithm.",
   "policy": {
     "primary_metric": "live_project_citation_rate",
@@ -16,10 +16,10 @@
     ],
     "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
     "inner_metric": "not computed and not used",
-    "baseline": "Best fully observed R9: 8/60, composite 30.25; reused historical control, not new or simultaneous collection",
-    "current_production": "R14 live: 5/60, discard; selection still compares with preserved R9 8/60",
-    "deployment": "R14 publication was explicitly approved; exact candidate tree and before/after served bytes verified for the completed real 60-cell collection.",
-    "history": "Retain all discarded and kept candidates plus original proposals for combinations; never add parent scores",
+    "baseline": "Best complete R9, 8/60, composite 30.25; reused historical control, not fresh/simultaneous",
+    "current_production": "R14 unchanged, 5/60, composite 28.88889, discard; not the selection threshold",
+    "deployment": "Separate explicit R15 approval required, exact candidate tree and served bytes verified before/after all 60 real requests",
+    "history": "All eight old proposals and 15 old history entries are unchanged; one new combination proposal is separate and unmeasured; do not add parent scores",
     "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up"
   },
   "modules": [
@@ -1518,7 +1518,44 @@
         "score": 30.138888888888886
       },
       "measurement_artifact_dir": "runs/round-13-static-component-reference/r13-live"
+    },
+    {
+      "id": "static-entry-combination",
+      "status": "validated_awaiting_deployment_approval",
+      "measured": false,
+      "round": 15,
+      "change_id": "r15-static-entry-combination",
+      "parents": [
+        "r9",
+        "r12",
+        "r13",
+        "r14"
+      ],
+      "retain_for_combinations": true,
+      "modules": [
+        "homepage-identity",
+        "presentation",
+        "method-reference"
+      ],
+      "files": [
+        "index.html"
+      ],
+      "base_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "hypothesis": "Test whether the retained R12 H1, R13 static method explanations and R14 second-backbone table work together as an initial-HTML identity/method/evidence bundle on R9.",
+      "reason_selected": "All seven editable-site proposals now have observations. The only remaining unmeasured old proposal needs external author authority. A separately identified combination tests previously retained candidates without deleting or overwriting their individual results.",
+      "scope": "Replay exactly three archived operations; no new wording, numbers, styles, scripts or schema.",
+      "module_dependencies": [
+        "index.html hero-title, framework and results",
+        "existing script.js component/result facts, unchanged",
+        "existing styles.css, unchanged",
+        "R7 overview, R8 references and R9 default static data, retained"
+      ],
+      "interpretation": "Unmeasured bundle, not predicted lift. Single immediate historical observations cannot isolate parent effects or rule out indexing lag.",
+      "candidate_commit": "ca8936282e047ee302c315c3eecc016db45cd79b",
+      "candidate_tree": "13982678cdeb9efc1bb4ea871f6f150a9a5f16ce",
+      "wrapper_run_id": "20261017T090803Z-index-html",
+      "branch": "autoresearch/index-html/20261017T090803Z-index-html/candidate-001"
     }
   ],
-  "selected_candidate_id": "static-second-backbone-evidence"
+  "selected_candidate_id": "static-entry-combination"
 }
