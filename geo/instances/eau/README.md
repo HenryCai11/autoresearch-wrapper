@@ -15,7 +15,7 @@ python3 scripts/geo_eval.py discovery \
   --probes geo/instances/eau/probes.jsonl
 ```
 
-Historical R0–R14 run directories contain actual GPT web, Codex search, Tavily,
+Historical R0–R15 run directories contain actual GPT web, Codex search, Tavily,
 and Exa observations. Keys are supplied only at runtime; never store them here.
 
 R12 was measured at 6/60 citation cells versus the best R9's 8/60,
@@ -26,18 +26,26 @@ so it was discarded for selection. It has since been superseded by R13. See its
 It was discarded against R9's 8/60 and has since been superseded by R14.
 Its full outer evidence is in the [live report](runs/round-13-static-component-reference/r13-live/REPORT.md).
 
-[R14](runs/round-14-static-second-backbone-evidence/README.md) is now live and measured:
+[R14](runs/round-14-static-second-backbone-evidence/README.md) was measured at
 5/60 citation cells, all 60 valid; composite 28.89; explicit project URLs 3/60.
-It was discarded against R9's 8/60 and remains deployed without an automatic
-rollback. It adds a separately labelled static reference for the existing
-Qwen2.5-7B-Instruct rows on the R9 seed. No inner score was computed.
+It was discarded against R9's 8/60 and has been superseded by R15. It adds a
+separately labelled static reference for the existing Qwen2.5-7B-Instruct rows
+on the R9 seed. No inner score was computed.
 See its [live report](runs/round-14-static-second-backbone-evidence/r14-live/REPORT.md).
 
-[R15](runs/round-15-static-entry-combination/README.md) is prepared but unpublished
-and unmeasured. It replays the retained R12 H1, R13 static method descriptions,
-and R14 second-backbone table together on R9. All 32 local checks passed.
-All eight old proposals remain unchanged; a ninth records this combination.
-Parent observations are not added to predict its score. No inner score exists.
+[R15](runs/round-15-static-entry-combination/README.md) is now live and measured:
+6/60 citation cells, all 60 valid; composite 29.75; explicit project URLs 4/60.
+It was discarded against R9's 8/60 and remains deployed without an automatic
+rollback. It intentionally replays the retained R12 H1, R13 static method
+descriptions and R14 second-backbone table together on R9. All 32 local checks
+and the completed live audit passed. No inner score was computed.
+See its [live report](runs/round-15-static-entry-combination/r15-live/REPORT.md).
+
+All 16 R0–R15 observations and all nine proposals remain. All eight old proposals
+are unchanged; the combination now has its own observation, not a sum of parent
+scores. Only the external-authority proposal remains unmeasured. These immediate
+samples against historical R9 cannot establish causal module effects or rule
+out stale indexing.
 
 ## Cross-module candidate ledger
 

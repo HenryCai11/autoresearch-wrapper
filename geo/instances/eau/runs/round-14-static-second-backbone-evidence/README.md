@@ -1,8 +1,10 @@
 # EAU R14 — static second-backbone evidence
 
-Current status: **published and measured; discard against R9**.
+Current status: **measured and superseded by R15; discard against R9**.
 
-R14 is live as `c762ead8370159e102c5ea11b1a43b944c71d1bf`. All 60 outer
+R14 was published as `c762ead8370159e102c5ea11b1a43b944c71d1bf` and has since
+been superseded by [R15](../round-15-static-entry-combination/README.md).
+All 60 outer
 responses were valid. Primary project-domain citations: R9 **8/60 → R14 5/60**;
 secondary composite: **30.25 → 28.89**. Explicit project URL cells: **3/60**;
 support-page URL cells: **0/60**. No inner score was computed and no automatic

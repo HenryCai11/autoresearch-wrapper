@@ -1,0 +1,165 @@
+{
+  "round": 15,
+  "experiment_id": "eau-live-geo-r15-2026-10",
+  "change_id": "r15-static-entry-combination",
+  "production_merge_commit": "596ccda6c33a4bb2ea9cac3daa7d489e856f264d",
+  "production_tree": "13982678cdeb9efc1bb4ea871f6f150a9a5f16ce",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "measured_at": "2026-10-17T09:37:50+00:00",
+  "measurement_phase": "immediate_post_deployment",
+  "query_count": 15,
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "selection_policy": "outer-only; primary project-domain citation rate; inner ignored",
+  "scheduled": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 6,
+    "mention_rate": 0.75,
+    "found_rate": 0.6833333333333333,
+    "citation_rate": 0.1,
+    "attribution_rate": 0.6833333333333333,
+    "mrr": 0.03333333333333333,
+    "score": 29.750000000000004
+  },
+  "valid_response": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 6,
+    "mention_rate": 0.75,
+    "found_rate": 0.6833333333333333,
+    "citation_rate": 0.1,
+    "attribution_rate": 0.6833333333333333,
+    "mrr": 0.03333333333333333,
+    "score": 29.750000000000004
+  },
+  "by_engine": {
+    "gpt-web": {
+      "n": 15,
+      "valid_responses": 15,
+      "project_citations": 0,
+      "mention_rate": 0.7333333333333333,
+      "found_rate": 0.7333333333333333,
+      "citation_rate": 0.0,
+      "attribution_rate": 0.7333333333333333,
+      "mrr": 0.0,
+      "score": 25.666666666666664
+    },
+    "codex-search": {
+      "n": 15,
+      "valid_responses": 15,
+      "project_citations": 4,
+      "mention_rate": 0.8,
+      "found_rate": 0.8,
+      "citation_rate": 0.26666666666666666,
+      "attribution_rate": 0.8,
+      "mrr": 0.13333333333333333,
+      "score": 42.66666666666667
+    },
+    "tavily-search": {
+      "n": 15,
+      "valid_responses": 15,
+      "project_citations": 0,
+      "mention_rate": 0.5333333333333333,
+      "found_rate": 0.4,
+      "citation_rate": 0.0,
+      "attribution_rate": 0.4,
+      "mrr": 0.0,
+      "score": 15.333333333333336
+    },
+    "exa-search": {
+      "n": 15,
+      "valid_responses": 15,
+      "project_citations": 2,
+      "mention_rate": 0.9333333333333333,
+      "found_rate": 0.8,
+      "citation_rate": 0.13333333333333333,
+      "attribution_rate": 0.8,
+      "mrr": 0.0,
+      "score": 35.333333333333336
+    }
+  },
+  "by_tier": {
+    "exact": {
+      "n": 20,
+      "valid_responses": 20,
+      "project_citations": 6,
+      "mention_rate": 1.0,
+      "found_rate": 1.0,
+      "citation_rate": 0.3,
+      "attribution_rate": 1.0,
+      "mrr": 0.1,
+      "score": 50.5
+    },
+    "fuzzy": {
+      "n": 20,
+      "valid_responses": 20,
+      "project_citations": 0,
+      "mention_rate": 0.7,
+      "found_rate": 0.65,
+      "citation_rate": 0.0,
+      "attribution_rate": 0.65,
+      "mrr": 0.0,
+      "score": 23.25
+    },
+    "broad": {
+      "n": 20,
+      "valid_responses": 20,
+      "project_citations": 0,
+      "mention_rate": 0.55,
+      "found_rate": 0.4,
+      "citation_rate": 0.0,
+      "attribution_rate": 0.4,
+      "mrr": 0.0,
+      "score": 15.500000000000004
+    }
+  },
+  "explicit_project_url_cells": 4,
+  "explicit_support_page_url_cells": 0,
+  "support_page_url_evidence": [],
+  "citation_transitions": {
+    "gained": [],
+    "lost": [
+      {
+        "query": "user-centric agents co-evolve environment and user simulator",
+        "engine": "codex-search"
+      },
+      {
+        "query": "recent agent environment co-evolution papers",
+        "engine": "exa-search"
+      }
+    ]
+  },
+  "baseline_reference": "Reused R9 live 60-cell measurement completed 2026-10-16T13:09:24Z; no new control collection",
+  "matched_valid_comparison": {
+    "baseline": {
+      "n": 60,
+      "valid_responses": 60,
+      "project_citations": 8,
+      "mention_rate": 0.7166666666666667,
+      "found_rate": 0.6666666666666666,
+      "citation_rate": 0.13333333333333333,
+      "attribution_rate": 0.65,
+      "mrr": 0.041666666666666664,
+      "score": 30.25
+    },
+    "r15": {
+      "n": 60,
+      "valid_responses": 60,
+      "project_citations": 6,
+      "mention_rate": 0.75,
+      "found_rate": 0.6833333333333333,
+      "citation_rate": 0.1,
+      "attribution_rate": 0.6833333333333333,
+      "mrr": 0.03333333333333333,
+      "score": 29.750000000000004
+    },
+    "citation_delta": -0.033333333333333326,
+    "composite_delta": -0.49999999999999645
+  },
+  "decision": "discard",
+  "limitations": [
+    "An immediate single-sample search observation does not establish causal lift.",
+    "Search engines may still serve pre-deployment indexed copies; repeat after recrawling.",
+    "Provider/tool outputs are not directly interchangeable with consumer chat-app products."
+  ]
+}

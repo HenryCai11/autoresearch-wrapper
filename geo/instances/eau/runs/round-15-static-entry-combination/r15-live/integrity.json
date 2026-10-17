@@ -1,0 +1,24 @@
+{
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "sha256": {
+    "gpt-web-answers.jsonl": "b1da40e6889f2cf5c2d1f452035ae77d3825eb306f159598d4dc36d51dda43e9",
+    "codex-answers-complete.jsonl": "88688cf4716ac8288b8ec414c89eb47268418b3841e67bde976c930351ad77bd",
+    "tavily-answers.jsonl": "c16c37945f48004782a0cfccf4a3768f8dd02beb2bcd342c9ec58c6bae0d21e2",
+    "exa-answers.jsonl": "5859bfc7cdbebe3f5687380c64d7a814aa58e0e7d2254d805e8a96aaf4e90e58",
+    "search-matrix.csv": "bcd32c91a89447370fa3f7640dbc4058dd36c11986e6371154068cf84697d4ff",
+    "search-map.json": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+    "raw-api-responses.jsonl": "fe446f8129df741c3897a336eb519076f82caf49898e8023c99c2159c7f3716c",
+    "network-events.jsonl": "52483b65adbe26caace9339a10aa34c7cbe23da2cda19fbae4eb85d9104cc528",
+    "deployment.json": "87a2b9beb1fb60d62433d2e501366f6e9298f273e6fc85e5ef31125589af9ace",
+    "collection-settings.json": "ca23a6d0f2543d9c88e9c0299d877d80753050609507adc65ebffa411578d05f",
+    "queries.txt": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+    "codex-group-1/started-at.txt": "8d78b5065a09cdea81cb8af7ca6b302144874249fd3368ee96ba20ff2f36e451",
+    "codex-group-1/completed-at.txt": "e09048ca352a5a0957dc8d064fc08e24fee6242d796a430008e61943e29d63bd",
+    "codex-group-2/started-at.txt": "adf7d38e9e7ca1bd5df07868b02fae4349dffc3fcbec30ae46f59709476060b2",
+    "codex-group-2/completed-at.txt": "6475be39aef99932cae1e70f5e6366cc4b8029967b00620b5de4d9ac0705837f"
+  },
+  "baseline_matrix_sha256": "deebdf85fe8751eb8d7e53f9256a539fe50101ea3403550df06c7ce05a55b577",
+  "served_resources_sha256": {
+    "index.html": "515facfa3ee8a46fd37d1cb73b059284ac1831409e6801473da11641cd093a05"
+  }
+}

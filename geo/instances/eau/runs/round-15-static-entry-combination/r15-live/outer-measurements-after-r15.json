@@ -1,0 +1,23 @@
+{
+  "measurements": [
+    {
+      "label": "r9-best-reused-control",
+      "deployed_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "deployed_tree": "5ebd5d1c28e00690d58caafa0edfe066ae5307d7",
+      "measured_at": "2026-10-16T13:09:24+00:00",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "control/search-matrix.csv",
+      "matrix_sha256": "deebdf85fe8751eb8d7e53f9256a539fe50101ea3403550df06c7ce05a55b577",
+      "verification": "Exact preserved best fully measured tree; historical control, not new search collection"
+    },
+    {
+      "label": "r15-immediate-live",
+      "deployed_commit": "596ccda6c33a4bb2ea9cac3daa7d489e856f264d",
+      "deployed_tree": "13982678cdeb9efc1bb4ea871f6f150a9a5f16ce",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "r15-live/search-matrix.csv",
+      "matrix_sha256": "bcd32c91a89447370fa3f7640dbc4058dd36c11986e6371154068cf84697d4ff",
+      "verification": "Before/after deployed homepage equal the merged R15 checkout and exact candidate tree."
+    }
+  ]
+}

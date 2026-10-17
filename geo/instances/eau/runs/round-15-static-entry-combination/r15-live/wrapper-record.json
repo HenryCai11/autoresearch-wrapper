@@ -1,0 +1,7 @@
+{
+  "commit": "ca8936282e047ee302c315c3eecc016db45cd79b",
+  "description": "R15 retained R12 H1 + R13 static method + R14 result-table combination on best R9 seed; exact deployed tree and homepage bytes verified; 60 frozen outer cells; R9 8/60 control",
+  "metric_value": 10.0,
+  "recorded_at": "2026-10-17T09:37:51+00:00",
+  "status": "discard"
+}

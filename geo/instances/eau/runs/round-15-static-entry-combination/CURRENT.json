@@ -1,0 +1,9 @@
+{
+  "state": "deployed_and_measured",
+  "production_commit": "596ccda6c33a4bb2ea9cac3daa7d489e856f264d",
+  "decision": "discard",
+  "primary_citations": "6/60",
+  "report": "r15-live/REPORT.md",
+  "preparation_snapshot": "change.json",
+  "live_change": "r15-live/deployed-change.json"
+}

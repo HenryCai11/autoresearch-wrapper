@@ -1,0 +1,26 @@
+{
+  "baseline": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 8,
+    "mention_rate": 0.7166666666666667,
+    "found_rate": 0.6666666666666666,
+    "citation_rate": 0.13333333333333333,
+    "attribution_rate": 0.65,
+    "mrr": 0.041666666666666664,
+    "score": 30.25
+  },
+  "r15": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 6,
+    "mention_rate": 0.75,
+    "found_rate": 0.6833333333333333,
+    "citation_rate": 0.1,
+    "attribution_rate": 0.6833333333333333,
+    "mrr": 0.03333333333333333,
+    "score": 29.750000000000004
+  },
+  "citation_delta": -0.033333333333333326,
+  "composite_delta": -0.49999999999999645
+}

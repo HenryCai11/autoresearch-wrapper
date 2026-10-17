@@ -1,5 +1,35 @@
 # EAU R15 — retained static-entry combination
 
+Current status: **published and measured; discard against R9**.
+
+R15 is live as `596ccda6c33a4bb2ea9cac3daa7d489e856f264d`. All 60 outer
+responses were valid. Primary project-domain citations: R9 **8/60 → R15 6/60**
+(13.33% → 10.00%); secondary composite: **30.25 → 29.75**.
+Explicit project URL cells: **4/60**; support-page URL cells: **0/60**.
+The frozen judge also counts bare project-domain occurrences as citations.
+No inner score was computed. No automatic rollback was performed.
+
+See [the live report](r15-live/REPORT.md), [current state](CURRENT.json), and
+[deployment and collection timing proof](r15-live/deployment.json).
+Both served checks matched the exact candidate; all collection timestamps
+fell between them. The live audit passed complete-cell, archived-metric replay,
+preparation-hash, parent-operation and history-retention checks.
+
+All 16 R0–R15 history entries and nine proposals remain; all eight old proposals
+are unchanged. The combination has its own measured observation. Only the
+external-authority proposal remains unmeasured. R12/R13/R14 observations were
+not added to predict R15, and this immediate sample against historical R9 does
+not isolate any parent's causal contribution or exclude stale indexes.
+No follow-up is scheduled automatically; R15 remains live.
+
+The rest of this document is the historical preparation snapshot. Its original
+bytes are preserved in `r15-live/pre-live-README.md` for the preparation audit;
+statements below about awaiting approval or current production refer to that time.
+Root change.json, audit.json, results.tsv and program.md remain preparation
+snapshots; the current measurement and wrapper record are under r15-live/.
+
+## Preparation snapshot
+
 Status: **validated local candidate; not published or measured**.
 
 - Run: 20261017T090803Z-index-html; sequential, one index.html candidate.
