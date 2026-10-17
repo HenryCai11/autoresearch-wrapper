@@ -1,8 +1,9 @@
 # EAU R13 — static component reference
 
-Current status: **published and measured; discard against R9**.
+Current status: **published and measured; discard against R9; superseded by R14**.
 
-R13 is live as `c6fa063d86be9e1861b0d79c6d2f7e2c27e3c1aa`. All 60 outer
+R13 was deployed as `c6fa063d86be9e1861b0d79c6d2f7e2c27e3c1aa` and has since
+been superseded by [R14](../round-14-static-second-backbone-evidence/README.md). All 60 outer
 responses were valid. Primary project-domain citations: R9 **8/60 → R13 7/60**;
 secondary composite: **30.25 → 30.14**. Explicit project URL cells: **4/60**;
 support-page URL cells: **0/60**. No inner score was computed, and no automatic
@@ -10,8 +11,8 @@ rollback was performed. This immediate single sample is not a causal estimate.
 
 See [the live report](r13-live/REPORT.md), [current state](CURRENT.json), and
 [deployment and collection timing proof](r13-live/deployment.json).
-The complete 60-cell evidence and 14-entry R0–R13 history passed the live audit;
-all eight proposals remain, including the two still unmeasured.
+The complete 60-cell evidence and 14-entry R0–R13 history passed the R13 live audit;
+all eight proposals were preserved, with two unmeasured at that recording time.
 
 The rest of this document is the historical preparation snapshot. Its original
 bytes are preserved in `r13-live/pre-live-README.md` for the preparation audit;

@@ -15,21 +15,23 @@ python3 scripts/geo_eval.py discovery \
   --probes geo/instances/eau/probes.jsonl
 ```
 
-Historical R0–R13 run directories contain actual GPT web, Codex search, Tavily,
+Historical R0–R14 run directories contain actual GPT web, Codex search, Tavily,
 and Exa observations. Keys are supplied only at runtime; never store them here.
 
 R12 was measured at 6/60 citation cells versus the best R9's 8/60,
 so it was discarded for selection. It has since been superseded by R13. See its
 [live report](runs/round-12-homepage-descriptive-h1/r12-live/REPORT.md).
-[R13](runs/round-13-static-component-reference/README.md) is now live and measured:
+[R13](runs/round-13-static-component-reference/README.md) was measured at:
 7/60 citation cells, all 60 valid; composite 30.14; explicit project URLs 4/60.
-It was discarded against R9's 8/60 and remains deployed without an automatic
-rollback. Its full outer evidence is in the [live report](runs/round-13-static-component-reference/r13-live/REPORT.md).
+It was discarded against R9's 8/60 and has since been superseded by R14.
+Its full outer evidence is in the [live report](runs/round-13-static-component-reference/r13-live/REPORT.md).
 
-[R14](runs/round-14-static-second-backbone-evidence/README.md) is prepared but
-unpublished and unmeasured. It adds a separately labelled static reference for
-the existing Qwen2.5-7B-Instruct result rows on the best observed R9 seed.
-All 27 local checks passed; no inner score or new outer observation exists.
+[R14](runs/round-14-static-second-backbone-evidence/README.md) is now live and measured:
+5/60 citation cells, all 60 valid; composite 28.89; explicit project URLs 3/60.
+It was discarded against R9's 8/60 and remains deployed without an automatic
+rollback. It adds a separately labelled static reference for the existing
+Qwen2.5-7B-Instruct rows on the R9 seed. No inner score was computed.
+See its [live report](runs/round-14-static-second-backbone-evidence/r14-live/REPORT.md).
 
 ## Cross-module candidate ledger
 

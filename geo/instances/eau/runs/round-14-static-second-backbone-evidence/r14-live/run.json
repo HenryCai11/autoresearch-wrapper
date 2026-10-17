@@ -1,0 +1,11 @@
+{
+  "experiment_id": "eau-live-geo-r14-2026-10",
+  "round": 14,
+  "change_id": "r14-static-second-backbone-evidence",
+  "production_merge_commit": "c762ead8370159e102c5ea11b1a43b944c71d1bf",
+  "production_tree": "1d987f64d620a79a9db3c354c50f89d4ce8ae164",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "measured_at": "2026-10-17T05:53:35+00:00",
+  "measurement_phase": "immediate_post_deployment",
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce"
+}

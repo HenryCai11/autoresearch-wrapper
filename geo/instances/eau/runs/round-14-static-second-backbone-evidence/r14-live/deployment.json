@@ -1,0 +1,22 @@
+{
+  "source_branch": "codex/geo-live-round-14-deploy",
+  "candidate_branch": "codex/geo-live-round-14",
+  "candidate_commit": "fd5681ce5d3146f3ec42081fef3d89ee0f0f5e7a",
+  "deploy_commit": "2976dc22dc6a2dc11ef648a725981d1692845d25",
+  "production_merge_commit": "c762ead8370159e102c5ea11b1a43b944c71d1bf",
+  "production_tree": "1d987f64d620a79a9db3c354c50f89d4ce8ae164",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "resource_sha256": {
+    "index.html": "a9f5e06748cd6131dd65b4ffb6b5d7f4aeea5a5f0aa0695b564e710e8098cf4e"
+  },
+  "served_version_verified_at": "2026-10-17T05:47:49Z",
+  "served_version_reverified_at": "2026-10-17T05:53:18Z",
+  "collection_timing_verified": true,
+  "first_request_at": "2026-10-17T05:48:03+00:00",
+  "last_completed_request_at": "2026-10-17T05:52:57+00:00",
+  "timing_evidence": "GPT and API request timestamps plus both Codex group start/completion markers are all within the before/after served checks. All 60 responses are valid before record creation.",
+  "verification": "The only changed resource index.html byte-matches the exact candidate and production tree before collection and after every search request has completed.",
+  "authorization": "User explicitly requested publishing and testing the prepared R14 candidate.",
+  "selection_seed": "R9 preserved best, 8/60; not previous R13 production with 7/60",
+  "deployment_method": "An isolated deploy branch based on R13 was patched to the exact R9-based R14 candidate; complete tree verified before merge. Relative to R13 it adds the second-backbone static table and removes the unkept R13 component block. No blind merge was used."
+}

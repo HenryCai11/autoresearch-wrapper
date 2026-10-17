@@ -1,6 +1,23 @@
 # EAU R14 — static second-backbone evidence
 
-Status: **validated local candidate; not published or measured**.
+Current status: **published and measured; discard against R9**.
+
+R14 is live as `c762ead8370159e102c5ea11b1a43b944c71d1bf`. All 60 outer
+responses were valid. Primary project-domain citations: R9 **8/60 → R14 5/60**;
+secondary composite: **30.25 → 28.89**. Explicit project URL cells: **3/60**;
+support-page URL cells: **0/60**. No inner score was computed and no automatic
+rollback was performed. This immediate single sample is not a causal estimate.
+
+See [the live report](r14-live/REPORT.md), [current state](CURRENT.json), and
+[deployment and collection timing proof](r14-live/deployment.json).
+The complete 60-cell evidence and 15-entry R0–R14 history passed the live audit;
+all eight proposals remain. Only the external-authority proposal is unmeasured.
+
+The rest of this document is the historical preparation snapshot. Its original
+bytes are preserved in `r14-live/pre-live-README.md` for the preparation audit;
+statements below about awaiting approval or current production refer to that time.
+
+## Preparation snapshot
 
 - Wrapper run: 20261016T180208Z-index-html; sequential, one candidate, index.html target.
 - Existing pool proposal: static-second-backbone-evidence.
