@@ -1,0 +1,33 @@
+[
+  {
+    "id": "descriptive-heading-static-method",
+    "status": "selected_preparing",
+    "measured": false,
+    "round": 17,
+    "change_id": "r17-descriptive-heading-static-method",
+    "parents": [
+      "r16",
+      "r13"
+    ],
+    "retain_for_combinations": true,
+    "modules": [
+      "homepage-identity",
+      "presentation",
+      "method-reference"
+    ],
+    "files": [
+      "index.html"
+    ],
+    "base_commit": "18c0ae3d6af0baf151487681aac40d7a09dd475c",
+    "hypothesis": "Test the exact retained R13 static environment/agent explanations under R16 descriptive section headings, with no new wording or facts.",
+    "reason_selected": "R16 has 9/60 citations but zero fuzzy-tier citations and eight explicit homepage URL cells with no support-page URLs. Test passage completeness at that observed homepage surface; source visibility is not a lift estimate.",
+    "scope": "One archived replace_text operation; no R12 H1, R14 second-backbone table, new text, data, claims, links, scripts, styles or schema.",
+    "module_dependencies": [
+      "R16 framework-title and results-title retained",
+      "unchanged script.js component facts",
+      "existing timescales/knob-list CSS",
+      "interactive tabs and R9 default static results unchanged"
+    ],
+    "interpretation": "Unmeasured combination, not predicted lift; the R13 7/60 and R15 6/60 historical samples are not added to R16 9/60."
+  }
+]

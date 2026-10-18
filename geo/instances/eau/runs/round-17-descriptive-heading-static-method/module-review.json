@@ -1,0 +1,85 @@
+{
+  "basis": "Actual complete R16 outer measurement plus preserved R13/R15 observations; no new R17 searches",
+  "latest_observation": {
+    "round": 16,
+    "citations": 9,
+    "explicit_project_url_cells": 8,
+    "explicit_support_page_url_cells": 0,
+    "fuzzy_citations": 0,
+    "broad_citations": 1,
+    "decision": "keep"
+  },
+  "reviews": [
+    {
+      "module": "homepage-identity",
+      "action": "Keep R16 H2s and existing H1/subtitle; no replay of discarded R12 hero change"
+    },
+    {
+      "module": "presentation",
+      "action": "Exact R13 persistent articles under descriptive method heading; reuse existing CSS and preserve interactive tabs"
+    },
+    {
+      "module": "method-reference",
+      "action": "Reuse existing environment/agent facts verbatim from script.js; method.html unchanged"
+    },
+    {
+      "module": "research-context",
+      "action": "Retain existing scope and evaluation-boundary text; no new topic block"
+    },
+    {
+      "module": "paper-authority",
+      "action": "Retain metadata/evidence and all result numbers; no R14 second-backbone reference table"
+    },
+    {
+      "module": "machine-readable-summary",
+      "action": "Retain llms.txt; no measured support-page URL retrieval in R16"
+    },
+    {
+      "module": "repository-authority",
+      "action": "Retain existing README bridge; no external repository mutation"
+    },
+    {
+      "module": "crawler-routing",
+      "action": "Retain robots/sitemap; served content does not prove indexing"
+    },
+    {
+      "module": "reference-pages",
+      "action": "Retain R8 routes; no extra links, schema, or reference-page expansion"
+    },
+    {
+      "module": "external-paper-entry",
+      "action": "Unknown backlink state; any edit still needs separate author authority"
+    }
+  ],
+  "alternatives_retained": [
+    {
+      "ids": [
+        "static-component-reference"
+      ],
+      "action": "Exact R13 operation reused in a new proposal, leaving the original measured discard untouched"
+    },
+    {
+      "ids": [
+        "homepage-descriptive-h1",
+        "static-second-backbone-evidence",
+        "static-entry-combination"
+      ],
+      "action": "Retain R12/R14/R15 observations for later tests; do not silently inherit their full bundles"
+    },
+    {
+      "ids": [
+        "shared-scholarly-entity",
+        "reference-cluster-without-r7",
+        "r8-reference-cluster"
+      ],
+      "action": "Retain previous schema/routing/overview candidates without assigning causal effects"
+    },
+    {
+      "ids": [
+        "external-paper-link-audit"
+      ],
+      "action": "Unknown, unmeasured, outside edit authority"
+    }
+  ],
+  "selection_limit": "R16 source visibility does not predict combination lift. Historical single samples cannot isolate modules or rule out stale indexes."
+}

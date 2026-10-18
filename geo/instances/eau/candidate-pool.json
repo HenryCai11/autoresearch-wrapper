@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "site_url": "https://eau-meta-agent.github.io/",
-  "updated_at": "2026-10-18T06:34:03+00:00",
-  "current_round": 16,
+  "updated_at": "2026-10-18T11:57:42+00:00",
+  "current_round": 17,
   "maintenance": "Site-specific ledger maintained by the agent when starting or recording a round; not an automatic scheduler or a new wrapper-core search algorithm.",
   "policy": {
     "primary_metric": "live_project_citation_rate",
@@ -16,10 +16,10 @@
     ],
     "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
     "inner_metric": "not computed and not used",
-    "baseline": "R16 comparison used preserved historical R9 8/60 (composite 30.25). Current best complete observation is R16 9/60 (31.86111), keep; use the exact R16 tree as the next selection seed. No fresh simultaneous control collected.",
-    "current_production": "R16 live: 9/60, keep; now the best complete observed candidate. No automatic follow-up scheduled.",
-    "deployment": "R16 publication was explicitly approved; exact candidate tree and before/after served bytes verified for the completed real 60-cell collection.",
-    "history": "All 17 R0–R16 observations and all ten proposals retained; all nine old proposals unchanged. The new heading candidate now has its own measurement; only the external-authority proposal remains unmeasured. Do not add parent scores.",
+    "baseline": "Best complete R16, 9/60, composite 31.86111; reused historical control, not fresh/simultaneous. Keep requires strictly more than 9/60.",
+    "current_production": "R16 unchanged, 9/60, keep; exact best observed seed",
+    "deployment": "Separate explicit R17 approval required; verify exact candidate tree and served bytes before/after all 60 real requests",
+    "history": "All ten old proposals, 17 old history entries and best_observed R16 unchanged; one separate combination proposal is unmeasured. Never add parent scores.",
     "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up"
   },
   "modules": [
@@ -1687,9 +1687,44 @@
         "score": 31.86111111111111
       },
       "measurement_artifact_dir": "runs/round-16-descriptive-section-headings/r16-live"
+    },
+    {
+      "id": "descriptive-heading-static-method",
+      "status": "validated_awaiting_deployment_approval",
+      "measured": false,
+      "round": 17,
+      "change_id": "r17-descriptive-heading-static-method",
+      "parents": [
+        "r16",
+        "r13"
+      ],
+      "retain_for_combinations": true,
+      "modules": [
+        "homepage-identity",
+        "presentation",
+        "method-reference"
+      ],
+      "files": [
+        "index.html"
+      ],
+      "base_commit": "18c0ae3d6af0baf151487681aac40d7a09dd475c",
+      "hypothesis": "Test the exact retained R13 static environment/agent explanations under R16 descriptive section headings, with no new wording or facts.",
+      "reason_selected": "R16 has 9/60 citations but zero fuzzy-tier citations and eight explicit homepage URL cells with no support-page URLs. Test passage completeness at that observed homepage surface; source visibility is not a lift estimate.",
+      "scope": "One archived replace_text operation; no R12 H1, R14 second-backbone table, new text, data, claims, links, scripts, styles or schema.",
+      "module_dependencies": [
+        "R16 framework-title and results-title retained",
+        "unchanged script.js component facts",
+        "existing timescales/knob-list CSS",
+        "interactive tabs and R9 default static results unchanged"
+      ],
+      "interpretation": "Unmeasured combination, not predicted lift; the R13 7/60 and R15 6/60 historical samples are not added to R16 9/60.",
+      "candidate_commit": "dcf0b80e0e0554746e94e3e47034d77174b35417",
+      "candidate_tree": "acbe04ac17e69189e3eb630ed9c89e449b8faa44",
+      "wrapper_run_id": "20261018T115742Z-index-html",
+      "branch": "autoresearch/index-html/20261018T115742Z-index-html/candidate-001"
     }
   ],
-  "selected_candidate_id": "descriptive-section-headings",
+  "selected_candidate_id": "descriptive-heading-static-method",
   "best_observed": {
     "round": 16,
     "change_id": "r16-descriptive-section-headings",

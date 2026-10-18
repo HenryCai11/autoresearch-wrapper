@@ -1,0 +1,51 @@
+{
+  "checks": {
+    "only_index_changed_vs_best_seed": true,
+    "exactly_one_insertion_and_no_other_rewrite": true,
+    "only_framework_named_section_changed": true,
+    "both_static_descriptions_match_existing_js_verbatim": true,
+    "all_six_knob_labels_match_existing_js": true,
+    "default_user_description_not_duplicated": true,
+    "interactive_explorer_bytes_preserved": true,
+    "static_blocks_not_hidden_or_script_gated": true,
+    "existing_two_column_and_knob_styles_reused": true,
+    "removing_only_method_addition_recovers_r16_seed": true,
+    "reversing_only_r16_headings_recovers_original_r13_html": true,
+    "both_r16_descriptive_h2s_preserved_exactly": true,
+    "original_parent_operation_archives_unchanged": true,
+    "no_r12_h1_or_r14_extra_table_inherited": true,
+    "static_reference_is_not_an_interactive_renderer_target": true,
+    "frozen_collection_settings_unchanged": true,
+    "frozen_r16_control_matrix_unchanged": true,
+    "h1_unchanged_from_selection_seed": true,
+    "head_and_metadata_bytes_unchanged": true,
+    "static_benchmark_results_unchanged": true,
+    "no_untracked_candidate_files": true,
+    "local_links_fragments_and_unique_ids_valid": true,
+    "one_homepage_h1": true,
+    "jsonld_valid_and_unchanged": true,
+    "visible_text_within_existing_limit": true,
+    "no_hidden_text_added": true,
+    "all_nonhome_visible_content_unchanged": true,
+    "frozen_map_judge_and_normalizer_unchanged": true,
+    "query_set_unchanged": true,
+    "production_r16_checkout_unchanged": true,
+    "production_diff_has_only_index": true
+  },
+  "errors": [],
+  "inner_score": "not computed",
+  "visible_home_chars_before": 5433,
+  "visible_home_chars_after": 6086,
+  "limit": 9000,
+  "selection_seed_round": 16,
+  "scope_vs_seed": [
+    "index.html"
+  ],
+  "scope_vs_current_production": [
+    "index.html"
+  ],
+  "browser_test": "not performed; existing styles reused but rendered fit and interactive behavior not claimed as browser-tested",
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+  "judge_sha256": "6bb1498e65e5cf065cc8e03e40007c73c32393e16f85a41d2395db76820613de",
+  "normalization_sha256": "8a2856dd9b69fe4b24c7b315f55ac6c98b7bcbd9063dd1093a11fba3e181d537"
+}

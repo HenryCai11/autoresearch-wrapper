@@ -1,0 +1,18 @@
+{
+  "primary_metric": "live_project_citation_rate",
+  "goal": "maximize",
+  "definition": "100 * frozen geo_eval site_cited cells / 60, including bare project-domain occurrences under the existing judge",
+  "engines": [
+    "gpt-web",
+    "codex-search",
+    "tavily-search",
+    "exa-search"
+  ],
+  "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
+  "inner_metric": "not computed and not used",
+  "baseline": "Best complete R16, 9/60, composite 31.86111; reused historical control, not fresh/simultaneous. Keep requires strictly more than 9/60.",
+  "current_production": "R16 unchanged, 9/60, keep; exact best observed seed",
+  "deployment": "Separate explicit R17 approval required; verify exact candidate tree and served bytes before/after all 60 real requests",
+  "history": "All ten old proposals, 17 old history entries and best_observed R16 unchanged; one separate combination proposal is unmeasured. Never add parent scores.",
+  "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up"
+}

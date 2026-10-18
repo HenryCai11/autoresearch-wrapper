@@ -1,0 +1,2 @@
+timestamp	run_id	candidate_id	status	metric_name	metric_value	goal	commit	branch	worktree	description
+2026-10-18T12:00:25+00:00	20261018T115742Z-index-html	seed	keep	live_project_citation_rate	15.0	maximize	18c0ae3d6af0baf151487681aac40d7a09dd475c	autoresearch/index-html/20261018T115742Z-index-html/seed	/scratch/henrycai/eau-r17-20261018.autoresearch-worktrees/20261018T115742Z-index-html/seed	Preserved best R16 9/60 control; historical observation, not new R17 searches

@@ -54,11 +54,20 @@ data or content blocks. All 31 local checks and the live audit passed; no inner
 score or browser/visual test was performed. Citation counts by GPT web / Codex /
 Tavily / Exa are 0 / 3 / 0 / 6, so engines did not improve uniformly.
 
-All 17 R0–R16 observations and ten proposals remain; all nine old proposals are
-unchanged. Only the external-authority proposal is unmeasured. Discarded candidates
-remain available for later combinations; do not add their scores to predict
-a bundle. This immediate single sample against historical R9 cannot establish
-causal module effects or rule out stale indexing. No follow-up is scheduled.
+[R17](runs/round-17-descriptive-heading-static-method/README.md) is prepared but
+unpublished and unmeasured. It keeps the best R16 heading seed and replays the
+exact archived R13 static environment/agent reference, under a separately
+identified combination proposal. All 31 local checks and the preparation archive
+audit passed. No inner score or browser/visual test was performed. Production
+remains R16; separate R17 publication approval is required.
+
+All 17 R0–R16 observations, all ten old proposals and the best_observed R16
+record remain unchanged. An eleventh proposal records R17; it and the
+external-authority proposal are unmeasured. R17 must exceed the historical R16
+9/60 control, not the former R9 8/60 threshold. Discarded candidates remain
+available for later combinations; do not add their scores to predict a bundle.
+Immediate samples and historical controls cannot establish causal module effects
+or rule out stale indexing. No follow-up is scheduled automatically.
 
 ## Cross-module candidate ledger
 

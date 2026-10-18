@@ -1,0 +1,9 @@
+diff --git a/index.html b/index.html
+index a00af3f..472b52a 100644
+--- a/index.html
++++ b/index.html
+@@ -164,0 +165,4 @@
++      <div class="timescales" id="static-component-reference" aria-label="Environment and agent reference">
++        <article><span class="mini-index">Evolving environment</span><h3>A more informative learning signal.</h3><p>Revise intermediate rewards when task success is too sparse to guide exploration. The meta-agent can reward meaningful progress, correct unhelpful reward designs, and adjust supported interaction limits.</p><div class="knob-list"><span>Intermediate rewards</span><span>Reward rules</span><span>Episode length</span></div></article>
++        <article><span class="mini-index">Evolving agent</span><h3>Training dynamics that can adapt.</h3><p>The neural policy learns through PPO with an action-token critic. The meta-agent monitors optimization logs and trajectories, adjusting configurable dynamics such as entropy and KL coefficients while keeping the training algorithm fixed.</p><div class="knob-list"><span>Entropy coefficient</span><span>KL coefficient</span><span>Training diagnostics</span></div></article>
++      </div>

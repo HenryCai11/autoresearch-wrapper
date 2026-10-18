@@ -1,0 +1,702 @@
+{
+  "dependency_graph": {
+    "edges": [
+      {
+        "confidence": "high",
+        "from": "index.html",
+        "kind": "site-reference",
+        "to": "assets/favicon.svg"
+      },
+      {
+        "confidence": "high",
+        "from": "index.html",
+        "kind": "site-reference",
+        "to": "method.html"
+      },
+      {
+        "confidence": "high",
+        "from": "index.html",
+        "kind": "site-reference",
+        "to": "paper.html"
+      },
+      {
+        "confidence": "high",
+        "from": "index.html",
+        "kind": "site-reference",
+        "to": "research-context.html"
+      },
+      {
+        "confidence": "high",
+        "from": "index.html",
+        "kind": "site-reference",
+        "to": "script.js"
+      },
+      {
+        "confidence": "high",
+        "from": "index.html",
+        "kind": "site-reference",
+        "to": "site-config.js"
+      },
+      {
+        "confidence": "high",
+        "from": "index.html",
+        "kind": "site-reference",
+        "to": "styles.css"
+      },
+      {
+        "confidence": "high",
+        "from": "method.html",
+        "kind": "site-reference",
+        "to": "index.html"
+      },
+      {
+        "confidence": "high",
+        "from": "method.html",
+        "kind": "site-reference",
+        "to": "paper.html"
+      },
+      {
+        "confidence": "high",
+        "from": "method.html",
+        "kind": "site-reference",
+        "to": "research-context.html"
+      },
+      {
+        "confidence": "high",
+        "from": "method.html",
+        "kind": "site-reference",
+        "to": "styles.css"
+      },
+      {
+        "confidence": "high",
+        "from": "paper.html",
+        "kind": "site-reference",
+        "to": "index.html"
+      },
+      {
+        "confidence": "high",
+        "from": "paper.html",
+        "kind": "site-reference",
+        "to": "method.html"
+      },
+      {
+        "confidence": "high",
+        "from": "paper.html",
+        "kind": "site-reference",
+        "to": "research-context.html"
+      },
+      {
+        "confidence": "high",
+        "from": "paper.html",
+        "kind": "site-reference",
+        "to": "styles.css"
+      },
+      {
+        "confidence": "high",
+        "from": "research-context.html",
+        "kind": "site-reference",
+        "to": "index.html"
+      },
+      {
+        "confidence": "high",
+        "from": "research-context.html",
+        "kind": "site-reference",
+        "to": "method.html"
+      },
+      {
+        "confidence": "high",
+        "from": "research-context.html",
+        "kind": "site-reference",
+        "to": "paper.html"
+      },
+      {
+        "confidence": "high",
+        "from": "research-context.html",
+        "kind": "site-reference",
+        "to": "styles.css"
+      }
+    ],
+    "generated_at": "2026-10-18T11:57:42+00:00",
+    "unresolved_edges": []
+  },
+  "git": {
+    "available": true,
+    "head": "18c0ae3d6af0baf151487681aac40d7a09dd475c",
+    "root": "/scratch/henrycai/eau-r17-20261018",
+    "worktrees": true
+  },
+  "part_configs": {
+    "index.html": {
+      "entrypoint": {
+        "path": "index.html",
+        "type": "part"
+      },
+      "execution": {
+        "early_exit_patience": null,
+        "early_exit_threshold": null,
+        "mode": "sequential",
+        "parallelism": 1,
+        "rounds": 1,
+        "stop_rule": null,
+        "wild_max_simultaneous": null
+      },
+      "metric": {
+        "command": "python3 /scratch/henrycai/geo-runs/eau-r17-20261018/outer_metric.py",
+        "command_suggestion": null,
+        "goal": "maximize",
+        "name": "live_project_citation_rate",
+        "preset": null,
+        "regex": "METRIC\\s*=\\s*(?P<value>[-+]?\\d+(?:\\.\\d+)?(?:[eE][-+]?\\d+)?)",
+        "timeout": 120.0
+      },
+      "updated_at": "2026-10-18T11:57:42+00:00"
+    }
+  },
+  "parts": [
+    {
+      "candidate_clarity": true,
+      "configured": true,
+      "dependencies": [
+        "assets/favicon.svg",
+        "method.html",
+        "paper.html",
+        "research-context.html",
+        "script.js",
+        "site-config.js",
+        "styles.css"
+      ],
+      "dependency_clarity": "clear",
+      "dependency_ready": true,
+      "dependency_summary": {
+        "dependents": 3,
+        "direct_dependencies": 7,
+        "important_dependencies_known": true,
+        "key_neighbors": [
+          "assets/favicon.svg",
+          "method.html",
+          "paper.html",
+          "research-context.html"
+        ],
+        "unresolved_count": 0
+      },
+      "dependents": [
+        "method.html",
+        "paper.html",
+        "research-context.html"
+      ],
+      "id": "index.html",
+      "key_neighbors": [
+        "assets/favicon.svg",
+        "method.html",
+        "paper.html",
+        "research-context.html"
+      ],
+      "language": "html",
+      "notes": "signals: benchmark; suggested metric: throughput; direct deps: 7, important unresolved: 0; deps=7, dependents=3, important_unresolved=0",
+      "path": "index.html",
+      "ready": true,
+      "selected": true,
+      "signals": [
+        "benchmark"
+      ],
+      "status": "surely optimizable",
+      "suggested_metric": {
+        "goal": "maximize",
+        "name": "throughput",
+        "source": "inferred-local"
+      },
+      "unresolved_dependencies": []
+    },
+    {
+      "candidate_clarity": true,
+      "configured": false,
+      "dependencies": [
+        "index.html",
+        "method.html",
+        "paper.html",
+        "styles.css"
+      ],
+      "dependency_clarity": "clear",
+      "dependency_ready": true,
+      "dependency_summary": {
+        "dependents": 3,
+        "direct_dependencies": 4,
+        "important_dependencies_known": true,
+        "key_neighbors": [
+          "index.html",
+          "method.html",
+          "paper.html",
+          "styles.css"
+        ],
+        "unresolved_count": 0
+      },
+      "dependents": [
+        "index.html",
+        "method.html",
+        "paper.html"
+      ],
+      "id": "research-context.html",
+      "key_neighbors": [
+        "index.html",
+        "method.html",
+        "paper.html",
+        "styles.css"
+      ],
+      "language": "html",
+      "notes": "signals: perf, benchmark; suggested metric: runtime_seconds; direct deps: 4, important unresolved: 0; deps=4, dependents=3, important_unresolved=0",
+      "path": "research-context.html",
+      "ready": false,
+      "selected": false,
+      "signals": [
+        "perf",
+        "benchmark"
+      ],
+      "status": "surely optimizable",
+      "suggested_metric": {
+        "goal": "minimize",
+        "name": "runtime_seconds",
+        "source": "inferred-local"
+      },
+      "unresolved_dependencies": []
+    },
+    {
+      "candidate_clarity": false,
+      "configured": false,
+      "dependencies": [],
+      "dependency_clarity": "clear",
+      "dependency_ready": true,
+      "dependency_summary": {
+        "dependents": 0,
+        "direct_dependencies": 0,
+        "important_dependencies_known": true,
+        "key_neighbors": [],
+        "unresolved_count": 0
+      },
+      "dependents": [],
+      "id": "README.md",
+      "key_neighbors": [],
+      "language": "markdown",
+      "notes": "metric unclear; direct deps: 0, important unresolved: 0; deps=0, dependents=0, important_unresolved=0",
+      "path": "README.md",
+      "ready": false,
+      "selected": false,
+      "signals": [],
+      "status": "probably optimizable",
+      "suggested_metric": {
+        "goal": null,
+        "name": "unknown",
+        "source": "unknown"
+      },
+      "unresolved_dependencies": []
+    },
+    {
+      "candidate_clarity": false,
+      "configured": false,
+      "dependencies": [],
+      "dependency_clarity": "clear",
+      "dependency_ready": true,
+      "dependency_summary": {
+        "dependents": 1,
+        "direct_dependencies": 0,
+        "important_dependencies_known": true,
+        "key_neighbors": [
+          "index.html"
+        ],
+        "unresolved_count": 0
+      },
+      "dependents": [
+        "index.html"
+      ],
+      "id": "assets/favicon.svg",
+      "key_neighbors": [
+        "index.html"
+      ],
+      "language": "svg",
+      "notes": "metric unclear; direct deps: 0, important unresolved: 0; deps=0, dependents=1, important_unresolved=0",
+      "path": "assets/favicon.svg",
+      "ready": false,
+      "selected": false,
+      "signals": [],
+      "status": "probably optimizable",
+      "suggested_metric": {
+        "goal": null,
+        "name": "unknown",
+        "source": "unknown"
+      },
+      "unresolved_dependencies": []
+    },
+    {
+      "candidate_clarity": true,
+      "configured": false,
+      "dependencies": [
+        "index.html",
+        "paper.html",
+        "research-context.html",
+        "styles.css"
+      ],
+      "dependency_clarity": "clear",
+      "dependency_ready": true,
+      "dependency_summary": {
+        "dependents": 3,
+        "direct_dependencies": 4,
+        "important_dependencies_known": true,
+        "key_neighbors": [
+          "index.html",
+          "paper.html",
+          "research-context.html",
+          "styles.css"
+        ],
+        "unresolved_count": 0
+      },
+      "dependents": [
+        "index.html",
+        "paper.html",
+        "research-context.html"
+      ],
+      "id": "method.html",
+      "key_neighbors": [
+        "index.html",
+        "paper.html",
+        "research-context.html",
+        "styles.css"
+      ],
+      "language": "html",
+      "notes": "signals: optimiz, benchmark; metric unclear; direct deps: 4, important unresolved: 0; deps=4, dependents=3, important_unresolved=0",
+      "path": "method.html",
+      "ready": false,
+      "selected": false,
+      "signals": [
+        "optimiz",
+        "benchmark"
+      ],
+      "status": "probably optimizable",
+      "suggested_metric": {
+        "goal": null,
+        "name": "unknown",
+        "source": "unknown"
+      },
+      "unresolved_dependencies": []
+    },
+    {
+      "candidate_clarity": true,
+      "configured": false,
+      "dependencies": [
+        "index.html",
+        "method.html",
+        "research-context.html",
+        "styles.css"
+      ],
+      "dependency_clarity": "clear",
+      "dependency_ready": true,
+      "dependency_summary": {
+        "dependents": 3,
+        "direct_dependencies": 4,
+        "important_dependencies_known": true,
+        "key_neighbors": [
+          "index.html",
+          "method.html",
+          "research-context.html",
+          "styles.css"
+        ],
+        "unresolved_count": 0
+      },
+      "dependents": [
+        "index.html",
+        "method.html",
+        "research-context.html"
+      ],
+      "id": "paper.html",
+      "key_neighbors": [
+        "index.html",
+        "method.html",
+        "research-context.html",
+        "styles.css"
+      ],
+      "language": "html",
+      "notes": "signals: benchmark; metric unclear; direct deps: 4, important unresolved: 0; deps=4, dependents=3, important_unresolved=0",
+      "path": "paper.html",
+      "ready": false,
+      "selected": false,
+      "signals": [
+        "benchmark"
+      ],
+      "status": "probably optimizable",
+      "suggested_metric": {
+        "goal": null,
+        "name": "unknown",
+        "source": "unknown"
+      },
+      "unresolved_dependencies": []
+    },
+    {
+      "candidate_clarity": false,
+      "configured": false,
+      "dependencies": [],
+      "dependency_clarity": "clear",
+      "dependency_ready": true,
+      "dependency_summary": {
+        "dependents": 0,
+        "direct_dependencies": 0,
+        "important_dependencies_known": true,
+        "key_neighbors": [],
+        "unresolved_count": 0
+      },
+      "dependents": [],
+      "id": "robots.txt",
+      "key_neighbors": [],
+      "language": "robots",
+      "notes": "metric unclear; direct deps: 0, important unresolved: 0; deps=0, dependents=0, important_unresolved=0",
+      "path": "robots.txt",
+      "ready": false,
+      "selected": false,
+      "signals": [],
+      "status": "probably optimizable",
+      "suggested_metric": {
+        "goal": null,
+        "name": "unknown",
+        "source": "unknown"
+      },
+      "unresolved_dependencies": []
+    },
+    {
+      "candidate_clarity": true,
+      "configured": false,
+      "dependencies": [],
+      "dependency_clarity": "clear",
+      "dependency_ready": true,
+      "dependency_summary": {
+        "dependents": 1,
+        "direct_dependencies": 0,
+        "important_dependencies_known": true,
+        "key_neighbors": [
+          "index.html"
+        ],
+        "unresolved_count": 0
+      },
+      "dependents": [
+        "index.html"
+      ],
+      "id": "script.js",
+      "key_neighbors": [
+        "index.html"
+      ],
+      "language": "javascript",
+      "notes": "signals: optimiz; metric unclear; direct deps: 0, important unresolved: 0; deps=0, dependents=1, important_unresolved=0",
+      "path": "script.js",
+      "ready": false,
+      "selected": false,
+      "signals": [
+        "optimiz"
+      ],
+      "status": "probably optimizable",
+      "suggested_metric": {
+        "goal": null,
+        "name": "unknown",
+        "source": "unknown"
+      },
+      "unresolved_dependencies": []
+    },
+    {
+      "candidate_clarity": false,
+      "configured": false,
+      "dependencies": [],
+      "dependency_clarity": "clear",
+      "dependency_ready": true,
+      "dependency_summary": {
+        "dependents": 1,
+        "direct_dependencies": 0,
+        "important_dependencies_known": true,
+        "key_neighbors": [
+          "index.html"
+        ],
+        "unresolved_count": 0
+      },
+      "dependents": [
+        "index.html"
+      ],
+      "id": "site-config.js",
+      "key_neighbors": [
+        "index.html"
+      ],
+      "language": "javascript",
+      "notes": "metric unclear; direct deps: 0, important unresolved: 0; deps=0, dependents=1, important_unresolved=0",
+      "path": "site-config.js",
+      "ready": false,
+      "selected": false,
+      "signals": [],
+      "status": "probably optimizable",
+      "suggested_metric": {
+        "goal": null,
+        "name": "unknown",
+        "source": "unknown"
+      },
+      "unresolved_dependencies": []
+    },
+    {
+      "candidate_clarity": false,
+      "configured": false,
+      "dependencies": [],
+      "dependency_clarity": "clear",
+      "dependency_ready": true,
+      "dependency_summary": {
+        "dependents": 0,
+        "direct_dependencies": 0,
+        "important_dependencies_known": true,
+        "key_neighbors": [],
+        "unresolved_count": 0
+      },
+      "dependents": [],
+      "id": "sitemap.xml",
+      "key_neighbors": [],
+      "language": "sitemap",
+      "notes": "metric unclear; direct deps: 0, important unresolved: 0; deps=0, dependents=0, important_unresolved=0",
+      "path": "sitemap.xml",
+      "ready": false,
+      "selected": false,
+      "signals": [],
+      "status": "probably optimizable",
+      "suggested_metric": {
+        "goal": null,
+        "name": "unknown",
+        "source": "unknown"
+      },
+      "unresolved_dependencies": []
+    },
+    {
+      "candidate_clarity": false,
+      "configured": false,
+      "dependencies": [],
+      "dependency_clarity": "clear",
+      "dependency_ready": true,
+      "dependency_summary": {
+        "dependents": 4,
+        "direct_dependencies": 0,
+        "important_dependencies_known": true,
+        "key_neighbors": [
+          "index.html",
+          "method.html",
+          "paper.html",
+          "research-context.html"
+        ],
+        "unresolved_count": 0
+      },
+      "dependents": [
+        "index.html",
+        "method.html",
+        "paper.html",
+        "research-context.html"
+      ],
+      "id": "styles.css",
+      "key_neighbors": [
+        "index.html",
+        "method.html",
+        "paper.html",
+        "research-context.html"
+      ],
+      "language": "css",
+      "notes": "metric unclear; direct deps: 0, important unresolved: 0; deps=0, dependents=4, important_unresolved=0",
+      "path": "styles.css",
+      "ready": false,
+      "selected": false,
+      "signals": [],
+      "status": "probably optimizable",
+      "suggested_metric": {
+        "goal": null,
+        "name": "unknown",
+        "source": "unknown"
+      },
+      "unresolved_dependencies": []
+    }
+  ],
+  "repo_root": "/scratch/henrycai/eau-r17-20261018",
+  "runs": {
+    "20261018T115742Z-index-html": {
+      "base_ref": "18c0ae3d6af0baf151487681aac40d7a09dd475c",
+      "best_candidate_id": "seed",
+      "best_metric": 15.0,
+      "candidates": [
+        {
+          "based_on": "18c0ae3d6af0baf151487681aac40d7a09dd475c",
+          "branch": "autoresearch/index-html/20261018T115742Z-index-html/seed",
+          "candidate_id": "seed",
+          "created_at": "2026-10-18T11:57:42+00:00",
+          "latest_evaluation": {
+            "command": "python3 /scratch/henrycai/geo-runs/eau-r17-20261018/outer_metric.py",
+            "commit": "18c0ae3d6af0baf151487681aac40d7a09dd475c",
+            "exit_code": 0,
+            "log_path": "/scratch/henrycai/eau-r17-20261018/.autoresearch-wrapper/runs/20261018T115742Z-index-html/logs/seed-20261018T120025Z.log",
+            "metric_value": 15.0,
+            "recorded_at": "2026-10-18T12:00:25+00:00",
+            "regex": "METRIC\\s*=\\s*(?P<value>[-+]?\\d+(?:\\.\\d+)?(?:[eE][-+]?\\d+)?)",
+            "timed_out": false
+          },
+          "lifecycle": "keep",
+          "missing": false,
+          "recorded": true,
+          "result": {
+            "commit": "18c0ae3d6af0baf151487681aac40d7a09dd475c",
+            "description": "Preserved best R16 9/60 control; historical observation, not new R17 searches",
+            "metric_value": 15.0,
+            "recorded_at": "2026-10-18T12:00:25+00:00",
+            "status": "keep"
+          },
+          "worktree_path": "/scratch/henrycai/eau-r17-20261018.autoresearch-worktrees/20261018T115742Z-index-html/seed"
+        },
+        {
+          "based_on": "autoresearch/index-html/20261018T115742Z-index-html/seed",
+          "branch": "autoresearch/index-html/20261018T115742Z-index-html/candidate-001",
+          "candidate_id": "candidate-001",
+          "created_at": "2026-10-18T12:00:26+00:00",
+          "lifecycle": "allocated",
+          "missing": false,
+          "worktree_path": "/scratch/henrycai/eau-r17-20261018.autoresearch-worktrees/20261018T115742Z-index-html/candidate-001"
+        }
+      ],
+      "create_info": null,
+      "created_at": "2026-10-18T11:57:42+00:00",
+      "current_base_branch": "autoresearch/index-html/20261018T115742Z-index-html/seed",
+      "delete_info": null,
+      "early_exit": {
+        "patience": null,
+        "rounds_without_improvement": 0,
+        "threshold": null,
+        "trigger_reason": null,
+        "triggered": false
+      },
+      "execution": {
+        "early_exit_patience": null,
+        "early_exit_threshold": null,
+        "mode": "sequential",
+        "parallelism": 1,
+        "rounds": 1,
+        "stop_rule": null,
+        "wild_max_simultaneous": null
+      },
+      "metric": {
+        "command": "python3 /scratch/henrycai/geo-runs/eau-r17-20261018/outer_metric.py",
+        "command_suggestion": null,
+        "goal": "maximize",
+        "name": "live_project_citation_rate",
+        "preset": null,
+        "regex": "METRIC\\s*=\\s*(?P<value>[-+]?\\d+(?:\\.\\d+)?(?:[eE][-+]?\\d+)?)",
+        "timeout": 120.0
+      },
+      "part_id": "index.html",
+      "program_path": "/scratch/henrycai/eau-r17-20261018/.autoresearch-wrapper/runs/20261018T115742Z-index-html/program.md",
+      "results_path": "/scratch/henrycai/eau-r17-20261018/.autoresearch-wrapper/runs/20261018T115742Z-index-html/results.tsv",
+      "rounds_completed": 0,
+      "run_dir": "/scratch/henrycai/eau-r17-20261018/.autoresearch-wrapper/runs/20261018T115742Z-index-html",
+      "run_id": "20261018T115742Z-index-html",
+      "run_type": "optimize",
+      "status": "running",
+      "worktree_root": "/scratch/henrycai/eau-r17-20261018.autoresearch-worktrees/20261018T115742Z-index-html"
+    }
+  },
+  "schema_version": 2,
+  "selection": {
+    "active_run_id": "20261018T115742Z-index-html",
+    "part_id": "index.html"
+  },
+  "state_dir_excluded": true,
+  "updated_at": "2026-10-18T12:00:29+00:00"
+}
