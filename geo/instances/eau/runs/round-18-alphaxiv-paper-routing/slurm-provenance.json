@@ -1,0 +1,16 @@
+{
+  "account": "aip-xiye17",
+  "resources_per_job": {
+    "cpus": 1,
+    "memory": "1G",
+    "time_limit": "00:05:00",
+    "gpu": false
+  },
+  "verified_with": "sacct -j 1830956,1830980,1830992 -X --format=JobID,JobName,State,ExitCode,Elapsed,AllocCPUS,ReqMem -P",
+  "jobs": [
+    {"id": 1830956, "phase": "selection", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "00:00:01"},
+    {"id": 1830980, "phase": "allocation and historical seed replay", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "00:00:03"},
+    {"id": 1830992, "phase": "validation and archive", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "00:00:01"}
+  ],
+  "scope": "Python, compilation checks, wrapper CLI and validation executed inside Slurm; no new eval collection or site publication"
+}

@@ -1,0 +1,55 @@
+diff --git a/README.md b/README.md
+index 2150775..fd9b5e4 100644
+--- a/README.md
++++ b/README.md
+@@ -6 +6 @@
+-- **Paper:** [arXiv:2610.16523](https://arxiv.org/abs/2610.16523)
++- **Paper:** [alphaXiv — arXiv:2610.16523](https://www.alphaxiv.org/abs/2610.16523)
+diff --git a/index.html b/index.html
+index 472b52a..deaf14a 100644
+--- a/index.html
++++ b/index.html
+@@ -67 +67 @@
+-        <p class="hero-description" id="project-reference">Official EAU project website: <a href="https://eau-meta-agent.github.io/">eau-meta-agent.github.io</a> · <a href="https://arxiv.org/abs/2610.16523">arXiv:2610.16523</a>.</p>
++        <p class="hero-description" id="project-reference">Official EAU project website: <a href="https://eau-meta-agent.github.io/">eau-meta-agent.github.io</a> · <a href="https://www.alphaxiv.org/abs/2610.16523">alphaXiv (arXiv:2610.16523)</a>.</p>
+@@ -73 +73 @@
+-          <a class="button button-dark" href="https://arxiv.org/abs/2610.16523" target="_blank" rel="noopener">arXiv <span aria-hidden="true">↗</span></a>
++          <a class="button button-dark" href="https://www.alphaxiv.org/abs/2610.16523" target="_blank" rel="noopener">alphaXiv <span aria-hidden="true">↗</span></a>
+@@ -210 +210 @@
+-      <div class="wrap resources-grid"><div><p class="eyebrow section-number">05 / Continue exploring</p><h2 id="resources-title">Read, reproduce,<br><em>build on it.</em></h2><p>Environment–Agent–User Co-evolution<br>for Training User-Centric Agents</p><div class="resource-links"><a class="button button-dark" href="https://arxiv.org/abs/2610.16523" target="_blank" rel="noopener">Read on arXiv <span aria-hidden="true">↗</span></a><a id="code-link" class="text-link" data-code-link hidden href="#">Code on GitHub <span aria-hidden="true">↗</span></a><span id="code-status" class="resource-status" data-code-status>Code · coming soon (under review)</span></div></div>
++      <div class="wrap resources-grid"><div><p class="eyebrow section-number">05 / Continue exploring</p><h2 id="resources-title">Read, reproduce,<br><em>build on it.</em></h2><p>Environment–Agent–User Co-evolution<br>for Training User-Centric Agents</p><div class="resource-links"><a class="button button-dark" href="https://www.alphaxiv.org/abs/2610.16523" target="_blank" rel="noopener">Read on alphaXiv <span aria-hidden="true">↗</span></a><a id="code-link" class="text-link" data-code-link hidden href="#">Code on GitHub <span aria-hidden="true">↗</span></a><span id="code-status" class="resource-status" data-code-status>Code · coming soon (under review)</span></div></div>
+diff --git a/llms.txt b/llms.txt
+index 747ed46..033f0d7 100644
+--- a/llms.txt
++++ b/llms.txt
+@@ -19 +19 @@ EAU is a meta-agent framework for training user-centric LLM agents. It jointly a
+-- Paper: https://arxiv.org/abs/2610.16523
++- Paper (alphaXiv): https://www.alphaxiv.org/abs/2610.16523
+diff --git a/method.html b/method.html
+index 7b323f7..e9d7167 100644
+--- a/method.html
++++ b/method.html
+@@ -32 +32 @@
+-    <a class="header-link" href="https://arxiv.org/abs/2610.16523">Paper <span aria-hidden="true">↗</span></a>
++    <a class="header-link" href="https://www.alphaxiv.org/abs/2610.16523">alphaXiv <span aria-hidden="true">↗</span></a>
+diff --git a/paper.html b/paper.html
+index 2ad1713..eb8dc52 100644
+--- a/paper.html
++++ b/paper.html
+@@ -41 +41 @@
+-  <header class="site-header"><a class="wordmark" href="index.html" aria-label="EAU home">eau<span class="wordmark-dot">.</span></a><nav aria-label="Paper navigation"><a href="#identity">Identity</a><a href="#authors">Authors</a><a href="#evidence">Evidence</a></nav><a class="header-link" href="https://arxiv.org/abs/2610.16523">arXiv <span aria-hidden="true">↗</span></a></header>
++  <header class="site-header"><a class="wordmark" href="index.html" aria-label="EAU home">eau<span class="wordmark-dot">.</span></a><nav aria-label="Paper navigation"><a href="#identity">Identity</a><a href="#authors">Authors</a><a href="#evidence">Evidence</a></nav><a class="header-link" href="https://www.alphaxiv.org/abs/2610.16523">alphaXiv <span aria-hidden="true">↗</span></a></header>
+diff --git a/research-context.html b/research-context.html
+index bcdfbd0..3adfe3e 100644
+--- a/research-context.html
++++ b/research-context.html
+@@ -34 +34 @@
+-    <a class="header-link" href="https://arxiv.org/abs/2610.16523">Paper <span aria-hidden="true">↗</span></a>
++    <a class="header-link" href="https://www.alphaxiv.org/abs/2610.16523">alphaXiv <span aria-hidden="true">↗</span></a>
+diff --git a/site-config.js b/site-config.js
+index 76ef676..d958ee4 100644
+--- a/site-config.js
++++ b/site-config.js
+@@ -4 +4 @@ window.EAU_CONFIG = {
+-  paperUrl: "https://arxiv.org/abs/2610.16523",
++  paperUrl: "https://www.alphaxiv.org/abs/2610.16523",

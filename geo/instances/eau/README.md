@@ -69,11 +69,27 @@ for tool-using agents” query, with no lost citation cell versus R16. Fuzzy-tie
 citations remain zero. The frozen judge includes bare project-domain mentions;
 explicit source URLs are reported separately.
 
-All 18 R0–R17 observations and eleven proposals remain; all ten old proposals are
-unchanged. Only the external-authority proposal is unmeasured. Prior candidates
-remain available for combinations; their scores are never added to predict
-a bundle. This immediate historical-control sample does not establish causal
-contribution or exclude stale indexing. No automatic follow-up is scheduled.
+[R18](runs/round-18-alphaxiv-paper-routing/README.md) is prepared locally,
+**not published or measured**. It routes the six HTML paper-reading anchors,
+the README/llms.txt Paper entries and the paperUrl configuration to the verified
+[alphaXiv EAU page](https://www.alphaxiv.org/abs/2610.16523): nine exact URL/label
+replacements in seven files. arXiv identifiers, PDF metadata, JSON-LD identity,
+CITATION.cff and BibTeX remain unchanged. This user-requested routing bundle is
+the R18 intervention; no unrelated content optimization is mixed in.
+
+R18 uses exact R17 as its seed and historical 10/60 control. Keep still requires
+all 60 valid responses and strictly more than 10 citation cells. alphaXiv clicks
+and visits are not measured by that project-domain metric. The candidate awaits
+separate publication approval and a real four-engine collection; local validation
+does not supply a new outer score. See its [validation](runs/round-18-alphaxiv-paper-routing/validation.json)
+and [preservation audit](runs/round-18-alphaxiv-paper-routing/audit.json).
+
+All 18 R0–R17 observations and twelve proposals remain; all eleven old proposals
+and best_observed R17 are unchanged. Only R18 and the external-authority proposal
+are unmeasured. Prior candidates remain available for combinations; their scores
+are never added to predict a bundle. Immediate historical-control samples do not
+establish causal contribution or exclude stale indexing. No automatic follow-up
+is scheduled.
 
 ## Cross-module candidate ledger
 

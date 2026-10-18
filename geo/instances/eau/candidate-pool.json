@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "site_url": "https://eau-meta-agent.github.io/",
-  "updated_at": "2026-10-18T15:48:03+00:00",
-  "current_round": 17,
+  "updated_at": "2026-10-18T16:16:27+00:00",
+  "current_round": 18,
   "maintenance": "Site-specific ledger maintained by the agent when starting or recording a round; not an automatic scheduler or a new wrapper-core search algorithm.",
   "policy": {
     "primary_metric": "live_project_citation_rate",
@@ -16,10 +16,10 @@
     ],
     "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
     "inner_metric": "not computed and not used",
-    "baseline": "R17 used historical R16 9/60. New best complete observation: R17 10/60; use its exact tree as the next selection seed. No simultaneous control collected.",
-    "current_production": "R17 live: 10/60, keep; this comparison uses preserved R16 9/60",
-    "deployment": "R17 publication was explicitly approved; exact candidate tree and before/after served bytes verified for the completed real 60-cell collection.",
-    "history": "All 18 R0–R17 observations and all eleven proposals retained; all ten old proposals unchanged. The new combination has its own measurement; only the external-authority proposal is unmeasured. Do not add parent scores.",
+    "baseline": "Best complete R17, 10/60, composite 34.30556; reused historical control, not fresh/simultaneous. Keep requires strictly more than 10/60.",
+    "current_production": "R17 unchanged, 10/60, keep; exact best observed seed",
+    "deployment": "Separate explicit R18 approval required; verify exact complete candidate tree and all seven changed served resources before/after the real 60 requests",
+    "history": "All eleven old proposals, 18 old observations and best_observed R17 unchanged; one new user-requested routing proposal is unmeasured. Never add parent scores.",
     "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up"
   },
   "modules": [
@@ -1771,9 +1771,54 @@
         "score": 34.30555555555556
       },
       "measurement_artifact_dir": "runs/round-17-descriptive-heading-static-method/r17-live"
+    },
+    {
+      "id": "alphaxiv-paper-routing",
+      "status": "validated_awaiting_deployment_approval",
+      "measured": false,
+      "round": 18,
+      "change_id": "r18-alphaxiv-paper-routing",
+      "parents": [
+        "r17"
+      ],
+      "retain_for_combinations": true,
+      "modules": [
+        "homepage-identity",
+        "method-reference",
+        "research-context",
+        "paper-authority",
+        "machine-readable-summary",
+        "repository-authority",
+        "presentation",
+        "reference-pages"
+      ],
+      "files": [
+        "README.md",
+        "index.html",
+        "llms.txt",
+        "method.html",
+        "paper.html",
+        "research-context.html",
+        "site-config.js"
+      ],
+      "base_commit": "dcf0b80e0e0554746e94e3e47034d77174b35417",
+      "hypothesis": "Route paper-reading entry points consistently to the verified alphaXiv paper as requested by the user, while preserving scholarly identifiers and testing any project-site discovery change separately.",
+      "reason_selected": "Explicit user traffic-routing request; not selected from inferred GEO lift or an inner score.",
+      "scope": "Nine exact URL/label replacements in seven website files; no independent content, result, style, schema or external-page edit.",
+      "module_dependencies": [
+        "All six static HTML anchors use alphaXiv",
+        "site-config.js uses the same destination",
+        "llms.txt and README paper entry agree",
+        "arXiv PDF, citation metadata, JSON-LD identity, CITATION.cff and both BibTeX blocks unchanged"
+      ],
+      "interpretation": "alphaXiv clicks/visits are not measured by the project-domain citation matrix. No traffic gain or discovery lift is assumed.",
+      "candidate_commit": "dda361dcd45f2eee5cff5402a3d8b8a5421ddd33",
+      "candidate_tree": "ad41cd32f93433b1be065fc8d1969d8da78f2600",
+      "wrapper_run_id": "20261018T161626Z-index-html",
+      "branch": "autoresearch/index-html/20261018T161626Z-index-html/candidate-001"
     }
   ],
-  "selected_candidate_id": "descriptive-heading-static-method",
+  "selected_candidate_id": "alphaxiv-paper-routing",
   "best_observed": {
     "round": 17,
     "change_id": "r17-descriptive-heading-static-method",

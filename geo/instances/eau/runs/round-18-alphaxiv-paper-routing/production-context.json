@@ -1,0 +1,55 @@
+{
+  "production_commit": "6eb91c2d44003afe248e5e2623a2a6a2f38f5675",
+  "production_tree": "acbe04ac17e69189e3eb630ed9c89e449b8faa44",
+  "production_observation": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 10,
+    "mention_rate": 0.75,
+    "found_rate": 0.6833333333333333,
+    "citation_rate": 0.16666666666666666,
+    "attribution_rate": 0.6833333333333333,
+    "mrr": 0.11111111111111112,
+    "score": 34.30555555555556
+  },
+  "selection_seed_round": 17,
+  "selection_seed_commit": "dcf0b80e0e0554746e94e3e47034d77174b35417",
+  "selection_seed_tree": "acbe04ac17e69189e3eb630ed9c89e449b8faa44",
+  "seed_observation": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 10,
+    "mention_rate": 0.75,
+    "found_rate": 0.6833333333333333,
+    "citation_rate": 0.16666666666666666,
+    "attribution_rate": 0.6833333333333333,
+    "mrr": 0.11111111111111112,
+    "score": 34.30555555555556
+  },
+  "best_observed_before": {
+    "round": 17,
+    "change_id": "r17-descriptive-heading-static-method",
+    "candidate_commit": "dcf0b80e0e0554746e94e3e47034d77174b35417",
+    "candidate_tree": "acbe04ac17e69189e3eb630ed9c89e449b8faa44",
+    "production_commit": "6eb91c2d44003afe248e5e2623a2a6a2f38f5675",
+    "metric_name": "live_project_citation_rate",
+    "metric_value": 16.666666666666668,
+    "outer_observation": {
+      "n": 60,
+      "valid_responses": 60,
+      "project_citations": 10,
+      "mention_rate": 0.75,
+      "found_rate": 0.6833333333333333,
+      "citation_rate": 0.16666666666666666,
+      "attribution_rate": 0.6833333333333333,
+      "mrr": 0.11111111111111112,
+      "score": 34.30555555555556
+    },
+    "measured_at": "2026-10-18T15:48:02+00:00",
+    "decision": "keep",
+    "artifact_dir": "runs/round-17-descriptive-heading-static-method/r17-live",
+    "interpretation": "Highest complete observed candidate under the locked primary metric; immediate historical-control comparison, not causal lift."
+  },
+  "production_unchanged": true,
+  "requires_separate_publication_approval": true
+}

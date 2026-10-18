@@ -1,0 +1,43 @@
+[
+  {
+    "id": "alphaxiv-paper-routing",
+    "status": "selected_preparing",
+    "measured": false,
+    "round": 18,
+    "change_id": "r18-alphaxiv-paper-routing",
+    "parents": [
+      "r17"
+    ],
+    "retain_for_combinations": true,
+    "modules": [
+      "homepage-identity",
+      "method-reference",
+      "research-context",
+      "paper-authority",
+      "machine-readable-summary",
+      "repository-authority",
+      "presentation",
+      "reference-pages"
+    ],
+    "files": [
+      "README.md",
+      "index.html",
+      "llms.txt",
+      "method.html",
+      "paper.html",
+      "research-context.html",
+      "site-config.js"
+    ],
+    "base_commit": "dcf0b80e0e0554746e94e3e47034d77174b35417",
+    "hypothesis": "Route paper-reading entry points consistently to the verified alphaXiv paper as requested by the user, while preserving scholarly identifiers and testing any project-site discovery change separately.",
+    "reason_selected": "Explicit user traffic-routing request; not selected from inferred GEO lift or an inner score.",
+    "scope": "Nine exact URL/label replacements in seven website files; no independent content, result, style, schema or external-page edit.",
+    "module_dependencies": [
+      "All six static HTML anchors use alphaXiv",
+      "site-config.js uses the same destination",
+      "llms.txt and README paper entry agree",
+      "arXiv PDF, citation metadata, JSON-LD identity, CITATION.cff and both BibTeX blocks unchanged"
+    ],
+    "interpretation": "alphaXiv clicks/visits are not measured by the project-domain citation matrix. No traffic gain or discovery lift is assumed."
+  }
+]

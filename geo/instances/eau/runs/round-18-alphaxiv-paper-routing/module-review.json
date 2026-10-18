@@ -1,0 +1,73 @@
+{
+  "basis": "Explicit user routing request, complete R17 outer history, and independent public alphaXiv URL verification; no new eval probes",
+  "latest_observation": {
+    "round": 17,
+    "citations": 10,
+    "explicit_project_url_cells": 9,
+    "explicit_support_page_url_cells": 0,
+    "fuzzy_citations": 0,
+    "broad_citations": 2,
+    "decision": "keep"
+  },
+  "reviews": [
+    {
+      "module": "homepage-identity",
+      "action": "Route three visible paper anchors and labels to alphaXiv; retain R17 H1, R16 H2s, R7 overview and project self-links"
+    },
+    {
+      "module": "presentation",
+      "action": "Align existing paperUrl configuration; do not change script.js, CSS, layout or tracking"
+    },
+    {
+      "module": "method-reference",
+      "action": "Route header paper link only; retain R13 persistent method block inherited by R17"
+    },
+    {
+      "module": "research-context",
+      "action": "Route header paper link only; scope/comparison text unchanged"
+    },
+    {
+      "module": "paper-authority",
+      "action": "Route header paper link only; preserve arXiv identity, PDF, schema, authors and benchmark facts"
+    },
+    {
+      "module": "machine-readable-summary",
+      "action": "Align llms.txt Paper entry with alphaXiv; all factual text unchanged"
+    },
+    {
+      "module": "repository-authority",
+      "action": "Align website-repository README Paper entry; preserve BibTeX, no external repository edit"
+    },
+    {
+      "module": "crawler-routing",
+      "action": "Retain robots/sitemap; do not imply alphaXiv traffic or indexing is measured"
+    },
+    {
+      "module": "reference-pages",
+      "action": "Retain R8 routes and project-domain links; align support-page paper destinations"
+    },
+    {
+      "module": "external-paper-entry",
+      "action": "Public alphaXiv identity verified; external backlink state remains unknown and no external edit is authorized"
+    }
+  ],
+  "alternatives_retained": [
+    {
+      "ids": [
+        "r8-reference-cluster",
+        "shared-scholarly-entity",
+        "reference-cluster-without-r7",
+        "static-benchmark-evidence",
+        "external-paper-link-audit",
+        "homepage-descriptive-h1",
+        "static-second-backbone-evidence",
+        "static-component-reference",
+        "static-entry-combination",
+        "descriptive-section-headings",
+        "descriptive-heading-static-method"
+      ],
+      "action": "All eleven old proposals and eighteen measured histories retained unchanged. Keep R17 composition as seed; do not mix in R12 H1, R14 table, discarded schema/overview variants or external edits."
+    }
+  ],
+  "selection_limit": "Outbound traffic-routing goal is not the project-domain metric; alphaXiv is not counted as the project site. Historical observations do not predict lift."
+}
