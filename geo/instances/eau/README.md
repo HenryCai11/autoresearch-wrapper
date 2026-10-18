@@ -15,7 +15,7 @@ python3 scripts/geo_eval.py discovery \
   --probes geo/instances/eau/probes.jsonl
 ```
 
-Historical R0–R16 run directories contain actual GPT web, Codex search, Tavily,
+Historical R0–R17 run directories contain actual GPT web, Codex search, Tavily,
 and Exa observations. Keys are supplied only at runtime; never store them here.
 
 R12 was measured at 6/60 citation cells versus the best R9's 8/60,
@@ -41,11 +41,11 @@ descriptions and R14 second-backbone table together on R9. All 32 local checks
 and the completed live audit passed. No inner score was computed.
 See its [live report](runs/round-15-static-entry-combination/r15-live/REPORT.md).
 
-[R16](runs/round-16-descriptive-section-headings/README.md) is now live and measured:
+[R16](runs/round-16-descriptive-section-headings/README.md) was measured at:
 9/60 project-domain citation cells, all 60 valid; composite 31.86; explicit
-project URLs 8/60. It was **kept** against historical R9's 8/60 and is now the
-best complete observed candidate. Its exact tree is the next selection seed;
-the R9 control and every previous result remain preserved.
+project URLs 8/60. It was **kept** against historical R9's 8/60 and became the
+R17 selection seed. It has since been superseded by R17; the R9 control and every
+previous result remain preserved.
 See its [live report](runs/round-16-descriptive-section-headings/r16-live/REPORT.md)
 and [best-observed promotion](runs/round-16-descriptive-section-headings/r16-live/best-observed-promotion.json).
 
@@ -54,20 +54,26 @@ data or content blocks. All 31 local checks and the live audit passed; no inner
 score or browser/visual test was performed. Citation counts by GPT web / Codex /
 Tavily / Exa are 0 / 3 / 0 / 6, so engines did not improve uniformly.
 
-[R17](runs/round-17-descriptive-heading-static-method/README.md) is prepared but
-unpublished and unmeasured. It keeps the best R16 heading seed and replays the
-exact archived R13 static environment/agent reference, under a separately
-identified combination proposal. All 31 local checks and the preparation archive
-audit passed. No inner score or browser/visual test was performed. Production
-remains R16; separate R17 publication approval is required.
+[R17](runs/round-17-descriptive-heading-static-method/README.md) is now live and measured:
+10/60 project-domain citation cells, all 60 valid; composite 34.31; explicit
+project URLs 9/60. It was **kept** against historical R16's 9/60 and is now the
+best complete observed candidate. Its exact tree is the next selection seed.
+See its [live report](runs/round-17-descriptive-heading-static-method/r17-live/REPORT.md)
+and [best-observed selection](runs/round-17-descriptive-heading-static-method/r17-live/best-observed-selection.json).
 
-All 17 R0–R16 observations, all ten old proposals and the best_observed R16
-record remain unchanged. An eleventh proposal records R17; it and the
-external-authority proposal are unmeasured. R17 must exceed the historical R16
-9/60 control, not the former R9 8/60 threshold. Discarded candidates remain
-available for later combinations; do not add their scores to predict a bundle.
-Immediate samples and historical controls cannot establish causal module effects
-or rule out stale indexing. No follow-up is scheduled automatically.
+R17 keeps both R16 headings and replays the exact retained R13 static method
+reference. All 31 local checks and the live audit passed; no inner score or
+browser/visual test was performed. GPT web / Codex / Tavily / Exa citation counts
+are 0 / 3 / 0 / 7. The additional cell is Exa's broad “editable training systems
+for tool-using agents” query, with no lost citation cell versus R16. Fuzzy-tier
+citations remain zero. The frozen judge includes bare project-domain mentions;
+explicit source URLs are reported separately.
+
+All 18 R0–R17 observations and eleven proposals remain; all ten old proposals are
+unchanged. Only the external-authority proposal is unmeasured. Prior candidates
+remain available for combinations; their scores are never added to predict
+a bundle. This immediate historical-control sample does not establish causal
+contribution or exclude stale indexing. No automatic follow-up is scheduled.
 
 ## Cross-module candidate ledger
 

@@ -10,6 +10,15 @@
       "verification": "Exact preserved best fully measured R16 tree; historical control, not new R17 searches",
       "source_label": "r16-immediate-live",
       "measured_at": "2026-10-18T06:31:55+00:00"
+    },
+    {
+      "label": "r17-immediate-live",
+      "deployed_commit": "6eb91c2d44003afe248e5e2623a2a6a2f38f5675",
+      "deployed_tree": "acbe04ac17e69189e3eb630ed9c89e449b8faa44",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "r17-live/search-matrix.csv",
+      "matrix_sha256": "b70606920db1af4346d6ec93cc84491d3f778c6249aaba6d4423686785ec090c",
+      "verification": "Before/after deployed homepage equal the merged R17 checkout and exact candidate tree."
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "sha256": {
+    "gpt-web-answers.jsonl": "e538cceae28a4ee34c112f4965b05490aa926982f0f73b16a89e47bf010ae73c",
+    "codex-answers-complete.jsonl": "92a1a7239322159ba85d36dea66760ae72f0d099df9d46c4779c28289ada53b0",
+    "tavily-answers.jsonl": "d340d3c2370e1e050ff7cb3db290ff4c9da7a595e2cae84659cbfeaf2da6a68e",
+    "exa-answers.jsonl": "f36cd31656d66319be39adc552d8ad3b7e3aff0a63642ea469e4b2c5e4a12e2f",
+    "search-matrix.csv": "b70606920db1af4346d6ec93cc84491d3f778c6249aaba6d4423686785ec090c",
+    "search-map.json": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+    "raw-api-responses.jsonl": "862fe17498e90f3795b5773dc16ac4b37ad7374d60590affb3d9e82481e71d5e",
+    "network-events.jsonl": "10f5ead7981c85ebd4c46e6988c4114271a3bef64d808e713178838e879f33aa",
+    "deployment.json": "6a25047d73aceef0f539bf604dca42b12c2436c4b4b88945f24ae9b9d1409148",
+    "collection-settings.json": "ca23a6d0f2543d9c88e9c0299d877d80753050609507adc65ebffa411578d05f",
+    "queries.txt": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+    "best-observed-selection.json": "c868f1229189c6cb926f469aa219dc40365af83d354fba5b926df5ee6363fed1",
+    "candidate-pool-before-record.json": "eb975aef468decc026f476191cee9e95ed79a80a083ad1bb996ed1e50b1f8c8b",
+    "candidate-pool-after-record.json": "7ca54f7d36fddd0085a05ac79d89affb052b7e43c99e5ce6f2d6480eaaa09b47",
+    "codex-group-1/started-at.txt": "ad88f11061e9a4e3855e18e078321a7f19963340061e4cac0b9ba7ebb20dfe78",
+    "codex-group-1/completed-at.txt": "fe6a7668a7e2fc28c033e9562849265f0b4e238f3a676a681c09a6d681b4f436",
+    "codex-group-2/started-at.txt": "1096a878d424dc28ad5843df301fa1edf5500ce70a5e9e9497a6f55f1be567bd",
+    "codex-group-2/completed-at.txt": "1977169766803af3f58948547a89405b2be3f72e1d050df761b45bd8efdf005d"
+  },
+  "baseline_matrix_sha256": "c45ff1cb3c6c30f7920357cfbdea3b60ffe53ea9730d11428c6c6e569997008e",
+  "served_resources_sha256": {
+    "index.html": "6745555507401171aee61589171798bca2056d3fde9980eedaf141ee03afcf8f"
+  }
+}

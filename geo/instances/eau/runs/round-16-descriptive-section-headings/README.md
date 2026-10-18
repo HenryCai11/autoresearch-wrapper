@@ -1,8 +1,10 @@
 # EAU R16 — descriptive section headings
 
-Current status: **published and measured; keep, new best complete observation**.
+Current status: **measured and superseded by R17; keep against R9**.
 
-R16 is live as `ff79a10c4e93906cad803be5e23580f60bd98412`. All 60 responses
+R16 was published as `ff79a10c4e93906cad803be5e23580f60bd98412` and has since
+been superseded by [R17](../round-17-descriptive-heading-static-method/README.md).
+All 60 responses
 were valid. Primary project-domain citations: **R9 8/60 → R16 9/60**
 (13.33% → 15.00%); secondary composite: **30.25 → 31.86**.
 Explicit project URL cells: **8/60**; support-page URL cells: **0/60**.
@@ -17,12 +19,12 @@ Before/after served bytes matched the exact candidate. The live audit passed
 complete-cell, metric replay, preparation-hash, heading-scope and history checks.
 No inner score was computed and no browser/visual test was performed.
 
-All 17 R0–R16 observations and ten proposals remain; all nine old proposals
-are unchanged. Only the external-authority proposal is unmeasured. R16's exact
-tree is now the next selection seed; the R9 control for this comparison remains
-preserved. This immediate single sample against historical R9 is not a causal
+At R16 recording time, all 17 R0–R16 observations and ten proposals were retained,
+and only the external-authority proposal was unmeasured. R16's exact tree became
+the R17 seed; R17 is now the best complete observed candidate. The R9 control for
+the R16 comparison remains preserved. This immediate single sample against historical R9 is not a causal
 estimate of heading effects or evidence that every search engine improved.
-No automatic follow-up or rollback was performed; R16 remains live.
+No automatic follow-up or rollback was performed. R17 has now superseded R16.
 
 The rest of this document is the historical preparation snapshot. Original
 bytes are in `r16-live/pre-live-README.md` for the preparation hash audit.

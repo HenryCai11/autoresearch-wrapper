@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "site_url": "https://eau-meta-agent.github.io/",
-  "updated_at": "2026-10-18T11:57:42+00:00",
+  "updated_at": "2026-10-18T15:48:03+00:00",
   "current_round": 17,
   "maintenance": "Site-specific ledger maintained by the agent when starting or recording a round; not an automatic scheduler or a new wrapper-core search algorithm.",
   "policy": {
@@ -16,10 +16,10 @@
     ],
     "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
     "inner_metric": "not computed and not used",
-    "baseline": "Best complete R16, 9/60, composite 31.86111; reused historical control, not fresh/simultaneous. Keep requires strictly more than 9/60.",
-    "current_production": "R16 unchanged, 9/60, keep; exact best observed seed",
-    "deployment": "Separate explicit R17 approval required; verify exact candidate tree and served bytes before/after all 60 real requests",
-    "history": "All ten old proposals, 17 old history entries and best_observed R16 unchanged; one separate combination proposal is unmeasured. Never add parent scores.",
+    "baseline": "R17 used historical R16 9/60. New best complete observation: R17 10/60; use its exact tree as the next selection seed. No simultaneous control collected.",
+    "current_production": "R17 live: 10/60, keep; this comparison uses preserved R16 9/60",
+    "deployment": "R17 publication was explicitly approved; exact candidate tree and before/after served bytes verified for the completed real 60-cell collection.",
+    "history": "All 18 R0–R17 observations and all eleven proposals retained; all ten old proposals unchanged. The new combination has its own measurement; only the external-authority proposal is unmeasured. Do not add parent scores.",
     "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up"
   },
   "modules": [
@@ -1125,6 +1125,40 @@
       "artifact_dir": "runs/round-16-descriptive-section-headings",
       "retain_for_combinations": true,
       "status": "measured_bundle_not_isolated_module_effect"
+    },
+    {
+      "id": "r17",
+      "round": 17,
+      "change_id": "r17-descriptive-heading-static-method",
+      "files": [
+        "index.html"
+      ],
+      "parents": [
+        "r16",
+        "r13"
+      ],
+      "candidate_commit": "dcf0b80e0e0554746e94e3e47034d77174b35417",
+      "production_commit": "6eb91c2d44003afe248e5e2623a2a6a2f38f5675",
+      "branch": "codex/geo-live-round-17-deploy",
+      "production_changed_files": [
+        "index.html"
+      ],
+      "selection_seed_commit": "18c0ae3d6af0baf151487681aac40d7a09dd475c",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 10,
+        "mention_rate": 0.75,
+        "found_rate": 0.6833333333333333,
+        "citation_rate": 0.16666666666666666,
+        "attribution_rate": 0.6833333333333333,
+        "mrr": 0.11111111111111112,
+        "score": 34.30555555555556
+      },
+      "decision": "keep",
+      "artifact_dir": "runs/round-17-descriptive-heading-static-method",
+      "retain_for_combinations": true,
+      "status": "measured_bundle_not_isolated_module_effect"
     }
   ],
   "proposals": [
@@ -1690,8 +1724,8 @@
     },
     {
       "id": "descriptive-heading-static-method",
-      "status": "validated_awaiting_deployment_approval",
-      "measured": false,
+      "status": "keep",
+      "measured": true,
       "round": 17,
       "change_id": "r17-descriptive-heading-static-method",
       "parents": [
@@ -1717,36 +1751,51 @@
         "existing timescales/knob-list CSS",
         "interactive tabs and R9 default static results unchanged"
       ],
-      "interpretation": "Unmeasured combination, not predicted lift; the R13 7/60 and R15 6/60 historical samples are not added to R16 9/60.",
+      "interpretation": "Measured immediate post-deployment observation against preserved R16; not an isolated causal module effect. Retain for future combinations.",
       "candidate_commit": "dcf0b80e0e0554746e94e3e47034d77174b35417",
       "candidate_tree": "acbe04ac17e69189e3eb630ed9c89e449b8faa44",
       "wrapper_run_id": "20261018T115742Z-index-html",
-      "branch": "autoresearch/index-html/20261018T115742Z-index-html/candidate-001"
+      "branch": "autoresearch/index-html/20261018T115742Z-index-html/candidate-001",
+      "deployment_status": "live",
+      "production_commit": "6eb91c2d44003afe248e5e2623a2a6a2f38f5675",
+      "measured_at": "2026-10-18T15:48:02+00:00",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 10,
+        "mention_rate": 0.75,
+        "found_rate": 0.6833333333333333,
+        "citation_rate": 0.16666666666666666,
+        "attribution_rate": 0.6833333333333333,
+        "mrr": 0.11111111111111112,
+        "score": 34.30555555555556
+      },
+      "measurement_artifact_dir": "runs/round-17-descriptive-heading-static-method/r17-live"
     }
   ],
   "selected_candidate_id": "descriptive-heading-static-method",
   "best_observed": {
-    "round": 16,
-    "change_id": "r16-descriptive-section-headings",
-    "candidate_commit": "18c0ae3d6af0baf151487681aac40d7a09dd475c",
-    "candidate_tree": "692b95a10e27de1e9c84011fb839cba3b0eb6b15",
-    "production_commit": "ff79a10c4e93906cad803be5e23580f60bd98412",
+    "round": 17,
+    "change_id": "r17-descriptive-heading-static-method",
+    "candidate_commit": "dcf0b80e0e0554746e94e3e47034d77174b35417",
+    "candidate_tree": "acbe04ac17e69189e3eb630ed9c89e449b8faa44",
+    "production_commit": "6eb91c2d44003afe248e5e2623a2a6a2f38f5675",
     "metric_name": "live_project_citation_rate",
-    "metric_value": 15,
+    "metric_value": 16.666666666666668,
     "outer_observation": {
       "n": 60,
       "valid_responses": 60,
-      "project_citations": 9,
-      "mention_rate": 0.7166666666666667,
-      "found_rate": 0.6333333333333333,
-      "citation_rate": 0.15,
-      "attribution_rate": 0.6333333333333333,
-      "mrr": 0.10555555555555556,
-      "score": 31.86111111111111
+      "project_citations": 10,
+      "mention_rate": 0.75,
+      "found_rate": 0.6833333333333333,
+      "citation_rate": 0.16666666666666666,
+      "attribution_rate": 0.6833333333333333,
+      "mrr": 0.11111111111111112,
+      "score": 34.30555555555556
     },
-    "measured_at": "2026-10-18T06:31:55+00:00",
+    "measured_at": "2026-10-18T15:48:02+00:00",
     "decision": "keep",
-    "artifact_dir": "runs/round-16-descriptive-section-headings/r16-live",
-    "interpretation": "Highest complete observed candidate under the locked primary metric; immediate sample against historical R9, not causal lift."
+    "artifact_dir": "runs/round-17-descriptive-heading-static-method/r17-live",
+    "interpretation": "Highest complete observed candidate under the locked primary metric; immediate historical-control comparison, not causal lift."
   }
 }

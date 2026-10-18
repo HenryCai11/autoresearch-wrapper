@@ -1,0 +1,79 @@
+{
+  "round": 17,
+  "change_id": "r17-descriptive-heading-static-method",
+  "pool_candidate_id": "descriptive-heading-static-method",
+  "state": "deployed_and_measured",
+  "files": [
+    "index.html"
+  ],
+  "graph_nodes": [
+    "file:index.html",
+    "section:framework"
+  ],
+  "selection_seed_round": 16,
+  "selection_seed_commit": "18c0ae3d6af0baf151487681aac40d7a09dd475c",
+  "selection_seed_tree": "692b95a10e27de1e9c84011fb839cba3b0eb6b15",
+  "current_production_commit": "ff79a10c4e93906cad803be5e23580f60bd98412",
+  "current_production_tree": "692b95a10e27de1e9c84011fb839cba3b0eb6b15",
+  "parents": [
+    "r16",
+    "r13"
+  ],
+  "hypothesis": "Test the exact retained R13 static environment/agent explanations under R16 descriptive section headings, with no new wording or facts.",
+  "selection": {
+    "primary_metric": "live_project_citation_rate",
+    "goal": "maximize",
+    "definition": "100 * frozen geo_eval site_cited cells / 60, including bare project-domain occurrences under the existing judge",
+    "engines": [
+      "gpt-web",
+      "codex-search",
+      "tavily-search",
+      "exa-search"
+    ],
+    "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
+    "inner_metric": "not computed and not used",
+    "baseline": "Best complete R16, 9/60, composite 31.86111; reused historical control, not fresh/simultaneous. Keep requires strictly more than 9/60.",
+    "current_production": "R16 unchanged, 9/60, keep; exact best observed seed",
+    "deployment": "Separate explicit R17 approval required; verify exact candidate tree and served bytes before/after all 60 real requests",
+    "history": "All ten old proposals, 17 old history entries and best_observed R16 unchanged; one separate combination proposal is unmeasured. Never add parent scores.",
+    "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up"
+  },
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+  "unchanged_vs_seed": [
+    "all bytes except one exact retained R13 insertion",
+    "both R16 H2s",
+    "H1/subtitle",
+    "R7 overview",
+    "R8 routes",
+    "R9 static default data",
+    "other sections/pages",
+    "existing interactive explorer",
+    "scripts",
+    "styles",
+    "metadata",
+    "map",
+    "queries",
+    "judge",
+    "engine settings"
+  ],
+  "deployment_plan": "Require separate R17 approval. Starting from then-current main, apply the exact R16-based candidate and verify its complete tree; reconcile teammate changes. Only one static method-reference insertion differs from current R16.",
+  "candidate_commit": "dcf0b80e0e0554746e94e3e47034d77174b35417",
+  "candidate_tree": "acbe04ac17e69189e3eb630ed9c89e449b8faa44",
+  "wrapper_run_id": "20261018T115742Z-index-html",
+  "candidate": {
+    "based_on": "autoresearch/index-html/20261018T115742Z-index-html/seed",
+    "branch": "autoresearch/index-html/20261018T115742Z-index-html/candidate-001",
+    "candidate_id": "candidate-001",
+    "created_at": "2026-10-18T12:00:26+00:00",
+    "lifecycle": "allocated",
+    "missing": false,
+    "worktree_path": "/scratch/henrycai/eau-r17-20261018.autoresearch-worktrees/20261018T115742Z-index-html/candidate-001"
+  },
+  "production_changed_files": [
+    "index.html"
+  ],
+  "production_merge_commit": "6eb91c2d44003afe248e5e2623a2a6a2f38f5675",
+  "outer_selection": "keep",
+  "selection_record": "r17-live/wrapper-record.json",
+  "authorization": "User explicitly approved publishing R17 and measuring it."
+}

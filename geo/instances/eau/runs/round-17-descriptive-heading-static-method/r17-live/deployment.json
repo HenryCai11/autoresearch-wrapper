@@ -1,0 +1,22 @@
+{
+  "source_branch": "codex/geo-live-round-17-deploy",
+  "candidate_branch": "codex/geo-live-round-17",
+  "candidate_commit": "dcf0b80e0e0554746e94e3e47034d77174b35417",
+  "deploy_commit": "20b5aaf7f2cc7d44ab4825a2599cc9cc1dcd61ba",
+  "production_merge_commit": "6eb91c2d44003afe248e5e2623a2a6a2f38f5675",
+  "production_tree": "acbe04ac17e69189e3eb630ed9c89e449b8faa44",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "resource_sha256": {
+    "index.html": "6745555507401171aee61589171798bca2056d3fde9980eedaf141ee03afcf8f"
+  },
+  "served_version_verified_at": "2026-10-18T15:43:30Z",
+  "served_version_reverified_at": "2026-10-18T15:48:01Z",
+  "collection_timing_verified": true,
+  "first_request_at": "2026-10-18T15:43:39+00:00",
+  "last_completed_request_at": "2026-10-18T15:47:32+00:00",
+  "timing_evidence": "GPT and API request timestamps plus both Codex group start/completion markers are all within the before/after served checks. All 60 responses are valid before record creation.",
+  "verification": "The only changed resource index.html byte-matches the exact candidate and production tree before collection and after every search request has completed.",
+  "authorization": "User explicitly requested publishing and testing the prepared R17 candidate.",
+  "selection_seed": "R16 preserved best, 9/60; exact current R16 production tree is the historical selection control",
+  "deployment_method": "An isolated deploy branch based on R16 was patched to the exact R16-based R17 candidate; full tree verified before merge. Only the exact retained R13 static environment/agent reference is inserted. Both R16 H2s, interactive explorer, result data, all other sections, pages, metadata, scripts and styles remain unchanged. Parent scores are not inferred or added."
+}

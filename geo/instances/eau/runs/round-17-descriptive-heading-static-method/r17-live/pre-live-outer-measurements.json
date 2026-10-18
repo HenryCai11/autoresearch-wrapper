@@ -1,0 +1,15 @@
+{
+  "measurements": [
+    {
+      "label": "r16-best-reused-control",
+      "deployed_commit": "ff79a10c4e93906cad803be5e23580f60bd98412",
+      "deployed_tree": "692b95a10e27de1e9c84011fb839cba3b0eb6b15",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "../round-16-descriptive-section-headings/r16-live/search-matrix.csv",
+      "matrix_sha256": "c45ff1cb3c6c30f7920357cfbdea3b60ffe53ea9730d11428c6c6e569997008e",
+      "verification": "Exact preserved best fully measured R16 tree; historical control, not new R17 searches",
+      "source_label": "r16-immediate-live",
+      "measured_at": "2026-10-18T06:31:55+00:00"
+    }
+  ]
+}

@@ -1,5 +1,39 @@
 # EAU R17 — descriptive headings with retained static method reference
 
+Current status: **published and measured; keep, new best complete observation**.
+
+R17 is live as `6eb91c2d44003afe248e5e2623a2a6a2f38f5675`. All 60 responses
+were valid. Primary project-domain citations: **R16 9/60 → R17 10/60**
+(15.00% → 16.67%); secondary composite: **31.86 → 34.31**.
+Explicit project URL cells: **9/60**; support-page URL cells: **0/60**.
+By engine (GPT web / Codex / Tavily / Exa), citations are **0 / 3 / 0 / 7**.
+The added citation cell is Exa's “editable training systems for tool-using agents”
+query; no R16 citation cell was lost. Fuzzy-tier citations are still 0/20.
+The unchanged judge also counts bare project-domain occurrences as citations.
+
+See [the live report](r17-live/REPORT.md), [current state](CURRENT.json),
+[deployment/timing proof](r17-live/deployment.json), and
+[best-observed selection](r17-live/best-observed-selection.json).
+Before/after served bytes matched the exact candidate; all collection timestamps
+were inside those checks. The live audit passed complete-cell, metric replay,
+preparation hashes, exact parent composition, and retained-history checks.
+No inner score or browser/visual test was performed.
+
+All 18 R0–R17 observations and eleven proposals remain; all ten old proposals
+are unchanged. Only the external-authority proposal is unmeasured. R17's exact
+tree is now the next selection seed; the R16 historical control is preserved.
+This is one immediate sample of the combination, not an isolated causal estimate
+of its static method block or its interaction with the headings.
+No automatic follow-up, rollback, candidate deletion or pruning was performed.
+
+The rest of this document is the historical preparation snapshot. Original
+bytes are in `r17-live/pre-live-README.md` for the preparation hash audit.
+Statements below about awaiting approval and current production refer to that
+time. Root change.json, audit.json, results.tsv and program.md remain preparation
+snapshots; the current measurement and wrapper record are under r17-live/.
+
+## Preparation snapshot
+
 Status: **validated local candidate; not published or measured**.
 
 - Run: 20261018T115742Z-index-html; sequential, one index.html candidate.
