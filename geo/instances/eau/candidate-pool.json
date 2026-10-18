@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "site_url": "https://eau-meta-agent.github.io/",
-  "updated_at": "2026-10-17T09:59:13+00:00",
+  "updated_at": "2026-10-18T06:34:03+00:00",
   "current_round": 16,
   "maintenance": "Site-specific ledger maintained by the agent when starting or recording a round; not an automatic scheduler or a new wrapper-core search algorithm.",
   "policy": {
@@ -16,10 +16,10 @@
     ],
     "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
     "inner_metric": "not computed and not used",
-    "baseline": "Best complete R9, 8/60, composite 30.25; reused historical control, not fresh/simultaneous",
-    "current_production": "R15 unchanged, 6/60, composite 29.75, discard; not the selection threshold",
-    "deployment": "Separate explicit R16 approval required, exact candidate tree and served bytes verified before/after all 60 real requests",
-    "history": "All nine old proposals and 16 old history entries are unchanged; one new heading proposal is separate and unmeasured; do not add parent scores",
+    "baseline": "R16 comparison used preserved historical R9 8/60 (composite 30.25). Current best complete observation is R16 9/60 (31.86111), keep; use the exact R16 tree as the next selection seed. No fresh simultaneous control collected.",
+    "current_production": "R16 live: 9/60, keep; now the best complete observed candidate. No automatic follow-up scheduled.",
+    "deployment": "R16 publication was explicitly approved; exact candidate tree and before/after served bytes verified for the completed real 60-cell collection.",
+    "history": "All 17 R0–R16 observations and all ten proposals retained; all nine old proposals unchanged. The new heading candidate now has its own measurement; only the external-authority proposal remains unmeasured. Do not add parent scores.",
     "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up"
   },
   "modules": [
@@ -1092,6 +1092,39 @@
       "artifact_dir": "runs/round-15-static-entry-combination",
       "retain_for_combinations": true,
       "status": "measured_bundle_not_isolated_module_effect"
+    },
+    {
+      "id": "r16",
+      "round": 16,
+      "change_id": "r16-descriptive-section-headings",
+      "files": [
+        "index.html"
+      ],
+      "parents": [
+        "r9"
+      ],
+      "candidate_commit": "18c0ae3d6af0baf151487681aac40d7a09dd475c",
+      "production_commit": "ff79a10c4e93906cad803be5e23580f60bd98412",
+      "branch": "codex/geo-live-round-16-deploy",
+      "production_changed_files": [
+        "index.html"
+      ],
+      "selection_seed_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 9,
+        "mention_rate": 0.7166666666666667,
+        "found_rate": 0.6333333333333333,
+        "citation_rate": 0.15,
+        "attribution_rate": 0.6333333333333333,
+        "mrr": 0.10555555555555556,
+        "score": 31.86111111111111
+      },
+      "decision": "keep",
+      "artifact_dir": "runs/round-16-descriptive-section-headings",
+      "retain_for_combinations": true,
+      "status": "measured_bundle_not_isolated_module_effect"
     }
   ],
   "proposals": [
@@ -1609,8 +1642,8 @@
     },
     {
       "id": "descriptive-section-headings",
-      "status": "validated_awaiting_deployment_approval",
-      "measured": false,
+      "status": "keep",
+      "measured": true,
       "round": 16,
       "change_id": "r16-descriptive-section-headings",
       "parents": [
@@ -1634,12 +1667,51 @@
         "existing script.js and model-switch targets, unchanged",
         "R7 overview, R8 routes and R9 static data, retained"
       ],
-      "interpretation": "Unmeasured whole-candidate hypothesis; immediate historical observations cannot isolate module effects or rule out indexing lag.",
+      "interpretation": "Measured immediate post-deployment observation against preserved R9; not an isolated causal module effect. Retain for future combinations.",
       "candidate_commit": "18c0ae3d6af0baf151487681aac40d7a09dd475c",
       "candidate_tree": "692b95a10e27de1e9c84011fb839cba3b0eb6b15",
       "wrapper_run_id": "20261017T095913Z-index-html",
-      "branch": "autoresearch/index-html/20261017T095913Z-index-html/candidate-001"
+      "branch": "autoresearch/index-html/20261017T095913Z-index-html/candidate-001",
+      "deployment_status": "live",
+      "production_commit": "ff79a10c4e93906cad803be5e23580f60bd98412",
+      "measured_at": "2026-10-18T06:31:55+00:00",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 9,
+        "mention_rate": 0.7166666666666667,
+        "found_rate": 0.6333333333333333,
+        "citation_rate": 0.15,
+        "attribution_rate": 0.6333333333333333,
+        "mrr": 0.10555555555555556,
+        "score": 31.86111111111111
+      },
+      "measurement_artifact_dir": "runs/round-16-descriptive-section-headings/r16-live"
     }
   ],
-  "selected_candidate_id": "descriptive-section-headings"
+  "selected_candidate_id": "descriptive-section-headings",
+  "best_observed": {
+    "round": 16,
+    "change_id": "r16-descriptive-section-headings",
+    "candidate_commit": "18c0ae3d6af0baf151487681aac40d7a09dd475c",
+    "candidate_tree": "692b95a10e27de1e9c84011fb839cba3b0eb6b15",
+    "production_commit": "ff79a10c4e93906cad803be5e23580f60bd98412",
+    "metric_name": "live_project_citation_rate",
+    "metric_value": 15,
+    "outer_observation": {
+      "n": 60,
+      "valid_responses": 60,
+      "project_citations": 9,
+      "mention_rate": 0.7166666666666667,
+      "found_rate": 0.6333333333333333,
+      "citation_rate": 0.15,
+      "attribution_rate": 0.6333333333333333,
+      "mrr": 0.10555555555555556,
+      "score": 31.86111111111111
+    },
+    "measured_at": "2026-10-18T06:31:55+00:00",
+    "decision": "keep",
+    "artifact_dir": "runs/round-16-descriptive-section-headings/r16-live",
+    "interpretation": "Highest complete observed candidate under the locked primary metric; immediate sample against historical R9, not causal lift."
+  }
 }

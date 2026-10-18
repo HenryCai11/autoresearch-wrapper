@@ -1,8 +1,10 @@
 # EAU R15 — retained static-entry combination
 
-Current status: **published and measured; discard against R9**.
+Current status: **measured and superseded by R16; discard against R9**.
 
-R15 is live as `596ccda6c33a4bb2ea9cac3daa7d489e856f264d`. All 60 outer
+R15 was published as `596ccda6c33a4bb2ea9cac3daa7d489e856f264d` and has since
+been superseded by [R16](../round-16-descriptive-section-headings/README.md).
+All 60 outer
 responses were valid. Primary project-domain citations: R9 **8/60 → R15 6/60**
 (13.33% → 10.00%); secondary composite: **30.25 → 29.75**.
 Explicit project URL cells: **4/60**; support-page URL cells: **0/60**.
@@ -20,7 +22,7 @@ are unchanged. The combination has its own measured observation. Only the
 external-authority proposal remains unmeasured. R12/R13/R14 observations were
 not added to predict R15, and this immediate sample against historical R9 does
 not isolate any parent's causal contribution or exclude stale indexes.
-No follow-up is scheduled automatically; R15 remains live.
+No R15 follow-up was scheduled automatically. R16 has now superseded R15.
 
 The rest of this document is the historical preparation snapshot. Its original
 bytes are preserved in `r15-live/pre-live-README.md` for the preparation audit;

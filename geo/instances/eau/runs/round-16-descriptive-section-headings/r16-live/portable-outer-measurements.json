@@ -1,0 +1,23 @@
+{
+  "measurements": [
+    {
+      "label": "r9-best-reused-control",
+      "deployed_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+      "deployed_tree": "5ebd5d1c28e00690d58caafa0edfe066ae5307d7",
+      "measured_at": "2026-10-16T13:09:24+00:00",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "../round-9-static-benchmark-evidence/r9-live/search-matrix.csv",
+      "matrix_sha256": "deebdf85fe8751eb8d7e53f9256a539fe50101ea3403550df06c7ce05a55b577",
+      "verification": "Exact preserved best fully measured tree; historical control, not new search collection"
+    },
+    {
+      "label": "r16-immediate-live",
+      "deployed_commit": "ff79a10c4e93906cad803be5e23580f60bd98412",
+      "deployed_tree": "692b95a10e27de1e9c84011fb839cba3b0eb6b15",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "r16-live/search-matrix.csv",
+      "matrix_sha256": "c45ff1cb3c6c30f7920357cfbdea3b60ffe53ea9730d11428c6c6e569997008e",
+      "verification": "Before/after deployed homepage equal the merged R16 checkout and exact candidate tree."
+    }
+  ]
+}

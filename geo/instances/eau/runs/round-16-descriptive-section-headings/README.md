@@ -1,5 +1,37 @@
 # EAU R16 — descriptive section headings
 
+Current status: **published and measured; keep, new best complete observation**.
+
+R16 is live as `ff79a10c4e93906cad803be5e23580f60bd98412`. All 60 responses
+were valid. Primary project-domain citations: **R9 8/60 → R16 9/60**
+(13.33% → 15.00%); secondary composite: **30.25 → 31.86**.
+Explicit project URL cells: **8/60**; support-page URL cells: **0/60**.
+By engine (GPT web / Codex / Tavily / Exa), citations are **0 / 3 / 0 / 6**;
+Codex fell from R9's 5 while Exa rose from 3. Gains are not uniform across engines.
+The frozen judge also counts bare project-domain occurrences as citations.
+
+See [the live report](r16-live/REPORT.md), [current state](CURRENT.json),
+[deployment/timing proof](r16-live/deployment.json), and
+[best-observed promotion](r16-live/best-observed-promotion.json).
+Before/after served bytes matched the exact candidate. The live audit passed
+complete-cell, metric replay, preparation-hash, heading-scope and history checks.
+No inner score was computed and no browser/visual test was performed.
+
+All 17 R0–R16 observations and ten proposals remain; all nine old proposals
+are unchanged. Only the external-authority proposal is unmeasured. R16's exact
+tree is now the next selection seed; the R9 control for this comparison remains
+preserved. This immediate single sample against historical R9 is not a causal
+estimate of heading effects or evidence that every search engine improved.
+No automatic follow-up or rollback was performed; R16 remains live.
+
+The rest of this document is the historical preparation snapshot. Original
+bytes are in `r16-live/pre-live-README.md` for the preparation hash audit.
+Statements below about awaiting approval and current production refer to that
+time. Root change.json, audit.json, results.tsv and program.md remain preparation
+snapshots; the current measurement and wrapper record are under r16-live/.
+
+## Preparation snapshot
+
 Status: **validated local candidate; not published or measured**.
 
 - Run: 20261017T095913Z-index-html; sequential, one index.html candidate.

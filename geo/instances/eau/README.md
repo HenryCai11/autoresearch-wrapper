@@ -15,7 +15,7 @@ python3 scripts/geo_eval.py discovery \
   --probes geo/instances/eau/probes.jsonl
 ```
 
-Historical R0–R15 run directories contain actual GPT web, Codex search, Tavily,
+Historical R0–R16 run directories contain actual GPT web, Codex search, Tavily,
 and Exa observations. Keys are supplied only at runtime; never store them here.
 
 R12 was measured at 6/60 citation cells versus the best R9's 8/60,
@@ -33,26 +33,32 @@ separately labelled static reference for the existing Qwen2.5-7B-Instruct rows
 on the R9 seed. No inner score was computed.
 See its [live report](runs/round-14-static-second-backbone-evidence/r14-live/REPORT.md).
 
-[R15](runs/round-15-static-entry-combination/README.md) is now live and measured:
+[R15](runs/round-15-static-entry-combination/README.md) was measured at:
 6/60 citation cells, all 60 valid; composite 29.75; explicit project URLs 4/60.
-It was discarded against R9's 8/60 and remains deployed without an automatic
-rollback. It intentionally replays the retained R12 H1, R13 static method
+It was discarded against R9's 8/60 and has since been superseded by R16.
+It intentionally replays the retained R12 H1, R13 static method
 descriptions and R14 second-backbone table together on R9. All 32 local checks
 and the completed live audit passed. No inner score was computed.
 See its [live report](runs/round-15-static-entry-combination/r15-live/REPORT.md).
 
-[R16](runs/round-16-descriptive-section-headings/README.md) is prepared but
-unpublished and unmeasured. On the best R9 seed, it replaces only the framework
-and results H2 text with descriptive method/benchmark labels; IDs, paragraphs,
-data, links, metadata, scripts and styles remain unchanged. All 31 local checks
-and the preparation archive audit passed. No browser/visual test or inner score
-was performed. Separate publication approval is required; production remains R15.
+[R16](runs/round-16-descriptive-section-headings/README.md) is now live and measured:
+9/60 project-domain citation cells, all 60 valid; composite 31.86; explicit
+project URLs 8/60. It was **kept** against historical R9's 8/60 and is now the
+best complete observed candidate. Its exact tree is the next selection seed;
+the R9 control and every previous result remain preserved.
+See its [live report](runs/round-16-descriptive-section-headings/r16-live/REPORT.md)
+and [best-observed promotion](runs/round-16-descriptive-section-headings/r16-live/best-observed-promotion.json).
 
-All 16 R0–R15 observations and all nine old proposals remain unchanged. A tenth
-proposal records R16; it and the external-authority proposal are unmeasured.
-Discarded candidates remain available for later combinations, without adding
-their scores to predict a bundle. These immediate samples against historical R9
-cannot establish causal module effects or rule out stale indexing.
+R16 changes only framework/results H2 text on R9, without adding factual claims,
+data or content blocks. All 31 local checks and the live audit passed; no inner
+score or browser/visual test was performed. Citation counts by GPT web / Codex /
+Tavily / Exa are 0 / 3 / 0 / 6, so engines did not improve uniformly.
+
+All 17 R0–R16 observations and ten proposals remain; all nine old proposals are
+unchanged. Only the external-authority proposal is unmeasured. Discarded candidates
+remain available for later combinations; do not add their scores to predict
+a bundle. This immediate single sample against historical R9 cannot establish
+causal module effects or rule out stale indexing. No follow-up is scheduled.
 
 ## Cross-module candidate ledger
 
