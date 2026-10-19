@@ -1,0 +1,9 @@
+{
+  "state": "deployed_and_measured",
+  "production_commit": "119cd5561e1b26d125eff96ad6cf8cc779dbf17e",
+  "decision": "keep",
+  "primary_citations": "12/60",
+  "report": "r18-live/REPORT.md",
+  "preparation_snapshot": "change.json",
+  "live_change": "r18-live/deployed-change.json"
+}

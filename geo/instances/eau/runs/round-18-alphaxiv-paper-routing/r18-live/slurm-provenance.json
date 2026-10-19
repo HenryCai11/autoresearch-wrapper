@@ -1,0 +1,10 @@
+{
+  "account": "aip-xiye17",
+  "resources_per_job": {"cpus": 1, "memory": "1G", "gpu": false},
+  "jobs": [
+    {"id": 1841183, "phase": "offline API normalization", "time_limit": "00:03:00", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "00:00:00"},
+    {"id": 1841192, "phase": "deployment validation, scoring, wrapper record, archive and audit", "time_limit": "00:05:00", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "00:00:03"}
+  ],
+  "scope": "Python, compile checks, scoring, wrapper CLI and audit ran through Slurm. Network-only curl and remote web probes performed no local inference. Credentials were inherited, never printed or saved.",
+  "no_followup_scheduled": true
+}

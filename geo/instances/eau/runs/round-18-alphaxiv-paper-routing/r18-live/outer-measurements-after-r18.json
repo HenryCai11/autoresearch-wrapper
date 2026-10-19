@@ -1,0 +1,24 @@
+{
+  "measurements": [
+    {
+      "label": "r17-best-reused-control",
+      "deployed_commit": "6eb91c2d44003afe248e5e2623a2a6a2f38f5675",
+      "deployed_tree": "acbe04ac17e69189e3eb630ed9c89e449b8faa44",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "control/search-matrix.csv",
+      "matrix_sha256": "b70606920db1af4346d6ec93cc84491d3f778c6249aaba6d4423686785ec090c",
+      "verification": "Exact preserved best fully measured R17 tree; historical control, not new R18 searches",
+      "source_label": "r17-immediate-live",
+      "measured_at": "2026-10-18T15:48:02+00:00"
+    },
+    {
+      "label": "r18-immediate-live",
+      "deployed_commit": "119cd5561e1b26d125eff96ad6cf8cc779dbf17e",
+      "deployed_tree": "ad41cd32f93433b1be065fc8d1969d8da78f2600",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "r18-live/search-matrix.csv",
+      "matrix_sha256": "f4c13a905941353d775de225ba6b2e38b2525f1f9116fee2bdaafb85a250a2a4",
+      "verification": "Before/after deployed all seven changed resources equal the merged R18 checkout and exact candidate tree."
+    }
+  ]
+}

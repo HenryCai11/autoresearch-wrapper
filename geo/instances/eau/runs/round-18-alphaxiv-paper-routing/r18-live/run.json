@@ -1,0 +1,11 @@
+{
+  "experiment_id": "eau-live-geo-r18-2026-10",
+  "round": 18,
+  "change_id": "r18-alphaxiv-paper-routing",
+  "production_merge_commit": "119cd5561e1b26d125eff96ad6cf8cc779dbf17e",
+  "production_tree": "ad41cd32f93433b1be065fc8d1969d8da78f2600",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "measured_at": "2026-10-19T09:14:05+00:00",
+  "measurement_phase": "immediate_post_deployment",
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce"
+}

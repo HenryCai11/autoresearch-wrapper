@@ -15,7 +15,7 @@ python3 scripts/geo_eval.py discovery \
   --probes geo/instances/eau/probes.jsonl
 ```
 
-Historical R0–R17 run directories contain actual GPT web, Codex search, Tavily,
+Historical R0–R18 run directories contain actual GPT web, Codex search, Tavily,
 and Exa observations. Keys are supplied only at runtime; never store them here.
 
 R12 was measured at 6/60 citation cells versus the best R9's 8/60,
@@ -56,8 +56,8 @@ Tavily / Exa are 0 / 3 / 0 / 6, so engines did not improve uniformly.
 
 [R17](runs/round-17-descriptive-heading-static-method/README.md) is now live and measured:
 10/60 project-domain citation cells, all 60 valid; composite 34.31; explicit
-project URLs 9/60. It was **kept** against historical R16's 9/60 and is now the
-best complete observed candidate. Its exact tree is the next selection seed.
+project URLs 9/60. It was **kept** against historical R16's 9/60 and became the
+R18 selection seed. It has now been superseded by R18.
 See its [live report](runs/round-17-descriptive-heading-static-method/r17-live/REPORT.md)
 and [best-observed selection](runs/round-17-descriptive-heading-static-method/r17-live/best-observed-selection.json).
 
@@ -65,28 +65,38 @@ R17 keeps both R16 headings and replays the exact retained R13 static method
 reference. All 31 local checks and the live audit passed; no inner score or
 browser/visual test was performed. GPT web / Codex / Tavily / Exa citation counts
 are 0 / 3 / 0 / 7. The additional cell is Exa's broad “editable training systems
-for tool-using agents” query, with no lost citation cell versus R16. Fuzzy-tier
-citations remain zero. The frozen judge includes bare project-domain mentions;
+for tool-using agents” query, with no lost citation cell versus R16. R17 fuzzy-tier
+citations remained zero. The frozen judge includes bare project-domain mentions;
 explicit source URLs are reported separately.
 
-[R18](runs/round-18-alphaxiv-paper-routing/README.md) is prepared locally,
-**not published or measured**. It routes the six HTML paper-reading anchors,
+[R18](runs/round-18-alphaxiv-paper-routing/README.md) is live and measured:
+**12/60 project-domain citation cells, all 60 valid; keep**, versus historical
+R17's 10/60. It is the new best complete observed candidate and next seed.
+Legacy composite is 35.19 versus 34.31; explicit project URLs are 11/60 and
+explicit support-page URL cells are 5/60. GPT web / Codex / Tavily / Exa citation
+counts are 0 / 4 / 0 / 8. Fuzzy-tier citations increased 0/20 → 2/20, while broad
+citations fell 2/20 → 1/20; three citation cells were gained and one lost.
+See the [live report](runs/round-18-alphaxiv-paper-routing/r18-live/REPORT.md)
+and [best-observed selection](runs/round-18-alphaxiv-paper-routing/r18-live/best-observed-selection.json).
+
+R18 routes the six HTML paper-reading anchors,
 the README/llms.txt Paper entries and the paperUrl configuration to the verified
 [alphaXiv EAU page](https://www.alphaxiv.org/abs/2610.16523): nine exact URL/label
 replacements in seven files. arXiv identifiers, PDF metadata, JSON-LD identity,
 CITATION.cff and BibTeX remain unchanged. This user-requested routing bundle is
 the R18 intervention; no unrelated content optimization is mixed in.
 
-R18 uses exact R17 as its seed and historical 10/60 control. Keep still requires
-all 60 valid responses and strictly more than 10 citation cells. alphaXiv clicks
-and visits are not measured by that project-domain metric. The candidate awaits
-separate publication approval and a real four-engine collection; local validation
-does not supply a new outer score. See its [validation](runs/round-18-alphaxiv-paper-routing/validation.json)
-and [preservation audit](runs/round-18-alphaxiv-paper-routing/audit.json).
+R18 used exact R17 as its seed and historical 10/60 control. All seven changed
+served resources matched the exact candidate before and after the completed
+collection. All 36 local checks and the completed live audit passed; no inner
+score or browser/visual test was performed. alphaXiv clicks and visits remain
+unmeasured; do not infer traffic or causal GEO uplift from this matrix. Future
+candidates must retain the user's alphaXiv reading routes and scholarly arXiv
+references. See the [live audit](runs/round-18-alphaxiv-paper-routing/r18-live/audit.json).
 
-All 18 R0–R17 observations and twelve proposals remain; all eleven old proposals
-and best_observed R17 are unchanged. Only R18 and the external-authority proposal
-are unmeasured. Prior candidates remain available for combinations; their scores
+All 19 R0–R18 observations and twelve proposals remain; all eleven older proposals
+are unchanged. Only the external-authority proposal is unmeasured. Prior
+candidates remain available for combinations; their scores
 are never added to predict a bundle. Immediate historical-control samples do not
 establish causal contribution or exclude stale indexing. No automatic follow-up
 is scheduled.

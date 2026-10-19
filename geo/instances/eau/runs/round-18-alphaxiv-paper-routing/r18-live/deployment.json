@@ -1,0 +1,29 @@
+{
+  "source_branch": "codex/geo-live-round-18-deploy",
+  "candidate_branch": "codex/geo-live-round-18",
+  "candidate_commit": "dda361dcd45f2eee5cff5402a3d8b8a5421ddd33",
+  "deploy_commit": "9704b0cf9a3a2e5c99e882c7bb5dd0fcfeceae3a",
+  "production_merge_commit": "119cd5561e1b26d125eff96ad6cf8cc779dbf17e",
+  "production_tree": "ad41cd32f93433b1be065fc8d1969d8da78f2600",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "resource_sha256": {
+    "README.md": "2718490ff30fe83a7a323627ddf30ebba4c5295020d9fe6370604338c23be2e8",
+    "index.html": "0164d9b15a9a3d28d8c7e2a757f06d1a7f12646efbe4e8629fe599fa257ad53a",
+    "llms.txt": "30a54fadb3ed7c3425d5bd678c8c119d56fbf40d9bc09e94e6963fce81ac140a",
+    "method.html": "0a8d40fd5380128334daf4e0a4a8776c70debebef8947de432aa0af18a01e9c5",
+    "paper.html": "29ed7e8ba69bdf81e9109bb57ca7877be7b6e425beb3fac12d701d1f03e673b6",
+    "research-context.html": "a8d1c169155ee352c0581ce6e945943f7ea59b7d5fc9b0b77dba9a74bf47e9e5",
+    "site-config.js": "aa9d331a2e7cf397ee0cc2b55d510ed4a0755cb386e22a76dab5d3d7317d5801"
+  },
+  "served_version_verified_at": "2026-10-19T09:07:46Z",
+  "served_version_reverified_at": "2026-10-19T09:14:03Z",
+  "collection_timing_verified": true,
+  "first_request_at": "2026-10-19T09:08:17+00:00",
+  "last_completed_request_at": "2026-10-19T09:12:34+00:00",
+  "timing_evidence": "GPT/API per-request timestamps and both Codex group start/completion markers are within served checks; all 60 valid before record creation.",
+  "verification": "All seven changed resources byte-match the exact candidate and merged production tree before collection and after all requests finish.",
+  "authorization": "User explicitly requested publishing and testing the prepared R18 candidate.",
+  "selection_seed": "R17 best complete observation, 10/60; preserved historical control, not fresh or simultaneous",
+  "deployment_method": "Isolated branch on then-current R17 main, exact archived nine-replacement patch, full tree match before merge. Seven files change paper-reading URLs/labels to alphaXiv; all scholarly arXiv fields and factual content retained.",
+  "traffic_status": "No alphaXiv click or visit measurement; changing outbound destinations does not prove traffic uplift."
+}

@@ -1,85 +1,70 @@
 # EAU R18 — alphaXiv paper-reading routes
 
-Status: **validated local candidate; not published or measured**.
+Status: **published, measured, kept**; new best complete observed candidate.
 
-- Run: 20261018T161626Z-index-html; sequential, one seven-file routing bundle.
-- Candidate: dda361dcd45f2eee5cff5402a3d8b8a5421ddd33.
-- Tree: ad41cd32f93433b1be065fc8d1969d8da78f2600.
-- Seed: best fully measured R17 dcf0b80e0e0554746e94e3e47034d77174b35417,
-  10/60 citations, composite 34.30556; kept against historical R16 9/60.
-- Production remains R17 6eb91c2d44003afe248e5e2623a2a6a2f38f5675, unchanged.
-- Keep requires strictly more than 10/60 with all 60 responses valid; ties discard.
+- Production merge: `119cd5561e1b26d125eff96ad6cf8cc779dbf17e`.
+- Candidate: `dda361dcd45f2eee5cff5402a3d8b8a5421ddd33`.
+- Exact candidate/production tree: `ad41cd32f93433b1be065fc8d1969d8da78f2600`.
+- Measured: 2026-10-19T09:14:05Z.
+- Run: `20261018T161626Z-index-html`; completed, one candidate.
+- Primary: historical R17 **10/60 → R18 12/60** (16.67% → 20.00%).
+- All 60 frozen query-engine responses valid; wrapper decision **keep**.
+- Secondary legacy composite, report-only: 34.31 → 35.19.
+- Explicit project URL cells: 11/60; explicit support-page URL cells: 5/60.
 
-## User-requested traffic routing, not invented GEO lift
+See the [full report](r18-live/REPORT.md),
+[60-cell matrix](r18-live/search-matrix.csv),
+[deployment verification](r18-live/deployment.json),
+[best-observed selection](r18-live/best-observed-selection.json), and
+[completed audit](r18-live/audit.json).
 
-All six static HTML paper-reading anchors now point to
-https://www.alphaxiv.org/abs/2610.16523, with matching alphaXiv labels.
-The website README Paper entry, llms.txt Paper entry, and site-config.js
-paperUrl agree with that destination. This is exactly nine replacements in
-seven files, not an additional content-optimization bundle.
+| Engine | R17 citations | R18 citations |
+| --- | ---: | ---: |
+| GPT web | 0/15 | 0/15 |
+| Codex search | 3/15 | 4/15 |
+| Tavily | 0/15 | 0/15 |
+| Exa | 7/15 | 8/15 |
 
-The public alphaXiv page returned HTTP 200. Its title, canonical URL and
-citation_arxiv_id match EAU and 2610.16523. alphaxiv-verification.json preserves
-that minimal identity evidence and the fetched body's SHA-256. Full third-party
-HTML remains scratch-only; no external page, account or backlink was edited.
+## What was deployed
 
-arXiv remains the scholarly identifier/source. All four HTML heads, JSON-LD
-sameAs identities, canonical project URLs, arXiv PDF metadata, CITATION.cff and
-the two BibTeX blocks are byte-unchanged. Those citation fields are not
-paper-reading buttons. All project-site self-links remain unchanged.
+Exactly nine URL/label replacements in seven files route the six HTML
+paper-reading anchors, README/llms.txt Paper entries and site-config.js paperUrl
+to the verified alphaXiv EAU page. All arXiv scholarly identifiers, PDF metadata,
+JSON-LD identity, CITATION.cff and both BibTeX blocks remain unchanged, as do
+R17's static method reference, R16 headings, result data, project self-links,
+scripts, styles, assets and crawler files. The existing graph handled five
+replacements; four support-file replacements used apply_patch in the worktree.
+All 36 local checks passed. No inner score or browser/visual test was performed.
 
-There is no alphaXiv click/visit measurement or new tracking. Sending future
-clicks there is the requested behavior; a traffic increase is not claimed.
-The frozen metric still counts only the project domain, not alphaXiv or arXiv.
-No discovery improvement is assumed from replacing the outbound URL.
+An isolated branch on then-current R17 main was patched to the exact candidate,
+with complete tree equality verified before merge. All seven changed served
+resources matched that candidate before collection and after all requests
+completed. GPT/API request timestamps and both Codex group start/completion
+markers were verified within those checks. Python and scoring ran in Slurm;
+network-only fetches and remote search probes did not run local inference.
 
-## Scope, graph limits and retained candidates
+## Interpretation and retained history
 
-module-review.json reviews all ten modules. R17's static method reference,
-both R16 H2s, R7 overview, R8 routes, R9 default results and all factual claims
-remain. No R12 H1 or R14 second-backbone table is inherited. Scripts, styles,
-crawler files and assets are unchanged except the paperUrl configuration value.
-Full changes are in candidate.patch and production-to-candidate.patch;
-site/ contains snapshots of the seven candidate files.
+Fuzzy-tier citations are 0/20 → 2/20; exact 8/20 → 9/20; broad 2/20 → 1/20.
+Three citation cells were gained and one lost. The unchanged judge counts bare
+project-domain occurrences, so explicit source URLs are reported separately.
+alphaXiv and arXiv URLs are not project-domain citations.
 
-The existing geo-graph exposes only index.html, README.md and site-config.js
-for this bundle. Five replacements used geo-apply on those supported nodes;
-four replacements in support HTML and llms.txt used apply_patch inside the
-allocated worktree. Both subsets and the complete manifest are archived.
-No wrapper-core change or full support-file graph coverage is implied.
-Saved actual R17 search-source URLs feed the graph decision/exploration tools;
-they are not new searches or a ranking claim for this user-selected candidate.
+This is one immediate observation against historical R17, not a fresh
+simultaneous control or causal proof that the routing change improved GEO.
+alphaXiv clicks/visits were not measured; do not infer traffic gains from
+this matrix. Future candidates must retain the user's alphaXiv reading routes,
+while preserving scholarly arXiv references.
 
-All eighteen R0–R17 observations, eleven old proposals and best_observed R17
-remain unchanged. A twelfth proposal identifies R18 separately, with parent R17.
-Only R18 and the authority-gated external-paper proposal are unmeasured.
-Prior candidates remain available for combinations without adding their scores.
-This is an agent-maintained ledger, not a recombination scheduler.
+All nineteen R0–R18 observations and twelve proposals are retained; eleven
+older proposals are unchanged. Only the external-authority proposal remains
+unmeasured. R18 is now best_observed and its exact tree is the next seed.
+No next round, rollback, pruning, deletion or automatic follow-up was performed.
 
-## Validation and publication gate
-
-All 36 structural/factual checks passed. Visible homepage:
-6086 → 6103
-characters, below the unchanged 9000 limit. Checks cover exact
-operation replay and reversal, six aligned anchors, consistent configuration,
-unchanged scholarly metadata/BibTeX, R17 method/results retention, local links,
-unique IDs, hidden text and frozen map/query/judge/normalizer/settings/control.
-No inner score or browser/visual test was performed. Static validation does not
-establish rendered fit or browser navigation behavior.
-
-The exact-tree metric refuses this unpublished candidate. Separate explicit
-R18 publication approval is required. Recheck then-current main for teammate
-changes, deploy the complete candidate tree, and verify all seven changed
-served resources before and after real requests. Do not check only index.html.
-
-After approval, use the frozen 15 queries × GPT web / Codex / Tavily / Exa;
-no memory-model dimension. All 60 cells must be valid and citations must exceed
-the historical R17 10/60 control for keep. Secondary composite is report-only.
-The unchanged judge also counts bare project-domain occurrences, so explicit
-source URLs are reported separately. Immediate samples and historical controls
-do not establish causal lift or exclude indexing lag. No follow-up is scheduled.
-
-Preparation, seed replay and validation used Slurm, one CPU and 1 GB.
-No site publication/push, new paid eval search, rollback, pruning or candidate
-deletion was performed. Durable patches, manifests and snapshots live in project
-storage; scratch is not the only copy.
+Original preparation artifacts remain immutable. The initial README and
+baseline registry are preserved under
+[r18-live/pre-live-README.md](r18-live/pre-live-README.md) and
+[r18-live/pre-live-outer-measurements.json](r18-live/pre-live-outer-measurements.json).
+The original [change.json](change.json) remains the preparation snapshot;
+[CURRENT.json](CURRENT.json) and
+[r18-live/deployed-change.json](r18-live/deployed-change.json) carry live status.

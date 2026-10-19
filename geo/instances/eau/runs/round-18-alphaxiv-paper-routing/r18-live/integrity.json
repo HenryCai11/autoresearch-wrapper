@@ -1,0 +1,33 @@
+{
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "sha256": {
+    "gpt-web-answers.jsonl": "b2aba966db42ecc4b4932021eaee39cd762a648d2cb3eaecbd480c8656d0fd4e",
+    "codex-answers-complete.jsonl": "ae3a99a0775bca56d32e1926f82ccf8688a49f22667984fb290d418df71e1d23",
+    "tavily-answers.jsonl": "a1b8919b79b2dc53116f0120114956215e7bfc81cbf6348a531c72a6ed96f85c",
+    "exa-answers.jsonl": "bca39d509b5a4d8eb950234c1f0e047b81b7b5456e911e16414fe61f05277c75",
+    "search-matrix.csv": "f4c13a905941353d775de225ba6b2e38b2525f1f9116fee2bdaafb85a250a2a4",
+    "search-map.json": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+    "raw-api-responses.jsonl": "3a3f01775ca53964a7e5cd2760deba079b6e3300f5f483ac5ed72080f16248d5",
+    "network-events.jsonl": "943b186f1b07fdd3a888df5d29d20d721a645549b4aa85f6dfa3b3aa57515736",
+    "deployment.json": "a8e22e2d268c45979cd090e6726dfb5444f3ac35135a4a5da363339526696448",
+    "collection-settings.json": "ca23a6d0f2543d9c88e9c0299d877d80753050609507adc65ebffa411578d05f",
+    "queries.txt": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+    "best-observed-selection.json": "ddfa0afbad790ee151fe74ea3f64d7559b18487fd2e42841a9d95bbc3d0315d4",
+    "candidate-pool-before-record.json": "ee2594ccbd60b7be95577d6ae6af371e5e85dc0d4da03b535e660c20cf0f6ff2",
+    "candidate-pool-after-record.json": "80f006dd4dfaa608b669a699244309cff5a339534425a0142e3d03a13a9fbf8c",
+    "codex-group-1/started-at.txt": "1e3ed68d162bf2e34fa1018c58078651027141c76d20818c702c300784a9604b",
+    "codex-group-1/completed-at.txt": "2223266e8a6f3290d07279594e12e8df959c1786322fb568d0239c3216cdcc93",
+    "codex-group-2/started-at.txt": "c441deb1bebe77308bf26aa6bcec11605e56e500b3eff74cc27acdb0ade8cfbc",
+    "codex-group-2/completed-at.txt": "8441e0002b1a6eb96b2e10c5cec2e688b1c9e93fb7f1cf99c3a8d0e422055bc2"
+  },
+  "baseline_matrix_sha256": "b70606920db1af4346d6ec93cc84491d3f778c6249aaba6d4423686785ec090c",
+  "served_resources_sha256": {
+    "README.md": "2718490ff30fe83a7a323627ddf30ebba4c5295020d9fe6370604338c23be2e8",
+    "index.html": "0164d9b15a9a3d28d8c7e2a757f06d1a7f12646efbe4e8629fe599fa257ad53a",
+    "llms.txt": "30a54fadb3ed7c3425d5bd678c8c119d56fbf40d9bc09e94e6963fce81ac140a",
+    "method.html": "0a8d40fd5380128334daf4e0a4a8776c70debebef8947de432aa0af18a01e9c5",
+    "paper.html": "29ed7e8ba69bdf81e9109bb57ca7877be7b6e425beb3fac12d701d1f03e673b6",
+    "research-context.html": "a8d1c169155ee352c0581ce6e945943f7ea59b7d5fc9b0b77dba9a74bf47e9e5",
+    "site-config.js": "aa9d331a2e7cf397ee0cc2b55d510ed4a0755cb386e22a76dab5d3d7317d5801"
+  }
+}
