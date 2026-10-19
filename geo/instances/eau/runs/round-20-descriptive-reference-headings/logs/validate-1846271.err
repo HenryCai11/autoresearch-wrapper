@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/scratch/henrycai/geo-runs/eau-r20-20261019/candidate_r20.py", line 85, in <module>
+    visible = {name:{'before':len(baseline.pages[name].visible_text),'after':len(result.pages[name].visible_text)} for name in HTML}
+                                  ~~~~~~~~~~~~~~^^^^^^
+KeyError: 'index.html'

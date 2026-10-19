@@ -1,0 +1,17 @@
+{
+  "operations": [
+    {
+      "op": "replace_text",
+      "node": "file:method.html",
+      "before": "<h1>What does EAU<br><em>adapt?</em></h1>",
+      "after": "<h1>How EAU adapts<br><em>the training system.</em></h1>"
+    },
+    {
+      "op": "replace_text",
+      "node": "file:research-context.html",
+      "before": "<h1>Where does EAU<br><em>fit?</em></h1>",
+      "after": "<h1>EAU as an<br><em>adaptive training system.</em></h1>"
+    }
+  ],
+  "reason": "Both HTML files are linked asset nodes with content fingerprints but no replace_text support in the current graph. Apply the two exact replacements with apply_patch in the allocated worktree; no core extension."
+}

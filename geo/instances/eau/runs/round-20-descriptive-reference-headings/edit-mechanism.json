@@ -1,0 +1,11 @@
+{
+  "operations": 2,
+  "method": "Main-agent apply_patch in this allocated worktree",
+  "graph_nodes": [
+    "file:method.html",
+    "file:research-context.html"
+  ],
+  "limitation": "Existing graph exposes linked HTML as fingerprinted asset nodes with no text mutation operations; geo-apply is not used or claimed for these two edits.",
+  "wrapper_core_changed": false,
+  "production_changed": false
+}

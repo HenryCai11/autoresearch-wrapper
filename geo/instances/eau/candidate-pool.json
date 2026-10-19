@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "site_url": "https://eau-meta-agent.github.io/",
-  "updated_at": "2026-10-19T13:39:53+00:00",
-  "current_round": 19,
+  "updated_at": "2026-10-19T17:12:43+00:00",
+  "current_round": 20,
   "maintenance": "Site-specific ledger maintained by the agent when starting or recording a round; not an automatic scheduler or a new wrapper-core search algorithm.",
   "policy": {
     "primary_metric": "live_project_citation_rate",
@@ -16,10 +16,10 @@
     ],
     "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
     "inner_metric": "not computed and not used",
-    "baseline": "R18 remains highest complete historical primary observation, 12/60 and composite 35.19444. R19 remains live with required alphaXiv routes; do not restore arXiv reading buttons when preparing a future candidate.",
-    "current_production": "R19 live: 12/60, discard; compared with historical R18 12/60; alphaXiv reading routes retained",
-    "deployment": "R19 explicitly approved; exact complete candidate tree and all four served changed files verified before and after the completed 60-cell collection. No rollback.",
-    "history": "All twenty R0–R19 observations and thirteen proposals retained; all twelve older proposals unchanged. Only the external-authority proposal remains unmeasured. Never add parent scores.",
+    "baseline": "Best complete R18: 12/60, primary 20.0, composite 35.19444; original historical matrix, not R19 or a fresh simultaneous control. Keep requires strictly more than 12/60 and all 60 valid.",
+    "current_production": "R19 unchanged, 12/60 discard (tie); R20 seed is best R18, all user-required alphaXiv routes retained",
+    "deployment": "Separate explicit R20 approval required. Candidate differs from current production in four HTML files: remove the unselected R19 schema bundle plus two visible reference H1 changes. Verify complete tree and all four served files before/after real collection.",
+    "history": "All twenty R0–R19 observations, thirteen old proposals and best_observed R18 unchanged; new two-heading proposal remains unmeasured. Do not add parent scores.",
     "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up",
     "user_routing_constraint": "Preserve https://www.alphaxiv.org/abs/2610.16523 for paper-reading entry points in future candidates, independently of project-domain GEO selection. Scholarly arXiv identifiers/PDF/BibTeX remain unchanged."
   },
@@ -1972,9 +1972,45 @@
         "score": 35.19444444444444
       },
       "measurement_artifact_dir": "runs/round-19-shared-entity-combination/r19-live"
+    },
+    {
+      "id": "descriptive-reference-headings",
+      "status": "validated_awaiting_deployment_approval",
+      "measured": false,
+      "round": 20,
+      "change_id": "r20-descriptive-reference-headings",
+      "parents": [
+        "r18"
+      ],
+      "retain_for_combinations": true,
+      "files": [
+        "method.html",
+        "research-context.html"
+      ],
+      "base_commit": "dda361dcd45f2eee5cff5402a3d8b8a5421ddd33",
+      "modules": [
+        "method-reference",
+        "research-context",
+        "reference-pages",
+        "presentation"
+      ],
+      "hypothesis": "Test two topical, entity-naming H1 headings on the method/context entry pages that actually appeared for fuzzy queries, without changing their explanatory paragraphs.",
+      "reason_selected": "R19 metadata-only retest tied the twelve R18 citation cells; both fuzzy entry pages remain visible. Test a separate visible-heading bundle instead of assuming a schema lift.",
+      "scope": "Exactly two H1 replacements on R18; no other text, facts, links, metadata, schema, scripts or styles differ from the selection seed.",
+      "module_dependencies": [
+        "method H1 reuses existing R16 framework H2 wording",
+        "context H1 uses existing lead terminology",
+        "all R18 alphaXiv routes retained",
+        "R19 schema bundle deliberately not inherited"
+      ],
+      "interpretation": "Unmeasured two-heading bundle, not a predicted gain. R16/R18/R19 observations are not added or treated as isolated module effects.",
+      "candidate_commit": "65e2486e3639d55cad24d9e780b6b20864f22722",
+      "candidate_tree": "8261df22ebbcfa2edc6031f32e2fb51214822ad3",
+      "wrapper_run_id": "20261019T171243Z-method-html",
+      "branch": "autoresearch/method-html/20261019T171243Z-method-html/candidate-001"
     }
   ],
-  "selected_candidate_id": "shared-entity-combination",
+  "selected_candidate_id": "descriptive-reference-headings",
   "best_observed": {
     "round": 18,
     "change_id": "r18-alphaxiv-paper-routing",

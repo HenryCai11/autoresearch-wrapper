@@ -1,0 +1,78 @@
+{
+  "checks": {
+    "seed_is_exact_best_r18_not_current_live_r19": true,
+    "only_two_authorized_reference_html_files_changed_vs_r18": true,
+    "production_diff_exactly_four_html_files": true,
+    "exactly_two_manual_heading_replacements": true,
+    "reversing_two_h1s_recovers_all_r18_html_exactly": true,
+    "all_non_h1_bytes_unchanged_vs_r18": true,
+    "homepage_and_paper_page_byte_identical_to_best_seed": true,
+    "all_head_metadata_and_jsonld_byte_identical_to_r18": true,
+    "all_four_jsonld_blocks_parse": true,
+    "no_r19_schema_silently_inherited": true,
+    "reapplying_only_archived_r19_schema_recovers_current_production": true,
+    "method_h1_exact_reuse_of_existing_home_framework_h2": true,
+    "context_h1_uses_existing_lead_phrase": true,
+    "all_paragraphs_and_secondary_headings_unchanged": true,
+    "all_nine_user_required_r18_alpha_routing_operations_preserved": true,
+    "six_html_paper_anchors_still_alphaxiv": true,
+    "no_html_paper_anchor_reverted_to_arxiv": true,
+    "homepage_visible_text_unchanged_and_within_limit": true,
+    "paper_visible_text_unchanged": true,
+    "reference_page_visible_growth_bounded": true,
+    "all_hidden_text_unchanged": true,
+    "no_jsonld_parser_errors": true,
+    "local_links_fragments_and_unique_ids_valid": true,
+    "exactly_one_h1_per_document": true,
+    "scripts_styles_citations_summaries_and_other_assets_unchanged": true,
+    "archived_wording_and_routing_source_hashes_match": true,
+    "original_source_archives_unchanged": true,
+    "frozen_map_judge_normalizer_unchanged": true,
+    "frozen_query_list_unchanged": true,
+    "frozen_engine_settings_unchanged": true,
+    "original_r18_control_matrix_not_relabelled_r19": true,
+    "staged_served_r19_bytes_match_unchanged_production": true,
+    "production_checkout_still_original_r19_and_clean": true,
+    "all_twenty_history_entries_thirteen_old_proposals_and_best_unchanged": true,
+    "candidate_has_no_untracked_files": true,
+    "both_readonly_asset_graph_fingerprints_match_actual_files": true
+  },
+  "errors": [],
+  "inner_score": "not computed",
+  "visible_chars": {
+    "index.html": {
+      "before": 6103,
+      "after": 6103
+    },
+    "method.html": {
+      "before": 1583,
+      "after": 1598
+    },
+    "paper.html": {
+      "before": 1122,
+      "after": 1122
+    },
+    "research-context.html": {
+      "before": 1478,
+      "after": 1494
+    }
+  },
+  "visible_home_chars_before": 6103,
+  "visible_home_chars_after": 6103,
+  "limit": 9000,
+  "scope_vs_seed": [
+    "method.html",
+    "research-context.html"
+  ],
+  "scope_vs_current_production": [
+    "index.html",
+    "method.html",
+    "paper.html",
+    "research-context.html"
+  ],
+  "browser_test": "Not performed; heading wrapping/visual layout are not claimed as tested",
+  "graph_limit": "Both linked files are fingerprinted asset nodes with no text operations; two exact apply_patch edits independently validated",
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+  "judge_sha256": "6bb1498e65e5cf065cc8e03e40007c73c32393e16f85a41d2395db76820613de",
+  "normalization_sha256": "8a2856dd9b69fe4b24c7b315f55ac6c98b7bcbd9063dd1093a11fba3e181d537"
+}

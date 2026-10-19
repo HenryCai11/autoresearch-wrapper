@@ -1,0 +1,25 @@
+{
+  "seed_round": 18,
+  "parents": [
+    "r18"
+  ],
+  "method_heading": {
+    "source_file": "index.html",
+    "source_round": 16,
+    "source_operation": "sources/r16-operations.json",
+    "source_html": "<h2 id=\"framework-title\">How EAU adapts<br><em>the training system.</em></h2>",
+    "new_h1": "<h1>How EAU adapts<br><em>the training system.</em></h1>",
+    "interpretation": "Reuse visible wording only on a different page and heading level, not replay of the R16 homepage operation or inheritance of its score."
+  },
+  "context_heading": {
+    "source_file": "research-context.html",
+    "source_phrase": "an adaptive training system",
+    "new_h1": "<h1>EAU as an<br><em>adaptive training system.</em></h1>",
+    "claim": "Existing lead already describes EAU this way; no new mechanism or performance claim."
+  },
+  "source_sha256": {
+    "r16-operations.json": "be34651d4b79b8f1d2898bc7cafd20c2fb46366253663acba2141cce3b77cc2b",
+    "r18-operations.json": "a777e06cace5986e952b85fe18aa071b4edc594634ae061c08f39aac05bcfc4c",
+    "r19-operations.json": "e1215ab42cdcbc45ec6943f0dabb5e1c7e67183181f102cc6d46109ee8ca8ae1"
+  }
+}

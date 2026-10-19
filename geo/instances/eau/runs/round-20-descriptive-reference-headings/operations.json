@@ -1,0 +1,16 @@
+{
+  "operations": [
+    {
+      "op": "replace_text",
+      "node": "file:method.html",
+      "before": "<h1>What does EAU<br><em>adapt?</em></h1>",
+      "after": "<h1>How EAU adapts<br><em>the training system.</em></h1>"
+    },
+    {
+      "op": "replace_text",
+      "node": "file:research-context.html",
+      "before": "<h1>Where does EAU<br><em>fit?</em></h1>",
+      "after": "<h1>EAU as an<br><em>adaptive training system.</em></h1>"
+    }
+  ]
+}

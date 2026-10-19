@@ -1,0 +1,27 @@
+[autoresearch/method-html/20261019T171243Z-method-html/candidate-001 65e2486] R20: use descriptive H1s on method and research-context entry pages
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+{
+  "run_id": "20261019T171243Z-method-html",
+  "candidate_commit": "65e2486e3639d55cad24d9e780b6b20864f22722",
+  "candidate_tree": "8261df22ebbcfa2edc6031f32e2fb51214822ad3",
+  "checks_passed": 36,
+  "visible_chars": {
+    "index.html": {
+      "before": 6103,
+      "after": 6103
+    },
+    "method.html": {
+      "before": 1583,
+      "after": 1598
+    },
+    "paper.html": {
+      "before": 1122,
+      "after": 1122
+    },
+    "research-context.html": {
+      "before": 1478,
+      "after": 1494
+    }
+  },
+  "status": "R20 validated but unpublished/unmeasured; R19 stays live and R18 best 12/60 remains unchanged"
+}

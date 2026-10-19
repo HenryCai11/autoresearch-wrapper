@@ -1,0 +1,135 @@
+{
+  "basis": "Best R18 control plus complete R19 tie and returned source URLs; no new R20 searches",
+  "latest_observation": {
+    "round": 19,
+    "project_citations": 12,
+    "explicit_project_url_cells": 11,
+    "explicit_support_page_url_cells": 5,
+    "fuzzy_citations": 2,
+    "broad_citations": 1,
+    "decision": "discard"
+  },
+  "reviews": [
+    {
+      "module": "homepage-identity",
+      "action": "Keep R18 home H1, R16 H2s and R17 static method unchanged; do not replay failed R12 H1"
+    },
+    {
+      "module": "method-reference",
+      "action": "Replace question H1 with exact existing framework heading wording; all paragraphs and evidence unchanged"
+    },
+    {
+      "module": "research-context",
+      "action": "Replace question H1 with the existing adaptive-training-system description; scope/evidence boundaries unchanged"
+    },
+    {
+      "module": "paper-authority",
+      "action": "Keep R18 paper record, author/year/citation data and paper H1 unchanged; no R19 shared schema inheritance"
+    },
+    {
+      "module": "machine-readable-summary",
+      "action": "Keep llms.txt and alphaXiv Paper entry unchanged"
+    },
+    {
+      "module": "repository-authority",
+      "action": "Keep README and alphaXiv Paper entry unchanged; no external repository changes"
+    },
+    {
+      "module": "crawler-routing",
+      "action": "Keep robots/sitemap; no claim of indexed new bytes or inferred graph reach"
+    },
+    {
+      "module": "presentation",
+      "action": "Reuse existing H1/br/em markup and styles; no CSS/JS/layout rewrite, rendered wrapping untested"
+    },
+    {
+      "module": "reference-pages",
+      "action": "Test two visible entry H1s together; R8 routes and all outgoing destinations retained"
+    },
+    {
+      "module": "external-paper-entry",
+      "action": "Keep alphaXiv click routes; external backlink state unknown and author-owned pages untouched"
+    }
+  ],
+  "alternatives_retained": [
+    {
+      "id": "r8-reference-cluster",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "shared-scholarly-entity",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "reference-cluster-without-r7",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "static-benchmark-evidence",
+      "status": "keep",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "external-paper-link-audit",
+      "status": "needs_author_authority_for_any_edit",
+      "measured": false,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "homepage-descriptive-h1",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "static-second-backbone-evidence",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "static-component-reference",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "static-entry-combination",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "descriptive-section-headings",
+      "status": "keep",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "descriptive-heading-static-method",
+      "status": "keep",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "alphaxiv-paper-routing",
+      "status": "keep",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "shared-entity-combination",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    }
+  ],
+  "selection_limit": "R19 immediate tie does not prove the metadata has no later effect; R16 homepage heading result does not predict support-page H1 lift."
+}

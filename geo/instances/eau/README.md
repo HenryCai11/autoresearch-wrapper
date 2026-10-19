@@ -15,7 +15,7 @@ python3 scripts/geo_eval.py discovery \
   --probes geo/instances/eau/probes.jsonl
 ```
 
-Historical R0–R18 run directories contain actual GPT web, Codex search, Tavily,
+Historical R0–R19 run directories contain actual GPT web, Codex search, Tavily,
 and Exa observations. Keys are supplied only at runtime; never store them here.
 
 R12 was measured at 6/60 citation cells versus the best R9's 8/60,
@@ -69,7 +69,7 @@ for tool-using agents” query, with no lost citation cell versus R16. R17 fuzzy
 citations remained zero. The frozen judge includes bare project-domain mentions;
 explicit source URLs are reported separately.
 
-[R18](runs/round-18-alphaxiv-paper-routing/README.md) is live and measured:
+[R18](runs/round-18-alphaxiv-paper-routing/README.md) was published and measured:
 **12/60 project-domain citation cells, all 60 valid; keep**, versus historical
 R17's 10/60. It remains the best complete observed candidate and next selection
 seed; R19 tied it and was not promoted.
@@ -123,9 +123,35 @@ raw sixty responses. See its [parent replay record](runs/round-19-shared-entity-
 [validation](runs/round-19-shared-entity-combination/validation.json) and
 [live audit](runs/round-19-shared-entity-combination/r19-live/audit.json).
 
-All 20 R0–R19 observations and thirteen proposals remain; all twelve older
-proposals and best_observed R18 are unchanged. Only the external-authority
-proposal is unmeasured. Prior candidates remain available
+[R20](runs/round-20-descriptive-reference-headings/README.md) is prepared,
+**not published or measured**. On best R18 it changes only two reference-page
+H1 headings: method becomes “How EAU adapts the training system.” and context
+becomes “EAU as an adaptive training system.” Both use existing site wording;
+all paragraphs, metadata/JSON-LD, result data, citation fields and alphaXiv routes
+remain unchanged versus R18. The method wording reuses an existing R16 H2 on a
+different page, not its operation or score. All ten modules and thirteen prior
+proposals were reviewed before selecting this two-heading bundle, motivated by
+the actual method/context source URLs in R19's two fuzzy Exa cells.
+
+All 36 structural/factual checks passed, with no inner score or browser test.
+Homepage visible text stays 6103 characters. Both graph nodes are fingerprinted
+assets without text operations, so the two exact edits used apply_patch in the
+allocated worktree. The first validation stopped on a page-key error and was
+corrected before committing; both attempts are archived. The metric guard
+refuses to score unmeasured R20; the original R18 matrix still replays 12/60.
+See its [validation](runs/round-20-descriptive-reference-headings/validation.json)
+and [audit](runs/round-20-descriptive-reference-headings/audit.json).
+
+Production stays R19. Since R20 starts from R18 rather than tied/discarded R19,
+a future approved deployment differs from current production in four HTML files:
+restore the R18 metadata, plus the two new H1s. Both the two-file seed diff and
+four-file production diff are archived. Recheck then-current main and verify
+the complete tree/all four served files before and after any real collection.
+Publication and the frozen 60-cell external evaluation await explicit approval.
+
+All 20 R0–R19 observations and fourteen proposals remain; all thirteen older
+proposals and best_observed R18 are unchanged. Only R20 and the external-authority
+proposal are unmeasured. Prior candidates remain available
 for combinations; their scores are never added to predict a bundle. Immediate
 historical-control samples do not establish causal contribution or exclude
 stale indexing. No automatic follow-up is scheduled.

@@ -1,0 +1,2 @@
+timestamp	run_id	candidate_id	status	metric_name	metric_value	goal	commit	branch	worktree	description
+2026-10-19T17:13:58+00:00	20261019T171243Z-method-html	seed	keep	live_project_citation_rate	20.0	maximize	dda361dcd45f2eee5cff5402a3d8b8a5421ddd33	autoresearch/method-html/20261019T171243Z-method-html/seed	/scratch/henrycai/eau-r20-20261019.autoresearch-worktrees/20261019T171243Z-method-html/seed	Original R18 12/60 historical control; not R19 or new R20 searches

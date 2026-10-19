@@ -1,0 +1,10 @@
+{
+  "selection_job": "1846207",
+  "seed_and_allocation_job": "1846228",
+  "first_validation_job": "1846271",
+  "corrected_validation_job": "1846284",
+  "archive_job": "1846309",
+  "resources": "Each Python/CLI job: CPU only, account aip-xiye17, 1 CPU, 1 GB, 5 minutes; all job I/O in scratch",
+  "accounting_before_archive_completion": "1846207|eau-r20-select|COMPLETED|0:0\n1846207.batch|batch|COMPLETED|0:0\n1846207.extern|extern|COMPLETED|0:0\n1846228|eau-r20-allocate|COMPLETED|0:0\n1846228.batch|batch|COMPLETED|0:0\n1846228.extern|extern|COMPLETED|0:0\n1846271|eau-r20-check|FAILED|1:0\n1846271.batch|batch|FAILED|1:0\n1846271.extern|extern|COMPLETED|0:0\n1846284|eau-r20-check|COMPLETED|0:0\n1846284.batch|batch|COMPLETED|0:0\n1846284.extern|extern|COMPLETED|0:0\n",
+  "correction": "First validation stopped on KeyError index.html before writing validation or committing. Corrected URL keys to / and /<file>.html; no site change, paid search, metric or candidate record was produced by that failed attempt."
+}

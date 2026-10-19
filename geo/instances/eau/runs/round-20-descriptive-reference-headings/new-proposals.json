@@ -1,0 +1,34 @@
+[
+  {
+    "id": "descriptive-reference-headings",
+    "status": "selected_preparing",
+    "measured": false,
+    "round": 20,
+    "change_id": "r20-descriptive-reference-headings",
+    "parents": [
+      "r18"
+    ],
+    "retain_for_combinations": true,
+    "files": [
+      "method.html",
+      "research-context.html"
+    ],
+    "base_commit": "dda361dcd45f2eee5cff5402a3d8b8a5421ddd33",
+    "modules": [
+      "method-reference",
+      "research-context",
+      "reference-pages",
+      "presentation"
+    ],
+    "hypothesis": "Test two topical, entity-naming H1 headings on the method/context entry pages that actually appeared for fuzzy queries, without changing their explanatory paragraphs.",
+    "reason_selected": "R19 metadata-only retest tied the twelve R18 citation cells; both fuzzy entry pages remain visible. Test a separate visible-heading bundle instead of assuming a schema lift.",
+    "scope": "Exactly two H1 replacements on R18; no other text, facts, links, metadata, schema, scripts or styles differ from the selection seed.",
+    "module_dependencies": [
+      "method H1 reuses existing R16 framework H2 wording",
+      "context H1 uses existing lead terminology",
+      "all R18 alphaXiv routes retained",
+      "R19 schema bundle deliberately not inherited"
+    ],
+    "interpretation": "Unmeasured two-heading bundle, not a predicted gain. R16/R18/R19 observations are not added or treated as isolated module effects."
+  }
+]
