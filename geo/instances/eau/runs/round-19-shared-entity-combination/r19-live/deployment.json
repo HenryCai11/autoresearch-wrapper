@@ -1,0 +1,26 @@
+{
+  "source_branch": "codex/geo-live-round-19-deploy",
+  "candidate_branch": "codex/geo-live-round-19",
+  "candidate_commit": "6ef90e8d0f401312efa9bb59e5a52e2264910bf9",
+  "deploy_commit": "82150175332c44981e5ba25ae8afba35d826a57c",
+  "production_merge_commit": "ab6847afc14de3a9067361b071605de711c96337",
+  "production_tree": "12b28c84303366ae8e4117709ec0166c1919ae9a",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "resource_sha256": {
+    "index.html": "7b36aac8b97ae49d3775693b1a0fa84cb80b24a3059b0abdb7e12e10dd927456",
+    "method.html": "93150db7c2572449420e317cc0bc296ecd9e258ec6eb96e51a2151936950e730",
+    "paper.html": "6e70c60715fd4f704201fb54eaec774f17fb16f3e51f9cc5e04252e054f9dfa8",
+    "research-context.html": "2f4a6052f8e58ba55b096c74f1da85e28d78b57be68b6e0eb23c7637911da7bc"
+  },
+  "served_version_verified_at": "2026-10-19T13:33:35Z",
+  "served_version_reverified_at": "2026-10-19T13:38:37Z",
+  "collection_timing_verified": true,
+  "first_request_at": "2026-10-19T13:34:01+00:00",
+  "last_completed_request_at": "2026-10-19T13:38:05+00:00",
+  "timing_evidence": "GPT/API per-request timestamps and both Codex group start/completion markers are within served checks; all 60 valid before record creation.",
+  "verification": "All four changed resources byte-match the exact candidate and merged production tree before collection and after all requests finish.",
+  "authorization": "User explicitly requested publishing and testing the prepared R19 candidate.",
+  "selection_seed": "R18 best complete observation, 12/60; preserved historical control, not fresh or simultaneous",
+  "deployment_method": "Isolated branch on then-current R18 main; replay the exact retained final R10 JSON-LD blocks, full tree match before merge. Four schema-only replacements; every body/non-JSON-LD byte and all R18 alphaXiv routes retained. R10 and R18 old results are not added to predict this combination.",
+  "traffic_status": "No alphaXiv click or visit measurement; changing outbound destinations does not prove traffic uplift."
+}

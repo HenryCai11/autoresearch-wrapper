@@ -1,0 +1,88 @@
+{
+  "round": 19,
+  "change_id": "r19-shared-entity-combination",
+  "pool_candidate_id": "shared-entity-combination",
+  "state": "deployed_and_measured",
+  "files": [
+    "index.html",
+    "method.html",
+    "paper.html",
+    "research-context.html"
+  ],
+  "graph_nodes": [
+    "meta:schema"
+  ],
+  "manual_files": [
+    "method.html",
+    "paper.html",
+    "research-context.html"
+  ],
+  "selection_seed_round": 18,
+  "selection_seed_commit": "dda361dcd45f2eee5cff5402a3d8b8a5421ddd33",
+  "selection_seed_tree": "ad41cd32f93433b1be065fc8d1969d8da78f2600",
+  "current_production_commit": "119cd5561e1b26d125eff96ad6cf8cc779dbf17e",
+  "current_production_tree": "ad41cd32f93433b1be065fc8d1969d8da78f2600",
+  "parents": [
+    "r18",
+    "r10"
+  ],
+  "hypothesis": "Test the exact retained R10 shared ScholarlyArticle identity and page-specific WebPage metadata now that R18 exposes paper, method and context pages in actual source URLs.",
+  "selection": {
+    "primary_metric": "live_project_citation_rate",
+    "goal": "maximize",
+    "definition": "100 * frozen geo_eval site_cited cells / 60, including bare project-domain occurrences under the existing judge",
+    "engines": [
+      "gpt-web",
+      "codex-search",
+      "tavily-search",
+      "exa-search"
+    ],
+    "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
+    "inner_metric": "not computed and not used",
+    "baseline": "Best complete R18: 12/60, primary 20.0, secondary composite 35.19444; historical control, not fresh/simultaneous. Keep requires strictly more than 12/60 with all 60 valid.",
+    "current_production": "R18 unchanged, 12/60, keep; all user-requested alphaXiv routes retained",
+    "deployment": "Separate explicit R19 approval required; verify exact candidate tree and all four changed served HTML resources before and after the real 60 requests",
+    "history": "All nineteen R0–R18 observations, twelve old proposals and best_observed R18 unchanged; the new R18/R10 combination is unmeasured. Never add parent scores.",
+    "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up",
+    "user_routing_constraint": "Preserve https://www.alphaxiv.org/abs/2610.16523 for paper-reading entry points in future candidates, independently of project-domain GEO selection. Scholarly arXiv identifiers/PDF/BibTeX remain unchanged."
+  },
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+  "technical_references": [
+    "https://schema.org/mainEntity",
+    "https://schema.org/mainEntityOfPage",
+    "https://www.w3.org/TR/json-ld11/#node-identifiers"
+  ],
+  "unchanged_vs_seed": [
+    "Every non-JSON-LD byte",
+    "all visible text and factual claims",
+    "all R18 alphaXiv anchors/config/README/llms entries",
+    "all non-JSON-LD metadata and canonical URLs",
+    "PDF/citation fields/BibTeX",
+    "R17 static method/R16 H2s/R9 data",
+    "scripts/styles/assets/crawler files",
+    "map/queries/judge/normalizer/engine settings"
+  ],
+  "deployment_plan": "Require separate R19 approval, recheck then-current main for teammate changes, verify exact full tree plus all four changed served resources before and after collection.",
+  "candidate_commit": "6ef90e8d0f401312efa9bb59e5a52e2264910bf9",
+  "candidate_tree": "12b28c84303366ae8e4117709ec0166c1919ae9a",
+  "wrapper_run_id": "20261019T131300Z-index-html",
+  "candidate": {
+    "based_on": "autoresearch/index-html/20261019T131300Z-index-html/seed",
+    "branch": "autoresearch/index-html/20261019T131300Z-index-html/candidate-001",
+    "candidate_id": "candidate-001",
+    "created_at": "2026-10-19T13:13:52+00:00",
+    "lifecycle": "allocated",
+    "missing": false,
+    "worktree_path": "/scratch/henrycai/eau-r19-20261019.autoresearch-worktrees/20261019T131300Z-index-html/candidate-001"
+  },
+  "production_changed_files": [
+    "index.html",
+    "method.html",
+    "paper.html",
+    "research-context.html"
+  ],
+  "production_merge_commit": "ab6847afc14de3a9067361b071605de711c96337",
+  "outer_selection": "discard",
+  "selection_record": "r19-live/wrapper-record.json",
+  "authorization": "User explicitly approved publishing R19 and measuring it."
+}

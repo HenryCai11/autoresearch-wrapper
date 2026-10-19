@@ -1,0 +1,33 @@
+{
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "sha256": {
+    "gpt-web-answers.jsonl": "82931503b4b374a0a757ed92fdc845b6608476ca150c55e1306172e409f7b6c0",
+    "codex-answers-complete.jsonl": "45b70e4ce1349a75780c073180b330a5ce6499c516396b574232d089f45d2f2e",
+    "tavily-answers.jsonl": "3d4039cbda0a140860a2dafb419331649189932a7df195de8cd977606336a91e",
+    "exa-answers.jsonl": "122071f8d646a3208cf3df75e9e0afd4898b928fe116e179b4ba3e9e00845a77",
+    "search-matrix.csv": "255e9520ec5d7e9ce33fccb494cd1dc2208be3040e1efdfc2bad8e26c253cb15",
+    "search-map.json": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+    "raw-api-responses.jsonl": "a105876e8996f6c90274189d5cb887c37efa92a992f7f277b231e235a0cce923",
+    "network-events.jsonl": "2b0f626186a2511db3677cb338fb338827493b405b0f6ce28ed113bfaabe7995",
+    "deployment.json": "7d83330f0a14cf894fce418ada295869fb39bc643c66bb96087c9a2e755441d7",
+    "deployment-propagation.json": "efe2f62a22c937f6fa34650328e351b314e86efb9f9c840a47f81cb5280e2a43",
+    "recording-attempt-1.txt": "9bc5de1e56023b124512fc82b93eceb65bcf1732e880c7528a09cb0c3f091b8a",
+    "record-deployment-before-branch-label-fix.py": "92b199053188298c840a0033709e0aa9933e8b563e2feadeefe2529753950742",
+    "collection-settings.json": "ca23a6d0f2543d9c88e9c0299d877d80753050609507adc65ebffa411578d05f",
+    "queries.txt": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+    "best-observed-selection.json": "e8e7f825c53994356e46c78bcceb5a8f6ccb04bc3e9cbff02df4c8f0e90c21dd",
+    "candidate-pool-before-record.json": "a3cfe1c41d950c515384dd9a306bd82f5a3d09678d0135c6673489383b606634",
+    "candidate-pool-after-record.json": "bae24c3e2265ccef9f5b56763bb6e22fd7008f9571afb4883508d2999340b013",
+    "codex-group-1/started-at.txt": "a16ace17a35e5a80b31bf1eafb7356394732e675702c051d3492bfb19bd11e01",
+    "codex-group-1/completed-at.txt": "0d2c7702951ede31b6031e3a7fb2a49234be66117caad67790fdb0f0e4f4173a",
+    "codex-group-2/started-at.txt": "a16ace17a35e5a80b31bf1eafb7356394732e675702c051d3492bfb19bd11e01",
+    "codex-group-2/completed-at.txt": "3b120953da727c1ae8cfc0764b855a76d547d4771b0ebfaf0691d3b527c5a8f5"
+  },
+  "baseline_matrix_sha256": "f4c13a905941353d775de225ba6b2e38b2525f1f9116fee2bdaafb85a250a2a4",
+  "served_resources_sha256": {
+    "index.html": "7b36aac8b97ae49d3775693b1a0fa84cb80b24a3059b0abdb7e12e10dd927456",
+    "method.html": "93150db7c2572449420e317cc0bc296ecd9e258ec6eb96e51a2151936950e730",
+    "paper.html": "6e70c60715fd4f704201fb54eaec774f17fb16f3e51f9cc5e04252e054f9dfa8",
+    "research-context.html": "2f4a6052f8e58ba55b096c74f1da85e28d78b57be68b6e0eb23c7637911da7bc"
+  }
+}

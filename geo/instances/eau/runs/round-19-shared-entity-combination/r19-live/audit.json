@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "cells": 60,
+  "project_citations": 12,
+  "history_count": 20,
+  "old_proposals_preserved": 12,
+  "proposal_count": 13,
+  "unmeasured_proposals": 1,
+  "served_changed_resources": 4,
+  "exact_r10_schema_replay": true,
+  "archived_metric_replays": {
+    "seed": "LIVE_PROJECT_CITATIONS=12/60\nMETRIC=20.0",
+    "candidate-001": "LIVE_PROJECT_CITATIONS=12/60\nMETRIC=20.0"
+  },
+  "script_sha256": {
+    "record_deployment.py": "8d682dd6cb4cfbe97e348d0bcf3e91bda9b74c9ead558da3149dc63c4fec670a",
+    "summarize_outer_live.py": "6a2e9ab1dceca34bcb7326a5c4da6ee81ee22ce285aacbba0cbe7d6907c8968d",
+    "finalize_r19_measurement.py": "b591dcf261a7d6b3a42c2eab6bc0d3a7c02606f590105293e9cf5bf78ff59a36",
+    "archive_r19_live.py": "69b08b9193a0bd15f7be7d846ce67e0813dfc4595591d273cff1670d2fd47f3f",
+    "audit_r19.py": "6b0d3bea20dd0344b86d2de130f03617ebc969a6c7056aeb9b3cda8db75b9f28",
+    "verify_served.sh": "e95df817082bbfc7eacdf51b9ed2aec0af89ef6bd74553f184989493d2edba4e",
+    "collect_api.sh": "6ca79beefd6f60c257112418cec44d6c9c8efe1555a0d087748150db59a6ac64",
+    "normalize_api.py": "5a7ce34bf6f6c2c9bd266bd6ccd56ff2a051bb277a2ba43036292f981852004a",
+    "normalize_api.sh": "1077813064da9f6a9534ed8a3d02369bdb84b8280877ba26a8e52ca22949100a",
+    "finish_r19.sh": "242ce57ead874e082318fac20f4fa6f6e095fd52949ecef02a899defda9cbcbd"
+  }
+}

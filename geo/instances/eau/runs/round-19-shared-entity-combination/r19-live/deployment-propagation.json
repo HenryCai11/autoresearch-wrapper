@@ -1,0 +1,11 @@
+{
+  "initial_check": "Served index.html did not match the approved R19 candidate; no eval requests launched until all four served files matched.",
+  "pages_workflow": {
+    "id": 39261044847,
+    "conclusion": "success",
+    "head_sha": "ab6847afc14de3a9067361b071605de711c96337"
+  },
+  "verified_before": "2026-10-19T13:33:35Z",
+  "selection_control": "Historical R18 12/60; no new control searches",
+  "no_preverification_probes": true
+}

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/scratch/henrycai/geo-runs/eau-r19-20261019/record_deployment.py", line 73, in <module>
+    assert git(PRODUCTION, 'rev-parse', 'origin/' + record[branch_key]) == record[commit_key]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

@@ -1,0 +1,7 @@
+{
+  "change": "Convert literal newline escapes between engine-table rows into actual Markdown newlines.",
+  "metrics_changed": false,
+  "raw_data_changed": false,
+  "executed_scripts_unchanged": true,
+  "reason": "Keep executed scripts and their audited fingerprints exactly as run while rendering the report correctly."
+}

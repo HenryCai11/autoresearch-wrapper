@@ -1,0 +1,24 @@
+{
+  "measurements": [
+    {
+      "label": "r18-best-reused-control",
+      "deployed_commit": "119cd5561e1b26d125eff96ad6cf8cc779dbf17e",
+      "deployed_tree": "ad41cd32f93433b1be065fc8d1969d8da78f2600",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "../round-18-alphaxiv-paper-routing/r18-live/search-matrix.csv",
+      "matrix_sha256": "f4c13a905941353d775de225ba6b2e38b2525f1f9116fee2bdaafb85a250a2a4",
+      "verification": "Preserved exact R18 tree and its complete 12/60 observation; historical control, not new R19 searches",
+      "source_label": "r18-immediate-live",
+      "measured_at": "2026-10-19T09:14:05+00:00"
+    },
+    {
+      "label": "r19-immediate-live",
+      "deployed_commit": "ab6847afc14de3a9067361b071605de711c96337",
+      "deployed_tree": "12b28c84303366ae8e4117709ec0166c1919ae9a",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "r19-live/search-matrix.csv",
+      "matrix_sha256": "255e9520ec5d7e9ce33fccb494cd1dc2208be3040e1efdfc2bad8e26c253cb15",
+      "verification": "Before/after deployed all four changed resources equal the merged R19 checkout and exact candidate tree."
+    }
+  ]
+}

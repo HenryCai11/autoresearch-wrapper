@@ -71,7 +71,8 @@ explicit source URLs are reported separately.
 
 [R18](runs/round-18-alphaxiv-paper-routing/README.md) is live and measured:
 **12/60 project-domain citation cells, all 60 valid; keep**, versus historical
-R17's 10/60. It remains the best complete observed candidate and R19 seed.
+R17's 10/60. It remains the best complete observed candidate and next selection
+seed; R19 tied it and was not promoted.
 Legacy composite is 35.19 versus 34.31; explicit project URLs are 11/60 and
 explicit support-page URL cells are 5/60. GPT web / Codex / Tavily / Exa citation
 counts are 0 / 4 / 0 / 8. Fuzzy-tier citations increased 0/20 → 2/20, while broad
@@ -94,26 +95,37 @@ unmeasured; do not infer traffic or causal GEO uplift from this matrix. Future
 candidates must retain the user's alphaXiv reading routes and scholarly arXiv
 references. See the [live audit](runs/round-18-alphaxiv-paper-routing/r18-live/audit.json).
 
-[R19](runs/round-19-shared-entity-combination/README.md) is prepared locally,
-**not published or measured**. It replays the exact final R10 shared-paper
-JSON-LD scheme on R18, as a new combination with parents R18 and R10. The five
-R18 source-URL cells covering paper.html, method.html and research-context.html
-motivate testing a common scholarly identity across the observed page surface;
-they do not predict metadata lift. R10's original 6/60 discard remains unchanged.
+[R19](runs/round-19-shared-entity-combination/README.md) is live and measured:
+**12/60 project-domain citation cells, all 60 valid; discard** against historical
+R18's 12/60 because keep requires strict improvement. Primary is 20.00/100 and
+secondary legacy composite is 35.19, both tied with R18. The same twelve cells
+are cited, with no gains/losses. GPT web / Codex / Tavily / Exa counts are
+0 / 4 / 0 / 8; explicit project URL cells are 11/60 and support-page cells 5/60.
+R18 remains best_observed; R19 stays live without automatic rollback.
+See the [live report](runs/round-19-shared-entity-combination/r19-live/REPORT.md)
+and [selection record](runs/round-19-shared-entity-combination/r19-live/best-observed-selection.json).
+
+R19 replays the exact final R10 shared-paper JSON-LD scheme on R18 as a separate
+combination with parents R18/R10, motivated by actual R18 support-page source
+URLs. R10's original 6/60 discard remains unchanged; no parent scores were added
+or averaged. A single immediate historical-control tie does not establish that
+the metadata has no longer-term effect.
 
 Only the four HTML JSON-LD blocks change. All non-JSON-LD bytes, visible text,
 R17 method reference, R16 headings, result data and every user-required alphaXiv
 destination remain unchanged. All 38 structural/factual checks passed; visible
 homepage text remains 6103 characters. No inner score or browser test was run.
-R19 awaits separate publication approval and a real four-engine collection;
-keep requires all 60 valid and strictly more than historical R18's 12/60.
-See its [parent replay record](runs/round-19-shared-entity-combination/combination-source.json),
+After explicit publication approval, all four changed served pages matched the
+exact candidate before and after collection. The first served check found a
+stale page and no searches began until all four matched. A record-script branch
+label correction required no resampling; completed scoring/audit used the same
+raw sixty responses. See its [parent replay record](runs/round-19-shared-entity-combination/combination-source.json),
 [validation](runs/round-19-shared-entity-combination/validation.json) and
-[preservation audit](runs/round-19-shared-entity-combination/audit.json).
+[live audit](runs/round-19-shared-entity-combination/r19-live/audit.json).
 
-All 19 R0–R18 observations and thirteen proposals remain; all twelve older
-proposals and best_observed R18 are unchanged. Only R19 and the
-external-authority proposal are unmeasured. Prior candidates remain available
+All 20 R0–R19 observations and thirteen proposals remain; all twelve older
+proposals and best_observed R18 are unchanged. Only the external-authority
+proposal is unmeasured. Prior candidates remain available
 for combinations; their scores are never added to predict a bundle. Immediate
 historical-control samples do not establish causal contribution or exclude
 stale indexing. No automatic follow-up is scheduled.
