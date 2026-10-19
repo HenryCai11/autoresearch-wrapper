@@ -71,7 +71,7 @@ explicit source URLs are reported separately.
 
 [R18](runs/round-18-alphaxiv-paper-routing/README.md) is live and measured:
 **12/60 project-domain citation cells, all 60 valid; keep**, versus historical
-R17's 10/60. It is the new best complete observed candidate and next seed.
+R17's 10/60. It remains the best complete observed candidate and R19 seed.
 Legacy composite is 35.19 versus 34.31; explicit project URLs are 11/60 and
 explicit support-page URL cells are 5/60. GPT web / Codex / Tavily / Exa citation
 counts are 0 / 4 / 0 / 8. Fuzzy-tier citations increased 0/20 → 2/20, while broad
@@ -94,12 +94,29 @@ unmeasured; do not infer traffic or causal GEO uplift from this matrix. Future
 candidates must retain the user's alphaXiv reading routes and scholarly arXiv
 references. See the [live audit](runs/round-18-alphaxiv-paper-routing/r18-live/audit.json).
 
-All 19 R0–R18 observations and twelve proposals remain; all eleven older proposals
-are unchanged. Only the external-authority proposal is unmeasured. Prior
-candidates remain available for combinations; their scores
-are never added to predict a bundle. Immediate historical-control samples do not
-establish causal contribution or exclude stale indexing. No automatic follow-up
-is scheduled.
+[R19](runs/round-19-shared-entity-combination/README.md) is prepared locally,
+**not published or measured**. It replays the exact final R10 shared-paper
+JSON-LD scheme on R18, as a new combination with parents R18 and R10. The five
+R18 source-URL cells covering paper.html, method.html and research-context.html
+motivate testing a common scholarly identity across the observed page surface;
+they do not predict metadata lift. R10's original 6/60 discard remains unchanged.
+
+Only the four HTML JSON-LD blocks change. All non-JSON-LD bytes, visible text,
+R17 method reference, R16 headings, result data and every user-required alphaXiv
+destination remain unchanged. All 38 structural/factual checks passed; visible
+homepage text remains 6103 characters. No inner score or browser test was run.
+R19 awaits separate publication approval and a real four-engine collection;
+keep requires all 60 valid and strictly more than historical R18's 12/60.
+See its [parent replay record](runs/round-19-shared-entity-combination/combination-source.json),
+[validation](runs/round-19-shared-entity-combination/validation.json) and
+[preservation audit](runs/round-19-shared-entity-combination/audit.json).
+
+All 19 R0–R18 observations and thirteen proposals remain; all twelve older
+proposals and best_observed R18 are unchanged. Only R19 and the
+external-authority proposal are unmeasured. Prior candidates remain available
+for combinations; their scores are never added to predict a bundle. Immediate
+historical-control samples do not establish causal contribution or exclude
+stale indexing. No automatic follow-up is scheduled.
 
 ## Cross-module candidate ledger
 

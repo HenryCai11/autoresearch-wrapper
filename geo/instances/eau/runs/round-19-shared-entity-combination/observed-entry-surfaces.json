@@ -1,0 +1,44 @@
+{
+  "source_round": 18,
+  "cells": [
+    {
+      "query": "EAU arXiv 2610.16523",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/",
+        "https://eau-meta-agent.github.io/paper.html"
+      ]
+    },
+    {
+      "query": "EAU meta-agent user-centric agents",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/",
+        "https://eau-meta-agent.github.io/paper.html"
+      ]
+    },
+    {
+      "query": "EAU UserGym ColBench",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/",
+        "https://eau-meta-agent.github.io/paper.html"
+      ]
+    },
+    {
+      "query": "framework jointly adapts simulated user environment rewards RL configuration",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/method.html"
+      ]
+    },
+    {
+      "query": "meta-agent modifies training environment during multi-turn reinforcement learning",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/research-context.html"
+      ]
+    }
+  ],
+  "inference_limit": "Actual source visibility motivates a test; does not establish the proposed metadata change will improve retrieval or citations."
+}

@@ -1,0 +1,156 @@
+{
+  "objective": "https://eau-meta-agent.github.io/",
+  "tool": "Saved actual R18 four-engine answers; not new R19 searches",
+  "selected_entry_point": "external-paper-link-audit",
+  "link_state": "unknown",
+  "link_evidence_url": null,
+  "next_action": "collect_answers",
+  "tree": {
+    "id": "project_returned",
+    "kind": "decision",
+    "label": "项目页出现在真实搜索来源中吗？",
+    "evidence": "7/15；工具：Saved actual R18 four-engine answers; not new R19 searches",
+    "current": true,
+    "branches": [
+      {
+        "label": "有",
+        "active": true,
+        "child": {
+          "id": "answer_citation",
+          "kind": "decision",
+          "label": "最终答案引用项目页吗？",
+          "evidence": "当前来源 URL 记录不含最终答案",
+          "current": true,
+          "branches": [
+            {
+              "label": "有",
+              "active": false,
+              "child": {
+                "id": "measure_impression",
+                "kind": "action",
+                "label": "量引用份额、位置与事实准确性",
+                "current": false,
+                "branches": []
+              }
+            },
+            {
+              "label": "无",
+              "active": false,
+              "child": {
+                "id": "test_content",
+                "kind": "action",
+                "label": "固定来源测试内容候选，并核对事实",
+                "current": false,
+                "branches": []
+              }
+            },
+            {
+              "label": "未知",
+              "active": true,
+              "child": {
+                "id": "collect_answers",
+                "kind": "action",
+                "label": "收集完整答案及逐句引用",
+                "current": true,
+                "branches": []
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "无",
+        "active": false,
+        "child": {
+          "id": "visible_source",
+          "kind": "decision",
+          "label": "有真实返回的可测试入口吗？",
+          "evidence": "external-paper-link-audit: 3/15",
+          "current": false,
+          "branches": [
+            {
+              "label": "有",
+              "active": true,
+              "child": {
+                "id": "link_verified",
+                "kind": "decision",
+                "label": "可见入口有到项目页的路径吗？",
+                "evidence": "https://arxiv.org/abs/2610.16523",
+                "current": false,
+                "branches": [
+                  {
+                    "label": "有",
+                    "active": false,
+                    "child": {
+                      "id": "test_existing_link",
+                      "kind": "action",
+                      "label": "记录已有路径；固定查询复测曝光",
+                      "current": false,
+                      "branches": []
+                    }
+                  },
+                  {
+                    "label": "无",
+                    "active": false,
+                    "child": {
+                      "id": "add_link",
+                      "kind": "action",
+                      "label": "由入口负责人加链接；记录时间并复测",
+                      "current": false,
+                      "branches": []
+                    }
+                  },
+                  {
+                    "label": "未知",
+                    "active": true,
+                    "child": {
+                      "id": "verify_link",
+                      "kind": "action",
+                      "label": "先检查入口页面与编辑权限",
+                      "current": false,
+                      "branches": []
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "label": "无",
+              "active": false,
+              "child": {
+                "id": "audit_discovery",
+                "kind": "action",
+                "label": "检查站点可达性、抓取入口和查询匹配",
+                "current": false,
+                "branches": []
+              }
+            },
+            {
+              "label": "未知",
+              "active": false,
+              "child": {
+                "id": "save_sources",
+                "kind": "action",
+                "label": "先保存真实来源列表",
+                "current": false,
+                "branches": []
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "未知",
+        "active": false,
+        "child": {
+          "id": "collect_search",
+          "kind": "action",
+          "label": "先运行并保存真实搜索结果",
+          "current": false,
+          "branches": []
+        }
+      }
+    ]
+  },
+  "warning": "An active branch identifies the next test from observed URLs and explicitly supplied link state. It does not estimate exposure lift. After any intervention, collect paired before/after results and use geo-compare."
+}

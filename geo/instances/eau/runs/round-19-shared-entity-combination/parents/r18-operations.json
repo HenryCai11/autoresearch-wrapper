@@ -1,0 +1,58 @@
+{
+  "operations": [
+    {
+      "op": "replace_text",
+      "node": "file:index.html",
+      "before": "<a href=\"https://arxiv.org/abs/2610.16523\">arXiv:2610.16523</a>",
+      "after": "<a href=\"https://www.alphaxiv.org/abs/2610.16523\">alphaXiv (arXiv:2610.16523)</a>"
+    },
+    {
+      "op": "replace_text",
+      "node": "file:index.html",
+      "before": "<a class=\"button button-dark\" href=\"https://arxiv.org/abs/2610.16523\" target=\"_blank\" rel=\"noopener\">arXiv <span",
+      "after": "<a class=\"button button-dark\" href=\"https://www.alphaxiv.org/abs/2610.16523\" target=\"_blank\" rel=\"noopener\">alphaXiv <span"
+    },
+    {
+      "op": "replace_text",
+      "node": "file:index.html",
+      "before": "<a class=\"button button-dark\" href=\"https://arxiv.org/abs/2610.16523\" target=\"_blank\" rel=\"noopener\">Read on arXiv <span",
+      "after": "<a class=\"button button-dark\" href=\"https://www.alphaxiv.org/abs/2610.16523\" target=\"_blank\" rel=\"noopener\">Read on alphaXiv <span"
+    },
+    {
+      "op": "replace_text",
+      "node": "file:paper.html",
+      "before": "<a class=\"header-link\" href=\"https://arxiv.org/abs/2610.16523\">arXiv <span",
+      "after": "<a class=\"header-link\" href=\"https://www.alphaxiv.org/abs/2610.16523\">alphaXiv <span"
+    },
+    {
+      "op": "replace_text",
+      "node": "file:method.html",
+      "before": "<a class=\"header-link\" href=\"https://arxiv.org/abs/2610.16523\">Paper <span",
+      "after": "<a class=\"header-link\" href=\"https://www.alphaxiv.org/abs/2610.16523\">alphaXiv <span"
+    },
+    {
+      "op": "replace_text",
+      "node": "file:research-context.html",
+      "before": "<a class=\"header-link\" href=\"https://arxiv.org/abs/2610.16523\">Paper <span",
+      "after": "<a class=\"header-link\" href=\"https://www.alphaxiv.org/abs/2610.16523\">alphaXiv <span"
+    },
+    {
+      "op": "replace_text",
+      "node": "file:llms.txt",
+      "before": "- Paper: https://arxiv.org/abs/2610.16523",
+      "after": "- Paper (alphaXiv): https://www.alphaxiv.org/abs/2610.16523"
+    },
+    {
+      "op": "replace_text",
+      "node": "file:README.md",
+      "before": "- **Paper:** [arXiv:2610.16523](https://arxiv.org/abs/2610.16523)",
+      "after": "- **Paper:** [alphaXiv — arXiv:2610.16523](https://www.alphaxiv.org/abs/2610.16523)"
+    },
+    {
+      "op": "replace_text",
+      "node": "file:site-config.js",
+      "before": "paperUrl: \"https://arxiv.org/abs/2610.16523\"",
+      "after": "paperUrl: \"https://www.alphaxiv.org/abs/2610.16523\""
+    }
+  ]
+}

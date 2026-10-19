@@ -1,0 +1,19 @@
+{
+  "primary_metric": "live_project_citation_rate",
+  "goal": "maximize",
+  "definition": "100 * frozen geo_eval site_cited cells / 60, including bare project-domain occurrences under the existing judge",
+  "engines": [
+    "gpt-web",
+    "codex-search",
+    "tavily-search",
+    "exa-search"
+  ],
+  "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
+  "inner_metric": "not computed and not used",
+  "baseline": "Best complete R18: 12/60, primary 20.0, secondary composite 35.19444; historical control, not fresh/simultaneous. Keep requires strictly more than 12/60 with all 60 valid.",
+  "current_production": "R18 unchanged, 12/60, keep; all user-requested alphaXiv routes retained",
+  "deployment": "Separate explicit R19 approval required; verify exact candidate tree and all four changed served HTML resources before and after the real 60 requests",
+  "history": "All nineteen R0–R18 observations, twelve old proposals and best_observed R18 unchanged; the new R18/R10 combination is unmeasured. Never add parent scores.",
+  "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up",
+  "user_routing_constraint": "Preserve https://www.alphaxiv.org/abs/2610.16523 for paper-reading entry points in future candidates, independently of project-domain GEO selection. Scholarly arXiv identifiers/PDF/BibTeX remain unchanged."
+}

@@ -1,0 +1,129 @@
+{
+  "basis": "Complete R18 observation, all retained candidates and final R10 archive; no new R19 probes",
+  "latest_observation": {
+    "round": 18,
+    "project_citations": 12,
+    "explicit_project_url_cells": 11,
+    "explicit_support_page_url_cells": 5,
+    "fuzzy_citations": 2,
+    "broad_citations": 1,
+    "decision": "keep"
+  },
+  "reviews": [
+    {
+      "module": "homepage-identity",
+      "action": "Replay final R10 homepage JSON-LD; preserve every visible identity/heading and R18 alphaXiv anchor"
+    },
+    {
+      "module": "method-reference",
+      "action": "Replay page-specific WebPage and shared paper entity; method text and static R17 reference remain"
+    },
+    {
+      "module": "research-context",
+      "action": "Replay metadata only on the observed fuzzy-query entry page; no new topic or text"
+    },
+    {
+      "module": "paper-authority",
+      "action": "Replay shared scholarly identity with existing authors/year/identifier; citation meta/PDF/BibTeX stay unchanged"
+    },
+    {
+      "module": "machine-readable-summary",
+      "action": "Keep llms.txt and alphaXiv Paper entry unchanged"
+    },
+    {
+      "module": "repository-authority",
+      "action": "Keep README and alphaXiv Paper entry unchanged; no external repository changes"
+    },
+    {
+      "module": "crawler-routing",
+      "action": "Keep robots/sitemap; do not infer indexing from served bytes or graph reach"
+    },
+    {
+      "module": "presentation",
+      "action": "Keep all body HTML, scripts, styles, navigation and layout byte-unchanged"
+    },
+    {
+      "module": "reference-pages",
+      "action": "Align shared identity across the three actual R18 source pages; original R8 footer routes retained"
+    },
+    {
+      "module": "external-paper-entry",
+      "action": "Keep outbound alphaXiv routing; external backlink state unknown, no author-owned edit"
+    }
+  ],
+  "alternatives_retained": [
+    {
+      "id": "r8-reference-cluster",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; do not silently merge another bundle"
+    },
+    {
+      "id": "shared-scholarly-entity",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; exact R10 schema alone is replayed in a separately identified combination"
+    },
+    {
+      "id": "reference-cluster-without-r7",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; do not silently merge another bundle"
+    },
+    {
+      "id": "static-benchmark-evidence",
+      "status": "keep",
+      "measured": true,
+      "action": "Retain unchanged; do not silently merge another bundle"
+    },
+    {
+      "id": "external-paper-link-audit",
+      "status": "needs_author_authority_for_any_edit",
+      "measured": false,
+      "action": "Retain unchanged; do not silently merge another bundle"
+    },
+    {
+      "id": "homepage-descriptive-h1",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; do not silently merge another bundle"
+    },
+    {
+      "id": "static-second-backbone-evidence",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; do not silently merge another bundle"
+    },
+    {
+      "id": "static-component-reference",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; do not silently merge another bundle"
+    },
+    {
+      "id": "static-entry-combination",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; do not silently merge another bundle"
+    },
+    {
+      "id": "descriptive-section-headings",
+      "status": "keep",
+      "measured": true,
+      "action": "Retain unchanged; do not silently merge another bundle"
+    },
+    {
+      "id": "descriptive-heading-static-method",
+      "status": "keep",
+      "measured": true,
+      "action": "Retain unchanged; do not silently merge another bundle"
+    },
+    {
+      "id": "alphaxiv-paper-routing",
+      "status": "keep",
+      "measured": true,
+      "action": "Retain unchanged; do not silently merge another bundle"
+    }
+  ],
+  "limitations": "R10 was 6/60 against historical R9 8/60; no predicted interaction gain and no addition of parent scores."
+}

@@ -1,0 +1,41 @@
+{
+  "tool": "Saved actual R18 four-engine answers; not new R19 searches",
+  "result_scope": "Displayed source URLs only, not traffic, top-ten ranks or a prediction of combination lift",
+  "query_count": 15,
+  "observed_funnel": {
+    "project_returned": 7,
+    "paper_returned": 8,
+    "repo_returned": 0
+  },
+  "interventions": [
+    {
+      "id": "external-paper-link-audit",
+      "nodes": [
+        "external:paper-backlink"
+      ],
+      "source_url": "https://arxiv.org/abs/2610.16523",
+      "observed_source_visible_target_absent_queries": [
+        "Q07",
+        "Q12",
+        "Q15"
+      ],
+      "observed_opportunity_count": 3,
+      "next_test_order": 1,
+      "effect_status": "unmeasured",
+      "priority_basis": "returned source URL visible while project URL absent"
+    },
+    {
+      "id": "r19-shared-entity-combination",
+      "nodes": [
+        "meta:schema"
+      ],
+      "source_url": "https://eau-meta-agent.github.io/method.html",
+      "observed_source_visible_target_absent_queries": [],
+      "observed_opportunity_count": 0,
+      "next_test_order": null,
+      "effect_status": "unmeasured",
+      "priority_basis": "returned source URL visible while project URL absent"
+    }
+  ],
+  "warning": "This orders entry points for a next test using returned URLs only; it does not measure intervention lift, platform reachability, ranking, or citation."
+}

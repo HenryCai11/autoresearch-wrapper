@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "site_url": "https://eau-meta-agent.github.io/",
-  "updated_at": "2026-10-19T09:14:06+00:00",
-  "current_round": 18,
+  "updated_at": "2026-10-19T13:13:00+00:00",
+  "current_round": 19,
   "maintenance": "Site-specific ledger maintained by the agent when starting or recording a round; not an automatic scheduler or a new wrapper-core search algorithm.",
   "policy": {
     "primary_metric": "live_project_citation_rate",
@@ -16,10 +16,10 @@
     ],
     "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
     "inner_metric": "not computed and not used",
-    "baseline": "R18 used historical R17 10/60. New best complete observation: R18 12/60; exact tree retains the user-required alphaXiv routes. No simultaneous control.",
-    "current_production": "R18 live: 12/60, keep; compared with historical R17 10/60; alphaXiv reading routes retained",
-    "deployment": "R18 explicitly approved; exact complete candidate tree and all seven served changed files verified before and after the completed 60-cell collection. No rollback.",
-    "history": "All nineteen R0–R18 observations and twelve proposals retained; all eleven older proposals unchanged. Only the external-authority proposal remains unmeasured. Never add parent scores.",
+    "baseline": "Best complete R18: 12/60, primary 20.0, secondary composite 35.19444; historical control, not fresh/simultaneous. Keep requires strictly more than 12/60 with all 60 valid.",
+    "current_production": "R18 unchanged, 12/60, keep; all user-requested alphaXiv routes retained",
+    "deployment": "Separate explicit R19 approval required; verify exact candidate tree and all four changed served HTML resources before and after the real 60 requests",
+    "history": "All nineteen R0–R18 observations, twelve old proposals and best_observed R18 unchanged; the new R18/R10 combination is unmeasured. Never add parent scores.",
     "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up",
     "user_routing_constraint": "Preserve https://www.alphaxiv.org/abs/2610.16523 for paper-reading entry points in future candidates, independently of project-domain GEO selection. Scholarly arXiv identifiers/PDF/BibTeX remain unchanged."
   },
@@ -1877,9 +1877,49 @@
         "score": 35.19444444444444
       },
       "measurement_artifact_dir": "runs/round-18-alphaxiv-paper-routing/r18-live"
+    },
+    {
+      "id": "shared-entity-combination",
+      "status": "validated_awaiting_deployment_approval",
+      "measured": false,
+      "round": 19,
+      "change_id": "r19-shared-entity-combination",
+      "parents": [
+        "r18",
+        "r10"
+      ],
+      "retain_for_combinations": true,
+      "files": [
+        "index.html",
+        "method.html",
+        "paper.html",
+        "research-context.html"
+      ],
+      "base_commit": "dda361dcd45f2eee5cff5402a3d8b8a5421ddd33",
+      "modules": [
+        "homepage-identity",
+        "method-reference",
+        "research-context",
+        "paper-authority",
+        "reference-pages"
+      ],
+      "hypothesis": "Test the exact retained R10 shared ScholarlyArticle identity and page-specific WebPage metadata now that R18 exposes paper, method and context pages in actual source URLs.",
+      "reason_selected": "R18 has five support-page URL cells across all three reference pages, including two fuzzy citations; cross-page machine-readable identity is a coherent retained candidate to retest, not a proven source of lift.",
+      "scope": "Four exact archived JSON-LD block replacements only; every non-JSON-LD byte, visible fact and alphaXiv reading destination remains unchanged.",
+      "module_dependencies": [
+        "One shared canonical #paper entity",
+        "One page-specific #webpage per document",
+        "Each page mainEntity points to the same paper",
+        "R18 routing, R17 static method, R16 H2s and R9 evidence retained"
+      ],
+      "interpretation": "R10 remains a measured discard; this R18/R10 combination receives its own future measurement. Do not add parent scores.",
+      "candidate_commit": "6ef90e8d0f401312efa9bb59e5a52e2264910bf9",
+      "candidate_tree": "12b28c84303366ae8e4117709ec0166c1919ae9a",
+      "wrapper_run_id": "20261019T131300Z-index-html",
+      "branch": "autoresearch/index-html/20261019T131300Z-index-html/candidate-001"
     }
   ],
-  "selected_candidate_id": "alphaxiv-paper-routing",
+  "selected_candidate_id": "shared-entity-combination",
   "best_observed": {
     "round": 18,
     "change_id": "r18-alphaxiv-paper-routing",

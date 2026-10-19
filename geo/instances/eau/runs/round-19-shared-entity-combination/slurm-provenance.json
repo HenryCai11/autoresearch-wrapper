@@ -1,0 +1,11 @@
+{
+  "account": "aip-xiye17",
+  "resources_per_job": {"cpus": 1, "memory": "1G", "time_limit": "00:05:00", "gpu": false},
+  "verified_with": "sacct -j 1842551,1842558,1842596 -X --format=JobID,JobName,State,ExitCode,Elapsed,AllocCPUS,ReqMem -P",
+  "jobs": [
+    {"id": 1842551, "phase": "selection and exact R10 parent verification", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "00:00:02"},
+    {"id": 1842558, "phase": "historical R18 seed replay and candidate allocation", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "00:00:03"},
+    {"id": 1842596, "phase": "validation and append-only archive", "state": "COMPLETED", "exit_code": "0:0", "elapsed": "00:00:03"}
+  ],
+  "scope": "Python, compile checks, wrapper CLI, seed replay and validation ran inside Slurm. No site publication, new paid search, local inference or candidate measurement."
+}

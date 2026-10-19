@@ -1,0 +1,42 @@
+{
+  "parents": [
+    "r18",
+    "r10"
+  ],
+  "seed_commit": "dda361dcd45f2eee5cff5402a3d8b8a5421ddd33",
+  "seed_tree": "ad41cd32f93433b1be065fc8d1969d8da78f2600",
+  "r10_commit": "04e7ea4d0b1a6be0c65301c2a297e401294a0b78",
+  "r10_tree": "14fdd73cd91dc01843dbe6a57b8f172cd249ea98",
+  "r10_seed_commit": "52dee0ba78885b9a3028760ba8d9cfc749a6c2e7",
+  "source": "Final measured R10 commit and schema-after.json, not operations-initial-attempt.json",
+  "four_r10_files_reproduced_exactly_from_r9_with_schema_only": true,
+  "r18_seed_schema_matches_r9_in_all_four_files": true,
+  "schema_block_hashes": {
+    "index.html": {
+      "r10_before_sha256": "e828a59c2806542530280e5d59cb813df566b9bfea52f3720c0970664e58fffb",
+      "r10_after_sha256": "2c4afd85e33abc65118d1ee3bfc5ca36266d6cad916720a70c8306dae7508719"
+    },
+    "method.html": {
+      "r10_before_sha256": "88a5ed7ef89d212af951de8364ae51b4a936b4786e4bcd15fa49b6c624b9bb88",
+      "r10_after_sha256": "b9c34d6fedb35d869e85ec61f530e7be96093584855487a65a407b4428ea18c7"
+    },
+    "paper.html": {
+      "r10_before_sha256": "6331753942bc5e5316e52cbddf202a37d97b89ff108117220994784f995d773c",
+      "r10_after_sha256": "1929a67d4d788f430a2d99602557594d622bd8d213de7f00020addbb62a03eb9"
+    },
+    "research-context.html": {
+      "r10_before_sha256": "5adb85b2aa2aae2282c95f8180e4dd39cd2937c71936d7dd3d16aa8ee64ba112",
+      "r10_after_sha256": "c9c5cfa054d3c990973b997bd5169e055a349ef701db209d313545663da876f7"
+    }
+  },
+  "parent_artifact_sha256": {
+    "r10-operations.json": "fac7ba33201cc50b09a3157ad1e5606c06e848d7bedba5b63d9c187e686b8913",
+    "r10-schema-after.json": "5c63c98992a9843a04f248755dc85d864575d9d1ac9f8cad87d1772cf3d14f14",
+    "r10-schema-before.json": "2fa8de53f356dbc7d03e046d1508955db39f27d430f54fe5acdfdf4bcbcb7456",
+    "r10-schema-contract.json": "cd3d0953b86d421861782abd22399e3006c469be98300beed6259a04ea9062c4",
+    "r18-operations.json": "a777e06cace5986e952b85fe18aa071b4edc594634ae061c08f39aac05bcfc4c"
+  },
+  "applied_operations": 4,
+  "inherited_r18_routing_operations": 9,
+  "interpretation": "New unmeasured combination; R10 6/60 discard and R18 12/60 keep are historical observations, not additive effects or a lift prediction."
+}
