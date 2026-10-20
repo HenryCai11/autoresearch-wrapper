@@ -1,0 +1,10 @@
+{
+  "round": 20,
+  "production_merge_commit": "27f252b85a6e9c3ff83d5ff815f6a704e3db51bc",
+  "production_tree": "8261df22ebbcfa2edc6031f32e2fb51214822ad3",
+  "candidate_commit": "65e2486e3639d55cad24d9e780b6b20864f22722",
+  "deploy_commit": "3fa8bfb9c11f45012fc7d2576339ed582896f151",
+  "production_parent": "ab6847afc14de3a9067361b071605de711c96337",
+  "authorization": "User explicitly requested publishing and testing prepared R20",
+  "first_verification": "Stale index.html; no search requests issued before all four resources match"
+}

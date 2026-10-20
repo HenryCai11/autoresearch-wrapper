@@ -15,7 +15,7 @@ python3 scripts/geo_eval.py discovery \
   --probes geo/instances/eau/probes.jsonl
 ```
 
-Historical R0–R19 run directories contain actual GPT web, Codex search, Tavily,
+Historical R0–R20 run directories contain actual GPT web, Codex search, Tavily,
 and Exa observations. Keys are supplied only at runtime; never store them here.
 
 R12 was measured at 6/60 citation cells versus the best R9's 8/60,
@@ -72,7 +72,7 @@ explicit source URLs are reported separately.
 [R18](runs/round-18-alphaxiv-paper-routing/README.md) was published and measured:
 **12/60 project-domain citation cells, all 60 valid; keep**, versus historical
 R17's 10/60. It remains the best complete observed candidate and next selection
-seed; R19 tied it and was not promoted.
+seed; R19 and R20 tied it and were not promoted.
 Legacy composite is 35.19 versus 34.31; explicit project URLs are 11/60 and
 explicit support-page URL cells are 5/60. GPT web / Codex / Tavily / Exa citation
 counts are 0 / 4 / 0 / 8. Fuzzy-tier citations increased 0/20 → 2/20, while broad
@@ -95,13 +95,14 @@ unmeasured; do not infer traffic or causal GEO uplift from this matrix. Future
 candidates must retain the user's alphaXiv reading routes and scholarly arXiv
 references. See the [live audit](runs/round-18-alphaxiv-paper-routing/r18-live/audit.json).
 
-[R19](runs/round-19-shared-entity-combination/README.md) is live and measured:
+[R19](runs/round-19-shared-entity-combination/README.md) was published and measured:
 **12/60 project-domain citation cells, all 60 valid; discard** against historical
 R18's 12/60 because keep requires strict improvement. Primary is 20.00/100 and
 secondary legacy composite is 35.19, both tied with R18. The same twelve cells
 are cited, with no gains/losses. GPT web / Codex / Tavily / Exa counts are
 0 / 4 / 0 / 8; explicit project URL cells are 11/60 and support-page cells 5/60.
-R18 remains best_observed; R19 stays live without automatic rollback.
+R18 remains best_observed. R19 was not automatically rolled back after selection;
+it has now been superseded by explicitly approved R20.
 See the [live report](runs/round-19-shared-entity-combination/r19-live/REPORT.md)
 and [selection record](runs/round-19-shared-entity-combination/r19-live/best-observed-selection.json).
 
@@ -123,8 +124,19 @@ raw sixty responses. See its [parent replay record](runs/round-19-shared-entity-
 [validation](runs/round-19-shared-entity-combination/validation.json) and
 [live audit](runs/round-19-shared-entity-combination/r19-live/audit.json).
 
-[R20](runs/round-20-descriptive-reference-headings/README.md) is prepared,
-**not published or measured**. On best R18 it changes only two reference-page
+[R20](runs/round-20-descriptive-reference-headings/README.md) is live and measured:
+**12/60 project-domain citation cells, all 60 valid; discard** against historical
+R18's 12/60 under the strict-improvement rule. Primary stays 20.00/100;
+secondary report-only composite is 34.83 versus R18's 35.19. The same twelve
+citation cells remain, with no gains/losses. GPT web / Codex / Tavily / Exa
+counts are 0 / 4 / 0 / 8; exact / fuzzy / broad counts are 9 / 2 / 1 (each /20).
+Explicit project URL cells are 11/60; support-page URL cells are 5/60.
+R18 remains best_observed; R20 remains live without automatic rollback.
+See the [live report](runs/round-20-descriptive-reference-headings/r20-live/REPORT.md),
+[selection](runs/round-20-descriptive-reference-headings/r20-live/best-observed-selection.json)
+and [live audit](runs/round-20-descriptive-reference-headings/r20-live/audit.json).
+
+On best R18, R20 changes only two reference-page
 H1 headings: method becomes “How EAU adapts the training system.” and context
 becomes “EAU as an adaptive training system.” Both use existing site wording;
 all paragraphs, metadata/JSON-LD, result data, citation fields and alphaXiv routes
@@ -137,21 +149,32 @@ All 36 structural/factual checks passed, with no inner score or browser test.
 Homepage visible text stays 6103 characters. Both graph nodes are fingerprinted
 assets without text operations, so the two exact edits used apply_patch in the
 allocated worktree. The first validation stopped on a page-key error and was
-corrected before committing; both attempts are archived. The metric guard
-refuses to score unmeasured R20; the original R18 matrix still replays 12/60.
+corrected before committing; both attempts are archived. Before publication the
+metric guard refused to score unmeasured R20. After real collection, the original
+R18 matrix and new R20 matrix independently replay 12/60; their distinct hashes
+and raw results remain preserved.
 See its [validation](runs/round-20-descriptive-reference-headings/validation.json)
 and [audit](runs/round-20-descriptive-reference-headings/audit.json).
 
-Production stays R19. Since R20 starts from R18 rather than tied/discarded R19,
-a future approved deployment differs from current production in four HTML files:
-restore the R18 metadata, plus the two new H1s. Both the two-file seed diff and
-four-file production diff are archived. Recheck then-current main and verify
-the complete tree/all four served files before and after any real collection.
-Publication and the frozen 60-cell external evaluation await explicit approval.
+With explicit publication approval, R20 was applied on then-current R19 main as
+an isolated deployment branch. Its production diff spans four HTML files:
+restore R18 metadata, plus the two new H1s. Both the two-file seed diff and
+four-file production diff are archived. The complete candidate/production tree
+and all four served resources matched before and after the real 60-cell collection.
+The first served check saw old bytes; no searches started until all four matched.
 
-All 20 R0–R19 observations and fourteen proposals remain; all thirteen older
-proposals and best_observed R18 are unchanged. Only R20 and the external-authority
-proposal are unmeasured. Prior candidates remain available
+Initial compute-node attempts hit thirty API proxy CONNECT failures and fifteen
+Codex missing-Node startup failures; these are retained separately and excluded
+from the scored matrix. Loading the verified Node module did not resolve the
+compute proxy restriction. Network-only curl/jq and the same installed native
+Codex binary acquired the valid replies on the internet-connected login node;
+no Python, Node, compilation or local inference ran there. Normalization,
+scoring, wrapper CLI and audits used Slurm. No successful response was retried,
+including the fifteen GPT samples collected before network recovery.
+
+All 21 R0–R20 observations and fourteen proposals remain; all thirteen older
+proposals and best_observed R18 are unchanged. Only the external-authority
+proposal is unmeasured. Prior candidates remain available
 for combinations; their scores are never added to predict a bundle. Immediate
 historical-control samples do not establish causal contribution or exclude
 stale indexing. No automatic follow-up is scheduled.

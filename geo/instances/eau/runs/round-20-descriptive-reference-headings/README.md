@@ -1,3 +1,5 @@
+R20 is now published and measured: **12/60; discard**. See [live report](r20-live/REPORT.md), [selection](r20-live/best-observed-selection.json) and [CURRENT.json](CURRENT.json). The following is the original preparation record; its unchanged copy is r20-live/pre-live-README.md.
+
 # EAU R20 — descriptive reference-page H1s
 
 Status: **validated local candidate; not published or measured**.

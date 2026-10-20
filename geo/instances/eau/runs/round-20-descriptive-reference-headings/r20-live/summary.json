@@ -1,0 +1,195 @@
+{
+  "round": 20,
+  "experiment_id": "eau-live-geo-r20-2026-10",
+  "change_id": "r20-descriptive-reference-headings",
+  "production_merge_commit": "27f252b85a6e9c3ff83d5ff815f6a704e3db51bc",
+  "production_tree": "8261df22ebbcfa2edc6031f32e2fb51214822ad3",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "measured_at": "2026-10-20T03:56:49+00:00",
+  "measurement_phase": "immediate_post_deployment",
+  "query_count": 15,
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "selection_policy": "outer-only; primary project-domain citation rate; inner ignored",
+  "scheduled": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 12,
+    "mention_rate": 0.7166666666666667,
+    "found_rate": 0.65,
+    "citation_rate": 0.2,
+    "attribution_rate": 0.6333333333333333,
+    "mrr": 0.14166666666666666,
+    "score": 34.833333333333336
+  },
+  "valid_response": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 12,
+    "mention_rate": 0.7166666666666667,
+    "found_rate": 0.65,
+    "citation_rate": 0.2,
+    "attribution_rate": 0.6333333333333333,
+    "mrr": 0.14166666666666666,
+    "score": 34.833333333333336
+  },
+  "by_engine": {
+    "gpt-web": {
+      "n": 15,
+      "valid_responses": 15,
+      "project_citations": 0,
+      "mention_rate": 0.7333333333333333,
+      "found_rate": 0.7333333333333333,
+      "citation_rate": 0.0,
+      "attribution_rate": 0.7333333333333333,
+      "mrr": 0.0,
+      "score": 25.666666666666664
+    },
+    "codex-search": {
+      "n": 15,
+      "valid_responses": 15,
+      "project_citations": 4,
+      "mention_rate": 0.6666666666666666,
+      "found_rate": 0.6666666666666666,
+      "citation_rate": 0.26666666666666666,
+      "attribution_rate": 0.6,
+      "mrr": 0.14444444444444443,
+      "score": 36.55555555555555
+    },
+    "tavily-search": {
+      "n": 15,
+      "valid_responses": 15,
+      "project_citations": 0,
+      "mention_rate": 0.6,
+      "found_rate": 0.4,
+      "citation_rate": 0.0,
+      "attribution_rate": 0.4,
+      "mrr": 0.0,
+      "score": 16.0
+    },
+    "exa-search": {
+      "n": 15,
+      "valid_responses": 15,
+      "project_citations": 8,
+      "mention_rate": 0.8666666666666667,
+      "found_rate": 0.8,
+      "citation_rate": 0.5333333333333333,
+      "attribution_rate": 0.8,
+      "mrr": 0.4222222222222222,
+      "score": 61.111111111111114
+    }
+  },
+  "by_tier": {
+    "exact": {
+      "n": 20,
+      "valid_responses": 20,
+      "project_citations": 9,
+      "mention_rate": 1.0,
+      "found_rate": 1.0,
+      "citation_rate": 0.45,
+      "attribution_rate": 0.95,
+      "mrr": 0.325,
+      "score": 60.5
+    },
+    "fuzzy": {
+      "n": 20,
+      "valid_responses": 20,
+      "project_citations": 2,
+      "mention_rate": 0.7,
+      "found_rate": 0.65,
+      "citation_rate": 0.1,
+      "attribution_rate": 0.65,
+      "mrr": 0.1,
+      "score": 29.75
+    },
+    "broad": {
+      "n": 20,
+      "valid_responses": 20,
+      "project_citations": 1,
+      "mention_rate": 0.45,
+      "found_rate": 0.3,
+      "citation_rate": 0.05,
+      "attribution_rate": 0.3,
+      "mrr": 0.0,
+      "score": 14.250000000000002
+    }
+  },
+  "explicit_project_url_cells": 11,
+  "explicit_support_page_url_cells": 5,
+  "support_page_url_evidence": [
+    {
+      "query": "EAU arXiv 2610.16523",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/paper.html",
+        "https://eau-meta-agent.github.io/"
+      ]
+    },
+    {
+      "query": "EAU meta-agent user-centric agents",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/",
+        "https://eau-meta-agent.github.io/paper.html"
+      ]
+    },
+    {
+      "query": "EAU UserGym ColBench",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/",
+        "https://eau-meta-agent.github.io/paper.html"
+      ]
+    },
+    {
+      "query": "framework jointly adapts simulated user environment rewards RL configuration",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/method.html"
+      ]
+    },
+    {
+      "query": "meta-agent modifies training environment during multi-turn reinforcement learning",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/research-context.html"
+      ]
+    }
+  ],
+  "citation_transitions": {
+    "gained": [],
+    "lost": []
+  },
+  "baseline_reference": "Reused R18 live 60-cell measurement completed 2026-10-19T09:14:05Z; no new control collection",
+  "matched_valid_comparison": {
+    "baseline": {
+      "n": 60,
+      "valid_responses": 60,
+      "project_citations": 12,
+      "mention_rate": 0.7166666666666667,
+      "found_rate": 0.6666666666666666,
+      "citation_rate": 0.2,
+      "attribution_rate": 0.65,
+      "mrr": 0.1388888888888889,
+      "score": 35.19444444444444
+    },
+    "r20": {
+      "n": 60,
+      "valid_responses": 60,
+      "project_citations": 12,
+      "mention_rate": 0.7166666666666667,
+      "found_rate": 0.65,
+      "citation_rate": 0.2,
+      "attribution_rate": 0.6333333333333333,
+      "mrr": 0.14166666666666666,
+      "score": 34.833333333333336
+    },
+    "citation_delta": 0.0,
+    "composite_delta": -0.36111111111110716
+  },
+  "decision": "discard",
+  "limitations": [
+    "An immediate single-sample search observation does not establish causal lift.",
+    "Search engines may still serve pre-deployment indexed copies; repeat after recrawling.",
+    "Provider/tool outputs are not directly interchangeable with consumer chat-app products."
+  ]
+}

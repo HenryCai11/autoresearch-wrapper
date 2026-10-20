@@ -1,0 +1,36 @@
+{
+  "source_branch": "codex/geo-live-round-20-deploy",
+  "candidate_branch": "codex/geo-live-round-20",
+  "candidate_commit": "65e2486e3639d55cad24d9e780b6b20864f22722",
+  "deploy_commit": "3fa8bfb9c11f45012fc7d2576339ed582896f151",
+  "production_merge_commit": "27f252b85a6e9c3ff83d5ff815f6a704e3db51bc",
+  "production_tree": "8261df22ebbcfa2edc6031f32e2fb51214822ad3",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "resource_sha256": {
+    "index.html": "0164d9b15a9a3d28d8c7e2a757f06d1a7f12646efbe4e8629fe599fa257ad53a",
+    "method.html": "52fb7eceda7c49264acf63a1dfe7dee95e3c42d8cf3e2f547737e70f45f41439",
+    "paper.html": "29ed7e8ba69bdf81e9109bb57ca7877be7b6e425beb3fac12d701d1f03e673b6",
+    "research-context.html": "05d55849a8b50fa9eb2668a993f5f1bdf268a1311bc07a469fd0326ea36be0ff"
+  },
+  "served_version_verified_at": "2026-10-20T03:45:25Z",
+  "served_version_reverified_at": "2026-10-20T03:56:26Z",
+  "collection_timing_verified": true,
+  "first_request_at": "2026-10-20T03:45:59.325000+00:00",
+  "last_completed_request_at": "2026-10-20T03:56:05+00:00",
+  "timing_evidence": "GPT/API per-request timestamps and both Codex group start/completion markers fall within successful four-page served checks.",
+  "authorization": "User explicitly requested 发布测一下 for prepared R20",
+  "selection_seed": "R18 original best complete 12/60 historical control, not tied R19 matrix or a fresh simultaneous control",
+  "deployment_method": "Exact approved R18-based tree: reverse discarded R19 schema blocks in four pages plus two new H1s; apply_patch in an isolated deploy worktree; alphaXiv routes retained.",
+  "changed_files_vs_live_r19": [
+    "index.html",
+    "method.html",
+    "paper.html",
+    "research-context.html"
+  ],
+  "changed_files_vs_r18": [
+    "method.html",
+    "research-context.html"
+  ],
+  "verification": "Exact complete candidate/production tree plus all four changed served resources match before and after collection.",
+  "traffic_status": "alphaXiv reading routes retained; no click or visit measurement or traffic-lift claim"
+}

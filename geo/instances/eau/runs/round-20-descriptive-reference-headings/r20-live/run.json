@@ -1,0 +1,11 @@
+{
+  "experiment_id": "eau-live-geo-r20-2026-10",
+  "round": 20,
+  "change_id": "r20-descriptive-reference-headings",
+  "production_merge_commit": "27f252b85a6e9c3ff83d5ff815f6a704e3db51bc",
+  "production_tree": "8261df22ebbcfa2edc6031f32e2fb51214822ad3",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "measured_at": "2026-10-20T03:56:49+00:00",
+  "measurement_phase": "immediate_post_deployment",
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce"
+}

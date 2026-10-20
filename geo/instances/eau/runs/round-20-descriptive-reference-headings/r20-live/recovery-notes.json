@@ -1,0 +1,11 @@
+{
+  "failed_compute_api_job": "1855120",
+  "failed_codex_runtime_jobs": ["1855121", "1855122"],
+  "api_failure": "All thirty requests returned curl exit 56 / HTTP 000: proxy CONNECT 403; no API payload or successful result was received",
+  "codex_failure": "All fifteen processes exited 127 before CLI startup because node was absent",
+  "preservation": "Original events, request JSON, Codex empty/error rows, logs and group timestamps retained under attempt-1-compute",
+  "api_recovery": "Network-only curl/jq collection on the internet-connected login node; offline normalization/scoring remain Slurm-only",
+  "codex_recovery": "Verified nodejs/20.16.0 prerequisites and loaded inside Slurm; proxy preflight still failed before any search. Network-only remote searches therefore use the exact package's existing native binary on the internet-connected login node; no Node, Python, compilation or local inference there. Prompt/flags/timeouts/groups unchanged.",
+  "sampling": "No successful answer is retried; fifteen successful GPT web responses preserved without resampling; all failed attempts remain excluded from the sixty-cell valid matrix",
+  "credentials": "Inherited environment only; no credential file or value inspected"
+}

@@ -1,0 +1,15 @@
+{
+  "preparation_and_recovery_jobs": [
+    "1855078",
+    "1855120",
+    "1855121",
+    "1855122",
+    "1855143",
+    "1855158",
+    "1855179"
+  ],
+  "scoring_archive_audit_job": "1855203",
+  "accounting_before_scoring_job_completion": "1855078|eau-r20-deploy-prep|COMPLETED|0:0\n1855078.batch|batch|COMPLETED|0:0\n1855078.extern|extern|COMPLETED|0:0\n1855120|eau-r20-apis|FAILED|1:0\n1855120.batch|batch|FAILED|1:0\n1855120.extern|extern|COMPLETED|0:0\n1855121|eau-r20-codex1|COMPLETED|0:0\n1855121.batch|batch|COMPLETED|0:0\n1855121.extern|extern|COMPLETED|0:0\n1855122|eau-r20-codex2|COMPLETED|0:0\n1855122.batch|batch|COMPLETED|0:0\n1855122.extern|extern|COMPLETED|0:0\n1855143|eau-r20-codex1-fixed|FAILED|56:0\n1855143.batch|batch|FAILED|56:0\n1855143.extern|extern|COMPLETED|0:0\n1855158|eau-r20-normalize|COMPLETED|0:0\n1855158.batch|batch|COMPLETED|0:0\n1855158.extern|extern|COMPLETED|0:0\n1855179|eau-r20-score-preflight|COMPLETED|0:0\n1855179.batch|batch|COMPLETED|0:0\n1855179.extern|extern|COMPLETED|0:0\n",
+  "network_only_acquisition": "GPT web tool, curl/jq Tavily/Exa and the existing native Codex CLI; no local model inference",
+  "slurm_only": "All Python, normalization, scoring, wrapper CLI and archival checks; CPU 1, memory 1 GB"
+}

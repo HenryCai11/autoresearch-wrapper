@@ -1,0 +1,8 @@
+{
+  "job": "1855143",
+  "node_module": "StdEnv/2023 nodejs/20.16.0; prerequisites verified via module spider",
+  "preflight": "curl HEAD to chatgpt.com rejected by compute proxy CONNECT 403, before any query execution",
+  "recovery": "Network-only remote Codex web-search requests use the already installed native binary from the exact same package, on the internet-connected login node; no Python, Node, compilation or local model inference",
+  "protocol_preserved": "Identical prompt, CLI flags, 90s timeout, low reasoning effort, 8+7 query groups; only the Node launch wrapper is omitted",
+  "no_successful_samples_retried": true
+}

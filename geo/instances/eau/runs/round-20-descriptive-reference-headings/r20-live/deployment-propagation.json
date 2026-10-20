@@ -1,0 +1,26 @@
+{
+  "attempts": [
+    {
+      "phase": "before",
+      "at": "20261020T034440Z",
+      "file": "index.html",
+      "matched": false,
+      "searches_started": false
+    },
+    {
+      "phase": "before",
+      "at": "20261020T034523Z",
+      "matched": true,
+      "resources": 4
+    },
+    {
+      "phase": "after",
+      "at": "20261020T035624Z",
+      "matched": true,
+      "resources": 4
+    }
+  ],
+  "initial_stale_page": true,
+  "search_gate": "No valid search samples issued before all four changed pages matched; final successful check after all requests",
+  "collection_timing_verified": true
+}

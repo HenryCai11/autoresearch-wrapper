@@ -1,0 +1,13 @@
+{
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+  "query_count": 15,
+  "engine_weights": {"gpt-web": 0.25, "codex-search": 0.25, "tavily-search": 0.25, "exa-search": 0.25},
+  "gpt-web": {"calls_per_query": 1, "queries_per_call": 1, "response_length": "long", "preserve_raw_response": true},
+  "codex-search": {"script": "geo/scripts/probe_codex.sh", "timeout_seconds": 90, "reasoning_effort": "low", "groups": [8, 7]},
+  "tavily-search": {"topic": "general", "search_depth": "basic", "max_results": 10, "include_answer": false, "include_raw_content": false, "include_images": false},
+  "exa-search": {"type": "auto", "numResults": 10, "contents": {"highlights": true}},
+  "credentials": "Inherited environment only; no values or headers saved",
+  "baseline": "Preserved R9 60-cell observation, not a fresh simultaneous control",
+  "selection": "Strict improvement in frozen project-domain citation rate; all 60 responses valid; inner ignored",
+  "collection": "One first-pass sample per cell; no selective retries of successful answers"
+}
