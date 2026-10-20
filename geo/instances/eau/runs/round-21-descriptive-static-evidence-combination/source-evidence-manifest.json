@@ -1,0 +1,32 @@
+{
+  "source_round": 20,
+  "source_status": "Complete real 60-cell immediate observation; not new R21 searches",
+  "files": {
+    "summary.json": {
+      "path": "../round-20-descriptive-reference-headings/r20-live/summary.json",
+      "sha256": "1480aaf1e89cdc3381507473e376312d489026a6a14aa8caa611329ec0d670b5"
+    },
+    "search-matrix.csv": {
+      "path": "../round-20-descriptive-reference-headings/r20-live/search-matrix.csv",
+      "sha256": "82bae48390975eef7e980c49f6076cf220d9d43bf7a9c83b081c01edda04cb45"
+    },
+    "gpt-web-answers.jsonl": {
+      "path": "../round-20-descriptive-reference-headings/r20-live/gpt-web-answers.jsonl",
+      "sha256": "60ec951fb7d8a7fe9260e626c35f497da4ddbfeb9d4df56e399dc4ad362a8c91"
+    },
+    "codex-answers-complete.jsonl": {
+      "path": "../round-20-descriptive-reference-headings/r20-live/codex-answers-complete.jsonl",
+      "sha256": "fdf9abce57dbc4b60d19f32e28d32243b663e14db3dea81cfbaacd2ebeb1c683"
+    },
+    "tavily-answers.jsonl": {
+      "path": "../round-20-descriptive-reference-headings/r20-live/tavily-answers.jsonl",
+      "sha256": "f01acfdadd5a6fce4337c2f5056cb1bdf19f7f84f019cdb65f7058dd085067e3"
+    },
+    "exa-answers.jsonl": {
+      "path": "../round-20-descriptive-reference-headings/r20-live/exa-answers.jsonl",
+      "sha256": "64d939a3050451e101c9909f51d2a3c5d05fe855bfcc94dbb5f81d4ee990b95d"
+    }
+  },
+  "control_matrix_sha256": "f4c13a905941353d775de225ba6b2e38b2525f1f9116fee2bdaafb85a250a2a4",
+  "limit": "Displayed URLs motivate an entry-surface test, not lift, indexing, traffic or causal module effects"
+}

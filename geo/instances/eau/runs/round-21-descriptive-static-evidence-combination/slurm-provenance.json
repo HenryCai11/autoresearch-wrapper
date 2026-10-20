@@ -1,0 +1,9 @@
+{
+  "selection_job": "1856605",
+  "seed_and_allocation_job": "1856612",
+  "validation_job": "1856638",
+  "archive_job": "1856657",
+  "accounting_before_archive_completion": "1856605|eau-r21-select|COMPLETED|0:0\n1856605.batch|batch|COMPLETED|0:0\n1856605.extern|extern|COMPLETED|0:0\n1856612|eau-r21-allocate|COMPLETED|0:0\n1856612.batch|batch|COMPLETED|0:0\n1856612.extern|extern|COMPLETED|0:0\n1856638|eau-r21-check|COMPLETED|0:0\n1856638.batch|batch|COMPLETED|0:0\n1856638.extern|extern|COMPLETED|0:0\n",
+  "resources": "CPU only, account aip-xiye17, 1 CPU, 1 GB, 5 minutes per job; all job I/O in scratch",
+  "login_actions": "Light Git/curl/read-only inspection only; no Python, Node, compilation, local inference or new paid searches"
+}

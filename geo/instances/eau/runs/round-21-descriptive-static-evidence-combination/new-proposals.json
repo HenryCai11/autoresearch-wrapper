@@ -1,0 +1,35 @@
+[
+  {
+    "id": "descriptive-static-evidence-combination",
+    "status": "selected_preparing",
+    "measured": false,
+    "round": 21,
+    "change_id": "r21-descriptive-static-evidence-combination",
+    "parents": [
+      "r18",
+      "r14"
+    ],
+    "retain_for_combinations": true,
+    "files": [
+      "index.html"
+    ],
+    "base_commit": "dda361dcd45f2eee5cff5402a3d8b8a5421ddd33",
+    "modules": [
+      "homepage-identity",
+      "presentation",
+      "method-reference",
+      "paper-authority"
+    ],
+    "hypothesis": "Test the exact retained second-backbone static evidence under the kept descriptive results heading and static method reference on R18; no new numerical results or wording.",
+    "reason_selected": "R19 schema and R20 H1 bundles tied the twelve R18 cells; actual R20 homepage URLs remain a visible entry surface, while broad citations are only 1/20. Test one existing evidence-availability bundle, not a predicted gain.",
+    "scope": "One exact R14 insertion in the results section of R18 index.html; all original bytes, metadata, labels, headings, links, scripts and styles preserved.",
+    "module_dependencies": [
+      "R16 descriptive results heading",
+      "R17 static component reference",
+      "R9 default Qwen3 table and unchanged model switch",
+      "R18 alphaXiv routes",
+      "R14 separately labelled static Qwen2.5 table"
+    ],
+    "interpretation": "Separate unmeasured combination; R14 5/60 and R15 6/60 remain discarded original observations, not additive effects. R19/R20 discarded bundles are not silently inherited."
+  }
+]

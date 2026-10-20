@@ -1,0 +1,34 @@
+diff --git a/index.html b/index.html
+index deaf14a..a1708c7 100644
+--- a/index.html
++++ b/index.html
+@@ -195,0 +196,15 @@
++        <details class="result-table-details" id="static-second-backbone-evidence" open>
++          <summary>Qwen2.5-7B-Instruct: static result reference</summary>
++          <p class="results-note">The model switch above controls the main charts and comparison table. This separate reference always shows Qwen2.5-7B-Instruct.</p>
++          <div class="table-scroll"><table id="second-backbone-table"><caption id="second-backbone-caption">Qwen2.5-7B-Instruct · UserGym and ColBench (static reference)</caption><thead><tr><th scope="col">Method</th><th scope="col">UserGym avg.</th><th scope="col">ColBench pass</th><th scope="col">ColBench success</th><th scope="col">Overall</th></tr></thead><tbody id="second-backbone-table-body">
++          <tr><th scope="row">Backbone</th><td>0.338</td><td>0.242</td><td>0.140</td><td>0.305</td></tr>
++          <tr><th scope="row">ReAct</th><td>0.379</td><td>0.238</td><td>0.135</td><td>0.336</td></tr>
++          <tr><th scope="row">Reflexion</th><td>0.361</td><td>0.276</td><td>0.168</td><td>0.330</td></tr>
++          <tr><th scope="row">RAGEN</th><td>0.513</td><td>0.449</td><td>0.348</td><td>0.487</td></tr>
++          <tr><th scope="row">Search-R1</th><td>0.501</td><td>0.457</td><td>0.352</td><td>0.480</td></tr>
++          <tr><th scope="row">UserRL</th><td>0.508</td><td>0.436</td><td>0.327</td><td>0.480</td></tr>
++          <tr><th scope="row">InfoPO</th><td>0.563</td><td>0.534</td><td>0.426</td><td>0.544</td></tr>
++          <tr><th scope="row">PPO</th><td>0.568</td><td>0.356</td><td>0.240</td><td>0.508</td></tr>
++          <tr class="ours"><th scope="row">eau</th><td>0.632</td><td>0.659</td><td>0.533</td><td>0.615</td></tr>
++          </tbody></table></div>
++        </details>
+diff --git a/method.html b/method.html
+index f583ab0..e9d7167 100644
+--- a/method.html
++++ b/method.html
+@@ -37 +37 @@
+-        <div><p class="eyebrow section-number">Method summary</p><h1>How EAU adapts<br><em>the training system.</em></h1></div>
++        <div><p class="eyebrow section-number">Method summary</p><h1>What does EAU<br><em>adapt?</em></h1></div>
+diff --git a/research-context.html b/research-context.html
+index f7bb767..3adfe3e 100644
+--- a/research-context.html
++++ b/research-context.html
+@@ -39 +39 @@
+-        <div><p class="eyebrow section-number">Research context</p><h1>EAU as an<br><em>adaptive training system.</em></h1></div>
++        <div><p class="eyebrow section-number">Research context</p><h1>Where does EAU<br><em>fit?</em></h1></div>

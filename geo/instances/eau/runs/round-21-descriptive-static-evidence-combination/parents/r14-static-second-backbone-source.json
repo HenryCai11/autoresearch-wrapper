@@ -1,0 +1,77 @@
+{
+  "source_file": "script.js",
+  "source_sha256": "a9a6bc3c30dbb6db8e0714b30aa12dd146f9a07710a1e1ceac2999117c94d751",
+  "source_object": "results.qwen25",
+  "label": "Qwen2.5-7B-Instruct",
+  "rows": [
+    [
+      "Backbone",
+      "0.338",
+      "0.242",
+      "0.140",
+      "0.305"
+    ],
+    [
+      "ReAct",
+      "0.379",
+      "0.238",
+      "0.135",
+      "0.336"
+    ],
+    [
+      "Reflexion",
+      "0.361",
+      "0.276",
+      "0.168",
+      "0.330"
+    ],
+    [
+      "RAGEN",
+      "0.513",
+      "0.449",
+      "0.348",
+      "0.487"
+    ],
+    [
+      "Search-R1",
+      "0.501",
+      "0.457",
+      "0.352",
+      "0.480"
+    ],
+    [
+      "UserRL",
+      "0.508",
+      "0.436",
+      "0.327",
+      "0.480"
+    ],
+    [
+      "InfoPO",
+      "0.563",
+      "0.534",
+      "0.426",
+      "0.544"
+    ],
+    [
+      "PPO",
+      "0.568",
+      "0.356",
+      "0.240",
+      "0.508"
+    ],
+    [
+      "eau",
+      "0.632",
+      "0.659",
+      "0.533",
+      "0.615"
+    ]
+  ],
+  "row_count": 9,
+  "numeric_value_count": 36,
+  "headers_html": "<thead><tr><th scope=\"col\">Method</th><th scope=\"col\">UserGym avg.</th><th scope=\"col\">ColBench pass</th><th scope=\"col\">ColBench success</th><th scope=\"col\">Overall</th></tr></thead>",
+  "rendered_html": "        <details class=\"result-table-details\" id=\"static-second-backbone-evidence\" open>\n          <summary>Qwen2.5-7B-Instruct: static result reference</summary>\n          <p class=\"results-note\">The model switch above controls the main charts and comparison table. This separate reference always shows Qwen2.5-7B-Instruct.</p>\n          <div class=\"table-scroll\"><table id=\"second-backbone-table\"><caption id=\"second-backbone-caption\">Qwen2.5-7B-Instruct · UserGym and ColBench (static reference)</caption><thead><tr><th scope=\"col\">Method</th><th scope=\"col\">UserGym avg.</th><th scope=\"col\">ColBench pass</th><th scope=\"col\">ColBench success</th><th scope=\"col\">Overall</th></tr></thead><tbody id=\"second-backbone-table-body\">\n          <tr><th scope=\"row\">Backbone</th><td>0.338</td><td>0.242</td><td>0.140</td><td>0.305</td></tr>\n          <tr><th scope=\"row\">ReAct</th><td>0.379</td><td>0.238</td><td>0.135</td><td>0.336</td></tr>\n          <tr><th scope=\"row\">Reflexion</th><td>0.361</td><td>0.276</td><td>0.168</td><td>0.330</td></tr>\n          <tr><th scope=\"row\">RAGEN</th><td>0.513</td><td>0.449</td><td>0.348</td><td>0.487</td></tr>\n          <tr><th scope=\"row\">Search-R1</th><td>0.501</td><td>0.457</td><td>0.352</td><td>0.480</td></tr>\n          <tr><th scope=\"row\">UserRL</th><td>0.508</td><td>0.436</td><td>0.327</td><td>0.480</td></tr>\n          <tr><th scope=\"row\">InfoPO</th><td>0.563</td><td>0.534</td><td>0.426</td><td>0.544</td></tr>\n          <tr><th scope=\"row\">PPO</th><td>0.568</td><td>0.356</td><td>0.240</td><td>0.508</td></tr>\n          <tr class=\"ours\"><th scope=\"row\">eau</th><td>0.632</td><td>0.659</td><td>0.533</td><td>0.615</td></tr>\n          </tbody></table></div>\n        </details>\n",
+  "facts": "Existing JS result rows reproduced at the same three-decimal precision, without new claims, relative gains or tau2 numbers",
+  "presentation": "A default-open semantic details/table reference, independently captioned; not written by the existing model-switch renderer"
+}

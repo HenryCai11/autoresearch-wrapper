@@ -1,0 +1,11 @@
+{
+  "operations": 1,
+  "method": "Existing geo-apply replace_text on supported file:index.html in allocated worktree",
+  "manifest": "Exact retained final R14 operations.json; only the original insertion, no rewrite",
+  "graph_nodes": [
+    "file:index.html",
+    "section:results"
+  ],
+  "wrapper_core_changed": false,
+  "production_changed": false
+}

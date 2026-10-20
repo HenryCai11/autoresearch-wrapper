@@ -1,0 +1,22 @@
+{
+  "parents": [
+    "r18",
+    "r14"
+  ],
+  "base_round": 18,
+  "parent_round": 14,
+  "parent_candidate_commit": "fd5681ce5d3146f3ec42081fef3d89ee0f0f5e7a",
+  "parent_old_citations": 5,
+  "parent_old_decision": "discard",
+  "exact_replay": "The exact final R14 one-insertion manifest reproduces its measured candidate from its old seed; replay it on R18 without adding parent scores.",
+  "not_r15_replay": "R15 bundled the R12 H1, R13 components and R14 table on R9 and measured 6/60. R21 retains original H1, R16 H2s, R17 components and R18 alphaXiv routes; only R14 table is newly replayed.",
+  "parent_artifact_sha256": {
+    "r20-operations.json": "2c968e18990c4db0c37cec117094e307dcca775d295abd2c25c8db9c35c0874f",
+    "r16-operations.json": "be34651d4b79b8f1d2898bc7cafd20c2fb46366253663acba2141cce3b77cc2b",
+    "r14-change.json": "51904a1841d5a9c51a4e0ae5ea206ffca0631a7b54568b0d6eb63d7f9af87f38",
+    "r14-static-second-backbone-source.json": "3d426f2a2a8fc995f71d0449ad1a1e6e60198c3c99b81ee497e213d9f2798b2f",
+    "r14-live-summary.json": "1ed5f6bcc336ebc7169c2aa42e0ca9c7947da1e5d83b71327ee36163bc714ee4",
+    "r18-operations.json": "a777e06cace5986e952b85fe18aa071b4edc594634ae061c08f39aac05bcfc4c",
+    "r14-operations.json": "7e10e475e324219784e2e1aa6a643676e1c0ffd31e866f51a7fbb71b5d5f5c8b"
+  }
+}

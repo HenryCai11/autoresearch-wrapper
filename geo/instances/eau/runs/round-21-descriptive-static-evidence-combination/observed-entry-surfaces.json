@@ -1,0 +1,77 @@
+{
+  "source_round": 20,
+  "homepage_url_cells": [
+    {
+      "query": "EAU Environment Agent User Co-evolution",
+      "engine": "codex-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/"
+      ]
+    },
+    {
+      "query": "EAU arXiv 2610.16523",
+      "engine": "codex-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/"
+      ]
+    },
+    {
+      "query": "EAU meta-agent user-centric agents",
+      "engine": "codex-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/"
+      ]
+    },
+    {
+      "query": "EAU project website environment agent user co-evolution",
+      "engine": "codex-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/"
+      ]
+    },
+    {
+      "query": "EAU Environment Agent User Co-evolution",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/"
+      ]
+    },
+    {
+      "query": "EAU arXiv 2610.16523",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/paper.html",
+        "https://eau-meta-agent.github.io/"
+      ]
+    },
+    {
+      "query": "EAU meta-agent user-centric agents",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/",
+        "https://eau-meta-agent.github.io/paper.html"
+      ]
+    },
+    {
+      "query": "EAU UserGym ColBench",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/",
+        "https://eau-meta-agent.github.io/paper.html"
+      ]
+    },
+    {
+      "query": "EAU project website environment agent user co-evolution",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/"
+      ]
+    }
+  ],
+  "homepage_url_cell_count": 9,
+  "broad_citations": 1,
+  "broad_total": 20,
+  "fuzzy_citations": 2,
+  "fuzzy_total": 20,
+  "limit": "Observed home entry URLs motivate a test; no evidence that a table, prior headings, or metadata caused a citation or will improve broad retrieval."
+}

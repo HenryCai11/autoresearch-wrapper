@@ -172,9 +172,39 @@ no Python, Node, compilation or local inference ran there. Normalization,
 scoring, wrapper CLI and audits used Slurm. No successful response was retried,
 including the fifteen GPT samples collected before network recovery.
 
-All 21 R0–R20 observations and fourteen proposals remain; all thirteen older
-proposals and best_observed R18 are unchanged. Only the external-authority
-proposal is unmeasured. Prior candidates remain available
+[R21](runs/round-21-descriptive-static-evidence-combination/README.md) is prepared,
+**not published or measured**. Parents are R18/R14: replay the exact retained
+R14 second-backbone table on best R18, under its kept R16 results heading and
+alongside the R17 static method reference. One insertion in index.html exposes
+nine Qwen2.5-7B-Instruct method rows and 36 already-reported values. The original
+Qwen3 display, default selection, switch, all other homepage bytes, reference
+pages, metadata/JSON-LD and alphaXiv routes are unchanged versus R18.
+
+All 39 structural/factual checks passed; visible homepage text is 6103 → 6676
+characters, under the locked 9000 limit. Independent parsing verifies both
+backbone tables against unchanged script.js. Existing geo-apply performs the
+one supported file:index.html operation; preview/applied diffs and graph
+fingerprints match the actual bytes. No inner score or browser test was run.
+See its [validation](runs/round-21-descriptive-static-evidence-combination/validation.json)
+and [audit](runs/round-21-descriptive-static-evidence-combination/audit.json).
+
+All ten modules and fourteen older proposals were reviewed using complete R20
+evidence. R20 returned the homepage URL in nine cells; broad citations were
+1/20. This motivates a static-evidence test, not a predicted retrieval gain.
+R14's original 5/60 discard and R15's 6/60 multi-bundle discard remain unchanged;
+R21 is not a replay of R15's H1/method/table bundle. No old scores are added.
+See its [exact parent provenance](runs/round-21-descriptive-static-evidence-combination/combination-source.json).
+
+Production stays R20. A future explicitly approved R21 deployment differs in
+three pages: add the table to index.html and restore R18's method/context H1s,
+without inheriting R20's discarded heading bundle. The one-file seed diff and
+full three-file production diff are both archived. Recheck then-current main
+and verify the full candidate tree plus all three changed served resources
+before and after any frozen 60-cell collection. R21 has no external score yet.
+
+All 21 R0–R20 observations and fifteen proposals remain; all fourteen older
+proposals and best_observed R18 are unchanged. Only R21 and the external-authority
+proposal are unmeasured. Prior candidates remain available
 for combinations; their scores are never added to predict a bundle. Immediate
 historical-control samples do not establish causal contribution or exclude
 stale indexing. No automatic follow-up is scheduled.

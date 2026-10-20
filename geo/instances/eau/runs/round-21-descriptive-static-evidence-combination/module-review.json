@@ -1,0 +1,132 @@
+{
+  "basis": "Best R18 and complete R20 tie, actual returned home URLs; no R21 paid searches",
+  "reviews": [
+    {
+      "module": "homepage-identity",
+      "action": "Keep original H1 and R16 H2s; add exact R14 evidence only in results, no R12 H1 replay"
+    },
+    {
+      "module": "method-reference",
+      "action": "Keep R17 static component reference and R18 method page; no R20 H1 inheritance"
+    },
+    {
+      "module": "research-context",
+      "action": "Keep complete R18 context page and evidence boundaries"
+    },
+    {
+      "module": "paper-authority",
+      "action": "Keep paper record and scholarly metadata; table numbers cross-checked against existing JS, no new benchmark result"
+    },
+    {
+      "module": "machine-readable-summary",
+      "action": "Keep R18 llms and alphaXiv Paper route unchanged"
+    },
+    {
+      "module": "repository-authority",
+      "action": "Keep R18 README and alphaXiv Paper route unchanged"
+    },
+    {
+      "module": "crawler-routing",
+      "action": "Keep robots and sitemap; no indexed-byte or hypothetical graph-reach claim"
+    },
+    {
+      "module": "presentation",
+      "action": "Reuse R14 semantic default-open details/table with independent IDs and caption; leave switch/default charts/CSS/JS unchanged; rendered layout untested"
+    },
+    {
+      "module": "reference-pages",
+      "action": "Keep all R18 pages/routes; R20 H1 proposal remains separate discarded evidence"
+    },
+    {
+      "module": "external-paper-entry",
+      "action": "Keep alphaXiv reading entry points; external backlink state unknown and author-owned pages untouched"
+    }
+  ],
+  "alternatives_retained": [
+    {
+      "id": "r8-reference-cluster",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "shared-scholarly-entity",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "reference-cluster-without-r7",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "static-benchmark-evidence",
+      "status": "keep",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "external-paper-link-audit",
+      "status": "needs_author_authority_for_any_edit",
+      "measured": null,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "homepage-descriptive-h1",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "static-second-backbone-evidence",
+      "status": "discard",
+      "measured": true,
+      "action": "Reuse exact final table as a separately measured combination; original discard unchanged"
+    },
+    {
+      "id": "static-component-reference",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "static-entry-combination",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; R15 multi-bundle failure is not silently replayed or treated as an isolated table effect"
+    },
+    {
+      "id": "descriptive-section-headings",
+      "status": "keep",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "descriptive-heading-static-method",
+      "status": "keep",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "alphaxiv-paper-routing",
+      "status": "keep",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "shared-entity-combination",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    },
+    {
+      "id": "descriptive-reference-headings",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged; no silent bundling or score addition"
+    }
+  ],
+  "selection_limit": "Neither historical R14/R15 failures nor later R18 gains identify an isolated contribution. Test the one manifest on the current best tree and keep only real strict improvement."
+}

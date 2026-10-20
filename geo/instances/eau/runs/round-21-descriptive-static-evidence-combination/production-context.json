@@ -1,0 +1,35 @@
+{
+  "production_round": 20,
+  "production_commit": "27f252b85a6e9c3ff83d5ff815f6a704e3db51bc",
+  "production_tree": "8261df22ebbcfa2edc6031f32e2fb51214822ad3",
+  "production_observation": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 12,
+    "mention_rate": 0.7166666666666667,
+    "found_rate": 0.65,
+    "citation_rate": 0.2,
+    "attribution_rate": 0.6333333333333333,
+    "mrr": 0.14166666666666666,
+    "score": 34.833333333333336
+  },
+  "selection_seed_round": 18,
+  "selection_seed_commit": "dda361dcd45f2eee5cff5402a3d8b8a5421ddd33",
+  "selection_seed_tree": "ad41cd32f93433b1be065fc8d1969d8da78f2600",
+  "seed_observation": {
+    "n": 60,
+    "valid_responses": 60,
+    "project_citations": 12,
+    "mention_rate": 0.7166666666666667,
+    "found_rate": 0.6666666666666666,
+    "citation_rate": 0.2,
+    "attribution_rate": 0.65,
+    "mrr": 0.1388888888888889,
+    "score": 35.19444444444444
+  },
+  "seed_differs_from_production": true,
+  "difference_verified": "Only the two archived R20 H1 operations; reversing them recovers R18 exactly",
+  "baseline_choice": "Strict tie rule retains R18; R20 composite 34.83333 is secondary only. Do not relabel the R20 matrix as R18.",
+  "production_unchanged": true,
+  "requires_separate_publication_approval": true
+}
