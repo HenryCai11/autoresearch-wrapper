@@ -1,0 +1,10 @@
+{
+  "round": 21,
+  "production_merge_commit": "3f0c8143e9e23eb351e1727425ce1ed05606d4ec",
+  "production_tree": "49c3d78bb28cbadbcfa7dc78673b8a104f640084",
+  "candidate_commit": "a2db6f62fffc2cde6db3345f7bf9823d259aebea",
+  "deploy_commit": "069eeb865923b60f52349df88716d56da15bc9ac",
+  "production_parent": "27f252b85a6e9c3ff83d5ff815f6a704e3db51bc",
+  "authorization": "User explicitly requested publishing and testing prepared R21",
+  "first_verification": "Old index.html; no search requests issued before all three changed resources match"
+}

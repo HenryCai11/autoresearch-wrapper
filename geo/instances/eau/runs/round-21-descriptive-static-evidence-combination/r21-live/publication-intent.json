@@ -1,0 +1,17 @@
+{
+  "round": 21,
+  "candidate_commit": "a2db6f62fffc2cde6db3345f7bf9823d259aebea",
+  "candidate_tree": "49c3d78bb28cbadbcfa7dc78673b8a104f640084",
+  "candidate_branch": "codex/geo-live-round-21",
+  "deploy_branch": "codex/geo-live-round-21-deploy",
+  "deploy_commit": "069eeb865923b60f52349df88716d56da15bc9ac",
+  "deploy_worktree": "/scratch/henrycai/eau-r21-deploy-20261020",
+  "production_parent": "27f252b85a6e9c3ff83d5ff815f6a704e3db51bc",
+  "changed_files": [
+    "index.html",
+    "method.html",
+    "research-context.html"
+  ],
+  "authorization": "User explicitly requested publishing and testing prepared R21",
+  "deployment_method": "Exact approved R18-based tree: replay final retained R14 table in index.html and restore R18 method/context H1s instead of inheriting discarded R20 headings; apply_patch in isolated deploy worktree. Full tree and alphaXiv routes verified."
+}

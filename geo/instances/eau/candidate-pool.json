@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "site_url": "https://eau-meta-agent.github.io/",
-  "updated_at": "2026-10-20T05:57:44+00:00",
+  "updated_at": "2026-10-20T12:26:25+00:00",
   "current_round": 21,
   "maintenance": "Site-specific ledger maintained by the agent when starting or recording a round; not an automatic scheduler or a new wrapper-core search algorithm.",
   "policy": {
@@ -16,10 +16,10 @@
     ],
     "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
     "inner_metric": "not computed and not used",
-    "baseline": "Best R18 original complete historical matrix: 12/60, primary 20.0, composite 35.19444; keep requires all 60 valid and strictly more than 12/60; ties discard.",
-    "current_production": "R20 unchanged, 12/60 discard; R21 is seeded from R18 and retains all alphaXiv routes",
-    "deployment": "Separate R21 approval required. Future diff versus live R20 spans index/method/context: add R14 table, restore the two R18 H1s. Verify full tree and all three changed served pages before/after real collection.",
-    "history": "All twenty-one R0–R20 observations, fourteen older proposals and best R18 unchanged; new combination is unmeasured. Never add parent scores.",
+    "baseline": "Best complete historical observation: R18 12/60. R21 was compared with original R18 12/60; no fresh simultaneous control.",
+    "current_production": "R21 live: 12/60, discard; historical R18 12/60; alphaXiv routes retained",
+    "deployment": "R21 explicitly approved; exact complete candidate tree and all three changed served pages verified before and after all sixty real samples. No automatic rollback.",
+    "history": "All twenty-two R0–R21 observations and fifteen proposals retained; all fourteen older proposals unchanged. Only external-authority is unmeasured. Never add parent scores.",
     "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up",
     "user_routing_constraint": "Preserve https://www.alphaxiv.org/abs/2610.16523 for paper-reading entry points in future candidates, independently of project-domain GEO selection. Scholarly arXiv identifiers/PDF/BibTeX remain unchanged."
   },
@@ -1282,6 +1282,42 @@
       "artifact_dir": "runs/round-20-descriptive-reference-headings",
       "retain_for_combinations": true,
       "status": "measured_heading_bundle_not_isolated_module_effect"
+    },
+    {
+      "id": "r21",
+      "round": 21,
+      "change_id": "r21-descriptive-static-evidence-combination",
+      "files": [
+        "index.html"
+      ],
+      "parents": [
+        "r18",
+        "r14"
+      ],
+      "candidate_commit": "a2db6f62fffc2cde6db3345f7bf9823d259aebea",
+      "production_commit": "3f0c8143e9e23eb351e1727425ce1ed05606d4ec",
+      "branch": "codex/geo-live-round-21-deploy",
+      "production_changed_files": [
+        "index.html",
+        "method.html",
+        "research-context.html"
+      ],
+      "selection_seed_commit": "dda361dcd45f2eee5cff5402a3d8b8a5421ddd33",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 12,
+        "mention_rate": 0.7333333333333333,
+        "found_rate": 0.6666666666666666,
+        "citation_rate": 0.2,
+        "attribution_rate": 0.6666666666666666,
+        "mrr": 0.14444444444444443,
+        "score": 35.888888888888886
+      },
+      "decision": "discard",
+      "artifact_dir": "runs/round-21-descriptive-static-evidence-combination",
+      "retain_for_combinations": true,
+      "status": "measured_combination_not_isolated_module_effect"
     }
   ],
   "proposals": [
@@ -2063,8 +2099,8 @@
     },
     {
       "id": "descriptive-static-evidence-combination",
-      "status": "validated_awaiting_deployment_approval",
-      "measured": false,
+      "status": "discard",
+      "measured": true,
       "round": 21,
       "change_id": "r21-descriptive-static-evidence-combination",
       "parents": [
@@ -2092,11 +2128,26 @@
         "R18 alphaXiv routes",
         "R14 separately labelled static Qwen2.5 table"
       ],
-      "interpretation": "Separate unmeasured combination; R14 5/60 and R15 6/60 remain discarded original observations, not additive effects. R19/R20 discarded bundles are not silently inherited.",
+      "interpretation": "Measured exact retained R14 table on R18 as a separate combination; immediate historical comparison, not isolated table lift. All older candidates and alphaXiv routes retained.",
       "candidate_commit": "a2db6f62fffc2cde6db3345f7bf9823d259aebea",
       "candidate_tree": "49c3d78bb28cbadbcfa7dc78673b8a104f640084",
       "wrapper_run_id": "20261020T055744Z-index-html",
-      "branch": "autoresearch/index-html/20261020T055744Z-index-html/candidate-001"
+      "branch": "autoresearch/index-html/20261020T055744Z-index-html/candidate-001",
+      "deployment_status": "live",
+      "production_commit": "3f0c8143e9e23eb351e1727425ce1ed05606d4ec",
+      "measured_at": "2026-10-20T12:26:24+00:00",
+      "outer_observation": {
+        "n": 60,
+        "valid_responses": 60,
+        "project_citations": 12,
+        "mention_rate": 0.7333333333333333,
+        "found_rate": 0.6666666666666666,
+        "citation_rate": 0.2,
+        "attribution_rate": 0.6666666666666666,
+        "mrr": 0.14444444444444443,
+        "score": 35.888888888888886
+      },
+      "measurement_artifact_dir": "runs/round-21-descriptive-static-evidence-combination/r21-live"
     }
   ],
   "selected_candidate_id": "descriptive-static-evidence-combination",

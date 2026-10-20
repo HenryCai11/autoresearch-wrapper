@@ -1,0 +1,10 @@
+{
+  "preparation_and_normalization_jobs": [
+    "1862326",
+    "1862441"
+  ],
+  "scoring_archive_audit_job": "1862509",
+  "accounting_before_scoring_job_completion": "1862326|eau-r21-publish-prep|COMPLETED|0:0\n1862326.batch|batch|COMPLETED|0:0\n1862326.extern|extern|COMPLETED|0:0\n1862441|eau-r21-normalize|COMPLETED|0:0\n1862441.batch|batch|COMPLETED|0:0\n1862441.extern|extern|COMPLETED|0:0\n",
+  "network_only_acquisition": "GPT web tool; curl/jq Tavily/Exa; existing native Codex CLI, same prompt/flags/90s/low/8+7 groups; no local inference",
+  "slurm_only": "All Python, normalization, scoring, wrapper CLI and archival checks; 1 CPU, 1 GB per job"
+}

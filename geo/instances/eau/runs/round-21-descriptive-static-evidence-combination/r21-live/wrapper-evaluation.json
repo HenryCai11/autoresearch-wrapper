@@ -1,0 +1,10 @@
+{
+  "command": "python3 /scratch/henrycai/geo-runs/eau-r21-20261020/outer_metric.py",
+  "commit": "a2db6f62fffc2cde6db3345f7bf9823d259aebea",
+  "exit_code": 0,
+  "log_path": "/scratch/henrycai/eau-r21-20261020/.autoresearch-wrapper/runs/20261020T055744Z-index-html/logs/candidate-001-20261020T122625Z.log",
+  "metric_value": 20.0,
+  "recorded_at": "2026-10-20T12:26:25+00:00",
+  "regex": "METRIC\\s*=\\s*(?P<value>[-+]?\\d+(?:\\.\\d+)?(?:[eE][-+]?\\d+)?)",
+  "timed_out": false
+}

@@ -1,0 +1,25 @@
+{
+  "attempts": [
+    {
+      "phase": "before",
+      "at": "20261020T121607Z",
+      "file": "index.html",
+      "matched": false,
+      "searches_started": false
+    },
+    {
+      "phase": "before",
+      "at": "20261020T121824Z",
+      "matched": true,
+      "resources": 3
+    },
+    {
+      "phase": "after",
+      "at": "20261020T122448Z",
+      "matched": true,
+      "resources": 3
+    }
+  ],
+  "search_gate": "All three changed served resources must match before any search, then match again after every request completes",
+  "collection_timing_verified": true
+}

@@ -1,0 +1,7 @@
+adaptive user simulator reward design LLM agents
+within-run and across-run adaptation agent training
+recent agent environment co-evolution papers
+LLM agent training environment evolves with policy
+multi-turn reinforcement learning user simulation benchmarks
+editable training systems for tool-using agents
+methods improving user-centric agents with simulated users

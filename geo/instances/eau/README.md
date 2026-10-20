@@ -15,7 +15,7 @@ python3 scripts/geo_eval.py discovery \
   --probes geo/instances/eau/probes.jsonl
 ```
 
-Historical R0–R20 run directories contain actual GPT web, Codex search, Tavily,
+Historical R0–R21 run directories contain actual GPT web, Codex search, Tavily,
 and Exa observations. Keys are supplied only at runtime; never store them here.
 
 R12 was measured at 6/60 citation cells versus the best R9's 8/60,
@@ -72,7 +72,7 @@ explicit source URLs are reported separately.
 [R18](runs/round-18-alphaxiv-paper-routing/README.md) was published and measured:
 **12/60 project-domain citation cells, all 60 valid; keep**, versus historical
 R17's 10/60. It remains the best complete observed candidate and next selection
-seed; R19 and R20 tied it and were not promoted.
+seed; R19–R21 tied its primary metric and were not promoted.
 Legacy composite is 35.19 versus 34.31; explicit project URLs are 11/60 and
 explicit support-page URL cells are 5/60. GPT web / Codex / Tavily / Exa citation
 counts are 0 / 4 / 0 / 8. Fuzzy-tier citations increased 0/20 → 2/20, while broad
@@ -124,14 +124,15 @@ raw sixty responses. See its [parent replay record](runs/round-19-shared-entity-
 [validation](runs/round-19-shared-entity-combination/validation.json) and
 [live audit](runs/round-19-shared-entity-combination/r19-live/audit.json).
 
-[R20](runs/round-20-descriptive-reference-headings/README.md) is live and measured:
+[R20](runs/round-20-descriptive-reference-headings/README.md) was published and measured:
 **12/60 project-domain citation cells, all 60 valid; discard** against historical
 R18's 12/60 under the strict-improvement rule. Primary stays 20.00/100;
 secondary report-only composite is 34.83 versus R18's 35.19. The same twelve
 citation cells remain, with no gains/losses. GPT web / Codex / Tavily / Exa
 counts are 0 / 4 / 0 / 8; exact / fuzzy / broad counts are 9 / 2 / 1 (each /20).
 Explicit project URL cells are 11/60; support-page URL cells are 5/60.
-R18 remains best_observed; R20 remains live without automatic rollback.
+R18 remains best_observed. R20 was not automatically rolled back after selection;
+it has now been superseded by explicitly approved R21.
 See the [live report](runs/round-20-descriptive-reference-headings/r20-live/REPORT.md),
 [selection](runs/round-20-descriptive-reference-headings/r20-live/best-observed-selection.json)
 and [live audit](runs/round-20-descriptive-reference-headings/r20-live/audit.json).
@@ -172,8 +173,23 @@ no Python, Node, compilation or local inference ran there. Normalization,
 scoring, wrapper CLI and audits used Slurm. No successful response was retried,
 including the fifteen GPT samples collected before network recovery.
 
-[R21](runs/round-21-descriptive-static-evidence-combination/README.md) is prepared,
-**not published or measured**. Parents are R18/R14: replay the exact retained
+[R21](runs/round-21-descriptive-static-evidence-combination/README.md) is live and measured:
+**12/60 project-domain citation cells, all 60 valid; discard** against original
+historical R18's 12/60 under the strict-improvement rule. Primary is 20.00/100.
+Secondary report-only composite is 35.89 versus R18's 35.19 and R20's 34.83;
+it does not determine keep/discard. GPT web / Codex / Tavily / Exa citation
+counts remain 0 / 4 / 0 / 8, but the citation cells are not identical:
+one fuzzy Codex cell is gained and one exact Codex cell lost versus R18.
+Exact / fuzzy / broad counts are 8 / 3 / 1 (each /20), versus 9 / 2 / 1.
+The gained query is “user-centric agents co-evolve environment and user simulator”;
+the lost query is “EAU arXiv 2610.16523”. Explicit project URL cells are 11/60
+and support-page URL cells 5/60. R18 remains best_observed; R21 remains live
+without automatic rollback. See the
+[live report](runs/round-21-descriptive-static-evidence-combination/r21-live/REPORT.md),
+[selection](runs/round-21-descriptive-static-evidence-combination/r21-live/best-observed-selection.json)
+and [live audit](runs/round-21-descriptive-static-evidence-combination/r21-live/audit.json).
+
+Parents are R18/R14: replay the exact retained
 R14 second-backbone table on best R18, under its kept R16 results heading and
 alongside the R17 static method reference. One insertion in index.html exposes
 nine Qwen2.5-7B-Instruct method rows and 36 already-reported values. The original
@@ -195,16 +211,25 @@ R14's original 5/60 discard and R15's 6/60 multi-bundle discard remain unchanged
 R21 is not a replay of R15's H1/method/table bundle. No old scores are added.
 See its [exact parent provenance](runs/round-21-descriptive-static-evidence-combination/combination-source.json).
 
-Production stays R20. A future explicitly approved R21 deployment differs in
-three pages: add the table to index.html and restore R18's method/context H1s,
-without inheriting R20's discarded heading bundle. The one-file seed diff and
-full three-file production diff are both archived. Recheck then-current main
-and verify the full candidate tree plus all three changed served resources
-before and after any frozen 60-cell collection. R21 has no external score yet.
+After explicit publication approval, an isolated branch on then-current R20
+main applied the exact R21 tree. Three pages differ from R20: add the table
+to index.html and restore R18 method/context H1s, without inheriting R20's
+discarded heading bundle. Both the one-file seed diff and three-file production
+diff are archived. The complete candidate/production tree and all three changed
+served resources matched before and after the completed 60-cell collection.
+The first served check saw old content; no searches began until all three matched.
 
-All 21 R0–R20 observations and fifteen proposals remain; all fourteen older
-proposals and best_observed R18 are unchanged. Only R21 and the external-authority
-proposal are unmeasured. Prior candidates remain available
+All sixty first-pass samples were valid, with no successful response resampled.
+Network-only curl/jq and the same preinstalled native Codex CLI acquired the
+replies; all Python, normalization, scoring, wrapper CLI and audits used Slurm.
+No Python, Node, compilation or local inference ran on the login node. The
+already documented compute proxy restriction was not bypassed or retried.
+The immediate historical-control observation does not isolate the table's
+causal contribution or rule out search variation/stale indexing.
+
+All 22 R0–R21 observations and fifteen proposals remain; all fourteen older
+proposals and best_observed R18 are unchanged. Only the external-authority
+proposal is unmeasured. Prior candidates remain available
 for combinations; their scores are never added to predict a bundle. Immediate
 historical-control samples do not establish causal contribution or exclude
 stale indexing. No automatic follow-up is scheduled.

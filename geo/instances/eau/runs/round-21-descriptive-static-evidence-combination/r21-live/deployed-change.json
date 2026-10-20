@@ -1,0 +1,81 @@
+{
+  "round": 21,
+  "change_id": "r21-descriptive-static-evidence-combination",
+  "pool_candidate_id": "descriptive-static-evidence-combination",
+  "state": "deployed_and_measured",
+  "part": "index.html",
+  "files": [
+    "index.html"
+  ],
+  "graph_nodes": [
+    "file:index.html",
+    "section:results"
+  ],
+  "selection_seed_round": 18,
+  "selection_seed_commit": "dda361dcd45f2eee5cff5402a3d8b8a5421ddd33",
+  "selection_seed_tree": "ad41cd32f93433b1be065fc8d1969d8da78f2600",
+  "current_production_round": 20,
+  "current_production_commit": "27f252b85a6e9c3ff83d5ff815f6a704e3db51bc",
+  "current_production_tree": "8261df22ebbcfa2edc6031f32e2fb51214822ad3",
+  "parents": [
+    "r18",
+    "r14"
+  ],
+  "hypothesis": "Test the exact retained second-backbone static evidence under the kept descriptive results heading and static method reference on R18; no new numerical results or wording.",
+  "selection": {
+    "primary_metric": "live_project_citation_rate",
+    "goal": "maximize",
+    "definition": "100 * frozen geo_eval site_cited cells / 60, including bare project-domain occurrences under the existing judge",
+    "engines": [
+      "gpt-web",
+      "codex-search",
+      "tavily-search",
+      "exa-search"
+    ],
+    "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
+    "inner_metric": "not computed and not used",
+    "baseline": "Best R18 original complete historical matrix: 12/60, primary 20.0, composite 35.19444; keep requires all 60 valid and strictly more than 12/60; ties discard.",
+    "current_production": "R20 unchanged, 12/60 discard; R21 is seeded from R18 and retains all alphaXiv routes",
+    "deployment": "Separate R21 approval required. Future diff versus live R20 spans index/method/context: add R14 table, restore the two R18 H1s. Verify full tree and all three changed served pages before/after real collection.",
+    "history": "All twenty-one R0–R20 observations, fourteen older proposals and best R18 unchanged; new combination is unmeasured. Never add parent scores.",
+    "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up",
+    "user_routing_constraint": "Preserve https://www.alphaxiv.org/abs/2610.16523 for paper-reading entry points in future candidates, independently of project-domain GEO selection. Scholarly arXiv identifiers/PDF/BibTeX remain unchanged."
+  },
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+  "unchanged_vs_seed": [
+    "All original bytes except the exact R14 table insertion",
+    "default Qwen3 results and switch",
+    "R16 H2s and R17 method reference",
+    "heads/schema, paper and reference pages",
+    "all R18 alphaXiv routes, scripts/styles/assets/crawler files",
+    "map/query/judge/normalizer/settings"
+  ],
+  "planned_scope_vs_current_production": [
+    "index.html",
+    "method.html",
+    "research-context.html"
+  ],
+  "production_difference": "Add one R14 static table to R18 index; restore R18 method/context H1s instead of inheriting discarded R20 headings",
+  "deployment_plan": "Separate R21 approval required; recheck then-current main, reconcile teammate changes, deploy exact complete candidate tree and verify all three changed served files before/after sixty frozen real requests",
+  "candidate_commit": "a2db6f62fffc2cde6db3345f7bf9823d259aebea",
+  "candidate_tree": "49c3d78bb28cbadbcfa7dc78673b8a104f640084",
+  "wrapper_run_id": "20261020T055744Z-index-html",
+  "candidate": {
+    "based_on": "autoresearch/index-html/20261020T055744Z-index-html/seed",
+    "branch": "autoresearch/index-html/20261020T055744Z-index-html/candidate-001",
+    "candidate_id": "candidate-001",
+    "created_at": "2026-10-20T05:58:19+00:00",
+    "lifecycle": "allocated",
+    "missing": false,
+    "worktree_path": "/scratch/henrycai/eau-r21-20261020.autoresearch-worktrees/20261020T055744Z-index-html/candidate-001"
+  },
+  "production_changed_files": [
+    "index.html",
+    "method.html",
+    "research-context.html"
+  ],
+  "production_merge_commit": "3f0c8143e9e23eb351e1727425ce1ed05606d4ec",
+  "outer_selection": "discard",
+  "selection_record": "r21-live/wrapper-record.json",
+  "authorization": "User explicitly approved publishing and testing prepared R21"
+}

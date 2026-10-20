@@ -1,0 +1,11 @@
+{
+  "round": 21,
+  "slurm_jobs": ["1862326", "1862441"],
+  "network_only": "GPT web tool plus curl/jq for Tavily/Exa and the existing native Codex CLI; no Python, Node, compilation or local model inference on the login node",
+  "slurm_only": "All Python, normalization, scoring, wrapper CLI, source validation and archival checks",
+  "collection": "Same frozen fifteen queries, one first-pass sample per query and engine; no successful answer selectively retried",
+  "codex": "Identical prompt/flags to the frozen probe script, 90 second timeout, low reasoning effort, groups of eight and seven; same native binary as the installed Node launcher",
+  "baseline": "Original complete historical R18 12/60, not tied R20 or a fresh simultaneous control",
+  "routing_constraint": "Preserve user-required alphaXiv reading destinations and scholarly arXiv references",
+  "credentials": "Inherited environment only; no key value or authentication file inspected"
+}

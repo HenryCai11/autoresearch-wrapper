@@ -1,0 +1,7 @@
+{
+  "commit": "a2db6f62fffc2cde6db3345f7bf9823d259aebea",
+  "description": "R21 exact retained R14 static table on R18; discarded R20 H1s not inherited; exact deployed tree and three changed served pages verified; 60 frozen outer cells; R18 12/60 historical control; parent scores not added",
+  "metric_value": 20.0,
+  "recorded_at": "2026-10-20T12:26:25+00:00",
+  "status": "discard"
+}

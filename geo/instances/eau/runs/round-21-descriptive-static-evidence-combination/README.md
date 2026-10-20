@@ -1,3 +1,5 @@
+R21 is now published and measured: **12/60; discard**. See [live report](r21-live/REPORT.md), [selection](r21-live/best-observed-selection.json) and [CURRENT.json](CURRENT.json). The following is the original preparation record; its unchanged copy is r21-live/pre-live-README.md.
+
 # EAU R21 — retained static second-backbone evidence on R18
 
 Status: **validated local candidate; not published or measured**.

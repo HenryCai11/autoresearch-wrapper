@@ -1,0 +1,33 @@
+{
+  "source_branch": "codex/geo-live-round-21-deploy",
+  "candidate_branch": "codex/geo-live-round-21",
+  "candidate_commit": "a2db6f62fffc2cde6db3345f7bf9823d259aebea",
+  "deploy_commit": "069eeb865923b60f52349df88716d56da15bc9ac",
+  "production_merge_commit": "3f0c8143e9e23eb351e1727425ce1ed05606d4ec",
+  "production_tree": "49c3d78bb28cbadbcfa7dc78673b8a104f640084",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "resource_sha256": {
+    "index.html": "b300188e91587e92b9a67b00b5d4451dd60de5c3712b85ae942c5ae297a914d7",
+    "method.html": "0a8d40fd5380128334daf4e0a4a8776c70debebef8947de432aa0af18a01e9c5",
+    "research-context.html": "a8d1c169155ee352c0581ce6e945943f7ea59b7d5fc9b0b77dba9a74bf47e9e5"
+  },
+  "served_version_verified_at": "2026-10-20T12:18:25Z",
+  "served_version_reverified_at": "2026-10-20T12:24:50Z",
+  "collection_timing_verified": true,
+  "first_request_at": "2026-10-20T12:18:41+00:00",
+  "last_completed_request_at": "2026-10-20T12:23:03+00:00",
+  "timing_evidence": "GPT/API per-request timestamps and both Codex group start/completion markers fall within successful three-page served checks.",
+  "authorization": "User explicitly requested publishing and testing prepared R21",
+  "selection_seed": "R18 original best complete 12/60 historical control, not tied R20 matrix or a fresh simultaneous control",
+  "deployment_method": "Exact approved R18-based tree: replay final retained R14 table in index.html and restore R18 method/context H1s instead of inheriting discarded R20 headings; apply_patch in isolated deploy worktree. Full tree and alphaXiv routes verified.",
+  "changed_files_vs_live_r20": [
+    "index.html",
+    "method.html",
+    "research-context.html"
+  ],
+  "changed_files_vs_r18": [
+    "index.html"
+  ],
+  "verification": "Exact complete candidate/production tree plus all three changed served resources match before and after collection.",
+  "traffic_status": "alphaXiv reading routes retained; no click or visit measurement or traffic-lift claim"
+}
