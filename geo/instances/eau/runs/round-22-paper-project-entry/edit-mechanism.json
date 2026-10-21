@@ -1,0 +1,12 @@
+{
+  "semantic_changes": 1,
+  "text_spans": 2,
+  "method": "Main-agent apply_patch in allocated worktree after reading generated program.md",
+  "graph_nodes": [
+    "file:paper.html"
+  ],
+  "graph_supported_operations": [],
+  "limit": "No geo-apply operation is claimed for support assets; no wrapper-core extension",
+  "wrapper_core_changed": false,
+  "production_changed": false
+}

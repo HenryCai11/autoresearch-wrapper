@@ -1,0 +1,138 @@
+{
+  "basis": "Best R18, complete R21 tie, three actual paper-page Exa URLs and archived snippets; no new paid probes",
+  "reviews": [
+    {
+      "module": "homepage-identity",
+      "action": "Keep exact R18 home; do not inherit R21 second-backbone table despite fuzzy gain"
+    },
+    {
+      "module": "method-reference",
+      "action": "Keep R17 static method and all R18 method page bytes; no new H1 or schema bundle"
+    },
+    {
+      "module": "research-context",
+      "action": "Keep complete R18 context and evidence boundaries"
+    },
+    {
+      "module": "paper-authority",
+      "action": "Relocate one existing canonical project paragraph into visible identity copy; preserve wording, href, metadata, authors and reported numbers"
+    },
+    {
+      "module": "machine-readable-summary",
+      "action": "Keep R18 llms and alphaXiv route unchanged"
+    },
+    {
+      "module": "repository-authority",
+      "action": "Keep R18 README unchanged"
+    },
+    {
+      "module": "crawler-routing",
+      "action": "Keep robots/sitemap; no speculative indexing change"
+    },
+    {
+      "module": "presentation",
+      "action": "Keep all CSS/JS/assets and existing paragraph/link classes; no browser layout claim"
+    },
+    {
+      "module": "reference-pages",
+      "action": "Keep all page paths and total link counts; paper footer retains its three support links"
+    },
+    {
+      "module": "external-paper-entry",
+      "action": "External link state remains unknown and author-owned pages untouched; alphaXiv paper reading routes retained"
+    }
+  ],
+  "alternatives_retained": [
+    {
+      "id": "r8-reference-cluster",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged for future combinations; no implicit replay or score addition"
+    },
+    {
+      "id": "shared-scholarly-entity",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged for future combinations; no implicit replay or score addition"
+    },
+    {
+      "id": "reference-cluster-without-r7",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged for future combinations; no implicit replay or score addition"
+    },
+    {
+      "id": "static-benchmark-evidence",
+      "status": "keep",
+      "measured": true,
+      "action": "Retain unchanged for future combinations; no implicit replay or score addition"
+    },
+    {
+      "id": "external-paper-link-audit",
+      "status": "needs_author_authority_for_any_edit",
+      "measured": null,
+      "action": "Retain unchanged for future combinations; no implicit replay or score addition"
+    },
+    {
+      "id": "homepage-descriptive-h1",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged for future combinations; no implicit replay or score addition"
+    },
+    {
+      "id": "static-second-backbone-evidence",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged for future combinations; no implicit replay or score addition"
+    },
+    {
+      "id": "static-component-reference",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged for future combinations; no implicit replay or score addition"
+    },
+    {
+      "id": "static-entry-combination",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged for future combinations; no implicit replay or score addition"
+    },
+    {
+      "id": "descriptive-section-headings",
+      "status": "keep",
+      "measured": true,
+      "action": "Retain unchanged for future combinations; no implicit replay or score addition"
+    },
+    {
+      "id": "descriptive-heading-static-method",
+      "status": "keep",
+      "measured": true,
+      "action": "Retain unchanged for future combinations; no implicit replay or score addition"
+    },
+    {
+      "id": "alphaxiv-paper-routing",
+      "status": "keep",
+      "measured": true,
+      "action": "Retain unchanged for future combinations; no implicit replay or score addition"
+    },
+    {
+      "id": "shared-entity-combination",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged for future combinations; no implicit replay or score addition"
+    },
+    {
+      "id": "descriptive-reference-headings",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain unchanged for future combinations; no implicit replay or score addition"
+    },
+    {
+      "id": "descriptive-static-evidence-combination",
+      "status": "discard",
+      "measured": true,
+      "action": "Retain original discard and fuzzy gain/exact loss; no inheritance based on secondary score"
+    }
+  ],
+  "selection_limit": "Three primary ties do not establish no long-term effect. This test changes placement only on the current best tree; real strict improvement remains required."
+}

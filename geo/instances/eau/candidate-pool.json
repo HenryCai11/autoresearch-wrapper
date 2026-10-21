@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "site_url": "https://eau-meta-agent.github.io/",
-  "updated_at": "2026-10-20T12:26:25+00:00",
-  "current_round": 21,
+  "updated_at": "2026-10-21T09:09:05+00:00",
+  "current_round": 22,
   "maintenance": "Site-specific ledger maintained by the agent when starting or recording a round; not an automatic scheduler or a new wrapper-core search algorithm.",
   "policy": {
     "primary_metric": "live_project_citation_rate",
@@ -16,10 +16,10 @@
     ],
     "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
     "inner_metric": "not computed and not used",
-    "baseline": "Best complete historical observation: R18 12/60. R21 was compared with original R18 12/60; no fresh simultaneous control.",
-    "current_production": "R21 live: 12/60, discard; historical R18 12/60; alphaXiv routes retained",
-    "deployment": "R21 explicitly approved; exact complete candidate tree and all three changed served pages verified before and after all sixty real samples. No automatic rollback.",
-    "history": "All twenty-two R0–R21 observations and fifteen proposals retained; all fourteen older proposals unchanged. Only external-authority is unmeasured. Never add parent scores.",
+    "baseline": "Best R18 original complete historical matrix: 12/60, primary 20.0, composite 35.19444; keep requires all 60 valid and strictly more than 12/60; ties discard.",
+    "current_production": "R21 unchanged, 12/60 discard; unpublished R22 starts from R18 and retains alphaXiv routes",
+    "deployment": "Separate R22 approval required. Future diff versus R21 spans index/paper: remove the unkept R21 table and relocate the existing paper-page project link. Verify full tree and BOTH changed served pages before/after collection.",
+    "history": "All twenty-two R0–R21 observations, fifteen older proposals and best R18 unchanged; the sixteenth proposal is unmeasured. Never add parent scores.",
     "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up",
     "user_routing_constraint": "Preserve https://www.alphaxiv.org/abs/2610.16523 for paper-reading entry points in future candidates, independently of project-domain GEO selection. Scholarly arXiv identifiers/PDF/BibTeX remain unchanged."
   },
@@ -2148,9 +2148,42 @@
         "score": 35.888888888888886
       },
       "measurement_artifact_dir": "runs/round-21-descriptive-static-evidence-combination/r21-live"
+    },
+    {
+      "id": "paper-project-entry",
+      "status": "validated_awaiting_deployment_approval",
+      "measured": false,
+      "round": 22,
+      "change_id": "r22-paper-project-entry",
+      "parents": [
+        "r18"
+      ],
+      "retain_for_combinations": true,
+      "files": [
+        "paper.html"
+      ],
+      "base_commit": "dda361dcd45f2eee5cff5402a3d8b8a5421ddd33",
+      "modules": [
+        "paper-authority",
+        "homepage-identity",
+        "reference-pages"
+      ],
+      "hypothesis": "Placing the already-present official project link next to the bibliographic identity may make the existing source-to-project route easier to extract; test a relocation, not an absent-edge repair.",
+      "reason_selected": "R19/R20/R21 tied best R18. Three R21 Exa cells explicitly returned paper.html; its identity/results snippets omit the official-project paragraph currently in the footer. This is a bounded entry-surface test, not evidence of a causal omission or predicted lift.",
+      "scope": "Move exactly one existing paragraph inside paper.html; no wording, href, link count, head, data, styles, scripts or other seed file changes.",
+      "module_dependencies": [
+        "Existing R8 official project reference route retained in R18",
+        "R18 paper identity and alphaXiv reading route",
+        "Unchanged R18 homepage and result/method evidence"
+      ],
+      "interpretation": "A new single-relocation candidate on R18, not a R21 continuation tree. Old scores and decisions remain unchanged; no parent scores are added.",
+      "candidate_commit": "aa3c0ea81c62f6a3cc263432ea625f69030d9edd",
+      "candidate_tree": "1b179b5a7fae7708eba3f60a7d8038b58f413e4d",
+      "wrapper_run_id": "20261021T090905Z-paper-html",
+      "branch": "autoresearch/paper-html/20261021T090905Z-paper-html/candidate-001"
     }
   ],
-  "selected_candidate_id": "descriptive-static-evidence-combination",
+  "selected_candidate_id": "paper-project-entry",
   "best_observed": {
     "round": 18,
     "change_id": "r18-alphaxiv-paper-routing",

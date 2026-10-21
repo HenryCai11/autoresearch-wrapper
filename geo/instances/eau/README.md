@@ -234,6 +234,33 @@ for combinations; their scores are never added to predict a bundle. Immediate
 historical-control samples do not establish causal contribution or exclude
 stale indexing. No automatic follow-up is scheduled.
 
+[R22](runs/round-22-paper-project-entry/README.md) is prepared locally,
+**not published or measured**. It starts from best R18 rather than the tied R21
+tree. One existing official-project paragraph moves verbatim from the paper
+page's footer into its identity introduction: no added words, links, results,
+metadata or schema. The route already exists; this is a placement test, not a
+missing-edge repair. Three saved R21 Exa cells actually return paper.html, with
+identity/results snippets that omit the footer paragraph. This motivates a
+bounded experiment, not a predicted citation gain.
+
+All 34 structural/factual checks passed. Homepage text stays 6103 characters;
+paper text stays 1122 with identical word and href counts. All other tracked
+files are exact R18, including alphaXiv routes and scholarly arXiv references.
+The support-page graph node is an asset with no text operations, so this used
+apply_patch in the allocated worktree; the scorer refuses the unpublished tree.
+No inner score or browser test was run. See its
+[validation](runs/round-22-paper-project-entry/validation.json),
+[complete production diff](runs/round-22-paper-project-entry/production-to-candidate.patch)
+and [audit](runs/round-22-paper-project-entry/audit.json).
+
+Production remains R21, unchanged. A separately approved R22 deployment would
+change two pages: restore R18 index by removing R21's unkept table, and move the
+paper paragraph. All 22 R0–R21 observations, fifteen older proposals and best
+R18 remain unchanged. Sixteen proposals now exist; R22 and external-authority
+are unmeasured. Keep still requires 60/60 valid and strictly more than 12/60
+citations; ties discard and the composite remains report-only. No new searches,
+publication, rollback, cleanup or automatic next round ran during preparation.
+
 ## Cross-module candidate ledger
 
 From R8 onward, consult [`candidate-pool.json`](candidate-pool.json) before

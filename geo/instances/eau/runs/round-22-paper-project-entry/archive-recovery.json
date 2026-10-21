@@ -1,0 +1,10 @@
+{
+  "failed_archive_job": "1874103",
+  "stage": "Final archive status assertion, after artifact copies and metric guard checks",
+  "cause": "Archive code expected status active and dict candidates; actual CLI schema is status running and list candidates",
+  "effect": "No candidate edits, evaluation, score, decision, deployment or successful response affected",
+  "recovery": "Append-only completion rechecks existing artifact bytes, real CLI status, historical metric and unpublished guard; preserves original failing script/provenance",
+  "recovery_script": "finish_archive_r22.py",
+  "recovery_job": "1874117",
+  "accounting_before_recovery_completion": "1874074|eau-r22-select|COMPLETED|0:0\n1874074.batch|batch|COMPLETED|0:0\n1874074.extern|extern|COMPLETED|0:0\n1874084|eau-r22-allocate|COMPLETED|0:0\n1874084.batch|batch|COMPLETED|0:0\n1874084.extern|extern|COMPLETED|0:0\n1874087|eau-r22-validate|COMPLETED|0:0\n1874087.batch|batch|COMPLETED|0:0\n1874087.extern|extern|COMPLETED|0:0\n1874103|eau-r22-archive|FAILED|1:0\n1874103.batch|batch|FAILED|1:0\n1874103.extern|extern|COMPLETED|0:0\n"
+}

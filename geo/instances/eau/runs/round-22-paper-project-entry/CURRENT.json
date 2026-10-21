@@ -1,0 +1,10 @@
+{
+  "round": 22,
+  "state": "validated_awaiting_deployment_approval",
+  "published": false,
+  "measured": false,
+  "candidate_commit": "aa3c0ea81c62f6a3cc263432ea625f69030d9edd",
+  "candidate_tree": "1b179b5a7fae7708eba3f60a7d8038b58f413e4d",
+  "best_observed_round": 18,
+  "current_production_round": 21
+}

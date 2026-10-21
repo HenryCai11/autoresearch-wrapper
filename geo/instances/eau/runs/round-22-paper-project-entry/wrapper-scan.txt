@@ -1,0 +1,38 @@
+scanned 11 parts into /scratch/henrycai/eau-r22-20261021/.autoresearch-wrapper/state.json
+
+Repo shape:
+  languages: html (4), javascript (2), css (1), markdown (1), robots (1), ... +2 more
+  top directories: ./ (10), assets/ (1)
+
+Core functionality focus:
+  - index.html [surely optimizable; metric=throughput, deps=7, dependents=3]
+  - research-context.html [surely optimizable; metric=runtime_seconds, deps=4, dependents=3]
+  - assets/favicon.svg [probably optimizable; metric=unknown, deps=0, dependents=1]
+  - method.html [probably optimizable; metric=unknown, deps=4, dependents=3]
+  - paper.html [probably optimizable; metric=unknown, deps=4, dependents=3]
+  - script.js [probably optimizable; metric=unknown, deps=0, dependents=1]
+  - site-config.js [probably optimizable; metric=unknown, deps=0, dependents=1]
+  - styles.css [probably optimizable; metric=unknown, deps=0, dependents=4]
+
+Focused dependency graph:
+├── index.html  [html, deps=7, dependents=3]
+│   ├── assets/favicon.svg  [svg, deps=0, dependents=1]
+│   ├── method.html  [html, deps=4, dependents=3]
+│   │   ├── index.html  [html, deps=7, dependents=3] (circular)
+│   │   ├── paper.html  [html, deps=4, dependents=3]
+│   │   ├── research-context.html  [html, deps=4, dependents=3]
+│   │   └── styles.css  [css, deps=0, dependents=4]
+│   ├── paper.html  [html, deps=4, dependents=3] (circular)
+│   ├── research-context.html  [html, deps=4, dependents=3] (circular)
+│   ├── script.js  [javascript, deps=0, dependents=1]
+│   ├── site-config.js  [javascript, deps=0, dependents=1]
+│   └── styles.css  [css, deps=0, dependents=4] (circular)
+├── research-context.html  [html, deps=4, dependents=3] (circular)
+├── assets/favicon.svg  [svg, deps=0, dependents=1] (circular)
+├── method.html  [html, deps=4, dependents=3] (circular)
+├── paper.html  [html, deps=4, dependents=3] (circular)
+├── script.js  [javascript, deps=0, dependents=1] (circular)
+├── site-config.js  [javascript, deps=0, dependents=1] (circular)
+└── styles.css  [css, deps=0, dependents=4] (circular)
+
+3 additional parts omitted from the default scan view. Use --full-summary to inspect all scanned parts.

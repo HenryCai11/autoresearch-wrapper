@@ -1,0 +1,15 @@
+{
+  "source": "Existing R18 and served R21 paper.html paragraph",
+  "source_sha256": "29ed7e8ba69bdf81e9109bb57ca7877be7b6e425beb3fac12d701d1f03e673b6",
+  "paragraph": "<p>Official project site: <a class=\"text-link\" href=\"https://eau-meta-agent.github.io/\">eau-meta-agent.github.io</a>.</p>",
+  "new_facts": false,
+  "new_words": false,
+  "new_links": false,
+  "link_state_before": "present",
+  "link_state_after": "present; placement only",
+  "old_location": "reference footer",
+  "new_location": "identity overview-copy",
+  "source_cells": 3,
+  "source_platform": "exa-search",
+  "limit": "Saved snippet omission does not establish a cause or retrieval lift"
+}

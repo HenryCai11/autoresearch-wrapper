@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/scratch/henrycai/geo-runs/eau-r22-20261021/archive_r22.py", line 179, in <module>
+    assert active['status'] == 'active' and active['candidates']['candidate-001']['lifecycle'] == 'allocated'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

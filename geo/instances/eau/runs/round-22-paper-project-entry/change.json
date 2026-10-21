@@ -1,0 +1,71 @@
+{
+  "round": 22,
+  "change_id": "r22-paper-project-entry",
+  "pool_candidate_id": "paper-project-entry",
+  "state": "validated_awaiting_deployment_approval",
+  "part": "paper.html",
+  "files": [
+    "paper.html"
+  ],
+  "graph_nodes": [
+    "file:paper.html"
+  ],
+  "selection_seed_round": 18,
+  "selection_seed_commit": "dda361dcd45f2eee5cff5402a3d8b8a5421ddd33",
+  "selection_seed_tree": "ad41cd32f93433b1be065fc8d1969d8da78f2600",
+  "current_production_round": 21,
+  "current_production_commit": "3f0c8143e9e23eb351e1727425ce1ed05606d4ec",
+  "current_production_tree": "49c3d78bb28cbadbcfa7dc78673b8a104f640084",
+  "parents": [
+    "r18"
+  ],
+  "hypothesis": "Placing the already-present official project link next to the bibliographic identity may make the existing source-to-project route easier to extract; test a relocation, not an absent-edge repair.",
+  "selection": {
+    "primary_metric": "live_project_citation_rate",
+    "goal": "maximize",
+    "definition": "100 * frozen geo_eval site_cited cells / 60, including bare project-domain occurrences under the existing judge",
+    "engines": [
+      "gpt-web",
+      "codex-search",
+      "tavily-search",
+      "exa-search"
+    ],
+    "validity": "All 60 frozen query-engine cells must be valid; otherwise remain unranked",
+    "inner_metric": "not computed and not used",
+    "baseline": "Best R18 original complete historical matrix: 12/60, primary 20.0, composite 35.19444; keep requires all 60 valid and strictly more than 12/60; ties discard.",
+    "current_production": "R21 unchanged, 12/60 discard; unpublished R22 starts from R18 and retains alphaXiv routes",
+    "deployment": "Separate R22 approval required. Future diff versus R21 spans index/paper: remove the unkept R21 table and relocate the existing paper-page project link. Verify full tree and BOTH changed served pages before/after collection.",
+    "history": "All twenty-two R0–R21 observations, fifteen older proposals and best R18 unchanged; the sixteenth proposal is unmeasured. Never add parent scores.",
+    "limitations": "Immediate single samples and historical controls do not establish causality or exclude indexing lag; no automatic rollback or follow-up",
+    "user_routing_constraint": "Preserve https://www.alphaxiv.org/abs/2610.16523 for paper-reading entry points in future candidates, independently of project-domain GEO selection. Scholarly arXiv identifiers/PDF/BibTeX remain unchanged."
+  },
+  "knowledge_map_sha256": "32be06bcafec6c3da9cf8360d86fa8e7154d6d05e1c46e598efd328c2d57973f",
+  "unchanged_vs_seed": [
+    "All paper content except exact paragraph placement",
+    "all paper head metadata/schema/results and alphaXiv links",
+    "all other website bytes, including R16 H2s, R17 static method, R18 alphaXiv routes",
+    "map/query/judge/normalizer/settings"
+  ],
+  "planned_scope_vs_current_production": [
+    "index.html",
+    "paper.html"
+  ],
+  "production_difference": "Restore best R18 homepage by removing unkept R21 table; relocate one existing paper paragraph, no other production change",
+  "deployment_plan": "Separate R22 approval required; recheck then-current main and teammate changes, deploy exact complete tree, verify both index/paper served bytes before/after sixty frozen real requests",
+  "candidate_commit": "aa3c0ea81c62f6a3cc263432ea625f69030d9edd",
+  "candidate_tree": "1b179b5a7fae7708eba3f60a7d8038b58f413e4d",
+  "wrapper_run_id": "20261021T090905Z-paper-html",
+  "candidate": {
+    "based_on": "autoresearch/paper-html/20261021T090905Z-paper-html/seed",
+    "branch": "autoresearch/paper-html/20261021T090905Z-paper-html/candidate-001",
+    "candidate_id": "candidate-001",
+    "created_at": "2026-10-21T09:09:43+00:00",
+    "lifecycle": "allocated",
+    "missing": false,
+    "worktree_path": "/scratch/henrycai/eau-r22-20261021.autoresearch-worktrees/20261021T090905Z-paper-html/candidate-001"
+  },
+  "production_changed_files": [
+    "index.html",
+    "paper.html"
+  ]
+}

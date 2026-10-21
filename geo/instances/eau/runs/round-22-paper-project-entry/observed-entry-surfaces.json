@@ -1,0 +1,57 @@
+{
+  "source_round": 21,
+  "paper_url_cells": [
+    {
+      "query": "EAU arXiv 2610.16523",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/paper.html",
+        "https://eau-meta-agent.github.io/"
+      ]
+    },
+    {
+      "query": "EAU meta-agent user-centric agents",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/",
+        "https://eau-meta-agent.github.io/paper.html"
+      ]
+    },
+    {
+      "query": "EAU UserGym ColBench",
+      "engine": "exa-search",
+      "urls": [
+        "https://eau-meta-agent.github.io/",
+        "https://eau-meta-agent.github.io/paper.html"
+      ]
+    }
+  ],
+  "paper_url_cell_count": 3,
+  "paper_snippets": [
+    {
+      "query": "EAU arXiv 2610.16523",
+      "engine": "exa-search",
+      "source_url": "https://eau-meta-agent.github.io/paper.html",
+      "displayed_preceding_snippet": "3. EAU paper details — arXiv:2610.16523, authors, benchmarks, and results — EAU paper details — arXiv:2610.16523, authors, benchmarks, and results # EAU arXiv:2610.16523 EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents is a meta-agent framework for user-centric agents. It adapts a hybrid user simulator, environment feedback, reward design, and RL configuration within and across runs. Evaluation covers UserGym, ColBench, and τ²-bench with Qwen3-4B and Qwen2.5-7B-Instruct. ## A six-author collaboration. Min Cai — University of Alberta; Dan Zhang — National University of Singapore; Gao Xing and Libin Ma — Kuaishou Technology; Zhaohui Xu — Independent Researcher; Xi Ye — University of Alberta and Amii. ## Benchmarks and results. On Qwen3-4B, EAU reports 0.623 on UserGym, 0.600 ColBench task success, and 0.627 overall. The ColBench task-success result is a 36.7% relative gain over InfoPO under the paper’s protocol.\n"
+    },
+    {
+      "query": "EAU meta-agent user-centric agents",
+      "engine": "exa-search",
+      "source_url": "https://eau-meta-agent.github.io/paper.html",
+      "displayed_preceding_snippet": "3. EAU paper details — arXiv:2610.16523, authors, benchmarks, and results — # EAU arXiv:2610.16523 EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents is a meta-agent framework for user-centric agents. It adapts a hybrid user simulator, environment feedback, reward design, and RL configuration within and across runs. Evaluation covers UserGym, ColBench, and τ²-bench with Qwen3-4B and Qwen2.5-7B-Instruct. ... ## Benchmarks and results. On Qwen3-4B, EAU reports 0.623 on UserGym, 0.600 ColBench task success, and 0.627 overall. The ColBench task-success result is a 36.7% relative gain over InfoPO under the paper’s protocol.\n"
+    },
+    {
+      "query": "EAU UserGym ColBench",
+      "engine": "exa-search",
+      "source_url": "https://eau-meta-agent.github.io/paper.html",
+      "displayed_preceding_snippet": "3. EAU paper details — arXiv:2610.16523, authors, benchmarks, and results — EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents is a meta-agent framework for user-centric agents. It adapts a hybrid user simulator, environment feedback, reward design, and RL configuration within and across runs. Evaluation covers UserGym, ColBench, and τ²-bench with Qwen3-4B and Qwen2.5-7B-Instruct. ... ## Benchmarks and results. On Qwen3-4B, EAU reports 0.623 on UserGym, 0.600 ColBench task success, and 0.627 overall. The ColBench task-success result is a 36.7% relative gain over InfoPO under the paper’s protocol.\n"
+    }
+  ],
+  "existing_link_state": "present, independently verified in served-r21/paper.html footer; do not label it missing",
+  "primary_tier_counts": {
+    "exact": 8,
+    "fuzzy": 3,
+    "broad": 1
+  },
+  "limit": "Snippet omission motivates placement test only; no evidence of retrieval cause, indexing completeness or future lift"
+}

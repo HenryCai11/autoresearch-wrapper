@@ -1,0 +1,31 @@
+[
+  {
+    "id": "paper-project-entry",
+    "status": "selected_preparing",
+    "measured": false,
+    "round": 22,
+    "change_id": "r22-paper-project-entry",
+    "parents": [
+      "r18"
+    ],
+    "retain_for_combinations": true,
+    "files": [
+      "paper.html"
+    ],
+    "base_commit": "dda361dcd45f2eee5cff5402a3d8b8a5421ddd33",
+    "modules": [
+      "paper-authority",
+      "homepage-identity",
+      "reference-pages"
+    ],
+    "hypothesis": "Placing the already-present official project link next to the bibliographic identity may make the existing source-to-project route easier to extract; test a relocation, not an absent-edge repair.",
+    "reason_selected": "R19/R20/R21 tied best R18. Three R21 Exa cells explicitly returned paper.html; its identity/results snippets omit the official-project paragraph currently in the footer. This is a bounded entry-surface test, not evidence of a causal omission or predicted lift.",
+    "scope": "Move exactly one existing paragraph inside paper.html; no wording, href, link count, head, data, styles, scripts or other seed file changes.",
+    "module_dependencies": [
+      "Existing R8 official project reference route retained in R18",
+      "R18 paper identity and alphaXiv reading route",
+      "Unchanged R18 homepage and result/method evidence"
+    ],
+    "interpretation": "A new single-relocation candidate on R18, not a R21 continuation tree. Old scores and decisions remain unchanged; no parent scores are added."
+  }
+]

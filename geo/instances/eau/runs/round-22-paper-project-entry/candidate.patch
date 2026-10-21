@@ -1,0 +1,10 @@
+diff --git a/paper.html b/paper.html
+index eb8dc52..f059158 100644
+--- a/paper.html
++++ b/paper.html
+@@ -43 +43,2 @@
+-    <section class="overview section-pad" id="identity"><div class="wrap overview-grid"><div><p class="eyebrow section-number">Canonical paper record</p><h1>EAU<br><em>arXiv:2610.16523</em></h1></div><div class="overview-copy"><p class="lead">EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents is a meta-agent framework for user-centric agents.</p><p>It adapts a hybrid user simulator, environment feedback, reward design, and RL configuration within and across runs. Evaluation covers UserGym, ColBench, and τ²-bench with Qwen3-4B and Qwen2.5-7B-Instruct.</p></div></div></section>
++    <section class="overview section-pad" id="identity"><div class="wrap overview-grid"><div><p class="eyebrow section-number">Canonical paper record</p><h1>EAU<br><em>arXiv:2610.16523</em></h1></div><div class="overview-copy"><p class="lead">EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents is a meta-agent framework for user-centric agents.</p><p>It adapts a hybrid user simulator, environment feedback, reward design, and RL configuration within and across runs. Evaluation covers UserGym, ColBench, and τ²-bench with Qwen3-4B and Qwen2.5-7B-Instruct.</p>
++    <p>Official project site: <a class="text-link" href="https://eau-meta-agent.github.io/">eau-meta-agent.github.io</a>.</p></div></div></section>
+@@ -49 +49,0 @@
+-    <p>Official project site: <a class="text-link" href="https://eau-meta-agent.github.io/">eau-meta-agent.github.io</a>.</p>

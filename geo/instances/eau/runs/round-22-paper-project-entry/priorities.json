@@ -1,0 +1,40 @@
+{
+  "tool": "Saved actual complete R21 four-engine response source URLs; no new R22 probes",
+  "result_scope": "Displayed source URLs only, not inferred rank, indexing, traffic or candidate lift",
+  "query_count": 15,
+  "observed_funnel": {
+    "project_returned": 8,
+    "paper_returned": 8,
+    "repo_returned": 0
+  },
+  "interventions": [
+    {
+      "id": "external-paper-link-audit",
+      "nodes": [
+        "external:paper-backlink"
+      ],
+      "source_url": "https://arxiv.org/abs/2610.16523",
+      "observed_source_visible_target_absent_queries": [
+        "Q12",
+        "Q15"
+      ],
+      "observed_opportunity_count": 2,
+      "next_test_order": 1,
+      "effect_status": "unmeasured",
+      "priority_basis": "returned source URL visible while project URL absent"
+    },
+    {
+      "id": "r22-paper-project-entry",
+      "nodes": [
+        "file:paper.html"
+      ],
+      "source_url": "https://eau-meta-agent.github.io/paper.html",
+      "observed_source_visible_target_absent_queries": [],
+      "observed_opportunity_count": 0,
+      "next_test_order": null,
+      "effect_status": "unmeasured",
+      "priority_basis": "returned source URL visible while project URL absent"
+    }
+  ],
+  "warning": "This orders entry points for a next test using returned URLs only; it does not measure intervention lift, platform reachability, ranking, or citation."
+}

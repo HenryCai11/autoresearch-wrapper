@@ -1,0 +1,15 @@
+{
+  "node": "file:paper.html",
+  "method": "Main-agent apply_patch in allocated candidate; asset node exposes no geo-apply text operations",
+  "semantic_change": "Move the single existing official-project paragraph from the reference footer to the identity overview-copy, immediately after the existing evaluation sentence",
+  "link_paragraph": "<p>Official project site: <a class=\"text-link\" href=\"https://eau-meta-agent.github.io/\">eau-meta-agent.github.io</a>.</p>",
+  "identity_anchor": "Evaluation covers UserGym, ColBench, and τ²-bench with Qwen3-4B and Qwen2.5-7B-Instruct.</p>",
+  "footer_before": "\n    <p>Official project site: <a class=\"text-link\" href=\"https://eau-meta-agent.github.io/\">eau-meta-agent.github.io</a>.</p>\n",
+  "footer_after": "\n",
+  "identity_before": "Evaluation covers UserGym, ColBench, and τ²-bench with Qwen3-4B and Qwen2.5-7B-Instruct.</p>",
+  "identity_after": "Evaluation covers UserGym, ColBench, and τ²-bench with Qwen3-4B and Qwen2.5-7B-Instruct.</p>\n    <p>Official project site: <a class=\"text-link\" href=\"https://eau-meta-agent.github.io/\">eau-meta-agent.github.io</a>.</p>",
+  "new_text": false,
+  "new_link": false,
+  "new_claim": false,
+  "wrapper_core_changed": false
+}
