@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "checks": {
+    "exact_completed_r22_parent": true,
+    "only_two_existing_files_changed": true,
+    "only_icon_sprite_and_license_added": true,
+    "black_canvas_and_native_dark_controls": true,
+    "dark_surfaces_used_for_sections": true,
+    "ten_palette_text_pairs_meet_4_5_contrast": true,
+    "css_braces_balanced": true,
+    "four_icons_only_html_change": true,
+    "four_icons_decorative_with_fixed_dimensions": true,
+    "symbol_references_valid_and_balanced": true,
+    "official_github_path_exactly_preserved": true,
+    "mit_license_included_unchanged": true,
+    "all_visible_text_unchanged": true,
+    "all_hidden_text_unchanged": true,
+    "all_metadata_jsonld_unchanged": true,
+    "all_anchor_destinations_unchanged": true,
+    "unique_ids_preserved": true,
+    "two_code_routes_retained": true,
+    "all_nonvisual_tracked_files_exact": true,
+    "no_new_javascript_or_external_script": true,
+    "reduced_motion_rule_retained": true,
+    "research_figures_remain_unmodified": true
+  },
+  "contrast_ratios": {
+    "--ink on --paper": 18.84208494412735,
+    "--ink on --surface": 16.680666461997813,
+    "--ink on --surface-raised": 14.930611286831041,
+    "--muted on --paper": 9.98982276660763,
+    "--muted on --surface": 8.843867442397398,
+    "--muted on --surface-raised": 7.916011470855912,
+    "--clay on --paper": 10.804797094393276,
+    "--clay on --surface": 9.565354208707742,
+    "--clay on --surface-raised": 8.561803321014535,
+    "button label on accent": 9.8976734548007
+  },
+  "visible_home_chars": 6055,
+  "base_commit": "7eafc96a295ba8c155f7c31368b0d67d800bee20",
+  "release_kind": "User-requested visual update; not a measured GEO candidate",
+  "browser_test": "Final browser test follows this commit",
+  "browser_capabilities": {
+    "playwright_python": false,
+    "chromium": "/usr/bin/google-chrome"
+  },
+  "slurm_job": "1875757",
+  "candidate_commit": "5d1b0d71782ebd06d72d9ad1fb76d0c80b8374bf",
+  "candidate_tree": "4cf91286a8bb895bfff0a0aee9196536390f7ca1",
+  "source_branch": "codex/black-theme-icons",
+  "narrow_header_polish": "Allow navigation to wrap without changing labels, destinations or text",
+  "validation_job": "1875792"
+}

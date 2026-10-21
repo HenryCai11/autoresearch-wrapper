@@ -1,0 +1,56 @@
+{
+  "previous_best": {
+    "round": 18,
+    "change_id": "r18-alphaxiv-paper-routing",
+    "candidate_commit": "dda361dcd45f2eee5cff5402a3d8b8a5421ddd33",
+    "candidate_tree": "ad41cd32f93433b1be065fc8d1969d8da78f2600",
+    "production_commit": "119cd5561e1b26d125eff96ad6cf8cc779dbf17e",
+    "metric_name": "live_project_citation_rate",
+    "metric_value": 20.0,
+    "outer_observation": {
+      "n": 60,
+      "valid_responses": 60,
+      "project_citations": 12,
+      "mention_rate": 0.7166666666666667,
+      "found_rate": 0.6666666666666666,
+      "citation_rate": 0.2,
+      "attribution_rate": 0.65,
+      "mrr": 0.1388888888888889,
+      "score": 35.19444444444444
+    },
+    "measured_at": "2026-10-19T09:14:05+00:00",
+    "decision": "keep",
+    "artifact_dir": "runs/round-18-alphaxiv-paper-routing/r18-live",
+    "interpretation": "Highest complete observed primary metric; immediate historical-control sample, not causal lift or alphaXiv traffic."
+  },
+  "selected_best": {
+    "round": 18,
+    "change_id": "r18-alphaxiv-paper-routing",
+    "candidate_commit": "dda361dcd45f2eee5cff5402a3d8b8a5421ddd33",
+    "candidate_tree": "ad41cd32f93433b1be065fc8d1969d8da78f2600",
+    "production_commit": "119cd5561e1b26d125eff96ad6cf8cc779dbf17e",
+    "metric_name": "live_project_citation_rate",
+    "metric_value": 20.0,
+    "outer_observation": {
+      "n": 60,
+      "valid_responses": 60,
+      "project_citations": 12,
+      "mention_rate": 0.7166666666666667,
+      "found_rate": 0.6666666666666666,
+      "citation_rate": 0.2,
+      "attribution_rate": 0.65,
+      "mrr": 0.1388888888888889,
+      "score": 35.19444444444444
+    },
+    "measured_at": "2026-10-19T09:14:05+00:00",
+    "decision": "keep",
+    "artifact_dir": "runs/round-18-alphaxiv-paper-routing/r18-live",
+    "interpretation": "Highest complete observed primary metric; immediate historical-control sample, not causal lift or alphaXiv traffic."
+  },
+  "promoted": false,
+  "decision": "discard",
+  "rule": "All sixty valid and strictly more than R18 12/60; ties discard",
+  "no_automatic_rollback": true,
+  "user_code_destination_retained": true,
+  "later_visual_release_is_separate_unmeasured_version": true
+}

@@ -1,0 +1,20 @@
+{
+  "round": 22,
+  "revision": "code-release",
+  "candidate_commit": "fae44609023fddc240a13502f77abcfcd925c95d",
+  "candidate_tree": "1ac57c63402d39d6f7738414ff00bf9837305759",
+  "candidate_branch": "codex/geo-live-round-22",
+  "deploy_branch": "codex/geo-live-round-22-deploy",
+  "deploy_commit": "0449826743e27f1e1748a8c4091750a46dbb35f9",
+  "deploy_worktree": "/scratch/henrycai/eau-r22-deploy-20261021",
+  "production_parent": "3f0c8143e9e23eb351e1727425ce1ed05606d4ec",
+  "changed_files": [
+    "README.md",
+    "index.html",
+    "llms.txt",
+    "paper.html",
+    "site-config.js"
+  ],
+  "authorization": "User explicitly requested publishing and testing the latest R22 after the code-link update",
+  "deployment_method": "Exact latest R18-based R22 tree: original paper-paragraph relocation plus four-file user-requested code release; remove unkept R21 table. apply_patch in isolated deploy worktree; full tree and all alphaXiv routes verified."
+}

@@ -1,0 +1,26 @@
+{
+  "attempts": [
+    {
+      "phase": "before",
+      "at": "20261021T152610Z",
+      "file": "README.md",
+      "matched": false,
+      "searches_started": false
+    },
+    {
+      "phase": "before",
+      "at": "20261021T152701Z",
+      "matched": true,
+      "resources": 5
+    },
+    {
+      "phase": "after",
+      "at": "20261021T153330Z",
+      "matched": true,
+      "resources": 5
+    }
+  ],
+  "gate": "All five changed served resources match before any eval query and again after all sixty complete",
+  "collection_timing_verified": true,
+  "first_stale_read_issued_no_search": true
+}

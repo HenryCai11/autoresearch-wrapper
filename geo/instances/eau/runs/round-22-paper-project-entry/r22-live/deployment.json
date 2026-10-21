@@ -1,0 +1,41 @@
+{
+  "source_branch": "codex/geo-live-round-22-deploy",
+  "candidate_branch": "codex/geo-live-round-22",
+  "candidate_commit": "fae44609023fddc240a13502f77abcfcd925c95d",
+  "deploy_commit": "0449826743e27f1e1748a8c4091750a46dbb35f9",
+  "production_merge_commit": "7eafc96a295ba8c155f7c31368b0d67d800bee20",
+  "production_tree": "1ac57c63402d39d6f7738414ff00bf9837305759",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "resource_sha256": {
+    "README.md": "8796367169f3b75760fc7ade7ea07fdea27519b42c56adf08153009623edfca0",
+    "index.html": "b0b7b91ee125ee94a4dd4ff29be075bc4395a38378a42051f159ff966afb6737",
+    "llms.txt": "aac3c0dfec6c63c1b23e05d5cacba7c25107ab32a9f39780327ad398c04cfaaa",
+    "paper.html": "3274b7f402a828c4d068f2ec5173efc2cfddbfa9902da9d35a7d7411d6fd72a9",
+    "site-config.js": "791864801ea582651c05ca090937e3ef97fe98b95c63f8b51a6a5dbeba356670"
+  },
+  "served_version_verified_at": "2026-10-21T15:27:03Z",
+  "served_version_reverified_at": "2026-10-21T15:33:32Z",
+  "collection_timing_verified": true,
+  "first_request_at": "2026-10-21T15:27:25+00:00",
+  "last_completed_request_at": "2026-10-21T15:33:03+00:00",
+  "timing_evidence": "GPT/API per-request timestamps and both Codex group start/completion markers fall within successful five-resource served checks.",
+  "authorization": "User explicitly requested publishing and testing the latest R22 after the code-link update",
+  "selection_seed": "R18 original best complete 12/60 historical control, not R21 or a fresh simultaneous control",
+  "deployment_method": "Exact latest R18-based R22 tree: original paper-paragraph relocation plus four-file user-requested code release; remove unkept R21 table. apply_patch in isolated deploy worktree; full tree and all alphaXiv routes verified.",
+  "changed_files_vs_live_r21": [
+    "README.md",
+    "index.html",
+    "llms.txt",
+    "paper.html",
+    "site-config.js"
+  ],
+  "changed_files_vs_r18": [
+    "README.md",
+    "index.html",
+    "llms.txt",
+    "paper.html",
+    "site-config.js"
+  ],
+  "verification": "Exact complete candidate/production tree plus all five changed served resources match before and after collection.",
+  "traffic_status": "alphaXiv reading routes retained; no click or visit measurement or traffic-lift claim"
+}

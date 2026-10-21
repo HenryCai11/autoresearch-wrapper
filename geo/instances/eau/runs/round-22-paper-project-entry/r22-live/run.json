@@ -1,0 +1,11 @@
+{
+  "experiment_id": "eau-live-geo-r22-2026-10",
+  "round": 22,
+  "change_id": "r22-paper-project-entry",
+  "production_merge_commit": "7eafc96a295ba8c155f7c31368b0d67d800bee20",
+  "production_tree": "1ac57c63402d39d6f7738414ff00bf9837305759",
+  "production_url": "https://eau-meta-agent.github.io/",
+  "measured_at": "2026-10-21T15:34:00+00:00",
+  "measurement_phase": "immediate_post_deployment",
+  "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce"
+}

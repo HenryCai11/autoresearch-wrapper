@@ -1,3 +1,7 @@
+Current website: user-requested black theme/icon release, separately published and not GEO-measured; see [release](../../site-releases/black-theme-20261021/README.md) and CURRENT.json. The R22 score below belongs only to the earlier exact tested tree.
+
+R22 code-release was published and measured: 12/60, discard; composite 30.47. See [live report](r22-live/REPORT.md) and CURRENT.json. A later user-requested visual release is separate and unmeasured. The preparation record below is retained verbatim in r22-live/pre-live-README.md.
+
 # EAU R22 — project entry beside the paper identity
 
 Current revision: [code release](code-release/README.md), candidate

@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "checks": {
+    "bodyBlack": true,
+    "visibleLinks": true,
+    "defaultModel": true,
+    "iconsValid": true,
+    "secondModel": true,
+    "defaultRestored": true,
+    "noHorizontalOverflow": true,
+    "navigationFits": true,
+    "iconRefs": [
+      "assets/icons.svg#paper",
+      "assets/icons.svg#github",
+      "assets/icons.svg#paper",
+      "assets/icons.svg#github"
+    ],
+    "passed": true
+  },
+  "mobile_checks": {
+    "bodyBlack": true,
+    "visibleLinks": true,
+    "defaultModel": true,
+    "iconsValid": true,
+    "secondModel": true,
+    "defaultRestored": true,
+    "noHorizontalOverflow": true,
+    "navigationFits": true,
+    "iconRefs": [
+      "assets/icons.svg#paper",
+      "assets/icons.svg#github",
+      "assets/icons.svg#paper",
+      "assets/icons.svg#github"
+    ],
+    "passed": true
+  },
+  "chrome_version": "Google Chrome 152.0.7977.75",
+  "slurm_job": "1875799",
+  "screenshots": [
+    "desktop.png",
+    "mobile.png",
+    "results.png"
+  ],
+  "site_commit": "5d1b0d71782ebd06d72d9ad1fb76d0c80b8374bf",
+  "limit": "Local HTTP browser smoke test, not a new GEO/search measurement"
+}

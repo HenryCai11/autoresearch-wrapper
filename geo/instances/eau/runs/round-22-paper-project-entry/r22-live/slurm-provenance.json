@@ -1,0 +1,5 @@
+{
+  "completed_jobs": "1875676|eau-r22-publish-prep|COMPLETED|0:0\n1875676.batch|batch|COMPLETED|0:0\n1875676.extern|extern|COMPLETED|0:0\n1875692|eau-r22-normalize|COMPLETED|0:0\n1875692.batch|batch|COMPLETED|0:0\n1875692.extern|extern|COMPLETED|0:0\n1875707|eau-r22-score|COMPLETED|0:0\n1875707.batch|batch|COMPLETED|0:0\n1875707.extern|extern|COMPLETED|0:0\n",
+  "archive_job": "1875717",
+  "resources": "1 CPU, 1 GB, 5 min; scratch I/O"
+}

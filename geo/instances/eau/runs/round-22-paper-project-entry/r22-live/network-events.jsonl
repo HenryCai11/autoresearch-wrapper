@@ -1,0 +1,30 @@
+{"query":"EAU Environment Agent User Co-evolution","provider":"tavily","http":"200","started_at":"2026-10-21T15:27:25Z","ended_at":"2026-10-21T15:27:28Z","exit_code":0}
+{"query":"EAU Environment Agent User Co-evolution","provider":"exa","http":"200","started_at":"2026-10-21T15:27:28Z","ended_at":"2026-10-21T15:27:30Z","exit_code":0}
+{"query":"EAU arXiv 2610.16523","provider":"tavily","http":"200","started_at":"2026-10-21T15:27:30Z","ended_at":"2026-10-21T15:27:32Z","exit_code":0}
+{"query":"EAU arXiv 2610.16523","provider":"exa","http":"200","started_at":"2026-10-21T15:27:32Z","ended_at":"2026-10-21T15:27:34Z","exit_code":0}
+{"query":"EAU meta-agent user-centric agents","provider":"tavily","http":"200","started_at":"2026-10-21T15:27:34Z","ended_at":"2026-10-21T15:27:35Z","exit_code":0}
+{"query":"EAU meta-agent user-centric agents","provider":"exa","http":"200","started_at":"2026-10-21T15:27:35Z","ended_at":"2026-10-21T15:27:37Z","exit_code":0}
+{"query":"EAU UserGym ColBench","provider":"tavily","http":"200","started_at":"2026-10-21T15:27:37Z","ended_at":"2026-10-21T15:27:39Z","exit_code":0}
+{"query":"EAU UserGym ColBench","provider":"exa","http":"200","started_at":"2026-10-21T15:27:39Z","ended_at":"2026-10-21T15:27:40Z","exit_code":0}
+{"query":"EAU project website environment agent user co-evolution","provider":"tavily","http":"200","started_at":"2026-10-21T15:27:40Z","ended_at":"2026-10-21T15:27:41Z","exit_code":0}
+{"query":"EAU project website environment agent user co-evolution","provider":"exa","http":"200","started_at":"2026-10-21T15:27:42Z","ended_at":"2026-10-21T15:27:44Z","exit_code":0}
+{"query":"framework jointly adapts simulated user environment rewards RL configuration","provider":"tavily","http":"200","started_at":"2026-10-21T15:27:44Z","ended_at":"2026-10-21T15:27:45Z","exit_code":0}
+{"query":"framework jointly adapts simulated user environment rewards RL configuration","provider":"exa","http":"200","started_at":"2026-10-21T15:27:45Z","ended_at":"2026-10-21T15:27:47Z","exit_code":0}
+{"query":"user-centric agents co-evolve environment and user simulator","provider":"tavily","http":"200","started_at":"2026-10-21T15:27:47Z","ended_at":"2026-10-21T15:27:48Z","exit_code":0}
+{"query":"user-centric agents co-evolve environment and user simulator","provider":"exa","http":"200","started_at":"2026-10-21T15:27:48Z","ended_at":"2026-10-21T15:27:51Z","exit_code":0}
+{"query":"meta-agent modifies training environment during multi-turn reinforcement learning","provider":"tavily","http":"200","started_at":"2026-10-21T15:27:51Z","ended_at":"2026-10-21T15:27:52Z","exit_code":0}
+{"query":"meta-agent modifies training environment during multi-turn reinforcement learning","provider":"exa","http":"200","started_at":"2026-10-21T15:27:52Z","ended_at":"2026-10-21T15:27:54Z","exit_code":0}
+{"query":"adaptive user simulator reward design LLM agents","provider":"tavily","http":"200","started_at":"2026-10-21T15:27:54Z","ended_at":"2026-10-21T15:27:56Z","exit_code":0}
+{"query":"adaptive user simulator reward design LLM agents","provider":"exa","http":"200","started_at":"2026-10-21T15:27:56Z","ended_at":"2026-10-21T15:27:59Z","exit_code":0}
+{"query":"within-run and across-run adaptation agent training","provider":"tavily","http":"200","started_at":"2026-10-21T15:27:59Z","ended_at":"2026-10-21T15:28:00Z","exit_code":0}
+{"query":"within-run and across-run adaptation agent training","provider":"exa","http":"200","started_at":"2026-10-21T15:28:00Z","ended_at":"2026-10-21T15:28:02Z","exit_code":0}
+{"query":"recent agent environment co-evolution papers","provider":"tavily","http":"200","started_at":"2026-10-21T15:28:02Z","ended_at":"2026-10-21T15:28:04Z","exit_code":0}
+{"query":"recent agent environment co-evolution papers","provider":"exa","http":"200","started_at":"2026-10-21T15:28:04Z","ended_at":"2026-10-21T15:28:06Z","exit_code":0}
+{"query":"LLM agent training environment evolves with policy","provider":"tavily","http":"200","started_at":"2026-10-21T15:28:06Z","ended_at":"2026-10-21T15:28:08Z","exit_code":0}
+{"query":"LLM agent training environment evolves with policy","provider":"exa","http":"200","started_at":"2026-10-21T15:28:08Z","ended_at":"2026-10-21T15:28:10Z","exit_code":0}
+{"query":"multi-turn reinforcement learning user simulation benchmarks","provider":"tavily","http":"200","started_at":"2026-10-21T15:28:10Z","ended_at":"2026-10-21T15:28:13Z","exit_code":0}
+{"query":"multi-turn reinforcement learning user simulation benchmarks","provider":"exa","http":"200","started_at":"2026-10-21T15:28:13Z","ended_at":"2026-10-21T15:28:15Z","exit_code":0}
+{"query":"editable training systems for tool-using agents","provider":"tavily","http":"200","started_at":"2026-10-21T15:28:15Z","ended_at":"2026-10-21T15:28:16Z","exit_code":0}
+{"query":"editable training systems for tool-using agents","provider":"exa","http":"200","started_at":"2026-10-21T15:28:16Z","ended_at":"2026-10-21T15:28:18Z","exit_code":0}
+{"query":"methods improving user-centric agents with simulated users","provider":"tavily","http":"200","started_at":"2026-10-21T15:28:18Z","ended_at":"2026-10-21T15:28:21Z","exit_code":0}
+{"query":"methods improving user-centric agents with simulated users","provider":"exa","http":"200","started_at":"2026-10-21T15:28:21Z","ended_at":"2026-10-21T15:28:23Z","exit_code":0}

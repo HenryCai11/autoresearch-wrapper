@@ -1,0 +1,24 @@
+{
+  "measurements": [
+    {
+      "label": "r18-best-reused-control",
+      "deployed_commit": "119cd5561e1b26d125eff96ad6cf8cc779dbf17e",
+      "deployed_tree": "ad41cd32f93433b1be065fc8d1969d8da78f2600",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "control/search-matrix.csv",
+      "matrix_sha256": "f4c13a905941353d775de225ba6b2e38b2525f1f9116fee2bdaafb85a250a2a4",
+      "verification": "Original R18 complete historical observation, not R21 or a fresh control; no R22 probes yet",
+      "source_label": "r18-immediate-live",
+      "measured_at": "2026-10-19T09:14:05+00:00"
+    },
+    {
+      "label": "r22-immediate-live",
+      "deployed_commit": "7eafc96a295ba8c155f7c31368b0d67d800bee20",
+      "deployed_tree": "1ac57c63402d39d6f7738414ff00bf9837305759",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "r22-live/search-matrix.csv",
+      "matrix_sha256": "2877f911dcb95ebd568c193aad9307aba03f4bd51724951b7e963b66adea8341",
+      "verification": "Before/after deployed all five changed resources equal the merged R22 checkout and exact candidate tree."
+    }
+  ]
+}

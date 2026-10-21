@@ -1,0 +1,20 @@
+{
+  "production_commit": "da847eb38d09b76a9dc2a50d064ac164b5a038cf",
+  "tree": "4cf91286a8bb895bfff0a0aee9196536390f7ca1",
+  "pushed_at": "2026-10-21T15:50:23Z",
+  "measured": false,
+  "authorization": "User requested black background/icons and direct push",
+  "measured_r22_commit": "7eafc96a295ba8c155f7c31368b0d67d800bee20",
+  "source_branch": "codex/black-theme-icons",
+  "source_commit": "5d1b0d71782ebd06d72d9ad1fb76d0c80b8374bf",
+  "artifact_dir": "site-releases/black-theme-20261021",
+  "served_verified_at": "2026-10-21T15:52:48Z",
+  "browser_validation": "browser-validation.json",
+  "geo_status": "Not measured; R22 score belongs only to its earlier exact tree",
+  "resource_sha256": {
+    "index.html": "54b3c3b6236310dae42f53b6d07e5be77ee63b016226059d0de7d4fbe1fdc366",
+    "styles.css": "65d7795529eee4799f5ac77898263eb411d6e95a50d71f2f85e5b9f8630e42ce",
+    "assets/icons.svg": "f3e97c4dd1c6d186e13c6c5ec0eebee475471f09cfada7ed03ed3fb9563ab294",
+    "assets/octicons-LICENSE.txt": "da259c8bd0de62713ccdcf88910aebca810644f98c2c912bad814fc79ea778df"
+  }
+}

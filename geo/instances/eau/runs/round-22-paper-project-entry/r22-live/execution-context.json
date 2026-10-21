@@ -1,0 +1,9 @@
+{
+  "preparation_job": "1875676",
+  "normalization_job": "1875692",
+  "scoring_job": "1875707",
+  "archive_job": "1875717",
+  "network_only": "GPT web tool, curl/jq, native Codex CLI; 8+7 groups, low, timeout90, unchanged prompt",
+  "failed_served_check": "Retained; zero eval queries before complete before gate",
+  "new_visual_request": "Separate post-measurement release, not evaluated here"
+}

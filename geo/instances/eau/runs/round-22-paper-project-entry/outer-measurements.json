@@ -10,6 +10,15 @@
       "verification": "Original R18 complete historical observation, not R21 or a fresh control; no R22 probes yet",
       "source_label": "r18-immediate-live",
       "measured_at": "2026-10-19T09:14:05+00:00"
+    },
+    {
+      "label": "r22-immediate-live",
+      "deployed_commit": "7eafc96a295ba8c155f7c31368b0d67d800bee20",
+      "deployed_tree": "1ac57c63402d39d6f7738414ff00bf9837305759",
+      "query_sha256": "f2440c27b9fa7596e902b5bc30a30130e10789564a75f661338742d40876d8ce",
+      "matrix": "r22-live/search-matrix.csv",
+      "matrix_sha256": "2877f911dcb95ebd568c193aad9307aba03f4bd51724951b7e963b66adea8341",
+      "verification": "Before/after deployed all five changed resources equal the merged R22 checkout and exact candidate tree."
     }
   ]
 }

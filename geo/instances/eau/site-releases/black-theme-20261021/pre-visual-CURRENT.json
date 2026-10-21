@@ -1,0 +1,13 @@
+{
+  "round": 22,
+  "revision": "code-release",
+  "state": "deployed_and_measured",
+  "decision": "discard",
+  "production_commit": "7eafc96a295ba8c155f7c31368b0d67d800bee20",
+  "production_tree": "1ac57c63402d39d6f7738414ff00bf9837305759",
+  "candidate_commit": "fae44609023fddc240a13502f77abcfcd925c95d",
+  "primary_citations": "12/60",
+  "report": "r22-live/REPORT.md",
+  "best_observed_round": 18,
+  "pending_visual_release": "User requested black background and icons; separate tree and no inherited measurement"
+}

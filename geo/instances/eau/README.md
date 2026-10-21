@@ -15,7 +15,7 @@ python3 scripts/geo_eval.py discovery \
   --probes geo/instances/eau/probes.jsonl
 ```
 
-Historical R0–R21 run directories contain actual GPT web, Codex search, Tavily,
+Historical R0–R22 run directories contain actual GPT web, Codex search, Tavily,
 and Exa observations. Keys are supplied only at runtime; never store them here.
 
 R12 was measured at 6/60 citation cells versus the best R9's 8/60,
@@ -72,7 +72,7 @@ explicit source URLs are reported separately.
 [R18](runs/round-18-alphaxiv-paper-routing/README.md) was published and measured:
 **12/60 project-domain citation cells, all 60 valid; keep**, versus historical
 R17's 10/60. It remains the best complete observed candidate and next selection
-seed; R19–R21 tied its primary metric and were not promoted.
+seed; R19–R22 tied its primary metric and were not promoted.
 Legacy composite is 35.19 versus 34.31; explicit project URLs are 11/60 and
 explicit support-page URL cells are 5/60. GPT web / Codex / Tavily / Exa citation
 counts are 0 / 4 / 0 / 8. Fuzzy-tier citations increased 0/20 → 2/20, while broad
@@ -173,7 +173,7 @@ no Python, Node, compilation or local inference ran there. Normalization,
 scoring, wrapper CLI and audits used Slurm. No successful response was retried,
 including the fifteen GPT samples collected before network recovery.
 
-[R21](runs/round-21-descriptive-static-evidence-combination/README.md) is live and measured:
+[R21](runs/round-21-descriptive-static-evidence-combination/README.md) was published and measured:
 **12/60 project-domain citation cells, all 60 valid; discard** against original
 historical R18's 12/60 under the strict-improvement rule. Primary is 20.00/100.
 Secondary report-only composite is 35.89 versus R18's 35.19 and R20's 34.83;
@@ -183,8 +183,8 @@ one fuzzy Codex cell is gained and one exact Codex cell lost versus R18.
 Exact / fuzzy / broad counts are 8 / 3 / 1 (each /20), versus 9 / 2 / 1.
 The gained query is “user-centric agents co-evolve environment and user simulator”;
 the lost query is “EAU arXiv 2610.16523”. Explicit project URL cells are 11/60
-and support-page URL cells 5/60. R18 remains best_observed; R21 remains live
-without automatic rollback. See the
+and support-page URL cells 5/60. R18 remains best_observed; R21 was not
+automatically rolled back, and was later superseded by R22. See the
 [live report](runs/round-21-descriptive-static-evidence-combination/r21-live/REPORT.md),
 [selection](runs/round-21-descriptive-static-evidence-combination/r21-live/best-observed-selection.json)
 and [live audit](runs/round-21-descriptive-static-evidence-combination/r21-live/audit.json).
@@ -234,42 +234,43 @@ for combinations; their scores are never added to predict a bundle. Immediate
 historical-control samples do not establish causal contribution or exclude
 stale indexing. No automatic follow-up is scheduled.
 
-[R22](runs/round-22-paper-project-entry/README.md) is prepared locally,
-**not published or measured**, with a user-requested
-[code-release revision](runs/round-22-paper-project-entry/code-release/README.md).
-Latest candidate is `fae44609023fddc240a13502f77abcfcd925c95d`, not the original
-`aa3c0ea` snapshot. It retains the R18 seed and original paper-paragraph move,
-then enables two visible static Code links to
-https://github.com/StringNLPLAB/meta-agent, sets codeUrl, removes outdated
-coming-soon labels and adds the Code resource to README and llms.txt. The exact
-public repository was verified through GitHub's API; its code was not audited.
+[R22](runs/round-22-paper-project-entry/README.md) was published and measured:
+**12/60 citations, 60/60 valid; discard** against original historical R18's
+12/60. Primary is 20.00/100; report-only composite is 30.47 versus R18 35.19
+and R21 35.89. GPT web / Codex / Tavily / Exa citations are 0 / 5 / 0 / 7;
+exact / fuzzy / broad are 9 / 3 / 0 (each /20). Versus R18, Codex gained
+“user-centric agents co-evolve environment and user simulator” and Exa lost
+“recent agent environment co-evolution papers”. Best remains R18.
+See the [live report](runs/round-22-paper-project-entry/r22-live/REPORT.md),
+[selection](runs/round-22-paper-project-entry/r22-live/best-observed-selection.json)
+and [live audit](runs/round-22-paper-project-entry/r22-live/audit.json).
 
-All 28 amendment checks passed; home visible text is 6055 characters under the
-9000 cap. Original R22's 34-check snapshot, original commit, all 22 measured
-historical records, fifteen other proposals and best R18 remain preserved.
-The original experiment moved an already-present official-home paragraph into
-the paper introduction, motivated by three actual R21 Exa paper-page sources.
-The user-requested release is an additional bundle, so later historical-control
-scores cannot isolate that relocation or the new code-link effect.
+Measured candidate `fae4460` is the user-requested code-release revision,
+not the unmeasured original `aa3c0ea`. It preserves the R18 seed and original
+paper-paragraph move, enables two static Code anchors to
+https://github.com/StringNLPLAB/meta-agent, updates codeUrl and README/llms
+resources, and removes stale coming-soon labels. Its five-file production diff
+also removes R21's unkept table. All five resources and the complete tree
+matched before and after collection; the first stale README check gated all
+searches. All sixty first-pass responses were retained without selective retry;
+six genuine GPT empty-result responses remain intact. No inner metric.
 
-No inner score or browser execution. AlphaXiv routes and scholarly arXiv
-identifiers remain unchanged; the metric guard refuses the unpublished tree.
-Follow CURRENT.json and the revised
-[change record](runs/round-22-paper-project-entry/code-release/change.json),
-[validation](runs/round-22-paper-project-entry/code-release/validation.json),
-[production diff](runs/round-22-paper-project-entry/code-release/production-to-candidate.patch)
-and [audit](runs/round-22-paper-project-entry/code-release/audit.json).
-The original audit is verifiable with README/CURRENT preimages; all other
-original hash-covered files remain untouched.
+All 23 R0–R22 observations, 16 proposals, fifteen other proposal records and
+best R18 remain preserved, along with original R22's 34-check snapshot and the
+28-check code amendment. The original audit resolves README/CURRENT preimages;
+the live audit separately preserves pre-live pointers and registry. A historical
+single-sample bundle comparison cannot isolate paragraph/code-link effects,
+rule out indexing lag or establish traffic. Code and alphaXiv destinations are
+user constraints retained independently of GEO keep/discard.
 
-Production remains R21, unchanged. A separately approved R22 publication now
-changes FIVE resources relative to R21: README.md, index.html, llms.txt,
-paper.html and site-config.js. The index still restores R18 by removing R21's
-unkept table. Verify all five served resources, not the previous two, alongside
-the full tree. Sixteen proposals remain; R22 and external-authority are
-unmeasured. Keep still requires all sixty valid and strictly more than 12/60
-citations; ties discard, composite report-only. No new searches, publication,
-rollback, cleanup or automatic next round ran during this amendment.
+After this exact measured tree was locked, the user requested a black background,
+GitHub/paper icons and direct publication. That separate visual release is
+documented in [site releases](site-releases/black-theme-20261021/README.md).
+It is **not a new GEO observation** and does not inherit R22's score. Its shared
+CSS covers all pages; local SVG icons retain text labels, while visible content,
+anchors, data and scholarly metadata remain unchanged. Static contrast checks
+and real Chrome desktop/narrow-screen/model-switch checks are separate from GEO.
+No automatic optimization round, rollback, cleanup or branch pruning occurred.
 
 ## Cross-module candidate ledger
 
