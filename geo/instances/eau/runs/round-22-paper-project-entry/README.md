@@ -1,5 +1,18 @@
 # EAU R22 — project entry beside the paper identity
 
+Current revision: [code release](code-release/README.md), candidate
+`fae44609023fddc240a13502f77abcfcd925c95d`. The user supplied the public code
+repository https://github.com/StringNLPLAB/meta-agent after the preparation
+below. Two static homepage code links, codeUrl, README and llms.txt now point
+there; stale coming-soon labels are removed. The paper-paragraph relocation
+remains unchanged. The revised candidate passed 28 amendment checks and is
+still unpublished and unmeasured. Follow CURRENT.json and code-release/change.json
+for publication; the full diff now spans FIVE files, not the original two.
+The original snapshot below and original commit are retained for audit, not
+the current deployment target. Historical README/CURRENT hashes resolve through
+code-release/preimages; all other original audit-covered files are untouched.
+See code-release/original-integrity.json and code-release/audit.json.
+
 Status: **validated local candidate; not published or measured**.
 
 - Run: 20261021T090905Z-paper-html; target paper.html, sequential, one candidate.

@@ -1,0 +1,9 @@
+{
+  "original_audit_sha256": "14eccf1323308ec11711ae128aba4bcb153d755c345078d4d105131b96f53cf5",
+  "all_original_hashes_verified_before_revision": true,
+  "preimages": {
+    "CURRENT.json": "code-release/preimages/CURRENT.json",
+    "README.md": "code-release/preimages/README.md"
+  },
+  "limit": "Root README and CURRENT will point to this revision; verify their historical hashes against preserved preimages. Every other original artifact remains unchanged."
+}

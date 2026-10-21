@@ -1,0 +1,52 @@
+{
+  "checks": {
+    "user_supplied_repository_public_and_exact": true,
+    "only_four_release_files_changed_since_original_r22": true,
+    "two_static_home_anchors_exactly_updated": true,
+    "static_links_visible_without_javascript": true,
+    "stale_release_status_removed": true,
+    "configuration_exactly_updated": true,
+    "readme_only_adds_code_resource": true,
+    "llms_only_adds_code_resource": true,
+    "all_other_original_r22_bytes_unchanged": true,
+    "original_paper_relocation_preserved": true,
+    "full_scope_vs_r18_is_five_files": true,
+    "full_scope_vs_live_r21_is_five_files": true,
+    "all_heads_metadata_schema_unchanged": true,
+    "all_nine_alphaxiv_routes_preserved": true,
+    "six_html_alphaxiv_reading_links_preserved": true,
+    "no_arxiv_reading_link_regression": true,
+    "scripts_styles_citations_and_data_untouched": true,
+    "no_new_hidden_text": true,
+    "home_visible_text_within_frozen_cap_and_growth_bound": true,
+    "other_visible_pages_preserved_vs_original_r22": true,
+    "jsonld_valid_and_unchanged": true,
+    "links_fragments_ids_valid": true,
+    "one_h1_per_page": true,
+    "frozen_protocol_hashes_unchanged": true,
+    "frozen_collection_settings_unchanged": true,
+    "original_preparation_archive_intact": true,
+    "production_unchanged": true,
+    "same_r22_run_no_unpublished_candidate_evaluation": true
+  },
+  "errors": [],
+  "inner_metric": "not computed",
+  "outer_status": "unpublished and unmeasured",
+  "visible_home_chars_before": 6103,
+  "visible_home_chars_after": 6055,
+  "limit": 9000,
+  "browser_test": "Not run; static anchor attributes and unchanged runtime were checked, not executed in a browser",
+  "git_scope_since_original_r22": [
+    "README.md",
+    "index.html",
+    "llms.txt",
+    "site-config.js"
+  ],
+  "git_scope_vs_r18_and_r21": [
+    "README.md",
+    "index.html",
+    "llms.txt",
+    "paper.html",
+    "site-config.js"
+  ]
+}

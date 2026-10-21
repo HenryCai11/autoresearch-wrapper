@@ -235,31 +235,41 @@ historical-control samples do not establish causal contribution or exclude
 stale indexing. No automatic follow-up is scheduled.
 
 [R22](runs/round-22-paper-project-entry/README.md) is prepared locally,
-**not published or measured**. It starts from best R18 rather than the tied R21
-tree. One existing official-project paragraph moves verbatim from the paper
-page's footer into its identity introduction: no added words, links, results,
-metadata or schema. The route already exists; this is a placement test, not a
-missing-edge repair. Three saved R21 Exa cells actually return paper.html, with
-identity/results snippets that omit the footer paragraph. This motivates a
-bounded experiment, not a predicted citation gain.
+**not published or measured**, with a user-requested
+[code-release revision](runs/round-22-paper-project-entry/code-release/README.md).
+Latest candidate is `fae44609023fddc240a13502f77abcfcd925c95d`, not the original
+`aa3c0ea` snapshot. It retains the R18 seed and original paper-paragraph move,
+then enables two visible static Code links to
+https://github.com/StringNLPLAB/meta-agent, sets codeUrl, removes outdated
+coming-soon labels and adds the Code resource to README and llms.txt. The exact
+public repository was verified through GitHub's API; its code was not audited.
 
-All 34 structural/factual checks passed. Homepage text stays 6103 characters;
-paper text stays 1122 with identical word and href counts. All other tracked
-files are exact R18, including alphaXiv routes and scholarly arXiv references.
-The support-page graph node is an asset with no text operations, so this used
-apply_patch in the allocated worktree; the scorer refuses the unpublished tree.
-No inner score or browser test was run. See its
-[validation](runs/round-22-paper-project-entry/validation.json),
-[complete production diff](runs/round-22-paper-project-entry/production-to-candidate.patch)
-and [audit](runs/round-22-paper-project-entry/audit.json).
+All 28 amendment checks passed; home visible text is 6055 characters under the
+9000 cap. Original R22's 34-check snapshot, original commit, all 22 measured
+historical records, fifteen other proposals and best R18 remain preserved.
+The original experiment moved an already-present official-home paragraph into
+the paper introduction, motivated by three actual R21 Exa paper-page sources.
+The user-requested release is an additional bundle, so later historical-control
+scores cannot isolate that relocation or the new code-link effect.
 
-Production remains R21, unchanged. A separately approved R22 deployment would
-change two pages: restore R18 index by removing R21's unkept table, and move the
-paper paragraph. All 22 R0–R21 observations, fifteen older proposals and best
-R18 remain unchanged. Sixteen proposals now exist; R22 and external-authority
-are unmeasured. Keep still requires 60/60 valid and strictly more than 12/60
-citations; ties discard and the composite remains report-only. No new searches,
-publication, rollback, cleanup or automatic next round ran during preparation.
+No inner score or browser execution. AlphaXiv routes and scholarly arXiv
+identifiers remain unchanged; the metric guard refuses the unpublished tree.
+Follow CURRENT.json and the revised
+[change record](runs/round-22-paper-project-entry/code-release/change.json),
+[validation](runs/round-22-paper-project-entry/code-release/validation.json),
+[production diff](runs/round-22-paper-project-entry/code-release/production-to-candidate.patch)
+and [audit](runs/round-22-paper-project-entry/code-release/audit.json).
+The original audit is verifiable with README/CURRENT preimages; all other
+original hash-covered files remain untouched.
+
+Production remains R21, unchanged. A separately approved R22 publication now
+changes FIVE resources relative to R21: README.md, index.html, llms.txt,
+paper.html and site-config.js. The index still restores R18 by removing R21's
+unkept table. Verify all five served resources, not the previous two, alongside
+the full tree. Sixteen proposals remain; R22 and external-authority are
+unmeasured. Keep still requires all sixty valid and strictly more than 12/60
+citations; ties discard, composite report-only. No new searches, publication,
+rollback, cleanup or automatic next round ran during this amendment.
 
 ## Cross-module candidate ledger
 

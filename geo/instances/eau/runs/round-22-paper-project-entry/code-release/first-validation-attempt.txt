@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/scratch/henrycai/geo-runs/eau-r22-code-release-20261021/update_r22.py", line 154, in <module>
+    assert all(checks.values()),[k for k,v in checks.items() if not v]
+           ~~~^^^^^^^^^^^^^^^^^
+AssertionError: ['configuration_exactly_updated']

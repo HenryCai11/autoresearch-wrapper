@@ -1,0 +1,77 @@
+diff --git a/README.md b/README.md
+index fd9b5e4..b11a1ae 100644
+--- a/README.md
++++ b/README.md
+@@ -4,6 +4,7 @@
+ 
+ - **Canonical project website:** https://eau-meta-agent.github.io/
+ - **Paper:** [alphaXiv — arXiv:2610.16523](https://www.alphaxiv.org/abs/2610.16523)
++- **Code:** https://github.com/StringNLPLAB/meta-agent
+ - **Method overview:** https://eau-meta-agent.github.io/method.html
+ - **Paper facts, authors, and results:** https://eau-meta-agent.github.io/paper.html
+ - **Research context:** https://eau-meta-agent.github.io/research-context.html
+diff --git a/index.html b/index.html
+index deaf14a..19aec39 100644
+--- a/index.html
++++ b/index.html
+@@ -71,7 +71,7 @@
+         <div class="hero-actions">
+           <a class="button button-dark" href="#overview">Explore the research <span aria-hidden="true">↗</span></a>
+           <a class="button button-dark" href="https://www.alphaxiv.org/abs/2610.16523" target="_blank" rel="noopener">alphaXiv <span aria-hidden="true">↗</span></a>
+-          <a class="text-link" data-code-link hidden href="#">Code <span aria-hidden="true">↗</span></a><span class="resource-status" data-code-status>Code · coming soon (under review)</span>
++          <a class="text-link" data-code-link href="https://github.com/StringNLPLAB/meta-agent" target="_blank" rel="noopener">Code <span aria-hidden="true">↗</span></a>
+         </div>
+       </div>
+       <div class="hero-visual">
+@@ -207,7 +207,7 @@
+     </section>
+ 
+     <section class="resources section-pad" id="resources" aria-labelledby="resources-title">
+-      <div class="wrap resources-grid"><div><p class="eyebrow section-number">05 / Continue exploring</p><h2 id="resources-title">Read, reproduce,<br><em>build on it.</em></h2><p>Environment–Agent–User Co-evolution<br>for Training User-Centric Agents</p><div class="resource-links"><a class="button button-dark" href="https://www.alphaxiv.org/abs/2610.16523" target="_blank" rel="noopener">Read on alphaXiv <span aria-hidden="true">↗</span></a><a id="code-link" class="text-link" data-code-link hidden href="#">Code on GitHub <span aria-hidden="true">↗</span></a><span id="code-status" class="resource-status" data-code-status>Code · coming soon (under review)</span></div></div>
++      <div class="wrap resources-grid"><div><p class="eyebrow section-number">05 / Continue exploring</p><h2 id="resources-title">Read, reproduce,<br><em>build on it.</em></h2><p>Environment–Agent–User Co-evolution<br>for Training User-Centric Agents</p><div class="resource-links"><a class="button button-dark" href="https://www.alphaxiv.org/abs/2610.16523" target="_blank" rel="noopener">Read on alphaXiv <span aria-hidden="true">↗</span></a><a id="code-link" class="text-link" data-code-link href="https://github.com/StringNLPLAB/meta-agent" target="_blank" rel="noopener">Code on GitHub <span aria-hidden="true">↗</span></a></div></div>
+       <div class="citation-box"><div class="citation-heading"><span class="mini-index">Cite this work</span><button id="copy-citation" aria-label="Copy BibTeX citation">Copy BibTeX <span aria-hidden="true">↗</span></button></div><pre><code id="citation">@misc{cai2026eauenvironmentagentusercoevolutiontraining,
+   title = {EAU: Environment-Agent-User
+     Co-evolution for Training
+diff --git a/llms.txt b/llms.txt
+index 033f0d7..d76f6dd 100644
+--- a/llms.txt
++++ b/llms.txt
+@@ -17,6 +17,7 @@ EAU is a meta-agent framework for training user-centric LLM agents. It jointly a
+ 
+ - Project: https://eau-meta-agent.github.io/
+ - Paper (alphaXiv): https://www.alphaxiv.org/abs/2610.16523
++- Code: https://github.com/StringNLPLAB/meta-agent
+ - Bibliographic details: https://eau-meta-agent.github.io/paper.html
+ - Method summary: https://eau-meta-agent.github.io/method.html
+ - Research context: https://eau-meta-agent.github.io/research-context.html
+diff --git a/paper.html b/paper.html
+index eb8dc52..f059158 100644
+--- a/paper.html
++++ b/paper.html
+@@ -40,13 +40,13 @@
+   <a class="skip-link" href="#main">Skip to content</a>
+   <header class="site-header"><a class="wordmark" href="index.html" aria-label="EAU home">eau<span class="wordmark-dot">.</span></a><nav aria-label="Paper navigation"><a href="#identity">Identity</a><a href="#authors">Authors</a><a href="#evidence">Evidence</a></nav><a class="header-link" href="https://www.alphaxiv.org/abs/2610.16523">alphaXiv <span aria-hidden="true">↗</span></a></header>
+   <main id="main">
+-    <section class="overview section-pad" id="identity"><div class="wrap overview-grid"><div><p class="eyebrow section-number">Canonical paper record</p><h1>EAU<br><em>arXiv:2610.16523</em></h1></div><div class="overview-copy"><p class="lead">EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents is a meta-agent framework for user-centric agents.</p><p>It adapts a hybrid user simulator, environment feedback, reward design, and RL configuration within and across runs. Evaluation covers UserGym, ColBench, and τ²-bench with Qwen3-4B and Qwen2.5-7B-Instruct.</p></div></div></section>
++    <section class="overview section-pad" id="identity"><div class="wrap overview-grid"><div><p class="eyebrow section-number">Canonical paper record</p><h1>EAU<br><em>arXiv:2610.16523</em></h1></div><div class="overview-copy"><p class="lead">EAU: Environment-Agent-User Co-evolution for Training User-Centric Agents is a meta-agent framework for user-centric agents.</p><p>It adapts a hybrid user simulator, environment feedback, reward design, and RL configuration within and across runs. Evaluation covers UserGym, ColBench, and τ²-bench with Qwen3-4B and Qwen2.5-7B-Instruct.</p>
++    <p>Official project site: <a class="text-link" href="https://eau-meta-agent.github.io/">eau-meta-agent.github.io</a>.</p></div></div></section>
+     <section class="wrap section-pad" id="authors"><p class="eyebrow section-number">01 / Authors and affiliations</p><h2>A six-author<br><em>collaboration.</em></h2><p>Min Cai — University of Alberta; Dan Zhang — National University of Singapore; Gao Xing and Libin Ma — Kuaishou Technology; Zhaohui Xu — Independent Researcher; Xi Ye — University of Alberta and Amii.</p></section>
+     <section class="overview section-pad" id="evidence"><div class="wrap overview-grid"><div><p class="eyebrow section-number">02 / Reported evidence</p><h2>Benchmarks and<br><em>results.</em></h2></div><div class="overview-copy"><p>On Qwen3-4B, EAU reports 0.623 on UserGym, 0.600 ColBench task success, and 0.627 overall. The ColBench task-success result is a 36.7% relative gain over InfoPO under the paper’s protocol.</p><p><a class="text-link" href="index.html#results">View the complete project results <span aria-hidden="true">→</span></a></p></div></div></section>
+   </main>
+   <footer class="wrap section-pad" aria-label="EAU project references">
+     <p class="mini-index">EAU project references</p>
+-    <p>Official project site: <a class="text-link" href="https://eau-meta-agent.github.io/">eau-meta-agent.github.io</a>.</p>
+     <ul>
+       <li><a class="text-link" href="method.html#components">Editable components and adaptation</a></li>
+       <li><a class="text-link" href="research-context.html#scope">Research scope and context</a></li>
+diff --git a/site-config.js b/site-config.js
+index d958ee4..e36914b 100644
+--- a/site-config.js
++++ b/site-config.js
+@@ -2,5 +2,5 @@
+ // Relative links work on both username.github.io and /repository/ GitHub Pages sites.
+ window.EAU_CONFIG = {
+   paperUrl: "https://www.alphaxiv.org/abs/2610.16523",
+-  codeUrl: null,  // e.g. "https://github.com/your-org/eau"
++  codeUrl: "https://github.com/StringNLPLAB/meta-agent",
+ };

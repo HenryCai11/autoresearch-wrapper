@@ -1,10 +1,21 @@
 {
   "round": 22,
+  "revision": "code-release",
+  "artifact_dir": "code-release",
   "state": "validated_awaiting_deployment_approval",
   "published": false,
   "measured": false,
-  "candidate_commit": "aa3c0ea81c62f6a3cc263432ea625f69030d9edd",
-  "candidate_tree": "1b179b5a7fae7708eba3f60a7d8038b58f413e4d",
+  "candidate_commit": "fae44609023fddc240a13502f77abcfcd925c95d",
+  "candidate_tree": "1ac57c63402d39d6f7738414ff00bf9837305759",
+  "previous_candidate_commit": "aa3c0ea81c62f6a3cc263432ea625f69030d9edd",
   "best_observed_round": 18,
-  "current_production_round": 21
+  "current_production_round": 21,
+  "changed_files_vs_r18_and_r21": [
+    "README.md",
+    "index.html",
+    "llms.txt",
+    "paper.html",
+    "site-config.js"
+  ],
+  "original_audit_preimages": "code-release/original-integrity.json"
 }
